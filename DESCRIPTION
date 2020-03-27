@@ -15,3 +15,5 @@ Depends:
      R (>= 3.5.0)
 URL: https://github.com/sbashevkin/LTMRdata
 BugReports: https://github.com/sbashevkin/LTMRdata/issues
+Suggests: 
+    readr
