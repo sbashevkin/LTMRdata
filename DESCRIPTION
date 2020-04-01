@@ -16,4 +16,10 @@ Depends:
 URL: https://github.com/sbashevkin/LTMRdata
 BugReports: https://github.com/sbashevkin/LTMRdata/issues
 Suggests: 
-    readr
+    readr,
+    dplyr,
+    tidyr,
+    lubridate
+RoxygenNote: 7.1.0
+Imports: 
+    tibble

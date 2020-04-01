@@ -52,9 +52,7 @@ Suisun <- read_csv(file.path("data-raw", "Suisun", "Catch.csv"), na=c("NA", "n/p
              by="SampleRowID")%>% # Inner join to remove other methods
   left_join(species_suisun,
             by="OrganismCode")%>%
-  mutate(Count = if_else(SampleRowID=="{8327B645-BC36-4405-ADB3-C6561718A17B}" & StandardLength==87, Count+1, Count))%>%
-  filter(!(!QADone & CommonName=="Splittail" & StandardLength==8)) # Correcting for misstyped data point per email from Teejay.
-
-# All QADone==FALSE data from January 2007 are correct EXCEPT for that lone splittail measuring 8 mm (was actually 87 mm).
+  mutate(Count = if_else(SampleRowID=="{8327B645-BC36-4405-ADB3-C6561718A17B}" & StandardLength==87, Count+1, Count))%>% # Correcting for misstyped data point per email from Teejay that
+  filter(!(!QADone & CommonName=="Splittail" & StandardLength==8)) # all QADone==FALSE data from January 2007 are correct EXCEPT for that lone splittail measuring 8 mm (was actually 87 mm).
 
 usethis::use_data(Suisun)
