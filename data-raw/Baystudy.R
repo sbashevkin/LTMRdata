@@ -113,7 +113,8 @@ Baystudy<-catch_Baystudy%>%
   select(-PlusCount, -QtsCaught, -QtsSubsampled)%>%
   right_join(length_Baystudy, by=c("Year", "Survey", "Station", "Method", "SizeGroup", "CommonName"))%>%
   mutate(Frequency = (Frequency/TotalMeasured)*TotalCatch)%>%
-  select(-TotalMeasured, -TotalCatch)
+  select(-TotalMeasured, -TotalCatch)%>%
+  left_join(env_Baystudy, by=c("Year", "Survey", "Station", "Method"))
 
 
-usethis::use_data(Baystudy)
+usethis::use_data(Baystudy, overwrite = TRUE)

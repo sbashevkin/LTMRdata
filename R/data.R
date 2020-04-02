@@ -23,7 +23,7 @@
 #'
 #' California Department of Fish and Wildlife Bay Study data.
 #'
-#' @format a tibble with xxx rows and xx variables
+#' @format a tibble with 743,409 rows and 35 variables
 #' \describe{
 #'   \item{Latitude}{May not be accurate, see details.}
 #'   \item{Longitude}{May not be accurate, see details.}

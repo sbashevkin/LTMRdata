@@ -5,7 +5,7 @@
 \alias{Baystudy}
 \title{Bay study dataset}
 \format{
-a tibble with xxx rows and xx variables
+a tibble with 743,409 rows and 35 variables
 \describe{
   \item{Latitude}{May not be accurate, see details.}
   \item{Longitude}{May not be accurate, see details.}
