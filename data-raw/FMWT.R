@@ -24,8 +24,8 @@ date_fmwt <- read_csv(file.path("data-raw", "FMWT", "Date.csv"), col_types=cols_
   rename(Date=SampleDate)
 
 sample_fmwt <- read_csv(file.path("data-raw", "FMWT", "Sample.csv"),
-                     col_types = cols_only(SampleRowID="i", StationCode="c", MethodCode="c", SampleTimeStart="c",
-                                           SampleTimeEnd="c", SurveyNumber="i", WaterTemperature="d",
+                     col_types = cols_only(SampleRowID="i", StationCode="c", MethodCode="c",
+                                           SampleTimeStart="c", SurveyNumber="i", WaterTemperature="d",
                                            Turbidity="d", Secchi="d", SecchiEstimated="l", ConductivityTop="d",
                                            ConductivityBottom="d", TowDirectionCode="i", MeterStart="d",
                                            MeterEnd="d", CableOut="d", TideCode="i", DepthBottom="d",
@@ -34,9 +34,10 @@ sample_fmwt <- read_csv(file.path("data-raw", "FMWT", "Sample.csv"),
                                            MeterEstimate="d", DateID="i"))%>%
   left_join(date_fmwt, by="DateID")%>%
   select(-DateID)%>%
-  rename(Station=StationCode, Method=MethodCode)%>%
-  mutate(SampleTimeStart = parse_date_time(SampleTimeStart, "%m/%d/%Y %H:%M:%S", tz="America/Los_Angeles"),
-         SampleTimeEnd = parse_date_time(SampleTimeEnd, "%m/%d/%Y %H:%M:%S", tz="America/Los_Angeles"))%>%
+  rename(Station=StationCode, Method=MethodCode, Tide=TideCode, Time=SampleTimeStart)%>%
+  mutate(Time = parse_date_time(Time, "%m/%d/%Y %H:%M:%S", tz="America/Los_Angeles"),
+         Tide=recode(Tide, `1` = "High Slack", `2` = "Ebb", `3` = "Low Slack", `4` = "Flood"))%>%
+  mutate(Datetime=parse_date_time(if_else(is.na(Time), NA_character_, paste0(Date, " ", hour(Time), ":", minute(Time))), "%Y-%m-%d %%H:%M", tz="America/Los_Angeles"))%>%
   filter(Method=="MWTR")%>% # All rows are MWTR but just in case the data change
   mutate(Method=recode(Method, MWTR="Midwater trawl"))%>%
   left_join(stations_fmwt, by="Station")

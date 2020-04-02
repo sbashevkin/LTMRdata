@@ -5,7 +5,7 @@
 \alias{Suisun}
 \title{Suisun Marsh dataset}
 \format{
-a tibble with 220,785 rows and 35 variables
+a tibble with 181,406 rows and 26 variables
 \describe{
   \item{Column}{Description}
   }

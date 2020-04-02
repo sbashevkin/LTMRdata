@@ -1,0 +1,178 @@
+"AlphaCode","DFGCode","CommonName","ScientificName","Family","PhyloOrder_Species","N or I","Range","FunctionalGroup","Comments","MidwaterTrawl","OtterTrawl","LarvalNet","BeachSeine"
+"AMESHA",1001,"American Shad","Alosa sapidissima","Clupeidae",21,"I","FW","AN",,1980,1980,1982,1980
+"ARCHGO",2885,"Arrow or Cheekspot Goby",,"Gobiidae",141,"N",,,"Larval fish data only",,,1981,
+"ARRGOB",2882,"Arrow Goby","Clevelandia ios","Gobiidae",145,"N",,"ER",,1986,1982,1980,1980
+"BARSUR",2101,"Barred Surfperch","Amphistichus argenteus","Embiotocidae",115,"N","SoCal","MMO",,1980,1980,,1980
+"BATRAY",240,"Bat Ray","Myliobatis californica","Myliobatidae",14,"N",,"MMO","Myliobatididae-> Myliobatidae",1980,1980,,1982
+"BAYGOB",2879,"Bay Goby","Lepidogobius lepidus","Gobiidae",148,"N",,"ER",,1980,1980,1980,1980
+"BAYPIP",1582,"Bay Pipefish","Syngnathus leptorhynchus","Syngnathidae",71,"N",,"ER",,1980,1980,1980,1980
+"BIGLOG",7167,"Bigscale Logperch","Percina macrolepida","Percidae",109,"I","FW","FS",,,1981,1980,1986
+"BIGSKA",222,"Big Skate","Raja binoculata","Rajidae",13,"N",,"MMO",,1981,1980,,
+"BLABUL",7100,"Black Bullhead","Ameiurus melas","Ictaluridae",36,"I","FW","FS",,1981,2002,,
+"BLACRA",7149,"Black Crappie","Pomoxis nigromaculatus","Centrarchidae",108,"I","FW","FS",,1989,1994,,
+"BLAGOB",2871,"Blackeye Goby","Rhinogobiops nicholsii","Gobiidae",149,"N","SoCal",,"Coryphopterus-> Rhinogobiops; nicholsi-> nicholsii; Larval fish data only",,,1981,
+"BLAPER",2107,"Black Perch","Embiotoca jacksoni","Embiotocidae",119,"N","SoCal","MMD",,1985,1981,,1980
+"BLAROC",2327,"Black Rockfish","Sebastes melanops","Scorpaenidae",74,"N",,"MS",,1988,1986,,
+"BLUCAT",7105,"Blue Catfish","Ictalurus furcatus","Ictaluridae",38,"I","FW","FS",,,1997,,
+"BLUEGI",7143,"Bluegill","Lepomis macrochirus","Centrarchidae",103,"I","FW","FS",,1991,1982,1982,
+"BLULAN",1404,"Blue Lanternfish","Tarletonbeania crenularis","Myctophidae",55,"N",,,"Larval fish data only",,,1982,
+"BLUROC",2330,"Blue Rockfish","Sebastes mystinus","Scorpaenidae",76,"N",,"MS",,,1988,,
+"BOCACC",2334,"Bocaccio","Sebastes paucispinis","Scorpaenidae",77,"N",,"MS",,,2003,,
+"BONSCU",2430,"Bonyhead Sculpin","Artedius notospilotus","Cottidae",85,"N",,"MS","bonehead -> bonyhead",1981,1981,1980,1980
+"BROBUL",7101,"Brown Bullhead","Ameiurus nebulosus","Ictaluridae",37,"I","FW","FS",,1980,1996,,
+"BROILO",2406,"Brown Irish Lord","Hemilepidotus spinosus","Cottidae",89,"N",,"MS",,,1985,1980,
+"BROROC",2304,"Brown Rockfish","Sebastes auriculatus","Scorpaenidae",72,"N",,"MMD",,1983,1980,1982,1980
+"BROSMO",139,"Brown Smoothhound","Mustelus henlei","Triakidae",8,"N",,"MMO","Elasmobranchiomorphi-> Chondrichthyes; Lamniformes-> Carcharhiniformes; Carcharhinidae-> Triakidae",1980,1980,,
+"BROSSH",103,"Broadnose Sevengill Shark","Notorynchus cepedianus","Hexanchidae",5,"N",,"MS","Elasmobranchiomorphi-> Chondrichthyes; sevengill shark-> broadnose sevengill shark; SEVSHA -> BROSSH",1997,1988,,
+"BUFSCU",2404,"Buffalo Sculpin","Enophrys bison","Cottidae",87,"N",,"MS",,,1997,,
+"CABEZO",2410,"Cabezon","Scorpaenichthys marmoratus","Cottidae",93,"N",,"MS",,,2001,1980,1980
+"CALGRU",2694,"California Grunion","Leuresthes tenuis","Atherinopsidae",65,"N","SoCal","MMO","Atherinidae-> Atherinopsidae",2001,,,
+"CALHAL",3005,"California Halibut","Paralichthys californicus","Paralichthyidae",159,"N","SoCal","MMO","Bothidae-> Paralichthyidae",1980,1980,1980,1983
+"CALLIZ",1525,"California Lizardfish","Synodus lucioceps","Synodontidae",53,"N","SoCal","MS",,1983,1983,,
+"CALSUR",2102,"Calico Surfperch","Amphistichus koelzi","Embiotocidae",116,"N",,"MS",,1993,1998,,1983
+"CALTON",3201,"California Tonguefish","Symphurus atricaudus","Cynoglossidae",170,"N","SoCal","MS","Soleidae-> Cynoglossidae; atricauda -> atricaudus",1983,1980,1983,
+"CHACAT",7104,"Channel Catfish","Ictalurus punctatus","Ictaluridae",39,"I","FW","FS",,1992,1980,,1983
+"CHAGOB",2870,"Chameleon Goby","Tridentiger trigonocephalus","Gobiidae",152,"I",,"ER",,1983,1981,1980,1984
+"CHEGOB",2881,"Cheekspot Goby","Ilypnus gilberti","Gobiidae",147,"N",,"ER",,1988,1981,1980,1980
+"CHISAL",1105,"Chinook Salmon","Oncorhynchus tshawytscha","Salmonidae",52,"N",,"AN",,1980,1980,1982,1981
+"CLISPP",2762,"Unidentified Clingfish",,"Clinidae",135,"N",,,"Larval fish data only",,,1982,
+"COHSAL",1103,"Coho Salmon","Oncorhynchus kisutch","Salmonidae",50,"N",,"AN",,1980,,,
+"COMCAR",7064,"Common Carp","Cyprinus carpio","Cyprinidae",27,"I","FW","FS",,1980,1980,1980,1981
+"COSOLE",3122,"C-O Sole","Pleuronichthys coenosus","Pleuronectidae",165,"N",,"MS",,,1987,,
+"CURSOL",3123,"Curlfin Sole","Pleuronichthys decurrens","Pleuronectidae",166,"N",,"MS",,,1980,1982,
+"DELSME",1208,"Delta Smelt","Hypomesus transpacificus","Osmeridae",46,"N",,"FM",,1980,1980,1980,1980
+"DIATUR",3106,"Diamond Turbot","Pleuronichthys guttulatus","Pleuronectidae",167,"N","SoCal","MMD","Hypsopsetta guttulata-> Pleuronichthys guttulatus",1980,1980,1980,1980
+"DOVSOL",3110,"Dover Sole","Microstomus pacificus","Pleuronectidae",162,"N",,"MS","?? Id from MWT, April 2009",,1999,,
+"DWAPER",2114,"Dwarf Perch","Micrometrus minimus","Embiotocidae",126,"N",,"ER",,1982,1980,,1980
+"ENGSOL",3120,"English Sole","Parophrys vetulus","Pleuronectidae",163,"N",,"MMO","Pleuronectes-> Parophrys",1980,1980,1980,1980
+"EULACH",1207,"Eulachon","Thaleichthys pacificus","Osmeridae",49,"N",,"MS",,1999,2003,,
+"FISHUN",4998,"Unidentified Fish",,,,,,,"Larval fish data only until April 2013, #104; then 1 at 46 mm in MWT.  Could not ID to family.",2013,,1980,
+"FLASPP",3128,"Unidentified Flatfish (left or right-eye)",,,,,,,"First collected in MWT,  February 2017, station 213.  Still transforming, but >=20 mm.",2017,,,
+"FLOSPP",3127,"Unidentifed Flounder (right-eye)",,"Pleuronectidae",160,"N",,,"Larval fish data only until 2013 (March 2013,  station 216, possibly Flathead Sole)Larval fish data only until March 2013,  station 216: possibly Flathead Sole",,2013,1980,
+"FLUSCU",2409,"Fluffy Sculpin","Oligocottus snyderi","Cottidae",92,"N",,"MS","Beach Seine only",,,,1982
+"GOBSPP",2869,"Unidentified Goby",,"Gobiidae",142,,,,"Larval fish data only",,,1980,
+"GOBYII",2884,"Goby II (Arrow, Cheekspot, or Yellowfin)",,"Gobiidae",143,,,,"Larval fish data only",,,1980,
+"GOLDFI",7063,"Goldfish","Carassius auratus","Cyprinidae",26,"I","FW","FS",,1984,1983,,
+"GOLSHI",7060,"Golden Shiner","Notemigonus crysoleucas","Cyprinidae",30,"I","FW","FS","First collected in MWT in June 2009, previously beach seine only",2009,,,1986
+"GRESTU",1501,"Green Sturgeon","Acipenser medirostris","Acipenseridae",15,"N",,"AN",,1980,1980,,
+"GRESUN",7146,"Green Sunfish","Lepomis cyanellus","Centrarchidae",101,"I","FW","FS",,2004,2005,,
+"HALFMO",2621,"Halfmoon","Medialuna californiensis","Kyphosidae",,"N","SoCal","MS","First collected May 2012 in OT",,2012,,
+"HARDHE",7058,"Hardhead","Mylopharodon conocephalus","Cyprinidae",29,"N","FW","FS",,2001,,,
+"HERSPP",1000,"Unidentified Herring or Shad",,"Clupeidae",19,,,,"Larval fish data only; Kathy thinks that all of these can be changed to Pacific herring",,,1980,
+"HITCH",7051,"Hitch","Lavinia exilicauda","Cyprinidae",28,"N","FW","FS",,,2006,,1983
+"HORTUR",3125,"Hornyhead Turbot","Pleuronichthys verticalis","Pleuronectidae",168,"N",,"MS",,,1991,1987,
+"HYBSOL",3112,"Hybrid Sole","Inopsetta ischyra","Pleuronectidae",161,"N",,"MS",,,1990,,
+"JACKSM",2692,"Jacksmelt","Atherinopsis californiensis","Atherinopsidae",64,"N",,"MMD","Atherinidae-> Atherinopsidae",1980,1980,1980,1980
+"JACMAC",2607,"Jack Mackerel","Trachurus symmetricus","Carangidae",110,"N","SoCal","MS",,1993,,,
+"KELGRE",2661,"Kelp Greenling","Hexagrammos decagrammus","Hexagrammidae",79,"N",,"MS",,1987,1982,1980,1980
+"LAMSPP",20,"Unidentified Lamprey","Lampetra spp.","Petromyzontidae",3,"N",,"AN",,,1996,,
+"LARBAS",7150,"Largemouth Bass","Micropterus salmoides","Centrarchidae",106,"I","FW","FS",,1995,1996,,1983
+"LEOSHA",140,"Leopard Shark","Triakis semifasciata","Triakidae",9,"N",,"MMO","Elasmobranchiomorphi-> Chondrichthyes; Lamniformes-> Carcharhiniformes; Carcharhinidae-> Triakidae",1980,1980,,1981
+"LINGCO",2664,"Lingcod","Ophiodon elongatus","Hexagrammidae",80,"N",,"MS",,1980,1980,1980,
+"LONMUD",2878,"Longjaw Mudsucker","Gillichthys mirabilis","Gobiidae",146,"N",,"ER",,,1982,1980,1983
+"LONSME",1204,"Longfin Smelt","Spirinchus thaleichthys","Osmeridae",48,"N",,"AN",,1980,1980,1980,1980
+"MINSPP",7079,"Unidentified Minnow",,"Cyprinidae",25,,"FW",,,,1990,1983,1984
+"MISSIL",7128,"Mississippi Silverside","Menidia audens","Atherinopsidae",66,"I",,"ER","Changed from Inland Silverside 7/13/06; Atherinidae-> Atherinopsidae",1981,1981,1981,1980
+"MUSBLE",2678,"Mussel Blenny","Hypsoblennius jenkinsi","Blenniidae",139,"N",,"MS",,,2003,,
+"NIGSME",1205,"Night Smelt","Spirinchus starksi","Osmeridae",47,"N",,"MS",,1980,1980,,1981
+"NORANC",1514,"Northern Anchovy","Engraulis mordax","Engraulidae",18,"N",,"MS","Engraulididae-> Engraulidae",1980,1980,1980,1980
+"NORCLI",1802,"Northern Clingfish","Gobiesox maeandricus","Gobiesocidae",140,"N",,,"Larval fish data only",,,1980,
+"NORLAM",1403,"Northern Lampfish","Stenobrachius leucopsarus","Myctophidae",54,"N",,,"Larval fish data only",,,1980,
+"ONEFRI",2753,"Onespot Fringehead","Neoclinus uninotatus","Chaenopsidae",137,"N",,"MS","Clinidae->Chaenopsidae",,1984,1980,
+"PACARG",1521,"Pacific Argentine","Argentina sialis","Argentinidae",40,"N",,,"Salmoniformes-> Argentiniformes; Larval fish data only",,,1984,
+"PACBAR",2720,"Pacific Barracuda","Sphyraena argentea","Sphyraenidae",153,"N","SoCal","MS",,1985,,,
+"PACBLA",1635,"Pacific Blacksmelt","Bathylagus pacificus","Bathylagidae",41,"N",,,"Not in AFS book, but found on fishbase.org; Larval fish data only",,,1982,
+"PACBON",2210,"Pacific Bonito","Sarda chiliensis","Scombridae",,"N","SoCal","MS","First collected in September 2015",2015,,,
+"PACCMA",2209,"Pacific Chub Mackeral","Scomber japonicus","Scombridae",154,"N","SoCal","MS","chub mackerel-> Pacific Chub Mackerel, CHUMAC -> PACCMA",1983,,,
+"PACERA",218,"Pacific Electric Ray","Torpedo californica","Torpedinidae",10,"N",,"MS","Elasmobranchiomorphi-> Chondrichthyes; Squaliformes-> Torpediniformes",1986,1988,,
+"PACHAK",1303,"Pacific Hake","Merluccius productus","Merlucciidae",58,"N",,"MS","Gadidae-> Merlucciidae; Larval fish data only",,,1986,
+"PACHER",1002,"Pacific Herring","Clupea pallasii","Clupeidae",22,"N",,"MMD","pallasi->pallasii",1980,1980,1980,1980
+"PACLAM",21,"Pacific Lamprey","Lampetra tridentata","Petromyzontidae",4,"N",,"AN",,1980,1980,,
+"PACPOM",2712,"Pacific Pompano","Peprilus simillimus","Stromateidae",155,"N",,"MS","Stromateridae-> Stromateidae",1980,1980,,
+"PACSAN",3001,"Pacific Sanddab","Citharichthys sordidus","Paralichthyidae",156,"N",,"MS","Bothidae-> Paralichthyidae",1980,1980,,
+"PACSAR",1006,"Pacific Sardine","Sardinops sagax","Clupeidae",24,"N","SoCal","MS",,1984,1993,,1986
+"PACSAU",1540,"Pacific Saury","Cololabis saira","Scomberesocidae",,"N",,,"First collected in February 2013, station 213 otter trawl",,2013,,
+"PACSLA",2675,"Pacific Sand Lance","Ammodytes hexapterus","Ammodytidae",134,"N",,"MS",,2004,1987,,1981
+"PACSSC",2407,"Pacific Staghorn Sculpin","Leptocottus armatus","Cottidae",90,"N",,"ER",,1980,1980,1980,1980
+"PACTOM",1302,"Pacific Tomcod","Microgadus proximus","Gadidae",59,"N",,"MS",,1980,1980,1980,
+"PADSCU",2414,"Padded Sculpin","Artedius fenestralis","Cottidae",83,"N",,"MS",,,2003,,
+"PAIGRE",2665,"Painted Greenling","Oxylebius pictus","Hexagrammidae",81,"N",,,"Larval fish data only",,,1981,
+"PENGUN",2826,"Penpoint Gunnel","Apodichthys flavidus","Pholidae",132,"N",,"MS","Beach Seine only",,,,1981
+"PILPER",2118,"Pile Perch","Rhacochilus vacca","Embiotocidae",129,"N",,"MMD",,1980,1980,,1980
+"PLAMID",4032,"Plainfin Midshipman","Porichthys notatus","Batrachoididae",60,"N",,"MMD",,1980,1980,1980,1986
+"POASPP",1824,"Unidentifed Poacher",,"Agonidae",94,"N",,,"Larval fish data only",,,1986,
+"PRISCU",7191,"Prickly Sculpin","Cottus asper","Cottidae",86,"N",,"FS",,1983,1980,1980,1982
+"PRISPP",2813,"Unidentified Prickleback",,"Stichaeidae",130,"N",,,"Larval fish data only",,,1980,
+"PUMPKI",7145,"Pumpkinseed","Lepomis gibbosus","Centrarchidae",102,"I","FW","FS",,1997,,,
+"PYGPOA",1834,"Pygmy Poacher","Odontopyxis trispinosa","Agonidae",95,"N",,"MS",,,1980,,
+"QUEENF",2512,"Queenfish","Seriphus politus","Sciaenidae",113,"N","SoCal","MS",,1985,1988,,
+"RAIKIL",7118,"Rainwater Killifish","Lucania parva","Fundulidae",67,"I",,"ER","Atheriniformes-> Cyprinodontiformes; Cyprinodontidae-> Fundulidae",1982,1982,,1980
+"RAISEA",2112,"Rainbow Seaperch","Hypsurus caryi","Embiotocidae",124,"N",,"MS",,,1983,,
+"RAITRO",1107,"Steelhead","Oncorhynchus mykiss","Salmonidae",51,"N",,"AN",,1980,2007,1983,1982
+"REDBRO",1641,"Red Brotula","Brosmophycis marginata","Bythitidae",57,"N",,,"Gadiformes-> Ophidiiformes; Larval fish data only",,,1980,
+"REDILO",2405,"Red Irish Lord","Hemilepidotus hemilepidotus","Cottidae",88,"N",,"MS",,,1983,,
+"REDSUN",7144,"Redear Sunfish","Lepomis microlophus","Centrarchidae",104,"I","FW","FS",,1999,1995,,
+"REDSUR",2103,"Redtail Surfperch","Amphistichus rhodoterus","Embiotocidae",117,"N",,"MS",,1995,2004,,
+"RIVLAM",22,"River Lamprey","Lampetra ayresii","Petromyzontidae",1,"N",,"AN","ayresi->ayresii",1983,1983,,
+"ROCBLE",2677,"Rockpool Blenny","Hypsoblennius gilberti","Blenniidae",138,"N",,"MS","Beach Seine only",,,,1985
+"ROCSPP",2398,"Unidentified Rockfish","Sebastes spp.","Scorpaenidae",78,"N",,"MS",,1988,1980,1980,1981
+"RONSPP",4050,"Unidentified Ronquil",,"Bathymasteridae",,"N",,"MS","First collected in March 2010, too small to id to species.",,2010,,
+"RUBSEA",2117,"Rubberlip Seaperch","Rhacochilus toxotes","Embiotocidae",128,"N",,"MMO",,1987,1980,,1980
+"SACBLA",7053,"Sacramento Blackfish","Orthodon microlepidotus","Cyprinidae",31,"N","FW","FS","First collected in January 2008 (MWT); previously, beach seine only.",2008,,,1983
+"SACPIK",7057,"Sacramento Pikeminnow","Ptychoceilus grandis","Cyprinidae",33,"N","FW","FS",,1981,1980,1982,1980
+"SACSUC",7080,"Sacramento Sucker","Catostomus occidentalis","Catostomidae",34,"N","FW","FS",,1986,1985,1983,
+"SADGUN",2829,"Saddleback Gunnel","Pholis ornata","Pholidae",133,"N",,"MS",,,1980,,1986
+"SANSOL",3126,"Sand Sole","Psettichthys melanostictus","Pleuronectidae",169,"N",,"MS",,1980,1980,1980,1980
+"SANSPP",3000,"Unidentified Sanddab","Citharichthys spp.","Paralichthyidae",157,"N",,"MS","Bothidae-> Paralichthyidae; Larval fish data only until collected in OT in July 2010",,2010,1986,
+"SCASCU",2432,"Scalyhead Sculpin","Artedius harringtoni","Cottidae",84,"N",,"MS",,,1980,,
+"SCUSPP",2445,"Unidentified Sculpin",,"Cottidae",82,"N",,,"Larval fish data only",,,1980,
+"SHASPP",1008,"Unidentified Shad",,"Clupeidae",20,"I",,"FS","Collected in Sept 2006; ""threadfin without the thread""",2006,,,
+"SHIGOB",2868,"Shimofuri Goby","Tridentiger bifasciatus","Gobiidae",151,"I","FW","FS",,1989,1986,,
+"SHIPER",2105,"Shiner Perch","Cymatogaster aggregata","Embiotocidae",118,"N",,"MMD",,1980,1980,1980,1980
+"SHOGOB",2866,"Shokihaze Goby","Tridentiger barbatus","Gobiidae",150,"I",,"ER","bearded->Shokihaze",2000,1997,,
+"SHOGUI",212,"Shovelnose Guitarfish","Rhinobatos productus","Rhinobatidae",11,"N","SoCal","MS","Elasmobranchiomorphi-> Chondrichthyes; Squaliformes-> Rajiformes",,1998,,
+"SHOSNA",1593,"Showy Snailfish","Liparis pulchellus","Liparidae",97,"N",,"MS","Cyclopteridae-> Liparidae",1987,1980,,
+"SILSPP",2690,"Unidentified Silverside",,"Atherinopsidae",62,,,,"Atherinidae-> Atherinopsidae; Larval fish data only",,,1986,
+"SILSUR",2111,"Silver Surfperch","Hyperprosopon ellipticum","Embiotocidae",123,"N",,"MS",,1980,1980,,1985
+"SLISNA",1591,"Slipskin Snailfish","Liparis fucensis","Liparidae",96,"N",,"MS","Cyclopteridae-> Liparidae",,2002,,
+"SMESPP",1200,"Unidentified True Smelt",,"Osmeridae",42,"N",,,"Larval fish data only",,,1980,
+"SNAPRI",2807,"Snake Prickleback","Lumpenus sagitta","Stichaeidae",131,"N",,"MS","First collected in June 2008",,2008,,
+"SNASPP",1590,"Unidentified Snailfish","Liparis spp.","Liparidae",98,"N",,"MS","Cyclopteridae-> Liparidae",,1989,1982,
+"SPESAN",3002,"Speckled Sanddab","Citharichthys stigmaeus","Paralichthyidae",158,"N",,"MMO","Bothidae-> Paralichthyidae",1980,1980,1980,1980
+"SPIDOG",163,"Spiny Dogfish","Squalus acanthias","Squalidae",6,"N",,"MS","Elasmobranchiomorphi-> Chondrichthyes",1980,1980,,
+"SPLITT",7054,"Splittail","Pogonichthys macrolepidotus","Cyprinidae",32,"N","FW","FM",,1980,1980,1980,1981
+"SPOBAS",7151,"Spotted Bass","Micropterus punctulatus","Centrarchidae",105,"I","FW","FS","First collected in August 2007",,2007,,
+"SPOCEE",1621,"Spotted Cusk-Eel","Chilara taylori","Ophidiidae",56,"N",,"MS","Gadiformes-> Ophidiiformes",,1984,,
+"SPOSUR",2109,"Spotfin Surfperch","Hyperprosopon anale","Embiotocidae",121,"N",,"MS",,,1984,,
+"STAFLO",3121,"Starry Flounder","Platichthys stellatus","Pleuronectidae",164,"N",,"MMD",,1980,1980,1980,1980
+"STRBAS",7138,"Striped Bass","Morone saxatilis","Moronidae",99,"I",,"AN","Percichthyidae-> Moronidae",1980,1980,1980,1980
+"STRKEL",2758,"Striped Kelpfish","Gibbonsia metzi","Clinidae",136,"N",,"MS","Beach Seine only",,,1980,1981
+"STRMUL",2725,"Striped Mullet","Mugil cephalus","Mugilidae",61,"I",,"CA","Perciformes-> Mugiliformes; Beach Seine only",,,,1983
+"STRRON",4053,"Stripedfin Ronquil","Rathbunella hypoplecta","Bathymasteridae",,"N",,,"First collected in the otter trawl March 2013, station 213; common name is now Bluebanded Ronquil. Still in database as RONSPP as of early 2015",,2013,,
+"STRSEA",2108,"Striped Seaperch","Embiotoca lateralis","Embiotocidae",120,"N",,"MS",,,1998,,
+"SUNSPP",7166,"Unidentified Sunfish",,"Centrarchidae",100,"I","FW","FS",,1983,,1980,1983
+"SURSME",1203,"Surf Smelt","Hypomesus pretiosus","Osmeridae",45,"N",,"MS",,1980,1982,1980,1980
+"SURSPP",2120,"Unidentified Surfperch",,"Embiotocidae",114,"N",,,,,1998,,
+"THORNB",211,"Thornback","Platyrhinoidis triseriata","Platyrhynidae",12,"N","SoCal","MS","Platyrhinidae -> Platyrhynidae; first collected Sept 2003 at #110, but non-valid tow.  Next collected August 2005.",2006,2005,,
+"THRSHA",1007,"Threadfin Shad","Dorosoma petenense","Clupeidae",23,"I",,"FM",,1980,1980,1980,1980
+"THRSHR",111,"Thresher Shark","Alopias vulpinus","Alopiidae",7,"N",,"MS","Elasmobranchiomorphi-> Chondrichthyes",1989,,,
+"THRSTI",1565,"Threespine Stickleback","Gasterosteus aculeatus","Gasterosteidae",70,"N",,"ER",,1980,1980,1980,1980
+"TIDSCU",2437,"Tidepool Sculpin","Oligocottus maculosus","Cottidae",91,"N",,"MS","Larval fish data only",,,1981,
+"TOPSME",2691,"Topsmelt","Atherinops affinis","Atherinopsidae",63,"N",,"ER","Atherinidae-> Atherinopsidae",1980,1980,1980,1980
+"TUBESN",1570,"Tubesnout","Aulorhynchus flavidus","Aulorhynchidae",69,"N","SoCal","MS","Gasterosteidae-> Aulorhynchidae; tube-snout-> Tubesnout, TUBSNO -> TUBESN",,1995,,
+"TULPER",7178,"Tule Perch","Hysterocarpus traskii","Embiotocidae",125,"N",,"FS","traski->traskii",1980,1980,,1980
+"VERROC",2329,"Vermilion Rockfish","Sebastes miniatus","Scorpaenidae",75,"N",,"MS",,,2004,,
+"WAKASA",7043,"Wakasagi","Hypomesus nipponensis","Osmeridae",44,"I","FW","FS",,1982,1998,,
+"WALSUR",2110,"Walleye Surfperch","Hyperprosopon argenteum","Embiotocidae",122,"N",,"MMO",,1980,1980,,1980
+"WESBLA",23,"Western Brook Lamprey","Lampetra richardsoni","Petromyzontidae",2,"N",,"AN",,,1998,,
+"WESMOS",7124,"Western Mosquitofish","Gambusia affinis","Poeciliidae",68,"N",,"ER","Atheriniformes-> Cyprinodontiformes",,1983,1983,1981
+"WHICAT",7103,"White Catfish","Ameiurus catus","Ictaluridae",35,"I","FW","FS",,1980,1980,,1983
+"WHICRA",7148,"White Crappie","Pomoxis annularis","Centrarchidae",107,"I","FW","FS","Beach Seine only",,,,1986
+"WHICRO",2509,"White Croaker","Genyonemus lineatus","Sciaenidae",112,"N",,"MMO",,1980,1980,1980,1982
+"WHISEA",2116,"White Seaperch","Phanerodon furcatus","Embiotocidae",127,"N",,"MMO",,1980,1980,,1980
+"WHISEB",2504,"White Seabass","Atractoscion nobilis","Sciaenidae",111,"N","SoCal","MS","Cynoscion-> Atractoscion",1999,1997,,
+"WHISME",1201,"Whitebait Smelt","Allosmerus elongatus","Osmeridae",43,"N",,"MS",,1982,1982,,1987
+"WHISTU",1502,"White Sturgeon","Acipenser transmontanus","Acipenseridae",16,"N",,"AN",,1980,1980,1980,
+"YELGOB",2880,"Yellowfin Goby","Acanthogobius flavimanus","Gobiidae",144,"I",,"ER",,1980,1980,1980,1980
+"YELROC",2318,"Yellowtail Rockfish","Sebastes flavidus","Scorpaenidae",73,"N",,"MS",,,1988,,
+"YELSEE",1532,"Yellow Snake Eel","Ophichthus zophochir","Ophichthidae",17,"N","SoCal","MS",,,1999,,
