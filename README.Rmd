@@ -1,5 +1,7 @@
 ---
 output: github_document
+editor_options: 
+  chunk_output_type: console
 ---
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
@@ -27,6 +29,39 @@ You can install the development version from [GitHub](https://github.com/) with:
 ``` r
 # install.packages("devtools")
 devtools::install_github("sbashevkin/LTMRdata")
+```
+
+# Usage
+
+```{r}
+require(LTMRdata)
+```
+
+## To access the individual source datasets
+
+Suisun Marsh Fish Study
+```{r}
+data(Suisun)
+str(Suisun)
+```
+
+Fall Midwater Trawl
+```{r}
+data(FMWT)
+str(FMWT)
+```
+
+Bay Study
+```{r}
+data(Baystudy)
+str(Baystudy)
+```
+
+## To access the integrated dataset
+
+```{r}
+Data <- LTMRpilot()
+str(Data)
 ```
 
 # Code of Conduct
