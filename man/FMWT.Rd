@@ -7,7 +7,7 @@
 \format{
 a tibble with 220,785 rows and 35 variables
 \describe{
-  \item{Column}{Description}
+  \item{Tow_volume}{Volume towed (\ifelse{html}{\out{m<sup>3</sup>}}{\eqn{m^{3}}}).}
   }
 }
 \usage{

@@ -11,14 +11,14 @@ stations_fmwt <- read_csv(file.path("data-raw", "FMWT", "StationsLookUp.csv"),
                                                 Lat="c", Long="c", Comments="c",
                                                 `Channel/Shoal`="i", `WGS84 Lat`="d", `WGS84 Long`="d"))%>%
   select(Station=StationCode, Active, Lat, Long, Station_notes=Comments, Lat2=`WGS84 Lat`, Long2=`WGS84 Long`)%>%
-  separate(Lat, into=c("Lat_d", "Lat_m", "Lat_s"), sep="[ ]{1,}", convert=T)%>%
+  separate(Lat, into=c("Lat_d", "Lat_m", "Lat_s"), sep="[ ]{1,}", convert=T)%>% # parse latitude and longitude into something usable
   separate(Long, into=c("Long_d", "Long_m", "Long_s"), sep="[ ]{1,}", convert=T)%>%
   mutate(Latitude=Lat_d+Lat_m/60+Lat_s/3600,
          Longitude=Long_d-Long_m/60-Long_s/3600)%>%
   mutate(Latitude=if_else(is.na(Latitude), Lat2, Latitude),
          Longitude=if_else(is.na(Longitude), Long2, Longitude))%>%
   select(Station, Latitude, Longitude, Active)%>%
-  drop_na(Station, Latitude, Longitude)
+  drop_na(Station, Latitude, Longitude) # Drop any rows with NAs in these variables
 
 date_fmwt <- read_csv(file.path("data-raw", "FMWT", "Date.csv"), col_types=cols_only(DateID="i", SampleDate="c"))%>%
   mutate(SampleDate=parse_date_time(SampleDate, "%m/%d/%Y %H:%M:%S", tz="America/Los_Angeles"))%>%
@@ -33,8 +33,7 @@ sample_fmwt <- read_csv(file.path("data-raw", "FMWT", "Sample.csv"),
                                            MeterNumber="d", WeatherCode="i", Microcystis="i", WaveCode="i",
                                            WindDirection="c", BottomTemperature="d",
                                            MeterEstimate="d", DateID="i"))%>%
-  left_join(date_fmwt, by="DateID")%>%
-  select(-DateID)%>%
+  left_join(date_fmwt, by="DateID")%>% # Add dates
   rename(Station=StationCode, Method=MethodCode, Tide=TideCode, Time=SampleTimeStart, Depth=DepthBottom)%>%
   mutate(Time = parse_date_time(Time, "%m/%d/%Y %H:%M:%S", tz="America/Los_Angeles"),
          Tide=recode(Tide, `1` = "High Slack", `2` = "Ebb", `3` = "Low Slack", `4` = "Flood"),
@@ -42,14 +41,14 @@ sample_fmwt <- read_csv(file.path("data-raw", "FMWT", "Sample.csv"),
          Waves=recode(WaveCode, `1` = "Calm", `2` = "Waves w/o whitecaps", `3` = "Waves w/ whitecaps"),
          WindDirection=toupper(WindDirection),
          Meter_total=MeterEnd-MeterStart)%>%
-  mutate(Tow_volume = Meter_total*0.02687*10.7)%>%
-  mutate(WindDirection=recode(WindDirection, "NA"=NA_character_, "N/A"=NA_character_))%>%
-  mutate(Datetime=parse_date_time(if_else(is.na(Time), NA_character_, paste0(Date, " ", hour(Time), ":", minute(Time))), "%Y-%m-%d %%H:%M", tz="America/Los_Angeles"))%>%
+  mutate(Tow_volume = Meter_total*0.02687*10.7,
+         WindDirection=recode(WindDirection, "NA"=NA_character_, "N/A"=NA_character_),
+         Datetime=parse_date_time(if_else(is.na(Time), NA_character_, paste0(Date, " ", hour(Time), ":", minute(Time))), "%Y-%m-%d %%H:%M", tz="America/Los_Angeles"))%>%
   filter(Method=="MWTR")%>% # All rows are MWTR but just in case the data change
   mutate(Method=recode(Method, MWTR="Midwater trawl"),
          Microcystis=recode(Microcystis, `1`="Absent", `2`="Low", `6`="Low", `3`="Medium", `4`="High", `5`="Very high"),
          Tow_direction = recode(TowDirectionCode, `1`="With current", `2`="Against current", `3`="Unknown"))%>%
-  select(-TowDirectionCode, -WeatherCode, -WaveCode, -MeterEnd, -MeterStart, -Meter_total)%>%
+  select(-TowDirectionCode, -WeatherCode, -WaveCode, -MeterEnd, -MeterStart, -Meter_total, -DateID)%>%
   left_join(stations_fmwt, by="Station")
 
 species_fmwt <- read_csv(file.path("data-raw", "FMWT", "OrganismsLookUp.csv"), na=c("NA", "n/a"),

@@ -7,6 +7,8 @@
 \format{
 a tibble with 743,409 rows and 35 variables
 \describe{
+  \item{Tow_volume}{Volume towed (\ifelse{html}{\out{m<sup>3</sup>}}{\eqn{m^{3}}}).}
+  \item{Tow_area}{Area towed (\ifelse{html}{\out{m<sup>2</sup>}}{\eqn{m^{2}}}).}
   \item{Latitude}{May not be accurate, see details.}
   \item{Longitude}{May not be accurate, see details.}
   }

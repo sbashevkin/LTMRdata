@@ -62,14 +62,16 @@ boattow_baystudy<-read_csv(file.path("data-raw", "Baystudy", "BoatTow.csv"),
                                                  EndLat="d", Distance="d", TowComment="c"))%>%
   select(-StartLong, -EndLong, -StartLat, -EndLat, -StartMeter, -EndMeter)%>% # Removing survey lats/longs and start/end meters for now
   mutate(Time=parse_date_time(Time, orders="%m/%d/%Y %H:%M:%S"),
-         Tow_direction=recode(Direction, `1`="With current", `2`="Against current", `3`="Slack or cross-current"))%>%
+         Tow_direction=recode(Direction, `1`="With current", `2`="Against current", `3`="Slack or cross-current"),
+         Tow_volume=TotalMeter * 0.02687 * 10.7,
+         Tow_area=Distance*3.42)%>%
   left_join(tidecodes_baystudy, by="Tide")%>%
   select(-Tide, -Direction)%>%
   rename(Method=Net, Tidetow=Description)%>%
   mutate(Method=recode(Method, `1`="Midwater trawl", `2`="Otter Trawl", `3`="EL"))%>%
   filter(Method%in%c("Midwater trawl", "Otter Trawl"))%>%
   left_join(towcodes_baystudy, by="Tow")%>%
-  select(-Tow)
+  select(-Tow, -TotalMeter, -Distance)
 
 env_baystudy <- left_join(boattow_baystudy, boatstation_baystudy, by=c("Year", "Survey", "Station"))%>%
   mutate(Tide=if_else(is.na(Tidetow), Tidestation, Tidetow),
@@ -126,9 +128,9 @@ Baystudy <- env_baystudy%>%
          Sal_bott=ec2pss(ECBott/1000, t=25),
          Source="Bay Study")%>%
   select(-ECSurf, -ECAvg, -ECBott, -CatchCode, -Year)%>% # Remove unneeded variables
-  rename(Size_group=SizeGroup, Meter_total=TotalMeter, Notes_tow=TowComment, Tow_status=TowStatus,
+  rename(Size_group=SizeGroup, Notes_tow=TowComment, Tow_status=TowStatus,
          Notes_station=StationComment, Weather=CloudCover, Temp_surf=TempSurf, Temp_avg=TempAvg,
-         Temp_bott=TempBott, Tow_duration=Duration, Tow_distance=Distance)%>%
+         Temp_bott=TempBott, Tow_duration=Duration)%>%
   select(-Bearing, -Waves, -Weather, -Temp_avg, -Temp_bott, -Sal_avg, -Sal_bott) # Remove extra environmental variables
 
 
