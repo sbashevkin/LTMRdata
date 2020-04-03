@@ -76,11 +76,11 @@ FMWT<-sample_fmwt%>%
          Secchi=Secchi*100, # Convert Secchi to cm from m
          Depth = Depth*0.3048, #Convert depth to m from feet
          Source="FMWT")%>%
-  rename(Length=ForkLength, Temp_surf=WaterTemperature, Temp_bott=BottomTemperature, Secchi_estimated=SecchiEstimated, # Check water temperature means surface temp
-         Survey=SurveyNumber, Cable_length=CableOut, Meter_total=MeterNumber,
+  rename(Length=ForkLength, Temp_surf=WaterTemperature, Temp_bott=BottomTemperature,
+         Secchi_estimated=SecchiEstimated, Survey=SurveyNumber, Cable_length=CableOut,
          Wind_direction=WindDirection, Meter_estimate=MeterEstimate, Station_active=Active)%>%
   select(-ConductivityTop, -ConductivityBottom, -LengthFrequency, -TotalMeasured,
-         -SampleRowID, -Time, -CatchRowID, -Catch)%>%
+         -SampleRowID, -Time, -CatchRowID, -Catch, -MeterNumber, -Meter_estimate)%>%
   select(-Turbidity, -Microcystis, -Wind_direction, -Temp_bott, -Weather, -Waves, -Sal_bott) # Remove extra environmental variables
 
 rm(catchlength_fmwt, catch_fmwt, species_fmwt, sample_fmwt, date_fmwt, stations_fmwt)

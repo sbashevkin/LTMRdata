@@ -24,7 +24,7 @@ Integration of the Fall Midwater Trawl, Bay Study, and Suisun Marsh Fish Study d
 
 ## Installation
 
-You can install the development version from [GitHub](https://github.com/) with:
+You can install `LTMRdata` from [GitHub](https://github.com/) with:
 
 ``` r
 # install.packages("devtools")

@@ -5,7 +5,7 @@
 \alias{FMWT}
 \title{FMWT dataset}
 \format{
-a tibble with 220,785 rows and 35 variables
+a tibble with 228,639 rows and 22 variables
 \describe{
   \item{Tow_volume}{Volume towed (\ifelse{html}{\out{m<sup>3</sup>}}{\eqn{m^{3}}}).}
   }

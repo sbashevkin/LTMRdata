@@ -5,7 +5,7 @@
 \alias{Baystudy}
 \title{Bay study dataset}
 \format{
-a tibble with 743,409 rows and 35 variables
+a tibble with 746,613 rows and 24 variables
 \describe{
   \item{Tow_volume}{Volume towed (\ifelse{html}{\out{m<sup>3</sup>}}{\eqn{m^{3}}}).}
   \item{Tow_area}{Area towed (\ifelse{html}{\out{m<sup>2</sup>}}{\eqn{m^{2}}}).}

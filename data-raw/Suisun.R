@@ -77,7 +77,7 @@ Suisun <- catch_suisun%>%
   mutate(Count = (Count/TotalMeasured)*TotalCatch)%>%
   select(-SampleRowID)%>%
   mutate(Sal_surf=ec2pss(Conductivity/1000, t=25))%>%
-  select(-Conductivity, -QADone, -TotalMeasured, -TotalCatch)%>%
+  select(-Conductivity, -QADone, -TotalMeasured, -TotalCatch, -Meter_total)%>%
   rename(Length=StandardLength, Notes_catch=CatchComments, Tow_duration=TowDuration, Notes_trawl=TrawlComments,
          DO_concentration=DO, DO_saturation=PctSaturation, Temp_surf=Temperature)%>%
   select(-DO_concentration, -DO_saturation) # Remove extra environmental variables
