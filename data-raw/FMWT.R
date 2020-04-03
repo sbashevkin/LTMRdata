@@ -1,6 +1,7 @@
 ## code to prepare `FMWT` dataset goes here
 
 require(readr)
+library(wql)
 require(dplyr)
 require(tidyr)
 require(lubridate)
@@ -34,12 +35,21 @@ sample_fmwt <- read_csv(file.path("data-raw", "FMWT", "Sample.csv"),
                                            MeterEstimate="d", DateID="i"))%>%
   left_join(date_fmwt, by="DateID")%>%
   select(-DateID)%>%
-  rename(Station=StationCode, Method=MethodCode, Tide=TideCode, Time=SampleTimeStart)%>%
+  rename(Station=StationCode, Method=MethodCode, Tide=TideCode, Time=SampleTimeStart, Depth=DepthBottom)%>%
   mutate(Time = parse_date_time(Time, "%m/%d/%Y %H:%M:%S", tz="America/Los_Angeles"),
-         Tide=recode(Tide, `1` = "High Slack", `2` = "Ebb", `3` = "Low Slack", `4` = "Flood"))%>%
+         Tide=recode(Tide, `1` = "High Slack", `2` = "Ebb", `3` = "Low Slack", `4` = "Flood"),
+         Weather=recode(WeatherCode, `1` = "Cloud (0-33%)", `2` = "Cloud (33-66%)", `3` = "Cloud (66-100%)", `4` = "Rain"),
+         Waves=recode(WaveCode, `1` = "Calm", `2` = "Waves w/o whitecaps", `3` = "Waves w/ whitecaps"),
+         WindDirection=toupper(WindDirection),
+         Meter_total=MeterEnd-MeterStart)%>%
+  mutate(Tow_volume = Meter_total*0.02687*10.7)%>%
+  mutate(WindDirection=recode(WindDirection, "NA"=NA_character_, "N/A"=NA_character_))%>%
   mutate(Datetime=parse_date_time(if_else(is.na(Time), NA_character_, paste0(Date, " ", hour(Time), ":", minute(Time))), "%Y-%m-%d %%H:%M", tz="America/Los_Angeles"))%>%
   filter(Method=="MWTR")%>% # All rows are MWTR but just in case the data change
-  mutate(Method=recode(Method, MWTR="Midwater trawl"))%>%
+  mutate(Method=recode(Method, MWTR="Midwater trawl"),
+         Microcystis=recode(Microcystis, `1`="Absent", `2`="Low", `6`="Low", `3`="Medium", `4`="High", `5`="Very high"),
+         Tow_direction = recode(TowDirectionCode, `1`="With current", `2`="Against current", `3`="Unknown"))%>%
+  select(-TowDirectionCode, -WeatherCode, -WaveCode, -MeterEnd, -MeterStart, -Meter_total)%>%
   left_join(stations_fmwt, by="Station")
 
 species_fmwt <- read_csv(file.path("data-raw", "FMWT", "OrganismsLookUp.csv"), na=c("NA", "n/a"),
@@ -51,15 +61,29 @@ catch_fmwt <- read_csv(file.path("data-raw", "FMWT", "Catch.csv"),
   left_join(species_fmwt, by="OrganismCode")%>%
   select(-OrganismCode)
 
-FMWT <- read_csv(file.path("data-raw", "FMWT", "Length.csv"), na=c("NA", "n/p"),
+catchlength_fmwt <- read_csv(file.path("data-raw", "FMWT", "Length.csv"), na=c("NA", "n/p"),
                         col_types = cols_only(CatchRowID="i", ForkLength="d", Dead="c", LengthFrequency="d"))%>%
   filter(ForkLength!=0)%>% # 0 fork length means not measured, so removing those from length table so those fish can be redistributed among measured lengths
   group_by(CatchRowID)%>%
   mutate(TotalMeasured=sum(LengthFrequency, na.rm=T))%>%
   ungroup()%>%
   left_join(catch_fmwt, by="CatchRowID")%>%
-  mutate(Count = (LengthFrequency/TotalMeasured)*Catch)%>%
-  select(-CatchRowID, -Catch)%>%
-  inner_join(sample_fmwt, by="SampleRowID")
+  mutate(Count = (LengthFrequency/TotalMeasured)*Catch)
+
+FMWT<-sample_fmwt%>%
+  left_join(catchlength_fmwt, by="SampleRowID")%>%
+  mutate(Sal_surf=ec2pss(ConductivityTop/1000, t=25),
+         Sal_bott=ec2pss(ConductivityBottom/1000, t=25),
+         Secchi=Secchi*100, # Convert Secchi to cm from m
+         Depth = Depth*0.3048, #Convert depth to m from feet
+         Source="FMWT")%>%
+  rename(Length=ForkLength, Temp_surf=WaterTemperature, Temp_bott=BottomTemperature, Secchi_estimated=SecchiEstimated, # Check water temperature means surface temp
+         Survey=SurveyNumber, Cable_length=CableOut, Meter_total=MeterNumber,
+         Wind_direction=WindDirection, Meter_estimate=MeterEstimate, Station_active=Active)%>%
+  select(-ConductivityTop, -ConductivityBottom, -LengthFrequency, -TotalMeasured,
+         -SampleRowID, -Time, -CatchRowID, -Catch)%>%
+  select(-Turbidity, -Microcystis, -Wind_direction, -Temp_bott, -Weather, -Waves, -Sal_bott) # Remove extra environmental variables
+
+rm(catchlength_fmwt, catch_fmwt, species_fmwt, sample_fmwt, date_fmwt, stations_fmwt)
 
 usethis::use_data(FMWT, overwrite=TRUE)

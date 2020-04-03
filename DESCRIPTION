@@ -17,10 +17,11 @@ URL: https://github.com/sbashevkin/LTMRdata
 BugReports: https://github.com/sbashevkin/LTMRdata/issues
 Suggests: 
     readr,
-    dplyr,
     tidyr,
     lubridate,
-    readxl
+    readxl,
+    wql
 RoxygenNote: 7.1.0
 Imports: 
+    dplyr,
     tibble
