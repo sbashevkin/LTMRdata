@@ -16,10 +16,6 @@ stations_baystudy <- read_excel(file.path("data-raw", "Baystudy", "Bay Study_Sta
   filter(Station!="211E")%>%
   mutate(Station=recode(Station, `211W`="211"))
 
-towcodes_baystudy <- read_csv(file.path("data-raw", "Baystudy", "TowCodes_Lookup.csv"),
-                              col_type=cols_only(TowCode="i", TowDescription="c"))%>%
-  rename(Tow=TowCode, TowStatus=TowDescription)
-
 tidecodes_baystudy <- read_csv(file.path("data-raw", "Baystudy", "TideCodes_LookUp.csv"),
                                col_types=cols_only(Tide="i", Description="c"))
 
@@ -70,7 +66,7 @@ boattow_baystudy<-read_csv(file.path("data-raw", "Baystudy", "BoatTow.csv"),
   rename(Method=Net, Tidetow=Description)%>%
   mutate(Method=recode(Method, `1`="Midwater trawl", `2`="Otter Trawl", `3`="EL"))%>%
   filter(Method%in%c("Midwater trawl", "Otter Trawl"))%>%
-  left_join(towcodes_baystudy, by="Tow")%>%
+  mutate(TowStatus=recode(Tow, `0`="Invalid", `1`="Valid", `2`="Valid", `51`="Valid", `52`="Invalid", `53`="Invalid", `54`="Valid", `55`="Valid", `56`="Valid", `57`="Valid", `58`="Invalid"))%>%
   select(-Tow, -TotalMeter, -Distance)
 
 env_baystudy <- left_join(boattow_baystudy, boatstation_baystudy, by=c("Year", "Survey", "Station"))%>%
@@ -78,10 +74,7 @@ env_baystudy <- left_join(boattow_baystudy, boatstation_baystudy, by=c("Year", "
          Datetime=parse_date_time(if_else(is.na(Time), NA_character_, paste0(Date, " ", hour(Time), ":", minute(Time))), "%Y-%m-%d %%H:%M", tz="America/Los_Angeles"))%>%
   select(-Tidestation, -Tidetow, -Time)
 
-rm(tidecodes_baystudy, wavecodes_baystudy, cloudcovercodes_baystudy, towcodes_baystudy, boattow_baystudy, boatstation_baystudy, salintemp_baystudy, stations_baystudy)
-
-species_baystudy <- read_csv(file.path("data-raw", "Baystudy", "SpeciesCodes_Lookup.csv"),
-                             col_types=cols_only(AlphaCode="c", CommonName="c"))
+rm(tidecodes_baystudy, wavecodes_baystudy, cloudcovercodes_baystudy, boattow_baystudy, boatstation_baystudy, salintemp_baystudy, stations_baystudy)
 
 catch_baystudy <- read_csv(file.path("data-raw", "Baystudy", "Fish Catch Data.csv"),
                            col_types=cols_only(Year="i", Survey="i", Station="c",
@@ -91,7 +84,10 @@ catch_baystudy <- read_csv(file.path("data-raw", "Baystudy", "Fish Catch Data.cs
   rename(Method=Net)%>%
   mutate(Method=recode(Method, `1`="Midwater trawl", `2`="Otter Trawl", `3`="EL"))%>%
   filter(Method%in%c("Midwater trawl", "Otter Trawl"))%>%
-  left_join(species_baystudy, by="AlphaCode")%>%
+  left_join(Species%>%
+              select(AlphaCode=Baystudy_Code, Taxa)%>%
+              filter(!is.na(AlphaCode)),
+            by="AlphaCode")%>%
   select(-AlphaCode)
 
 length_baystudy <- read_csv(file.path("data-raw", "Baystudy", "Fish Length Data.csv"),
@@ -102,21 +98,22 @@ length_baystudy <- read_csv(file.path("data-raw", "Baystudy", "Fish Length Data.
   mutate(Method=recode(Method, `1`="Midwater trawl", `2`="Otter Trawl", `3`="EL"),
          AlphaCode = toupper(AlphaCode))%>%
   filter(Method%in%c("Midwater trawl", "Otter Trawl"))%>%
-  left_join(species_baystudy, by="AlphaCode")%>%
+  left_join(Species%>%
+              select(AlphaCode=Baystudy_Code, Taxa)%>%
+              filter(!is.na(AlphaCode)),
+            by="AlphaCode")%>%
   select(-AlphaCode)
-
-rm(species_baystudy)
 
 lengthcatch_baystudy<-catch_baystudy%>%
   full_join(length_baystudy%>%
-               group_by(Year, Survey, Station, Method, SizeGroup, CommonName)%>%
+               group_by(Year, Survey, Station, Method, SizeGroup, Taxa)%>%
                summarize(TotalMeasured=sum(Frequency))%>%
                ungroup(),
-             by=c("Year", "Survey", "Station", "Method", "SizeGroup", "CommonName"))%>%
+             by=c("Year", "Survey", "Station", "Method", "SizeGroup", "Taxa"))%>%
   filter(!is.na(TotalMeasured) & !is.na(PlusCount))%>%
   mutate(TotalCatch=(TotalMeasured+PlusCount)*(QtsCaught/QtsSubsampled))%>%
   select(-PlusCount, -QtsCaught, -QtsSubsampled)%>%
-  right_join(length_baystudy, by=c("Year", "Survey", "Station", "Method", "SizeGroup", "CommonName"))%>%
+  right_join(length_baystudy, by=c("Year", "Survey", "Station", "Method", "SizeGroup", "Taxa"))%>%
   mutate(Count = (Frequency/TotalMeasured)*TotalCatch)%>%
   select(-TotalMeasured, -TotalCatch, -Frequency)
 
@@ -127,9 +124,12 @@ Baystudy <- env_baystudy%>%
          Sal_avg=ec2pss(ECAvg/1000, t=25),
          Sal_bott=ec2pss(ECBott/1000, t=25),
          Source="Bay Study")%>%
-  select(-ECSurf, -ECAvg, -ECBott, -CatchCode, -Year)%>% # Remove unneeded variables
-  rename(Size_group=SizeGroup, Notes_tow=TowComment, Tow_status=TowStatus,
-         Notes_station=StationComment, Weather=CloudCover, Temp_surf=TempSurf, Temp_avg=TempAvg,
+  select(-ECSurf, -ECAvg, -ECBott, -CatchCode, -Year, -SizeGroup, -StationComment)%>% # Remove unneeded variables
+  group_by_at(vars(-Count))%>%
+  summarise(Count=sum(Count))%>%
+  ungroup()%>%
+  rename(Notes_tow=TowComment, Tow_status=TowStatus,
+         Weather=CloudCover, Temp_surf=TempSurf, Temp_avg=TempAvg,
          Temp_bott=TempBott, Tow_duration=Duration)%>%
   select(-Bearing, -Waves, -Weather, -Temp_avg, -Temp_bott, -Sal_avg, -Sal_bott) # Remove extra environmental variables
 

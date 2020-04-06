@@ -51,13 +51,13 @@ sample_fmwt <- read_csv(file.path("data-raw", "FMWT", "Sample.csv"),
   select(-TowDirectionCode, -WeatherCode, -WaveCode, -MeterEnd, -MeterStart, -Meter_total, -DateID)%>%
   left_join(stations_fmwt, by="Station")
 
-species_fmwt <- read_csv(file.path("data-raw", "FMWT", "OrganismsLookUp.csv"), na=c("NA", "n/a"),
-                         col_types=cols_only(OrganismCode="i", CommonName="c"))
-
 catch_fmwt <- read_csv(file.path("data-raw", "FMWT", "Catch.csv"),
                        col_types = cols_only(CatchRowID="i", SampleRowID="i", OrganismCode="i", Catch="d"))%>%
   filter(!is.na(OrganismCode))%>%
-  left_join(species_fmwt, by="OrganismCode")%>%
+  left_join(Species%>%
+              select(OrganismCode=FMWT_Code, Taxa)%>%
+              filter(!is.na(OrganismCode)),
+            by="OrganismCode")%>%
   select(-OrganismCode)
 
 catchlength_fmwt <- read_csv(file.path("data-raw", "FMWT", "Length.csv"), na=c("NA", "n/p"),
@@ -78,11 +78,11 @@ FMWT<-sample_fmwt%>%
          Source="FMWT")%>%
   rename(Length=ForkLength, Temp_surf=WaterTemperature, Temp_bott=BottomTemperature,
          Secchi_estimated=SecchiEstimated, Survey=SurveyNumber, Cable_length=CableOut,
-         Wind_direction=WindDirection, Meter_estimate=MeterEstimate, Station_active=Active)%>%
+         Wind_direction=WindDirection, Meter_estimate=MeterEstimate)%>%
   select(-ConductivityTop, -ConductivityBottom, -LengthFrequency, -TotalMeasured,
-         -SampleRowID, -Time, -CatchRowID, -Catch, -MeterNumber, -Meter_estimate)%>%
+         -SampleRowID, -Time, -CatchRowID, -Catch, -MeterNumber, -Meter_estimate, -Active)%>%
   select(-Turbidity, -Microcystis, -Wind_direction, -Temp_bott, -Weather, -Waves, -Sal_bott) # Remove extra environmental variables
 
-rm(catchlength_fmwt, catch_fmwt, species_fmwt, sample_fmwt, date_fmwt, stations_fmwt)
+rm(catchlength_fmwt, catch_fmwt, sample_fmwt, date_fmwt, stations_fmwt)
 
 usethis::use_data(FMWT, overwrite=TRUE)

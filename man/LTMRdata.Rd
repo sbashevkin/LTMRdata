@@ -13,6 +13,7 @@ This package contains internal datasets and a function to bind them all together
   \item \code{\link{Suisun}}
   \item \code{\link{FMWT}}
   \item \code{\link{Baystudy}}
+  \item \code{\link{Species}}
 }
 }
 

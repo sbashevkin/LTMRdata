@@ -45,9 +45,6 @@ sample_suisun<-read_csv(file.path("data-raw", "Suisun", "Sample.csv"),
   left_join(effort_suisun,
             by="SampleRowID")
 
-species_suisun <- read_csv(file.path("data-raw", "Suisun", "OrganismsLookUp.csv"),
-                           col_types = cols_only(OrganismCode="c", CommonName="c"))
-
 catch_suisun <- read_csv(file.path("data-raw", "Suisun", "Catch.csv"), na=c("NA", "n/p"),
                          col_types = cols_only(SampleRowID="c", OrganismCode="c", StandardLength="d",
                                                Dead="c", Count="d", CatchComments="c"))%>%
@@ -55,30 +52,32 @@ catch_suisun <- read_csv(file.path("data-raw", "Suisun", "Catch.csv"), na=c("NA"
   right_join(sample_suisun,
              by="SampleRowID")%>%
   filter(Method=="Otter trawl")%>% # I think we're excluding midwater?
-  left_join(species_suisun,
+  left_join(Species%>%
+              select(OrganismCode=SMF_Code, Taxa)%>%
+              filter(!is.na(OrganismCode)),
             by="OrganismCode")%>%
+  select(-OrganismCode)%>%
   mutate(Count = if_else(SampleRowID=="{8327B645-BC36-4405-ADB3-C6561718A17B}" & StandardLength==87, Count+1, Count))%>% # Correcting for misstyped data point per email from Teejay that
-  filter(!(!QADone & CommonName=="Splittail" & StandardLength==8))%>% # all QADone==FALSE data from January 2007 are correct EXCEPT for that lone splittail measuring 8 mm (was actually 87 mm).
-  select(-OrganismCode)
+  filter(!(!QADone & Taxa=="Pogonichthys macrolepidotus" & StandardLength==8)) # all QADone==FALSE data from January 2007 are correct EXCEPT for that lone splittail measuring 8 mm (was actually 87 mm).
 
 
 
 Suisun <- catch_suisun%>%
   filter(StandardLength!=0)%>% #Remove unmeasured fish, but not all of these 0s seem to be unmeasured according to the Catch Comments so these should be inspected.
-  group_by(SampleRowID, CommonName)%>%
+  group_by(SampleRowID, Taxa)%>%
   mutate(TotalMeasured=sum(Count, na.rm=T))%>%
   ungroup()%>%
   left_join(catch_suisun%>%
-              select(SampleRowID, CommonName, Count)%>%
-              group_by(SampleRowID, CommonName)%>%
+              select(SampleRowID, Taxa, Count)%>%
+              group_by(SampleRowID, Taxa)%>%
               summarise(TotalCatch=sum(Count, na.rm=T))%>%
               ungroup(),
-            by=c("SampleRowID", "CommonName"))%>%
+            by=c("SampleRowID", "Taxa"))%>%
   mutate(Count = (Count/TotalMeasured)*TotalCatch)%>%
   select(-SampleRowID)%>%
   mutate(Sal_surf=ec2pss(Conductivity/1000, t=25))%>%
   select(-Conductivity, -QADone, -TotalMeasured, -TotalCatch, -Meter_total)%>%
-  rename(Length=StandardLength, Notes_catch=CatchComments, Tow_duration=TowDuration, Notes_trawl=TrawlComments,
+  rename(Length=StandardLength, Notes_catch=CatchComments, Tow_duration=TowDuration, Notes_tow=TrawlComments,
          DO_concentration=DO, DO_saturation=PctSaturation, Temp_surf=Temperature)%>%
   select(-DO_concentration, -DO_saturation) # Remove extra environmental variables
 
