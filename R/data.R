@@ -35,7 +35,7 @@
 #' UC Davis Suisun Marsh Fish Study data.
 #'
 #' @encoding UTF-8
-#' @format a tibble with 155,446 rows and 19 variables
+#' @format a tibble with 155,690 rows and 19 variables
 #' \describe{
 #'   \item{Length}{Standard length for all species except sturgeon, which are fork length (mm).}
 #'   \item{Dead}{Was fish dead?}

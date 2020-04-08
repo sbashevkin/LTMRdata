@@ -4,6 +4,7 @@ library(readr)
 library(dplyr)
 library(wql)
 library(lubridate)
+library(LTMRdata)
 
 depth_suisun <- read_csv(file.path("data-raw", "Suisun", "Depth.csv"),
                          col_types=cols_only(SampleRowID="c", Depth="d"))%>%
@@ -51,19 +52,19 @@ catch_suisun <- read_csv(file.path("data-raw", "Suisun", "Catch.csv"), na=c("NA"
   mutate(CatchComments=na_if(CatchComments, ""))%>%
   right_join(sample_suisun,
              by="SampleRowID")%>%
-  filter(Method=="Otter trawl")%>% # I think we're excluding midwater?
+  filter(Method=="Otter trawl" & OrganismCode!="NOTRAWL")%>% # I think we're excluding midwater? Also excluding samples with no trawl.
   left_join(Species%>%
               select(OrganismCode=SMF_Code, Taxa)%>%
               filter(!is.na(OrganismCode)),
             by="OrganismCode")%>%
   select(-OrganismCode)%>%
   mutate(Count = if_else(SampleRowID=="{8327B645-BC36-4405-ADB3-C6561718A17B}" & StandardLength==87, Count+1, Count))%>% # Correcting for misstyped data point per email from Teejay that
-  filter(!(!QADone & Taxa=="Pogonichthys macrolepidotus" & StandardLength==8)) # all QADone==FALSE data from January 2007 are correct EXCEPT for that lone splittail measuring 8 mm (was actually 87 mm).
-
+  filter(!(!QADone & Taxa=="Pogonichthys macrolepidotus" & StandardLength==8))%>% # all QADone==FALSE data from January 2007 are correct EXCEPT for that lone splittail measuring 8 mm (was actually 87 mm).
+  mutate(StandardLength=if_else(is.na(Taxa), NA_real_, StandardLength)) #Trying to retain samples in which no fish were caught
 
 
 Suisun <- catch_suisun%>%
-  filter(StandardLength!=0)%>% #Remove unmeasured fish, but not all of these 0s seem to be unmeasured according to the Catch Comments so these should be inspected.
+  filter(StandardLength!=0 | is.na(StandardLength))%>% #Remove unmeasured fish, but not all of these 0s seem to be unmeasured according to the Catch Comments so these should be inspected. The is.na part is Trying to retain samples in which no fish were caught
   group_by(SampleRowID, Taxa)%>%
   mutate(TotalMeasured=sum(Count, na.rm=T))%>%
   ungroup()%>%
