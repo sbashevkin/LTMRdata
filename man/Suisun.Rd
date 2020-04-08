@@ -9,7 +9,6 @@
 a tibble with 155,690 rows and 19 variables
 \describe{
   \item{Length}{Standard length for all species except sturgeon, which are fork length (mm).}
-  \item{Dead}{Was fish dead?}
   \item{Count}{Estimated count for each sample, taxa, and length.}
   \item{Notes_catch}{Notes or comments on the fish catch.}
   \item{Method}{Sampling method (Otter Trawl or Midwater Trawl).}
@@ -20,6 +19,7 @@ a tibble with 155,690 rows and 19 variables
   \item{Tide}{Tidal stage.}
   \item{Datetime}{Date and time sample was collected.}
   \item{Source}{Name of source dataset.}
+  \item{SampleID}{Unique sample identifier.}
   \item{Longitude}{Longitude (decimal degrees).}
   \item{Latitude}{Latitude (decimal degrees).}
   \item{Depth}{Bottom depth (m).}

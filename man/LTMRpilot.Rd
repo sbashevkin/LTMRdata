@@ -4,7 +4,12 @@
 \alias{LTMRpilot}
 \title{Integrate datasets for pilot review}
 \usage{
-LTMRpilot()
+LTMRpilot(quiet = FALSE, measured_lengths = FALSE)
+}
+\arguments{
+\item{quiet}{Set \code{quiet=TRUE} to suppress the warning message about length data.}
+
+\item{measured_lengths}{Only include measured lengths. Does not calculate adjusted length frequencies. Will not represent total fish caught.}
 }
 \description{
 Integrate FMWT, Suisun, and Bay study datasets for IEP long-term monitoring program pilot review

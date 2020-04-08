@@ -49,7 +49,8 @@ sample_fmwt <- read_csv(file.path("data-raw", "FMWT", "Sample.csv"),
          Microcystis=recode(Microcystis, `1`="Absent", `2`="Low", `6`="Low", `3`="Medium", `4`="High", `5`="Very high"),
          Tow_direction = recode(TowDirectionCode, `1`="With current", `2`="Against current", `3`="Unknown"))%>%
   select(-TowDirectionCode, -WeatherCode, -WaveCode, -MeterEnd, -MeterStart, -Meter_total, -DateID)%>%
-  left_join(stations_fmwt, by="Station")
+  left_join(stations_fmwt, by="Station")%>%
+  mutate(SampleID=1:nrow(.))
 
 catch_fmwt <- read_csv(file.path("data-raw", "FMWT", "Catch.csv"),
                        col_types = cols_only(CatchRowID="i", SampleRowID="i", OrganismCode="i", Catch="d"))%>%
@@ -60,9 +61,11 @@ catch_fmwt <- read_csv(file.path("data-raw", "FMWT", "Catch.csv"),
             by="OrganismCode")%>%
   select(-OrganismCode)
 
-catchlength_fmwt <- read_csv(file.path("data-raw", "FMWT", "Length.csv"), na=c("NA", "n/p"),
-                        col_types = cols_only(CatchRowID="i", ForkLength="d", Dead="c", LengthFrequency="d"))%>%
-  filter(ForkLength!=0)%>% # 0 fork length means not measured, so removing those from length table so those fish can be redistributed among measured lengths
+length_fmwt<- read_csv(file.path("data-raw", "FMWT", "Length.csv"), na=c("NA", "n/p"),
+                       col_types = cols_only(CatchRowID="i", ForkLength="d", Dead="c", LengthFrequency="d"))%>%
+  filter(ForkLength!=0) # 0 fork length means not measured, so removing those from length table so those fish can be redistributed among measured lengths
+
+catchlength_fmwt <- length_fmwt%>%
   group_by(CatchRowID)%>%
   mutate(TotalMeasured=sum(LengthFrequency, na.rm=T))%>%
   ungroup()%>%
@@ -75,14 +78,25 @@ FMWT<-sample_fmwt%>%
          Sal_bott=ec2pss(ConductivityBottom/1000, t=25),
          Secchi=Secchi*100, # Convert Secchi to cm from m
          Depth = Depth*0.3048, #Convert depth to m from feet
-         Source="FMWT")%>%
+         Source="FMWT",
+         SampleID=paste(Source, SampleID))%>%
   rename(Length=ForkLength, Temp_surf=WaterTemperature, Temp_bott=BottomTemperature,
          Secchi_estimated=SecchiEstimated, Survey=SurveyNumber, Cable_length=CableOut,
          Wind_direction=WindDirection, Meter_estimate=MeterEstimate)%>%
   select(-ConductivityTop, -ConductivityBottom, -LengthFrequency, -TotalMeasured,
-         -SampleRowID, -Time, -CatchRowID, -Catch, -MeterNumber, -Meter_estimate, -Active)%>%
+         -SampleRowID, -Time, -Catch, -MeterNumber, -Meter_estimate, -Active, -Dead)%>%
   select(-Turbidity, -Microcystis, -Wind_direction, -Temp_bott, -Weather, -Waves, -Sal_bott) # Remove extra environmental variables
 
-rm(catchlength_fmwt, catch_fmwt, sample_fmwt, date_fmwt, stations_fmwt)
+FMWT_measured_lengths<-length_fmwt%>%
+  left_join(FMWT%>%
+              select(CatchRowID, SampleID, Taxa)%>%
+              distinct(),
+            by="CatchRowID")%>%
+  select(SampleID, Taxa, Dead, Length=ForkLength, Count=LengthFrequency)
 
-usethis::use_data(FMWT, overwrite=TRUE)
+FMWT<-FMWT%>%
+  select(-CatchRowID)
+
+rm(catchlength_fmwt, catch_fmwt, length_fmwt, sample_fmwt, date_fmwt, stations_fmwt)
+
+usethis::use_data(FMWT, FMWT_measured_lengths, overwrite=TRUE)

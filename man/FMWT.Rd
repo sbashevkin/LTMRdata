@@ -23,8 +23,8 @@ a tibble with 228,639 rows and 21 variables
   \item{Tow_direction}{Tow direction relative to current.}
   \item{Latitude}{Latitude (decimal degrees).}
   \item{Longitude}{Longitude (decimal degrees).}
+  \item{SampleID}{Unique sample identifier.}
   \item{Length}{Fork length from tip of the snout to a point at the fork of the caudal fin (mm).}
-  \item{Dead}{Was fish dead?}
   \item{Taxa}{Scientific name and lifestage (if applicable).}
   \item{Count}{Estimated count for each sample, taxa, and length.}
   \item{Sal_surf}{Surface salinity.}

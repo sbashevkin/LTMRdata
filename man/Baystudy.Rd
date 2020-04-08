@@ -6,7 +6,7 @@
 \alias{Baystudy}
 \title{Bay study dataset}
 \format{
-a tibble with 746,611 rows and 22 variables
+a tibble with 746,611 rows and 23 variables
 \describe{
   \item{Survey}{Sampling survey (loosely corresponds to month).}
   \item{Station}{Station where sample was collected.}
@@ -25,6 +25,7 @@ a tibble with 746,611 rows and 22 variables
   \item{Longitude}{May not be accurate, see details.}
   \item{Tide}{Tidal stage.}
   \item{Datetime}{Date and time sample was collected.}
+  \item{SampleID}{Unique sample identifier.}
   \item{Taxa}{Scientific name and lifestage (if applicable).}
   \item{Length}{Fork length, total length if there's no fork or heterocercal tail (sturgeon, shark). Bat Ray wing widths starting around 1989-1992 to present. (mm).}
   \item{Source}{Name of source dataset.}

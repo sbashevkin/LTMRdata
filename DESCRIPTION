@@ -24,4 +24,6 @@ Suggests:
 RoxygenNote: 7.1.0
 Imports: 
     dplyr,
-    tibble
+    tibble,
+    magrittr,
+    rlang

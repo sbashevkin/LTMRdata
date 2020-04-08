@@ -71,7 +71,8 @@ boattow_baystudy<-read_csv(file.path("data-raw", "Baystudy", "BoatTow.csv"),
 
 env_baystudy <- left_join(boattow_baystudy, boatstation_baystudy, by=c("Year", "Survey", "Station"))%>%
   mutate(Tide=if_else(is.na(Tidetow), Tidestation, Tidetow),
-         Datetime=parse_date_time(if_else(is.na(Time), NA_character_, paste0(Date, " ", hour(Time), ":", minute(Time))), "%Y-%m-%d %%H:%M", tz="America/Los_Angeles"))%>%
+         Datetime=parse_date_time(if_else(is.na(Time), NA_character_, paste0(Date, " ", hour(Time), ":", minute(Time))), "%Y-%m-%d %%H:%M", tz="America/Los_Angeles"),
+         SampleID=1:nrow(.))%>%
   select(-Tidestation, -Tidetow, -Time)
 
 rm(tidecodes_baystudy, wavecodes_baystudy, cloudcovercodes_baystudy, boattow_baystudy, boatstation_baystudy, salintemp_baystudy, stations_baystudy)
@@ -123,8 +124,9 @@ Baystudy <- env_baystudy%>%
   mutate(Sal_surf=ec2pss(ECSurf/1000, t=25),
          Sal_avg=ec2pss(ECAvg/1000, t=25),
          Sal_bott=ec2pss(ECBott/1000, t=25),
-         Source="Bay Study")%>%
-  select(-ECSurf, -ECAvg, -ECBott, -CatchCode, -Year, -SizeGroup, -StationComment)%>% # Remove unneeded variables
+         Source="Bay Study",
+         SampleID=paste(Source, SampleID))%>%
+  select(-ECSurf, -ECAvg, -ECBott, -CatchCode, -SizeGroup, -StationComment)%>% # Remove unneeded variables
   group_by_at(vars(-Count))%>%
   summarise(Count=sum(Count))%>%
   ungroup()%>%
@@ -133,5 +135,14 @@ Baystudy <- env_baystudy%>%
          Temp_bott=TempBott, Tow_duration=Duration)%>%
   select(-Bearing, -Waves, -Weather, -Temp_avg, -Temp_bott, -Sal_avg, -Sal_bott) # Remove extra environmental variables
 
+Baystudy_measured_lengths<-length_baystudy%>%
+  left_join(Baystudy%>%
+              select(SampleID, Year, Survey, Station, Method)%>%
+              distinct(),
+            by=c("Year", "Survey", "Station", "Method"))%>%
+  select(SampleID, Taxa, Size_group=SizeGroup, Length, Count=Frequency)
 
-usethis::use_data(Baystudy, overwrite = TRUE)
+Baystudy <- Baystudy%>%
+  select(-Year)
+
+usethis::use_data(Baystudy, Baystudy_measured_lengths, overwrite = TRUE)

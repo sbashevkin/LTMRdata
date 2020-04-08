@@ -24,7 +24,7 @@ effort_suisun <- read_csv(file.path("data-raw", "Suisun", "TrawlEffort.csv"),
   select(-StartMeter, -EndMeter)
 
 #Removing salinity because data do not correspond well with conductivity
-sample_suisun<-read_csv(file.path("data-raw", "Suisun", "Sample.csv"),
+sample_suisun <- read_csv(file.path("data-raw", "Suisun", "Sample.csv"),
                         col_types = cols_only(SampleRowID="c", MethodCode="c", StationCode="c", SampleDate="c", SampleTime="c",
                                               QADone="l", WaterTemperature="d", DO="d", PctSaturation="d",
                                               Secchi="d", SpecificConductance="d", TideCode="c"))%>%
@@ -38,7 +38,8 @@ sample_suisun<-read_csv(file.path("data-raw", "Suisun", "Sample.csv"),
   mutate(Datetime=parse_date_time(if_else(is.na(Time), NA_character_, paste0(Date, " ", hour(Time), ":", minute(Time))), "%Y-%m-%d %%H:%M", tz="America/Los_Angeles"))%>%
   select(-Time)%>%
   mutate(Tide=recode(Tide, flood="Flood", ebb="Ebb", low="Low Slack", high="High Slack", outgoing="Ebb", incoming="Flood"),
-         Source="Suisun")%>%
+         Source="Suisun",
+         SampleID=paste(Source, 1:nrow(.)))%>%
   left_join(stations_suisun,
             by="Station")%>%
   left_join(depth_suisun,
@@ -77,9 +78,13 @@ Suisun <- catch_suisun%>%
   mutate(Count = (Count/TotalMeasured)*TotalCatch)%>%
   select(-SampleRowID)%>%
   mutate(Sal_surf=ec2pss(Conductivity/1000, t=25))%>%
-  select(-Conductivity, -QADone, -TotalMeasured, -TotalCatch, -Meter_total)%>%
+  select(-Conductivity, -QADone, -TotalMeasured, -TotalCatch, -Meter_total, -Dead)%>%
   rename(Length=StandardLength, Notes_catch=CatchComments, Tow_duration=TowDuration, Notes_tow=TrawlComments,
          DO_concentration=DO, DO_saturation=PctSaturation, Temp_surf=Temperature)%>%
   select(-DO_concentration, -DO_saturation) # Remove extra environmental variables
 
-usethis::use_data(Suisun, overwrite=TRUE)
+Suisun_measured_lengths <- catch_suisun%>%
+  filter(StandardLength!=0)%>%
+  select(SampleID, Taxa, Dead, Length=StandardLength, Count)
+
+usethis::use_data(Suisun, Suisun_measured_lengths, overwrite=TRUE)

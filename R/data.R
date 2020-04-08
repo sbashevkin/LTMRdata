@@ -20,8 +20,8 @@
 #'   \item{Tow_direction}{Tow direction relative to current.}
 #'   \item{Latitude}{Latitude (decimal degrees).}
 #'   \item{Longitude}{Longitude (decimal degrees).}
+#'   \item{SampleID}{Unique sample identifier.}
 #'   \item{Length}{Fork length from tip of the snout to a point at the fork of the caudal fin (mm).}
-#'   \item{Dead}{Was fish dead?}
 #'   \item{Taxa}{Scientific name and lifestage (if applicable).}
 #'   \item{Count}{Estimated count for each sample, taxa, and length.}
 #'   \item{Sal_surf}{Surface salinity.}
@@ -29,6 +29,19 @@
 #'   }
 #' @details More metadata and information on methods are available \href{https://www.dfg.ca.gov/delta/projects.asp?ProjectID=FMWT}{here}.
 "FMWT"
+
+#' FMWT measured lengths
+#'
+#' Only measued lengths from the FMWT data
+#' @format a tibble with 746,611 rows and 22 variables
+#' \describe{
+#'   \item{SampleID}{Unique sample identifier.}
+#'   \item{Taxa}{Scientific name and lifestage (if applicable).}
+#'   \item{Dead}{Was fish dead?}
+#'   \item{Length}{Sampling survey (loosely corresponds to month).}
+#'   \item{Count}{Number of fish measured to this length.}
+#'   }
+"FMWT_measured_lengths"
 
 #' Suisun Marsh dataset
 #'
@@ -38,7 +51,6 @@
 #' @format a tibble with 155,690 rows and 19 variables
 #' \describe{
 #'   \item{Length}{Standard length for all species except sturgeon, which are fork length (mm).}
-#'   \item{Dead}{Was fish dead?}
 #'   \item{Count}{Estimated count for each sample, taxa, and length.}
 #'   \item{Notes_catch}{Notes or comments on the fish catch.}
 #'   \item{Method}{Sampling method (Otter Trawl or Midwater Trawl).}
@@ -49,6 +61,7 @@
 #'   \item{Tide}{Tidal stage.}
 #'   \item{Datetime}{Date and time sample was collected.}
 #'   \item{Source}{Name of source dataset.}
+#'   \item{SampleID}{Unique sample identifier.}
 #'   \item{Longitude}{Longitude (decimal degrees).}
 #'   \item{Latitude}{Latitude (decimal degrees).}
 #'   \item{Depth}{Bottom depth (m).}
@@ -59,12 +72,25 @@
 #'   }
 "Suisun"
 
+#' Suisun measured lengths
+#'
+#' Only measued lengths from the Suisun data
+#' @format a tibble with 746,611 rows and 22 variables
+#' \describe{
+#'   \item{SampleID}{Unique sample identifier.}
+#'   \item{Taxa}{Scientific name and lifestage (if applicable).}
+#'   \item{Dead}{Was fish dead?}
+#'   \item{Length}{Standard length for all species except sturgeon, which are fork length (mm).}
+#'   \item{Count}{Number of fish measured to this length.}
+#'   }
+"Suisun_measured_lengths"
+
 #' Bay study dataset
 #'
 #' California Department of Fish and Wildlife Bay Study data.
 #'
 #' @encoding UTF-8
-#' @format a tibble with 746,611 rows and 22 variables
+#' @format a tibble with 746,611 rows and 23 variables
 #' \describe{
 #'   \item{Survey}{Sampling survey (loosely corresponds to month).}
 #'   \item{Station}{Station where sample was collected.}
@@ -83,6 +109,7 @@
 #'   \item{Longitude}{May not be accurate, see details.}
 #'   \item{Tide}{Tidal stage.}
 #'   \item{Datetime}{Date and time sample was collected.}
+#'   \item{SampleID}{Unique sample identifier.}
 #'   \item{Taxa}{Scientific name and lifestage (if applicable).}
 #'   \item{Length}{Fork length, total length if there's no fork or heterocercal tail (sturgeon, shark). Bat Ray wing widths starting around 1989-1992 to present. (mm).}
 #'   \item{Source}{Name of source dataset.}
@@ -91,6 +118,19 @@
 #'   }
 #'   @details Some station locations have moved over time due to shoals filling in, trees, etc.
 "Baystudy"
+
+#' Baystudy measured lengths
+#'
+#' Only measued lengths from the Baystudy data
+#' @format a tibble with 746,611 rows and 22 variables
+#' \describe{
+#'   \item{SampleID}{Unique sample identifier.}
+#'   \item{Taxa}{Scientific name and lifestage (if applicable).}
+#'   \item{Size_group}{When two different size groups of a species are collected, Bay study may split them into size groups and subsample from each size group separately for fish to measure.}
+#'   \item{Length}{Fork length, total length if there's no fork or heterocercal tail (sturgeon, shark). Bat Ray wing widths starting around 1989-1992 to present. (mm).}
+#'   \item{Count}{Number of fish measured to this length.}
+#'   }
+"Baystudy_measured_lengths"
 
 #' Species codes
 #'
