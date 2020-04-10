@@ -4,7 +4,6 @@ library(readr)
 library(dplyr)
 library(wql)
 library(lubridate)
-library(LTMRdata)
 
 depth_suisun <- read_csv(file.path("data-raw", "Suisun", "Depth.csv"),
                          col_types=cols_only(SampleRowID="c", Depth="d"))%>%
@@ -31,10 +30,10 @@ sample_suisun <- read_csv(file.path("data-raw", "Suisun", "Sample.csv"),
   rename(Station=StationCode, Date=SampleDate, Time=SampleTime,
          Temperature=WaterTemperature, Conductivity=SpecificConductance,
          Tide=TideCode, Method=MethodCode)%>%
-  filter(Method%in%c("MWTR", "OTR"))%>% #Only included midwater trawl and otter trawl data
+  mutate(Method=recode(Method, MWTR="Midwater trawl", OTR="Otter trawl"))%>%
+  filter(Method=="Otter trawl")%>% #Only included midwater trawl and otter trawl data # I think we're excluding midwater?
   mutate(Date=parse_date_time(Date, "%m/%d/%Y %H:%M:%S", tz="America/Los_Angeles"),
-         Time=parse_date_time(Time, "%m/%d/%Y %H:%M:%S", tz="America/Los_Angeles"),
-         Method=recode(Method, MWTR="Midwater trawl", OTR="Otter trawl"))%>%
+         Time=parse_date_time(Time, "%m/%d/%Y %H:%M:%S", tz="America/Los_Angeles"))%>%
   mutate(Datetime=parse_date_time(if_else(is.na(Time), NA_character_, paste0(Date, " ", hour(Time), ":", minute(Time))), "%Y-%m-%d %%H:%M", tz="America/Los_Angeles"))%>%
   select(-Time)%>%
   mutate(Tide=recode(Tide, flood="Flood", ebb="Ebb", low="Low Slack", high="High Slack", outgoing="Ebb", incoming="Flood"),

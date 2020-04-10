@@ -64,8 +64,8 @@ boattow_baystudy<-read_csv(file.path("data-raw", "Baystudy", "BoatTow.csv"),
   left_join(tidecodes_baystudy, by="Tide")%>%
   select(-Tide, -Direction)%>%
   rename(Method=Net, Tidetow=Description)%>%
-  mutate(Method=recode(Method, `1`="Midwater trawl", `2`="Otter Trawl", `3`="EL"))%>%
-  filter(Method%in%c("Midwater trawl", "Otter Trawl"))%>%
+  mutate(Method=recode(Method, `1`="Midwater trawl", `2`="Otter trawl", `3`="EL"))%>%
+  filter(Method%in%c("Midwater trawl", "Otter trawl"))%>%
   mutate(TowStatus=recode(Tow, `0`="Invalid", `1`="Valid", `2`="Valid", `51`="Valid", `52`="Invalid", `53`="Invalid", `54`="Valid", `55`="Valid", `56`="Valid", `57`="Valid", `58`="Invalid"))%>%
   select(-Tow, -TotalMeter, -Distance)
 
@@ -83,8 +83,8 @@ catch_baystudy <- read_csv(file.path("data-raw", "Baystudy", "Fish Catch Data.cs
                                                SizeGroup="i", QtsCaught="d", QtsSubsampled="d",
                                                PlusCount="d"))%>%
   rename(Method=Net)%>%
-  mutate(Method=recode(Method, `1`="Midwater trawl", `2`="Otter Trawl", `3`="EL"))%>%
-  filter(Method%in%c("Midwater trawl", "Otter Trawl"))%>%
+  mutate(Method=recode(Method, `1`="Midwater trawl", `2`="Otter trawl", `3`="EL"))%>%
+  filter(Method%in%c("Midwater trawl", "Otter trawl"))%>%
   left_join(Species%>%
               select(AlphaCode=Baystudy_Code, Taxa)%>%
               filter(!is.na(AlphaCode)),
@@ -96,9 +96,9 @@ length_baystudy <- read_csv(file.path("data-raw", "Baystudy", "Fish Length Data.
                                                 Net="i", AlphaCode="c",
                                                 SizeGroup="i", Length="d", Frequency="d"))%>%
   rename(Method=Net)%>%
-  mutate(Method=recode(Method, `1`="Midwater trawl", `2`="Otter Trawl", `3`="EL"),
+  mutate(Method=recode(Method, `1`="Midwater trawl", `2`="Otter trawl", `3`="EL"),
          AlphaCode = toupper(AlphaCode))%>%
-  filter(Method%in%c("Midwater trawl", "Otter Trawl"))%>%
+  filter(Method%in%c("Midwater trawl", "Otter trawl"))%>%
   left_join(Species%>%
               select(AlphaCode=Baystudy_Code, Taxa)%>%
               filter(!is.na(AlphaCode)),
