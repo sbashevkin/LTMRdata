@@ -4,6 +4,7 @@ library(wql)
 require(dplyr)
 require(tidyr)
 require(lubridate)
+require(LTMRdata)
 
 stations_fmwt <- read_csv(file.path("data-raw", "FMWT", "StationsLookUp.csv"),
                           col_types = cols_only(StationCode="c", Active="i",
