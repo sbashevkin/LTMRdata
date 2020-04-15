@@ -4,6 +4,7 @@ library(readr)
 library(dplyr)
 library(wql)
 library(lubridate)
+library(LTMRdata)
 
 depth_suisun <- read_csv(file.path("data-raw", "Suisun", "Depth.csv"),
                          col_types=cols_only(SampleRowID="c", Depth="d"))%>%
@@ -17,10 +18,8 @@ stations_suisun <- read_csv(file.path("data-raw", "Suisun", "StationsLookUp.csv"
   rename(Longitude=x_WGS84, Latitude=y_WGS84, Station=StationCode)
 
 effort_suisun <- read_csv(file.path("data-raw", "Suisun", "TrawlEffort.csv"),
-                          col_types = cols_only(SampleRowID="c", TowDuration="d", TrawlComments="c",
-                                                StartMeter="d", EndMeter="d"))%>%
-  mutate(Meter_total=EndMeter-StartMeter)%>%
-  select(-StartMeter, -EndMeter)
+                          col_types = cols_only(SampleRowID="c", TowDuration="d", TrawlComments="c"))%>%
+  mutate(Tow_area = (TowDuration/60)*4*1000*4.3) # ((TowDuration minutes) / (60 minutes/hour)) * 4km/hour towing speed * 1000 m/km * 4.3 m net width
 
 #Removing salinity because data do not correspond well with conductivity
 sample_suisun <- read_csv(file.path("data-raw", "Suisun", "Sample.csv"),
@@ -77,7 +76,7 @@ Suisun <- catch_suisun%>%
   mutate(Count = (Count/TotalMeasured)*TotalCatch)%>%
   select(-SampleRowID)%>%
   mutate(Sal_surf=ec2pss(Conductivity/1000, t=25))%>%
-  select(-Conductivity, -QADone, -TotalMeasured, -TotalCatch, -Meter_total, -Dead)%>%
+  select(-Conductivity, -QADone, -TotalMeasured, -TotalCatch, -Dead)%>%
   rename(Length=StandardLength, Notes_catch=CatchComments, Tow_duration=TowDuration, Notes_tow=TrawlComments,
          DO_concentration=DO, DO_saturation=PctSaturation, Temp_surf=Temperature)%>%
   select(-DO_concentration, -DO_saturation) # Remove extra environmental variables

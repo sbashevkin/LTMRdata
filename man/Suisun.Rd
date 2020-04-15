@@ -6,7 +6,7 @@
 \alias{Suisun}
 \title{Suisun Marsh dataset}
 \format{
-a tibble with 155,690 rows and 19 variables
+a tibble with 155,690 rows and 20 variables
 \describe{
   \item{Length}{Standard length for all species except sturgeon, which are fork length (mm).}
   \item{Count}{Estimated count for each sample, taxa, and length.}
@@ -25,6 +25,7 @@ a tibble with 155,690 rows and 19 variables
   \item{Depth}{Bottom depth (m).}
   \item{Tow_duration}{Duration of tow (minutes).}
   \item{Notes_tow}{Notes or comments on the trawl.}
+  \item{Tow_area}{Area towed (\ifelse{html}{\out{m<sup>2</sup>}}{\eqn{m^{2}}}).}
   \item{Taxa}{Scientific name and lifestage (if applicable).}
   \item{Sal_surf}{Surface salinity.}
   }

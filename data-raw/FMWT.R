@@ -24,6 +24,15 @@ date_fmwt <- read_csv(file.path("data-raw", "FMWT", "Date.csv"), col_types=cols_
   mutate(SampleDate=parse_date_time(SampleDate, "%m/%d/%Y %H:%M:%S", tz="America/Los_Angeles"))%>%
   rename(Date=SampleDate)
 
+flowmeter_correction_fmwt<-read_csv(file.path("data-raw", "FMWT", "FMWT 1967-2019 Catch Matrix_comparison.csv"),
+                                      col_types=cols_only(Date="c", Survey="i", Station="c", `Start Time`="c", `New Meter Start` = "d",
+                                                  `New Meter End` = "d", `Old Meter Start` = "d", `Old Meter End` = "d"))%>%
+  rename(Time="Start Time", MeterStart_new="New Meter Start", MeterStart_old="Old Meter Start", MeterEnd_new="New Meter End", MeterEnd_old="Old Meter End")%>%
+  mutate(Time = parse_date_time(Time, "%H:%M", tz="America/Los_Angeles"),
+         Date = parse_date_time(Date, "%m/%d/%Y", tz="America/Los_Angeles"))%>%
+  mutate(Datetime=parse_date_time(if_else(is.na(Time), NA_character_, paste0(Date, " ", hour(Time), ":", minute(Time))), "%Y-%m-%d %%H:%M", tz="America/Los_Angeles"))%>%
+  select(-Time)
+
 sample_fmwt <- read_csv(file.path("data-raw", "FMWT", "Sample.csv"),
                      col_types = cols_only(SampleRowID="i", StationCode="c", MethodCode="c",
                                            SampleTimeStart="c", SurveyNumber="i", WaterTemperature="d",
@@ -40,10 +49,14 @@ sample_fmwt <- read_csv(file.path("data-raw", "FMWT", "Sample.csv"),
          Weather=recode(WeatherCode, `1` = "Cloud (0-33%)", `2` = "Cloud (33-66%)", `3` = "Cloud (66-100%)", `4` = "Rain"),
          Waves=recode(WaveCode, `1` = "Calm", `2` = "Waves w/o whitecaps", `3` = "Waves w/ whitecaps"),
          WindDirection=toupper(WindDirection),
-         Meter_total=MeterEnd-MeterStart)%>%
-  mutate(Tow_volume = Meter_total*0.02687*10.7,
-         WindDirection=recode(WindDirection, "NA"=NA_character_, "N/A"=NA_character_),
          Datetime=parse_date_time(if_else(is.na(Time), NA_character_, paste0(Date, " ", hour(Time), ":", minute(Time))), "%Y-%m-%d %%H:%M", tz="America/Los_Angeles"))%>%
+  left_join(flowmeter_correction_fmwt, by=c("Date", "Datetime", "SurveyNumber"="Survey", "Station", "MeterStart"="MeterStart_old", "MeterEnd"="MeterEnd_old"))%>%
+  mutate(MeterStart=if_else(is.na(MeterStart_new), MeterStart, MeterStart_new),
+         MeterEnd=if_else(is.na(MeterEnd_new), MeterEnd, MeterEnd_new))%>%
+  select(-MeterStart_new, -MeterEnd_new)%>%
+  mutate(Meter_total=MeterEnd-MeterStart)%>%
+  mutate(Tow_volume = Meter_total*0.02687*10.7,
+         WindDirection=recode(WindDirection, "NA"=NA_character_, "N/A"=NA_character_))%>%
   filter(Method=="MWTR")%>% # All rows are MWTR but just in case the data change
   mutate(Method=recode(Method, MWTR="Midwater trawl"),
          Microcystis=recode(Microcystis, `1`="Absent", `2`="Low", `6`="Low", `3`="Medium", `4`="High", `5`="Very high"),
