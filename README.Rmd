@@ -15,9 +15,10 @@ knitr::opts_chunk$set(
 )
 ```
 
-# LTMRdata
+# LTMRdata <img src='man/figures/logo.jpg' align="right" height="139" />
 
 <!-- badges: start -->
+[![R build status](https://github.com/sbashevkin/LTMRdata/workflows/R-CMD-check/badge.svg)](https://github.com/sbashevkin/LTMRdata/actions)
 <!-- badges: end -->
 
 Integration of the Fall Midwater Trawl, Bay Study, and Suisun Marsh Fish Study data for use in the IEP long-term monitoring survey review.

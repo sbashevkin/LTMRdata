@@ -1,10 +1,10 @@
 ## code to prepare `Suisun` dataset goes here
 
-library(readr)
-library(dplyr)
-library(wql)
-library(lubridate)
-library(LTMRdata)
+require(readr)
+require(dplyr)
+require(wql)
+require(lubridate)
+require(LTMRdata)
 
 depth_suisun <- read_csv(file.path("data-raw", "Suisun", "Depth.csv"),
                          col_types=cols_only(SampleRowID="c", Depth="d"))%>%

@@ -6,10 +6,13 @@
 #'
 #' @importFrom magrittr %>%
 #' @importFrom rlang .data
-#' @seealso \code{\link{Suisun}}, \code{\link{FMWT}}, \code{\link{Baystudy}}
+#' @seealso \code{\link{Suisun}}, \code{\link{Suisun_measured_lengths}}, \code{\link{FMWT}}, \code{\link{FMWT_measured_lengths}}, \code{\link{Baystudy}}, \code{\link{Baystudy_measured_lengths}}
 #'
 #' @examples
 #' Data <- LTMRpilot()
+#'
+#' #Only outputting measured lengths, without frequencies adjusted for counts of unmeasured fish
+#' Data <- LTMRpilot(measured_lengths=TRUE)
 #' @export
 
 LTMRpilot <- function(quiet=FALSE, measured_lengths=FALSE){

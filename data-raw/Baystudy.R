@@ -1,7 +1,7 @@
 ## code to prepare `Baystudy` dataset goes here
 
 require(readr)
-library(wql)
+require(wql)
 require(dplyr)
 require(tidyr)
 require(lubridate)

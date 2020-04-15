@@ -16,7 +16,10 @@ Integrate FMWT, Suisun, and Bay study datasets for IEP long-term monitoring prog
 }
 \examples{
 Data <- LTMRpilot()
+
+#Only outputting measured lengths, without frequencies adjusted for counts of unmeasured fish
+Data <- LTMRpilot(measured_lengths=TRUE)
 }
 \seealso{
-\code{\link{Suisun}}, \code{\link{FMWT}}, \code{\link{Baystudy}}
+\code{\link{Suisun}}, \code{\link{Suisun_measured_lengths}}, \code{\link{FMWT}}, \code{\link{FMWT_measured_lengths}}, \code{\link{Baystudy}}, \code{\link{Baystudy_measured_lengths}}
 }
