@@ -5,6 +5,8 @@ require(dplyr)
 require(wql)
 require(lubridate)
 require(LTMRdata)
+require(readxl)
+require(tidyr)
 
 depth_suisun <- read_csv(file.path("data-raw", "Suisun", "Depth.csv"),
                          col_types=cols_only(SampleRowID="c", Depth="d"))%>%
@@ -19,7 +21,7 @@ stations_suisun <- read_csv(file.path("data-raw", "Suisun", "StationsLookUp.csv"
 
 effort_suisun <- read_csv(file.path("data-raw", "Suisun", "TrawlEffort.csv"),
                           col_types = cols_only(SampleRowID="c", TowDuration="d", TrawlComments="c"))%>%
-  mutate(Tow_area = (TowDuration/60)*4*1000*4.3) # ((TowDuration minutes) / (60 minutes/hour)) * 4km/hour towing speed * 1000 m/km * 4.3 m net width
+  mutate(Tow_area = (TowDuration/60)*4*1000*4.3*0.7) # ((TowDuration minutes) / (60 minutes/hour)) * 4km/hour towing speed * 1000 m/km * 4.3 m net width * 0.7 for assumption of 70% open
 
 #Removing salinity because data do not correspond well with conductivity
 sample_suisun <- read_csv(file.path("data-raw", "Suisun", "Sample.csv"),
@@ -30,7 +32,7 @@ sample_suisun <- read_csv(file.path("data-raw", "Suisun", "Sample.csv"),
          Temperature=WaterTemperature, Conductivity=SpecificConductance,
          Tide=TideCode, Method=MethodCode)%>%
   mutate(Method=recode(Method, MWTR="Midwater trawl", OTR="Otter trawl"))%>%
-  filter(Method=="Otter trawl")%>% #Only included midwater trawl and otter trawl data # I think we're excluding midwater?
+  filter(Method=="Otter trawl")%>% #Only including otter trawl data
   mutate(Date=parse_date_time(Date, "%m/%d/%Y %H:%M:%S", tz="America/Los_Angeles"),
          Time=parse_date_time(Time, "%m/%d/%Y %H:%M:%S", tz="America/Los_Angeles"))%>%
   mutate(Datetime=parse_date_time(if_else(is.na(Time), NA_character_, paste0(Date, " ", hour(Time), ":", minute(Time))), "%Y-%m-%d %%H:%M", tz="America/Los_Angeles"))%>%
