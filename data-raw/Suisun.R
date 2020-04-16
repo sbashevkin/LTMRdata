@@ -23,9 +23,9 @@ effort_suisun <- read_csv(file.path("data-raw", "Suisun", "TrawlEffort.csv"),
 
 #Removing salinity because data do not correspond well with conductivity
 sample_suisun <- read_csv(file.path("data-raw", "Suisun", "Sample.csv"),
-                        col_types = cols_only(SampleRowID="c", MethodCode="c", StationCode="c", SampleDate="c", SampleTime="c",
-                                              QADone="l", WaterTemperature="d", DO="d", PctSaturation="d",
-                                              Secchi="d", SpecificConductance="d", TideCode="c"))%>%
+                          col_types = cols_only(SampleRowID="c", MethodCode="c", StationCode="c", SampleDate="c", SampleTime="c",
+                                                QADone="l", WaterTemperature="d", DO="d", PctSaturation="d",
+                                                Secchi="d", SpecificConductance="d", TideCode="c"))%>%
   rename(Station=StationCode, Date=SampleDate, Time=SampleTime,
          Temperature=WaterTemperature, Conductivity=SpecificConductance,
          Tide=TideCode, Method=MethodCode)%>%
@@ -61,6 +61,56 @@ catch_suisun <- read_csv(file.path("data-raw", "Suisun", "Catch.csv"), na=c("NA"
   filter(!(!QADone & Taxa=="Pogonichthys macrolepidotus" & StandardLength==8))%>% # all QADone==FALSE data from January 2007 are correct EXCEPT for that lone splittail measuring 8 mm (was actually 87 mm).
   mutate(StandardLength=if_else(is.na(Taxa), NA_real_, StandardLength)) #Trying to retain samples in which no fish were caught
 
+# This approach assumes that if a record of an unmeasured fish has a comment, there are no other unmeasured fish in that sample of the same species without a comment.
+# Currently, as of 4/15/20, this is true.
+#First have to manually translate the catch comments from the below exported csv into the format of the Suisun comments.xlsx
+#write_csv(filter(catch_suisun, StandardLength==0 & !is.na(CatchComments)), "~/Suisun comments.csv")
+
+catch_fix<-catch_suisun%>%
+  select(Taxa, StandardLength, Count, SampleID)%>%
+  filter(StandardLength>0)
+
+catch_comments_suisun <- read_excel(file.path("data-raw", "Suisun", "Suisun comments.xlsx"))%>%
+  filter(is.na(Ignore))%>%
+  select(SampleID, Taxa, Count, CatchComments, Min_length, Length, Max_length, Lifestage, Notes)%>%
+  mutate(NA_length = if_else(is.na(Min_length) & is.na(Max_length) & is.na(Length), TRUE, FALSE))%>%
+  mutate(Min_length=if_else(is.na(Min_length), -Inf, Min_length),
+         Max_length=if_else(is.na(Max_length), Inf, Max_length))%>%
+  nest_join(catch_fix,
+            by=c("Taxa", "SampleID"))%>%
+  rowwise()%>%
+  mutate(catch_fix = list(filter(catch_fix, StandardLength<Max_length & StandardLength>Min_length)))%>%
+  mutate(TotalMeasured = sum(catch_fix$Count))%>%
+  mutate(NA_length = if_else(TotalMeasured==0, TRUE, NA_length))%>%
+  ungroup()
+
+fixed_length_suisun<-catch_comments_suisun%>% # These are the CatchComments that were deciphered into a range of lengths
+  filter(!NA_length & is.na(Length))%>%
+  select(-Min_length, -Max_length, -Lifestage, -Notes, -NA_length, -Length)%>%
+  rename(Unmeasured=Count)%>%
+  mutate(TotalCatch=TotalMeasured+Unmeasured)%>%
+  unnest(cols="catch_fix")%>%
+  mutate(Count=(Count/TotalMeasured)*TotalCatch)%>%
+  bind_rows(catch_comments_suisun%>% # These are the CatchComments that were deciphered into 1 specific length.
+              filter(!NA_length & !is.na(Length))%>%
+              rename(StandardLength=Length)%>%
+              select(-Min_length, -Max_length, -Lifestage, -Notes, -NA_length, -catch_fix),
+            catch_comments_suisun%>% # These are the CatchComments that could not be deciphered into numbers. They are getting an NA for length.
+              filter(NA_length)%>%
+              select(-catch_fix, -NA_length, -TotalMeasured, -Notes, -Lifestage, -Max_length, -Length, -Min_length, -CatchComments)%>%
+              mutate(StandardLength=NA_real_))%>%
+  select(-Unmeasured, -CatchComments, -TotalMeasured, -TotalCatch)%>%
+  left_join(catch_suisun%>%
+               select(-StandardLength, -Count, -Dead, -CatchComments)%>%
+              distinct(),
+            by=c("SampleID", "Taxa"))%>%
+  mutate(ID=paste(SampleID, Taxa))
+
+catch_suisun2<-catch_suisun%>%
+  mutate(ID=paste(SampleID, Taxa))%>%
+  filter(!ID%in%unique(fixed_length_suisun$ID))
+
+#Need to remove fixed_length_suisun records from catch_suisun but add back in the measured fish that were removed from catch_comments_suisun$catch_fix because they didn't fit into the min and max. Also need to preserve catch_suisun for suisun_measured_lengths
 
 Suisun <- catch_suisun%>%
   filter(StandardLength!=0 | is.na(StandardLength))%>% #Remove unmeasured fish, but not all of these 0s seem to be unmeasured according to the Catch Comments so these should be inspected. The is.na part is Trying to retain samples in which no fish were caught
