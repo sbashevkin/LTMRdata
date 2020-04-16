@@ -5,7 +5,7 @@
 \alias{FMWT_measured_lengths}
 \title{FMWT measured lengths}
 \format{
-a tibble with 746,611 rows and 22 variables
+a tibble with 220,785 rows and 5 variables
 \describe{
   \item{SampleID}{Unique sample identifier.}
   \item{Taxa}{Scientific name and lifestage (if applicable).}

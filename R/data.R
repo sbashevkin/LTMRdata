@@ -33,7 +33,7 @@
 #' FMWT measured lengths
 #'
 #' Only measued lengths from the FMWT data
-#' @format a tibble with 746,611 rows and 22 variables
+#' @format a tibble with 220,785 rows and 5 variables
 #' \describe{
 #'   \item{SampleID}{Unique sample identifier.}
 #'   \item{Taxa}{Scientific name and lifestage (if applicable).}
@@ -48,7 +48,7 @@
 #' UC Davis Suisun Marsh Fish Study data.
 #'
 #' @encoding UTF-8
-#' @format a tibble with 155,690 rows and 20 variables
+#' @format a tibble with 156,029 rows and 20 variables
 #' \describe{
 #'   \item{Length}{Standard length for all species except sturgeon, which are fork length (mm).}
 #'   \item{Count}{Estimated count for each sample, taxa, and length.}
@@ -76,7 +76,7 @@
 #' Suisun measured lengths
 #'
 #' Only measued lengths from the Suisun data
-#' @format a tibble with 746,611 rows and 22 variables
+#' @format a tibble with 155,447 rows and 5 variables
 #' \describe{
 #'   \item{SampleID}{Unique sample identifier.}
 #'   \item{Taxa}{Scientific name and lifestage (if applicable).}
@@ -123,7 +123,7 @@
 #' Baystudy measured lengths
 #'
 #' Only measued lengths from the Baystudy data
-#' @format a tibble with 746,611 rows and 22 variables
+#' @format a tibble with 743,409 rows and 5 variables
 #' \describe{
 #'   \item{SampleID}{Unique sample identifier.}
 #'   \item{Taxa}{Scientific name and lifestage (if applicable).}

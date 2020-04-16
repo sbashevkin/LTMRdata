@@ -6,7 +6,7 @@
 \alias{Suisun}
 \title{Suisun Marsh dataset}
 \format{
-a tibble with 155,690 rows and 20 variables
+a tibble with 156,029 rows and 20 variables
 \describe{
   \item{Length}{Standard length for all species except sturgeon, which are fork length (mm).}
   \item{Count}{Estimated count for each sample, taxa, and length.}
