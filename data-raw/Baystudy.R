@@ -6,6 +6,7 @@ require(dplyr)
 require(tidyr)
 require(lubridate)
 require(readxl)
+require(LTMRdata)
 
 stations_baystudy <- read_excel(file.path("data-raw", "Baystudy", "Bay Study_Station Coordinates for Distribution_2018.xlsx"))%>%
   separate(Latitude, into=c("Lat_Deg", "Lat_Min"), sep = "°", convert=T)%>%
@@ -118,7 +119,6 @@ lengthcatch_baystudy<-catch_baystudy%>%
   mutate(Count = (Frequency/TotalMeasured)*TotalCatch)%>%
   select(-TotalMeasured, -TotalCatch, -Frequency)
 
-
 Baystudy <- env_baystudy%>%
   left_join(lengthcatch_baystudy, by=c("Year", "Survey", "Station", "Method"))%>%
   mutate(Sal_surf=ec2pss(ECSurf/1000, t=25),
@@ -133,10 +133,12 @@ Baystudy <- env_baystudy%>%
   rename(Notes_tow=TowComment, Tow_status=TowStatus,
          Weather=CloudCover, Temp_surf=TempSurf, Temp_avg=TempAvg,
          Temp_bott=TempBott, Tow_duration=Duration)%>%
-  select(-Bearing, -Waves, -Weather, -Temp_avg, -Temp_bott, -Sal_avg, -Sal_bott) # Remove extra environmental variables
+  select(-Bearing, -Waves, -Weather, -Temp_avg, -Temp_bott, -Sal_avg, -Sal_bott)%>% # Remove extra environmental variables
+  filter(Tow_status=="Valid")%>% # Remove invalid tows
+  select(-Tow_status)
 
 Baystudy_measured_lengths<-length_baystudy%>%
-  left_join(Baystudy%>%
+  inner_join(Baystudy%>% # Inner join to remove invalid tows
               select(SampleID, Year, Survey, Station, Method)%>%
               distinct(),
             by=c("Year", "Survey", "Station", "Method"))%>%

@@ -91,7 +91,7 @@
 #' California Department of Fish and Wildlife Bay Study data.
 #'
 #' @encoding UTF-8
-#' @format a tibble with 746,611 rows and 23 variables
+#' @format a tibble with 746,485 rows and 22 variables
 #' \describe{
 #'   \item{Survey}{Sampling survey (loosely corresponds to month).}
 #'   \item{Station}{Station where sample was collected.}
@@ -101,7 +101,6 @@
 #'   \item{Tow_direction}{Tow direction relative to current.}
 #'   \item{Tow_volume}{Volume towed (\ifelse{html}{\out{m<sup>3</sup>}}{\eqn{m^{3}}}).}
 #'   \item{Tow_area}{Area towed (\ifelse{html}{\out{m<sup>2</sup>}}{\eqn{m^{2}}}).}
-#'   \item{Tow_status}{Validity of tow.}
 #'   \item{Date}{Date sample was collected.}
 #'   \item{Depth}{Bottom depth (m).}
 #'   \item{Secchi}{Secchi depth (cm).}
@@ -123,7 +122,7 @@
 #' Baystudy measured lengths
 #'
 #' Only measued lengths from the Baystudy data
-#' @format a tibble with 743,409 rows and 5 variables
+#' @format a tibble with 743,295 rows and 5 variables
 #' \describe{
 #'   \item{SampleID}{Unique sample identifier.}
 #'   \item{Taxa}{Scientific name and lifestage (if applicable).}

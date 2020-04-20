@@ -6,7 +6,7 @@
 \alias{Baystudy}
 \title{Bay study dataset}
 \format{
-a tibble with 746,611 rows and 23 variables
+a tibble with 746,485 rows and 22 variables
 \describe{
   \item{Survey}{Sampling survey (loosely corresponds to month).}
   \item{Station}{Station where sample was collected.}
@@ -16,7 +16,6 @@ a tibble with 746,611 rows and 23 variables
   \item{Tow_direction}{Tow direction relative to current.}
   \item{Tow_volume}{Volume towed (\ifelse{html}{\out{m<sup>3</sup>}}{\eqn{m^{3}}}).}
   \item{Tow_area}{Area towed (\ifelse{html}{\out{m<sup>2</sup>}}{\eqn{m^{2}}}).}
-  \item{Tow_status}{Validity of tow.}
   \item{Date}{Date sample was collected.}
   \item{Depth}{Bottom depth (m).}
   \item{Secchi}{Secchi depth (cm).}
