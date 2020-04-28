@@ -18,6 +18,12 @@ test_that("measured_lengths=TRUE produces an output with rows but fewer than mea
   expect_lt(nrow(measured), nrow(unconverted))
 })
 
+test_that("No lengths are 0 or negative", {
+  expect_true(all(unconverted$Length>0 | is.na(unconverted$Length)))
+  expect_true(all(converted$Length>0 | is.na(converted$Length)))
+  expect_true(all(measured$Length>0 | is.na(measured$Length)))
+})
+
 test_that("measured_lengths=TRUE results in a lower overall catch", {
   expect_lt(sum(measured$Count, na.rm=T), sum(unconverted$Count, na.rm=T))
 })
