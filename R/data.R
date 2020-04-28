@@ -5,27 +5,27 @@
 #' @encoding UTF-8
 #' @format a tibble with 228,639 rows and 21 variables
 #' \describe{
+#'   \item{Source}{Name of source dataset.}
 #'   \item{Station}{Station where sample was collected.}
+#'   \item{Latitude}{Latitude (decimal degrees).}
+#'   \item{Longitude}{Longitude (decimal degrees).}
+#'   \item{Date}{Date sample was collected.}
+#'   \item{Datetime}{Date and time sample was collected.}
+#'   \item{Depth}{Bottom depth (m).}
+#'   \item{SampleID}{Unique sample identifier.}
 #'   \item{Method}{Sampling method (Otter Trawl or Midwater Trawl).}
-#'   \item{Survey}{Sampling survey (loosely corresponds to month).}
+#'   \item{Tide}{Tidal stage.}
+#'   \item{Sal_surf}{Surface salinity.}
 #'   \item{Temp_surf}{Surface temperature in °C.}
 #'   \item{Secchi}{Secchi depth (cm).}
 #'   \item{Secchi_estimated}{Was Secchi depth estimted?}
-#'   \item{Cable_length}{Length of cable released when net deployed (feet?).}
-#'   \item{Tide}{Tidal stage.}
-#'   \item{Depth}{Bottom depth (m).}
-#'   \item{Date}{Date sample was collected.}
 #'   \item{Tow_volume}{Volume towed (\ifelse{html}{\out{m<sup>3</sup>}}{\eqn{m^{3}}}).}
-#'   \item{Datetime}{Date and time sample was collected.}
 #'   \item{Tow_direction}{Tow direction relative to current.}
-#'   \item{Latitude}{Latitude (decimal degrees).}
-#'   \item{Longitude}{Longitude (decimal degrees).}
-#'   \item{SampleID}{Unique sample identifier.}
-#'   \item{Length}{Fork length from tip of the snout to a point at the fork of the caudal fin (mm).}
+#'   \item{Cable_length}{Length of cable released when net deployed (feet?).}
 #'   \item{Taxa}{Scientific name and lifestage (if applicable).}
+#'   \item{Length}{Fork length from tip of the snout to a point at the fork of the caudal fin (mm).}
 #'   \item{Count}{Estimated count for each sample, taxa, and length.}
-#'   \item{Sal_surf}{Surface salinity.}
-#'   \item{Source}{Name of source dataset.}
+#'   \item{Length_NA_flag}{Why is the length NA?}
 #'   }
 #' @details More metadata and information on methods are available \href{https://www.dfg.ca.gov/delta/projects.asp?ProjectID=FMWT}{here}.
 "FMWT"
@@ -48,28 +48,29 @@
 #' UC Davis Suisun Marsh Fish Study data.
 #'
 #' @encoding UTF-8
-#' @format a tibble with 156,029 rows and 20 variables
+#' @format a tibble with 156,029 rows and 21 variables
 #' \describe{
-#'   \item{Length}{Standard length for all species except sturgeon, which are fork length (mm).}
-#'   \item{Count}{Estimated count for each sample, taxa, and length.}
-#'   \item{Notes_catch}{Notes or comments on the fish catch.}
-#'   \item{Method}{Sampling method (Otter Trawl or Midwater Trawl).}
+#'   \item{Source}{Name of source dataset.}
 #'   \item{Station}{Station where sample was collected.}
+#'   \item{Latitude}{Latitude (decimal degrees).}
+#'   \item{Longitude}{Longitude (decimal degrees).}
 #'   \item{Date}{Date sample was collected.}
+#'   \item{Datetime}{Date and time sample was collected.}
+#'   \item{Depth}{Bottom depth (m).}
+#'   \item{SampleID}{Unique sample identifier.}
+#'   \item{Method}{Sampling method (Otter Trawl or Midwater Trawl).}
+#'   \item{Tide}{Tidal stage.}
+#'   \item{Sal_surf}{Surface salinity.}
 #'   \item{Temp_surf}{Surface temperature in °C.}
 #'   \item{Secchi}{Secchi depth (cm).}
-#'   \item{Tide}{Tidal stage.}
-#'   \item{Datetime}{Date and time sample was collected.}
-#'   \item{Source}{Name of source dataset.}
-#'   \item{SampleID}{Unique sample identifier.}
-#'   \item{Longitude}{Longitude (decimal degrees).}
-#'   \item{Latitude}{Latitude (decimal degrees).}
-#'   \item{Depth}{Bottom depth (m).}
 #'   \item{Tow_duration}{Duration of tow (minutes).}
-#'   \item{Notes_tow}{Notes or comments on the trawl.}
 #'   \item{Tow_area}{Area towed (\ifelse{html}{\out{m<sup>2</sup>}}{\eqn{m^{2}}}).}
 #'   \item{Taxa}{Scientific name and lifestage (if applicable).}
-#'   \item{Sal_surf}{Surface salinity.}
+#'   \item{Length}{Standard length for all species except sturgeon, which are fork length (mm).}
+#'   \item{Count}{Estimated count for each sample, taxa, and length.}
+#'   \item{Length_NA_flag}{Why is the length NA?}
+#'   \item{Notes_catch}{Notes or comments on the fish catch.}
+#'   \item{Notes_tow}{Notes or comments on the trawl.}
 #'   }
 "Suisun"
 
@@ -91,30 +92,30 @@
 #' California Department of Fish and Wildlife Bay Study data.
 #'
 #' @encoding UTF-8
-#' @format a tibble with 746,485 rows and 22 variables
+#' @format a tibble with 746,485 rows and 23 variables
 #' \describe{
-#'   \item{Survey}{Sampling survey (loosely corresponds to month).}
+#'   \item{Source}{Name of source dataset.}
 #'   \item{Station}{Station where sample was collected.}
-#'   \item{Method}{Sampling method (Otter Trawl or Midwater Trawl).}
-#'   \item{Tow_duration}{Duration of tow (minutes).}
-#'   \item{Notes_tow}{Notes or comments on the trawl.}
-#'   \item{Tow_direction}{Tow direction relative to current.}
-#'   \item{Tow_volume}{Volume towed (\ifelse{html}{\out{m<sup>3</sup>}}{\eqn{m^{3}}}).}
-#'   \item{Tow_area}{Area towed (\ifelse{html}{\out{m<sup>2</sup>}}{\eqn{m^{2}}}).}
-#'   \item{Date}{Date sample was collected.}
-#'   \item{Depth}{Bottom depth (m).}
-#'   \item{Secchi}{Secchi depth (cm).}
-#'   \item{Temp_surf}{Surface temperature in °C.}
 #'   \item{Latitude}{May not be accurate, see details.}
 #'   \item{Longitude}{May not be accurate, see details.}
-#'   \item{Tide}{Tidal stage.}
+#'   \item{Date}{Date sample was collected.}
 #'   \item{Datetime}{Date and time sample was collected.}
+#'   \item{Depth}{Bottom depth (m).}
 #'   \item{SampleID}{Unique sample identifier.}
+#'   \item{Method}{Sampling method (Otter Trawl or Midwater Trawl).}
+#'   \item{Tide}{Tidal stage.}
+#'   \item{Sal_surf}{Surface salinity.}
+#'   \item{Temp_surf}{Surface temperature in °C.}
+#'   \item{Secchi}{Secchi depth (cm).}
+#'   \item{Tow_duration}{Duration of tow (minutes).}
+#'   \item{Tow_area}{Area towed (\ifelse{html}{\out{m<sup>2</sup>}}{\eqn{m^{2}}}).}
+#'   \item{Tow_volume}{Volume towed (\ifelse{html}{\out{m<sup>3</sup>}}{\eqn{m^{3}}}).}
+#'   \item{Tow_direction}{Tow direction relative to current.}
 #'   \item{Taxa}{Scientific name and lifestage (if applicable).}
 #'   \item{Length}{Fork length, total length if there's no fork or heterocercal tail (sturgeon, shark). Bat Ray wing widths starting around 1989-1992 to present. (mm).}
-#'   \item{Source}{Name of source dataset.}
-#'   \item{Sal_surf}{Surface salinity.}
 #'   \item{Count}{Estimated count for each sample, taxa, and length.}
+#'   \item{Length_NA_flag}{Why is the length NA?}
+#'   \item{Notes_tow}{Notes or comments on the trawl.}
 #'   }
 #'   @details Some station locations have moved over time due to shoals filling in, trees, etc.
 "Baystudy"
@@ -147,3 +148,15 @@
 #'   \item{Taxa}{Combination of scientific name and life stage.}
 #'   }
 "Species"
+
+#' Length conversions
+#'
+#' Intercepts and slopes for equations to convert Standard Length to Fork Length (or Total Length if no fork).
+#'
+#' @format a tibble with 20 rows and 3 variables
+#' \describe{
+#'   \item{ScientificName}{Scientific name.}
+#'   \item{Intercept}{Intercept in the equation FL = Intercept + Slope * SL.}
+#'   \item{Slope}{Slope in the equation FL = Intercept + Slope * SL.}
+#'   }
+"Length_conversions"

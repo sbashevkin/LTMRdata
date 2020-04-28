@@ -6,28 +6,29 @@
 \alias{Suisun}
 \title{Suisun Marsh dataset}
 \format{
-a tibble with 156,029 rows and 20 variables
+a tibble with 156,029 rows and 21 variables
 \describe{
-  \item{Length}{Standard length for all species except sturgeon, which are fork length (mm).}
-  \item{Count}{Estimated count for each sample, taxa, and length.}
-  \item{Notes_catch}{Notes or comments on the fish catch.}
-  \item{Method}{Sampling method (Otter Trawl or Midwater Trawl).}
+  \item{Source}{Name of source dataset.}
   \item{Station}{Station where sample was collected.}
+  \item{Latitude}{Latitude (decimal degrees).}
+  \item{Longitude}{Longitude (decimal degrees).}
   \item{Date}{Date sample was collected.}
+  \item{Datetime}{Date and time sample was collected.}
+  \item{Depth}{Bottom depth (m).}
+  \item{SampleID}{Unique sample identifier.}
+  \item{Method}{Sampling method (Otter Trawl or Midwater Trawl).}
+  \item{Tide}{Tidal stage.}
+  \item{Sal_surf}{Surface salinity.}
   \item{Temp_surf}{Surface temperature in °C.}
   \item{Secchi}{Secchi depth (cm).}
-  \item{Tide}{Tidal stage.}
-  \item{Datetime}{Date and time sample was collected.}
-  \item{Source}{Name of source dataset.}
-  \item{SampleID}{Unique sample identifier.}
-  \item{Longitude}{Longitude (decimal degrees).}
-  \item{Latitude}{Latitude (decimal degrees).}
-  \item{Depth}{Bottom depth (m).}
   \item{Tow_duration}{Duration of tow (minutes).}
-  \item{Notes_tow}{Notes or comments on the trawl.}
   \item{Tow_area}{Area towed (\ifelse{html}{\out{m<sup>2</sup>}}{\eqn{m^{2}}}).}
   \item{Taxa}{Scientific name and lifestage (if applicable).}
-  \item{Sal_surf}{Surface salinity.}
+  \item{Length}{Standard length for all species except sturgeon, which are fork length (mm).}
+  \item{Count}{Estimated count for each sample, taxa, and length.}
+  \item{Length_NA_flag}{Why is the length NA?}
+  \item{Notes_catch}{Notes or comments on the fish catch.}
+  \item{Notes_tow}{Notes or comments on the trawl.}
   }
 }
 \usage{

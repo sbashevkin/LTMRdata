@@ -6,30 +6,30 @@
 \alias{Baystudy}
 \title{Bay study dataset}
 \format{
-a tibble with 746,485 rows and 22 variables
+a tibble with 746,485 rows and 23 variables
 \describe{
-  \item{Survey}{Sampling survey (loosely corresponds to month).}
+  \item{Source}{Name of source dataset.}
   \item{Station}{Station where sample was collected.}
-  \item{Method}{Sampling method (Otter Trawl or Midwater Trawl).}
-  \item{Tow_duration}{Duration of tow (minutes).}
-  \item{Notes_tow}{Notes or comments on the trawl.}
-  \item{Tow_direction}{Tow direction relative to current.}
-  \item{Tow_volume}{Volume towed (\ifelse{html}{\out{m<sup>3</sup>}}{\eqn{m^{3}}}).}
-  \item{Tow_area}{Area towed (\ifelse{html}{\out{m<sup>2</sup>}}{\eqn{m^{2}}}).}
-  \item{Date}{Date sample was collected.}
-  \item{Depth}{Bottom depth (m).}
-  \item{Secchi}{Secchi depth (cm).}
-  \item{Temp_surf}{Surface temperature in °C.}
   \item{Latitude}{May not be accurate, see details.}
   \item{Longitude}{May not be accurate, see details.}
-  \item{Tide}{Tidal stage.}
+  \item{Date}{Date sample was collected.}
   \item{Datetime}{Date and time sample was collected.}
+  \item{Depth}{Bottom depth (m).}
   \item{SampleID}{Unique sample identifier.}
+  \item{Method}{Sampling method (Otter Trawl or Midwater Trawl).}
+  \item{Tide}{Tidal stage.}
+  \item{Sal_surf}{Surface salinity.}
+  \item{Temp_surf}{Surface temperature in °C.}
+  \item{Secchi}{Secchi depth (cm).}
+  \item{Tow_duration}{Duration of tow (minutes).}
+  \item{Tow_area}{Area towed (\ifelse{html}{\out{m<sup>2</sup>}}{\eqn{m^{2}}}).}
+  \item{Tow_volume}{Volume towed (\ifelse{html}{\out{m<sup>3</sup>}}{\eqn{m^{3}}}).}
+  \item{Tow_direction}{Tow direction relative to current.}
   \item{Taxa}{Scientific name and lifestage (if applicable).}
   \item{Length}{Fork length, total length if there's no fork or heterocercal tail (sturgeon, shark). Bat Ray wing widths starting around 1989-1992 to present. (mm).}
-  \item{Source}{Name of source dataset.}
-  \item{Sal_surf}{Surface salinity.}
   \item{Count}{Estimated count for each sample, taxa, and length.}
+  \item{Length_NA_flag}{Why is the length NA?}
+  \item{Notes_tow}{Notes or comments on the trawl.}
   }
   @details Some station locations have moved over time due to shoals filling in, trees, etc.
 }

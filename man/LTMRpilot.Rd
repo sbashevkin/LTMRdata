@@ -4,10 +4,19 @@
 \alias{LTMRpilot}
 \title{Integrate datasets for pilot review}
 \usage{
-LTMRpilot(quiet = FALSE, measured_lengths = FALSE)
+LTMRpilot(
+  quiet = FALSE,
+  convert_lengths = TRUE,
+  remove_unconverted_lengths = TRUE,
+  measured_lengths = FALSE
+)
 }
 \arguments{
 \item{quiet}{Set \code{quiet=TRUE} to suppress the warning message about length data.}
+
+\item{convert_lengths}{Should all species with conversion equations have their lengths converted to fork length (or total length if no fork)?}
+
+\item{remove_unconverted_lengths}{Should all species without a conversion equation be removed? Ignored if \code{convert_lengths=FALSE}.}
 
 \item{measured_lengths}{Only include measured lengths. Does not calculate adjusted length frequencies. Will not represent total fish caught.}
 }
@@ -15,10 +24,17 @@ LTMRpilot(quiet = FALSE, measured_lengths = FALSE)
 Integrate FMWT, Suisun, and Bay study datasets for IEP long-term monitoring program pilot review
 }
 \examples{
-Data <- LTMRpilot()
+# All data, no length conversions
+Data <- LTMRpilot(convert_lengths=FALSE)
 
-#Only outputting measured lengths, without frequencies adjusted for counts of unmeasured fish
-Data <- LTMRpilot(measured_lengths=TRUE)
+# All data, convert lengths to Fork length (or Total length if not fork)
+# but retain all data, even those that could not be converted
+Data <- LTMRpilot(convert_lengths=TRUE, remove_unconverted_lengths=TRUE)
+
+
+# Only outputting measured lengths, without frequencies adjusted for counts of unmeasured fish,
+# with all lengths converted and only species with converted lengths returned
+Data <- LTMRpilot(measured_lengths=TRUE, convert_lengths=TRUE, remove_unconverted_lengths=TRUE)
 }
 \seealso{
 \code{\link{Suisun}}, \code{\link{Suisun_measured_lengths}}, \code{\link{FMWT}}, \code{\link{FMWT_measured_lengths}}, \code{\link{Baystudy}}, \code{\link{Baystudy_measured_lengths}}

@@ -20,10 +20,12 @@ Suggests:
     tidyr,
     lubridate,
     readxl,
-    wql
+    wql,
+    testthat
 RoxygenNote: 7.1.0
 Imports: 
     dplyr,
     tibble,
     magrittr,
-    rlang
+    rlang,
+    stringr

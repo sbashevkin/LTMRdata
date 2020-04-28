@@ -78,13 +78,17 @@ FMWT<-sample_fmwt%>%
          Secchi=Secchi*100, # Convert Secchi to cm from m
          Depth = Depth*0.3048, #Convert depth to m from feet
          Source="FMWT",
-         SampleID=paste(Source, SampleID))%>%
+         SampleID=paste(Source, SampleID),
+         Length_NA_flag=if_else(is.na(ForkLength), "No fish caught", NA_character_))%>%
   rename(Length=ForkLength, Temp_surf=WaterTemperature, Temp_bott=BottomTemperature,
          Secchi_estimated=SecchiEstimated, Survey=SurveyNumber, Cable_length=CableOut,
          Wind_direction=WindDirection)%>%
   select(-ConductivityTop, -ConductivityBottom, -LengthFrequency, -TotalMeasured,
          -SampleRowID, -Time, -Catch, -Active, -Dead)%>%
-  select(-Turbidity, -Microcystis, -Wind_direction, -Temp_bott, -Weather, -Waves, -Sal_bott) # Remove extra environmental variables
+  select(-Turbidity, -Microcystis, -Wind_direction, -Temp_bott, -Weather, -Waves, -Sal_bott)%>% # Remove extra environmental variables
+  select(Source, Station, Latitude, Longitude, Date, Datetime,
+         Depth, SampleID, CatchRowID, Method, Tide, Sal_surf, Temp_surf, Secchi, Secchi_estimated,
+         Tow_volume, Tow_direction, Cable_length, Taxa, Length, Count, Length_NA_flag)
 
 FMWT_measured_lengths<-length_fmwt%>%
   left_join(FMWT%>%

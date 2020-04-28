@@ -8,27 +8,27 @@
 \format{
 a tibble with 228,639 rows and 21 variables
 \describe{
+  \item{Source}{Name of source dataset.}
   \item{Station}{Station where sample was collected.}
+  \item{Latitude}{Latitude (decimal degrees).}
+  \item{Longitude}{Longitude (decimal degrees).}
+  \item{Date}{Date sample was collected.}
+  \item{Datetime}{Date and time sample was collected.}
+  \item{Depth}{Bottom depth (m).}
+  \item{SampleID}{Unique sample identifier.}
   \item{Method}{Sampling method (Otter Trawl or Midwater Trawl).}
-  \item{Survey}{Sampling survey (loosely corresponds to month).}
+  \item{Tide}{Tidal stage.}
+  \item{Sal_surf}{Surface salinity.}
   \item{Temp_surf}{Surface temperature in °C.}
   \item{Secchi}{Secchi depth (cm).}
   \item{Secchi_estimated}{Was Secchi depth estimted?}
-  \item{Cable_length}{Length of cable released when net deployed (feet?).}
-  \item{Tide}{Tidal stage.}
-  \item{Depth}{Bottom depth (m).}
-  \item{Date}{Date sample was collected.}
   \item{Tow_volume}{Volume towed (\ifelse{html}{\out{m<sup>3</sup>}}{\eqn{m^{3}}}).}
-  \item{Datetime}{Date and time sample was collected.}
   \item{Tow_direction}{Tow direction relative to current.}
-  \item{Latitude}{Latitude (decimal degrees).}
-  \item{Longitude}{Longitude (decimal degrees).}
-  \item{SampleID}{Unique sample identifier.}
-  \item{Length}{Fork length from tip of the snout to a point at the fork of the caudal fin (mm).}
+  \item{Cable_length}{Length of cable released when net deployed (feet?).}
   \item{Taxa}{Scientific name and lifestage (if applicable).}
+  \item{Length}{Fork length from tip of the snout to a point at the fork of the caudal fin (mm).}
   \item{Count}{Estimated count for each sample, taxa, and length.}
-  \item{Sal_surf}{Surface salinity.}
-  \item{Source}{Name of source dataset.}
+  \item{Length_NA_flag}{Why is the length NA?}
   }
 }
 \usage{

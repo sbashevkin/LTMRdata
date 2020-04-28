@@ -104,6 +104,7 @@ catch_comments_suisun2<-sizegroups_suisun%>%
     NA_length ~ NA_real_,
     TRUE ~ 0),
     RowNum=replace_na(RowNum, 1))%>%
+  mutate(Length_NA_flag = if_else(is.na(Length), "Unknown length", NA_character_))%>%
   rename(SizeGroup=RowNum, StandardLength=Length)%>%
   left_join(catch_suisun%>%
               select(-StandardLength, -Count, -Dead, -CatchComments)%>%
@@ -120,9 +121,8 @@ catch_suisun2<-catch_suisun%>%
   mutate(SizeGroup=replace_na(SizeGroup, 1))%>%
   mutate(ID=paste(SampleID, Taxa))%>%
   filter(!(ID%in%unique(catch_comments_suisun2$ID) & StandardLength==0))%>%
-  bind_rows(catch_comments_suisun2)
-
-#Need to remove fixed_length_suisun records from catch_suisun but add back in the measured fish that were removed from catch_comments_suisun$catch_fix because they didn't fit into the min and max. Also need to preserve catch_suisun for suisun_measured_lengths
+  bind_rows(catch_comments_suisun2)%>%
+  mutate(Length_NA_flag=if_else(is.na(Length_NA_flag) & is.na(StandardLength), "No fish caught", Length_NA_flag))
 
 Suisun <- catch_suisun2%>%
   filter(StandardLength!=0 | is.na(StandardLength))%>% #Remove unmeasured fish, but not all of these 0s seem to be unmeasured according to the Catch Comments so these should be inspected. The is.na part is Trying to retain samples in which no fish were caught
@@ -137,9 +137,10 @@ Suisun <- catch_suisun2%>%
             by=c("SampleID", "Taxa", "SizeGroup"))%>%
   mutate(Count = (Count/TotalMeasured)*TotalCatch,
          Sal_surf=ec2pss(Conductivity/1000, t=25))%>%
-  select(-Conductivity, -QADone, -TotalMeasured, -TotalCatch, -Dead, -SampleRowID, -SizeGroup, -ID)%>%
-  rename(Length=StandardLength, Notes_catch=CatchComments, Tow_duration=TowDuration, Notes_tow=TrawlComments,
-         DO_concentration=DO, DO_saturation=PctSaturation, Temp_surf=Temperature)%>%
+  select(Source, Station, Latitude, Longitude, Date, Datetime, Depth, SampleID, Method, Tide,
+         Sal_surf, Temp_surf=Temperature, Secchi, DO_concentration=DO, DO_saturation=PctSaturation,
+         Tow_duration=TowDuration, Tow_area, Taxa,
+         Length=StandardLength, Count, Length_NA_flag, Notes_catch=CatchComments, Notes_tow=TrawlComments)%>%
   select(-DO_concentration, -DO_saturation) # Remove extra environmental variables
 
 Suisun_measured_lengths <- catch_suisun2%>%

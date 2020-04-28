@@ -125,7 +125,8 @@ Baystudy <- env_baystudy%>%
          Sal_avg=ec2pss(ECAvg/1000, t=25),
          Sal_bott=ec2pss(ECBott/1000, t=25),
          Source="Bay Study",
-         SampleID=paste(Source, SampleID))%>%
+         SampleID=paste(Source, SampleID),
+         Length_NA_flag=if_else(is.na(Length), "No fish caught", NA_character_))%>%
   select(-ECSurf, -ECAvg, -ECBott, -CatchCode, -SizeGroup, -StationComment)%>% # Remove unneeded variables
   group_by_at(vars(-Count))%>%
   summarise(Count=sum(Count))%>%
@@ -135,7 +136,9 @@ Baystudy <- env_baystudy%>%
          Temp_bott=TempBott, Tow_duration=Duration)%>%
   select(-Bearing, -Waves, -Weather, -Temp_avg, -Temp_bott, -Sal_avg, -Sal_bott)%>% # Remove extra environmental variables
   filter(Tow_status=="Valid")%>% # Remove invalid tows
-  select(-Tow_status)
+  select(Source, Station, Latitude, Longitude, Date, Datetime, Year, Survey,
+         Depth, SampleID, Method, Tide, Sal_surf, Temp_surf, Secchi,
+         Tow_duration, Tow_area, Tow_volume, Tow_direction, Taxa, Length, Count, Length_NA_flag, Notes_tow)
 
 Baystudy_measured_lengths<-length_baystudy%>%
   inner_join(Baystudy%>% # Inner join to remove invalid tows
@@ -145,6 +148,6 @@ Baystudy_measured_lengths<-length_baystudy%>%
   select(SampleID, Taxa, Size_group=SizeGroup, Length, Count=Frequency)
 
 Baystudy <- Baystudy%>%
-  select(-Year)
+  select(-Year, -Survey)
 
 usethis::use_data(Baystudy, Baystudy_measured_lengths, overwrite = TRUE)
