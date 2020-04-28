@@ -21,11 +21,12 @@ Suggests:
     lubridate,
     readxl,
     wql,
-    testthat
+    testthat,
+    covr,
+    tibble
 RoxygenNote: 7.1.0
 Imports: 
     dplyr,
-    tibble,
     magrittr,
     rlang,
     stringr
