@@ -19,6 +19,7 @@ knitr::opts_chunk$set(
 
 <!-- badges: start -->
 [![R build status](https://github.com/sbashevkin/LTMRdata/workflows/R-CMD-check/badge.svg)](https://github.com/sbashevkin/LTMRdata/actions)
+[![Codecov test coverage](https://codecov.io/gh/sbashevkin/LTMRdata/branch/master/graph/badge.svg)](https://codecov.io/gh/sbashevkin/LTMRdata?branch=master)
 <!-- badges: end -->
 
 Integration of the Fall Midwater Trawl, Bay Study, and Suisun Marsh Fish Study data for use in the IEP long-term monitoring survey review.
