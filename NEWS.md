@@ -1,3 +1,5 @@
+# LTMRdata 0.4.0
+
 * Added new function `zero_fill` to fill in 0s for species not recorded in a sample and deal with the unknown lengths from the `Suisun` data. 
 * Added new argument `size_cutoff` to remove fish below a certain length.
 
