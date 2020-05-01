@@ -6,7 +6,10 @@ test_that("LTMRpilot produces warning messages", {
   expect_message(unconverted <<- LTMRpilot(convert_lengths=FALSE), "NOTE: Length data are not consistent across studies")
   expect_message(converted <<- LTMRpilot(convert_lengths=TRUE, remove_unconverted_lengths=FALSE, measured_lengths=FALSE), "NOTE: Length data are not entirely consistent across studies.")
   expect_message(measured <<- LTMRpilot(measured_lengths=TRUE, convert_lengths=F, remove_unconverted_lengths=TRUE), "NOTE: Length data are not consistent across studies")
-})
+  })
+
+cutoff=40
+converted_cutoff <- LTMRpilot(convert_lengths=TRUE, remove_unconverted_lengths=FALSE, size_cutoff=cutoff, measured_lengths=FALSE)
 
 test_that("LTMRpilot simply binds together dataframes when convert_lengths=FALSE", {
   expect_equal(nrow(unconverted), nrow(LTMRdata::Baystudy)+nrow(LTMRdata::FMWT)+nrow(LTMRdata::Suisun))
@@ -22,6 +25,21 @@ test_that("No lengths are 0 or negative", {
   expect_true(all(unconverted$Length>0 | is.na(unconverted$Length)))
   expect_true(all(converted$Length>0 | is.na(converted$Length)))
   expect_true(all(measured$Length>0 | is.na(measured$Length)))
+})
+
+test_that("Some (but not all) lengths are NA and all Length_NA_flags are preserved", {
+  expect_true(any(is.na(unconverted$Length)))
+  expect_true(any(is.na(converted$Length)))
+  expect_false(all(is.na(unconverted$Length)))
+  expect_false(all(is.na(converted$Length)))
+  expect_false(all(is.na(measured$Length)))
+  expect_true(all(c("No fish caught", "Unknown length") %in% unique(unconverted$Length_NA_flag)))
+  expect_true(all(c("No fish caught", "Unknown length") %in% unique(converted$Length_NA_flag)))
+})
+
+test_that("size_cutoff=TRUE produces lengths greater than size cutoff, including NAs", {
+  expect_true(all(converted_cutoff$Length>=cutoff | is.na(converted_cutoff$Length)))
+  expect_true(any(is.na(converted_cutoff$Length)))
 })
 
 test_that("measured_lengths=TRUE results in a lower overall catch", {

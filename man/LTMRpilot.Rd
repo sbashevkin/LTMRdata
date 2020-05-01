@@ -8,6 +8,7 @@ LTMRpilot(
   quiet = FALSE,
   convert_lengths = TRUE,
   remove_unconverted_lengths = TRUE,
+  size_cutoff = NULL,
   measured_lengths = FALSE
 )
 }
@@ -17,6 +18,9 @@ LTMRpilot(
 \item{convert_lengths}{Should all species with conversion equations have their lengths converted to fork length (or total length if no fork)?}
 
 \item{remove_unconverted_lengths}{Should all species without a conversion equation be removed? Ignored if \code{convert_lengths=FALSE}.}
+
+\item{size_cutoff}{Minimum fish length (in mm) that should be retained in the data. Any fish below this length will be removed.
+It is advised to convert lengths before using this option. All \code{NA} lengths will be retained. Set \code{size_cutoff=NULL} to keep all sizes.}
 
 \item{measured_lengths}{Only include measured lengths. Does not calculate adjusted length frequencies. Will not represent total fish caught.}
 }
@@ -29,7 +33,7 @@ Data <- LTMRpilot(convert_lengths=FALSE)
 
 # All data, convert lengths to Fork length (or Total length if not fork)
 # but retain all data, even those that could not be converted
-Data <- LTMRpilot(convert_lengths=TRUE, remove_unconverted_lengths=TRUE)
+Data <- LTMRpilot(convert_lengths=TRUE, remove_unconverted_lengths=FALSE)
 
 
 # Only outputting measured lengths, without frequencies adjusted for counts of unmeasured fish,

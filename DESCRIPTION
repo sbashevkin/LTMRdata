@@ -17,7 +17,6 @@ URL: https://github.com/sbashevkin/LTMRdata
 BugReports: https://github.com/sbashevkin/LTMRdata/issues
 Suggests: 
     readr,
-    tidyr,
     lubridate,
     readxl,
     wql,
@@ -29,4 +28,5 @@ Imports:
     dplyr,
     magrittr,
     rlang,
-    stringr
+    stringr,
+    tidyr
