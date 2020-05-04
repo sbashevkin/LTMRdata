@@ -31,3 +31,12 @@ test_that("No unknown lengths remain after zero_fill with remove_unknown_lengths
   expect_equal(nrow(filter(Data_filled_univariate, Length_NA_flag=="Unknown length")), 0)
   expect_equal(nrow(filter(Data_filled_multivariate, Length_NA_flag=="Unknown length")), 0)
 })
+
+test_that("All Lats are between 37 ad 39 and all Longs are between -123 and -121", {
+  expect_true(all((Data_filled$Latitude<39 & Data_filled$Latitude>37) | is.na(Data_filled$Latitude)))
+  expect_true(all((Data_filled_univariate$Latitude<39 & Data_filled_univariate$Latitude>37) | is.na(Data_filled_univariate$Latitude)))
+  expect_true(all((Data_filled_multivariate$Latitude<39 & Data_filled_multivariate$Latitude>37) | is.na(Data_filled_multivariate$Latitude)))
+  expect_true(all((Data_filled$Longitude<(-121) & Data_filled$Longitude>(-123)) | is.na(Data_filled$Longitude)))
+  expect_true(all((Data_filled_univariate$Longitude<(-121) & Data_filled_univariate$Longitude>(-123)) | is.na(Data_filled_univariate$Longitude)))
+  expect_true(all((Data_filled_multivariate$Longitude<(-121) & Data_filled_multivariate$Longitude>(-123)) | is.na(Data_filled_multivariate$Longitude)))
+})

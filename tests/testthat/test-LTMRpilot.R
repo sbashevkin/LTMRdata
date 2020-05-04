@@ -27,6 +27,15 @@ test_that("No lengths are 0 or negative", {
   expect_true(all(measured$Length>0 | is.na(measured$Length)))
 })
 
+test_that("All Lats are between 37 ad 39 and all Longs are between -123 and -121", {
+  expect_true(all((unconverted$Latitude<39 & unconverted$Latitude>37) | is.na(unconverted$Latitude)))
+  expect_true(all((converted$Latitude<39 & converted$Latitude>37) | is.na(converted$Latitude)))
+  expect_true(all((measured$Latitude<39 & measured$Latitude>37) | is.na(measured$Latitude)))
+  expect_true(all((unconverted$Longitude<(-121) & unconverted$Longitude>(-123)) | is.na(unconverted$Longitude)))
+  expect_true(all((converted$Longitude<(-121) & converted$Longitude>(-123)) | is.na(converted$Longitude)))
+  expect_true(all((measured$Longitude<(-121) & measured$Longitude>(-123)) | is.na(measured$Longitude)))
+})
+
 test_that("Some (but not all) lengths are NA and all Length_NA_flags are preserved", {
   expect_true(any(is.na(unconverted$Length)))
   expect_true(any(is.na(converted$Length)))
