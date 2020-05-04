@@ -12,7 +12,7 @@ stations_baystudy <- read_excel(file.path("data-raw", "Baystudy", "Bay Study_Sta
   separate(Latitude, into=c("Lat_Deg", "Lat_Min"), sep = "°", convert=T)%>%
   separate(Longitude, into=c("Lon_Deg", "Lon_Min"), sep = "°", convert=T)%>%
   mutate(Latitude=Lat_Deg+Lat_Min/60,
-         Longitude=Lon_Deg+Lon_Min/60)%>%
+         Longitude=Lon_Deg-Lon_Min/60)%>%
   select(Station, Latitude, Longitude)%>%
   filter(Station!="211E")%>%
   mutate(Station=recode(Station, `211W`="211"))

@@ -16,7 +16,7 @@ stations_fmwt <- read_csv(file.path("data-raw", "FMWT", "StationsLookUp.csv"),
   mutate(Latitude=Lat_d+Lat_m/60+Lat_s/3600,
          Longitude=Long_d-Long_m/60-Long_s/3600)%>%
   mutate(Latitude=if_else(is.na(Latitude), Lat2, Latitude),
-         Longitude=if_else(is.na(Longitude), Long2, Longitude))%>%
+         Longitude=if_else(is.na(Longitude), -1*Long2, Longitude))%>%
   select(Station, Latitude, Longitude, Active)%>%
   drop_na(Station, Latitude, Longitude) # Drop any rows with NAs in these variables
 
