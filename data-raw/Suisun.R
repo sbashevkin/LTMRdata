@@ -17,7 +17,8 @@ depth_suisun <- read_csv(file.path("data-raw", "Suisun", "Depth.csv"),
 
 stations_suisun <- read_csv(file.path("data-raw", "Suisun", "StationsLookUp.csv"),
                             col_types=cols_only(StationCode="c", x_WGS84="d", y_WGS84="d"))%>%
-  rename(Longitude=x_WGS84, Latitude=y_WGS84, Station=StationCode)
+  rename(Longitude=x_WGS84, Latitude=y_WGS84, Station=StationCode)%>%
+  drop_na()
 
 effort_suisun <- read_csv(file.path("data-raw", "Suisun", "TrawlEffort.csv"),
                           col_types = cols_only(SampleRowID="c", TowDuration="d", TrawlComments="c"))%>%
