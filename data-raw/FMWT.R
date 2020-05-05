@@ -9,6 +9,7 @@ require(LTMRdata)
 
 # Station locations -------------------------------------------------------
 
+
 stations_fmwt <- read_csv(file.path("data-raw", "FMWT", "StationsLookUp.csv"),
                           col_types = cols_only(StationCode="c", Active="i",
                                                 Lat="c", Long="c", Comments="c",
@@ -26,11 +27,14 @@ stations_fmwt <- read_csv(file.path("data-raw", "FMWT", "StationsLookUp.csv"),
 
 # Sample dates ------------------------------------------------------------
 
+
 date_fmwt <- read_csv(file.path("data-raw", "FMWT", "Date.csv"), col_types=cols_only(DateID="i", SampleDate="c"))%>%
   mutate(SampleDate=parse_date_time(SampleDate, "%m/%d/%Y %H:%M:%S", tz="America/Los_Angeles"))%>%
   rename(Date=SampleDate)
 
+
 # Sample-level data -------------------------------------------------------
+
 
 sample_fmwt <- read_csv(file.path("data-raw", "FMWT", "Sample.csv"),
                         col_types = cols_only(SampleRowID="i", StationCode="c", MethodCode="c",
@@ -59,7 +63,9 @@ sample_fmwt <- read_csv(file.path("data-raw", "FMWT", "Sample.csv"),
   left_join(stations_fmwt, by="Station")%>% # Add station coordinates
   mutate(SampleID=1:nrow(.)) # Add unique identifier for each sample (net tow)
 
+
 # Catch data --------------------------------------------------------------
+
 
 catch_fmwt <- read_csv(file.path("data-raw", "FMWT", "Catch.csv"),
                        col_types = cols_only(CatchRowID="i", SampleRowID="i", OrganismCode="i", Catch="d"))%>%
@@ -73,6 +79,7 @@ catch_fmwt <- read_csv(file.path("data-raw", "FMWT", "Catch.csv"),
 
 # Length data -------------------------------------------------------------
 
+
 length_fmwt<- read_csv(file.path("data-raw", "FMWT", "Length.csv"), na=c("NA", "n/p"),
                        col_types = cols_only(CatchRowID="i", ForkLength="d", Dead="c", LengthFrequency="d"))%>%
   filter(ForkLength!=0) # 0 fork length means not measured, so removing those from length table so those fish can be redistributed among measured lengths
@@ -84,7 +91,9 @@ catchlength_fmwt <- length_fmwt%>%
   left_join(catch_fmwt, by="CatchRowID")%>% # Add catch numbers and species names
   mutate(Count = (LengthFrequency/TotalMeasured)*Catch) # Calculate adjusted count
 
+
 # Create final datasets ---------------------------------------------------
+
 
 FMWT<-sample_fmwt%>% # Start with sample to ensure samples without any catch (empty nets) are included
   left_join(catchlength_fmwt, by="SampleRowID")%>% # Join to catch/length data
@@ -106,6 +115,7 @@ FMWT<-sample_fmwt%>% # Start with sample to ensure samples without any catch (em
          Tow_volume, Tow_direction, Cable_length, Taxa, Length, Count, Length_NA_flag)
 
 # Just measured lengths
+
 FMWT_measured_lengths<-length_fmwt%>%
   left_join(FMWT%>% # Join species names and sampleID
               select(CatchRowID, SampleID, Taxa)%>%

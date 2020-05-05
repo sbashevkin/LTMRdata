@@ -8,7 +8,9 @@ require(lubridate)
 require(readxl)
 require(LTMRdata)
 
+
 # Station locations -------------------------------------------------------
+
 
 stations_baystudy <- read_excel(file.path("data-raw", "Baystudy", "Bay Study_Station Coordinates for Distribution_04May2020.xlsx"))%>%
   separate(Latitude, into=c("Lat_Deg", "Lat_Min"), sep = "°", convert=T)%>% # Convert to decimal degrees
@@ -22,6 +24,7 @@ stations_baystudy <- read_excel(file.path("data-raw", "Baystudy", "Bay Study_Sta
 
 # Import lookup tables ----------------------------------------------------
 
+
 tidecodes_baystudy <- read_csv(file.path("data-raw", "Baystudy", "TideCodes_LookUp.csv"),
                                col_types=cols_only(Tide="i", Description="c"))
 
@@ -31,7 +34,9 @@ wavecodes_baystudy <- read_csv(file.path("data-raw", "Baystudy", "WaveCodes_Look
 cloudcovercodes_baystudy <- read_csv(file.path("data-raw", "Baystudy", "CloudCover_LookUp.csv"),
                                col_types=cols_only(CloudCover="i", Description="c"))
 
+
 # Sample-level data -------------------------------------------------------
+
 
 salintemp_baystudy<-read_csv(file.path("data-raw", "Baystudy", "SalinTemp.csv"),
                              col_types = cols_only(Year="i", Survey="i", Station="c",
@@ -54,9 +59,8 @@ boatstation_baystudy <- read_csv(file.path("data-raw", "Baystudy", "BoatStation.
   rename(Waves=Description)%>%
   left_join(cloudcovercodes_baystudy, by="CloudCover")%>% # Convert cloud cover codes to values
   select(-CloudCover)%>%
-  rename(CloudCover=Description)%>%
-  left_join(salintemp_baystudy, by=c("Year", "Survey", "Station"))%>% #Add salinity and temperature data
-  left_join(stations_baystudy, by="Station")
+  rename(CloudCover=Description)
+
 
 # Tow-level data
 
@@ -87,11 +91,15 @@ env_baystudy <- left_join(boattow_baystudy, boatstation_baystudy, by=c("Year", "
   mutate(Tide=if_else(is.na(Tidetow), Tidestation, Tidetow), # Tide was sometimes recorded at each station visit and sometimes at each tow
          Datetime=parse_date_time(if_else(is.na(Time), NA_character_, paste0(Date, " ", hour(Time), ":", minute(Time))), "%Y-%m-%d %%H:%M", tz="America/Los_Angeles"),
          SampleID=1:nrow(.))%>% # Create identifier for each sample (tow)
+  left_join(stations_baystudy, by="Station")%>% # Add station locations
+  left_join(salintemp_baystudy, by=c("Year", "Survey", "Station"))%>% #Add salinity and temperature data
   select(-Tidestation, -Tidetow, -Time) # Remove unneeded variables
 
 rm(tidecodes_baystudy, wavecodes_baystudy, cloudcovercodes_baystudy, boattow_baystudy, boatstation_baystudy, salintemp_baystudy, stations_baystudy) # Clean up
 
+
 # Catch data --------------------------------------------------------------
+
 
 catch_baystudy <- read_csv(file.path("data-raw", "Baystudy", "Fish Catch Data.csv"),
                            col_types=cols_only(Year="i", Survey="i", Station="c",
@@ -107,7 +115,9 @@ catch_baystudy <- read_csv(file.path("data-raw", "Baystudy", "Fish Catch Data.cs
             by="AlphaCode")%>%
   select(-AlphaCode) # Remove unneeded variable
 
+
 # Length data -------------------------------------------------------------
+
 
 length_baystudy <- read_csv(file.path("data-raw", "Baystudy", "Fish Length Data.csv"),
                             col_types=cols_only(Year="i", Survey="i", Station="c",
@@ -138,7 +148,9 @@ lengthcatch_baystudy<-catch_baystudy%>%
   mutate(Count = (Frequency/TotalMeasured)*TotalCatch)%>% # Calculate adjusted size frequency
   select(-TotalMeasured, -TotalCatch, -Frequency) # Remove unneeded variables
 
+
 # Create final datasets ---------------------------------------------------
+
 
 Baystudy <- env_baystudy%>% # Start with sample-level data to retain samples with no catch (nets empty of fish)
   left_join(lengthcatch_baystudy, by=c("Year", "Survey", "Station", "Method"))%>% # Add length and catch data

@@ -62,7 +62,9 @@ str(Baystudy)
 ## To access the integrated dataset
 
 ```{r}
-Data <- LTMRpilot()
+Data <- LTMRpilot(convert_lengths=TRUE,
+                  remove_unconverted_lengths=TRUE,
+                  size_cutoff=40)
 str(Data)
 ```
 
