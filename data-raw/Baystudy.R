@@ -173,4 +173,4 @@ Baystudy_measured_lengths<-length_baystudy%>%
 Baystudy <- Baystudy%>%
   select(-Year, -Survey)# Remove unneeded variables
 
-usethis::use_data(Baystudy, Baystudy_measured_lengths, overwrite = TRUE) # Save compressed data to /data
+usethis::use_data(Baystudy, Baystudy_measured_lengths, overwrite = TRUE) # Save compressed data to /data folder
