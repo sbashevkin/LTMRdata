@@ -1,4 +1,4 @@
-* In Suisun data, added conts with no corresponding length measurements, e.g., fish within a certain size group were counted and not measured and no fish within that size group were measured. Despite the use of the word "fish" the vast majority of these instances are for invertebrates. Only 334 rows out of 24,289 corresponded to fish.
+* In Suisun data, added counts with no corresponding length measurements, e.g., fish within a certain size group were counted and not measured and no fish within that size group were measured. Despite the use of the word "fish" the vast majority of these instances are for invertebrates. Only 334 rows out of 24,289 corresponded to fish.
 * Documented data processing code.
 * Fixed some incorrect station locations
 
