@@ -41,7 +41,8 @@ You can fill in 0s for multiple univariate analyses simultaneously by passing th
 Data <- LTMRpilot(convert_lengths=TRUE, remove_unconverted_lengths=TRUE)
 
 # For a univariate analysis
-Data_filled <- zero_fill(Data, remove_unknown_lengths=TRUE, univariate=TRUE)
+species <- c("Clupea pallasii", "Morone saxatilis", "Parophrys vetulus", "Sardinops sagax")
+Data_filled <- zero_fill(Data, species=species, remove_unknown_lengths=TRUE, univariate=TRUE)
 
 # For a multivariate analysis
 Data_filled <- zero_fill(Data, remove_unknown_lengths=TRUE, univariate=FALSE)

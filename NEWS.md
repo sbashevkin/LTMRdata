@@ -1,3 +1,4 @@
+* Removed life stage from the "Taxa" column.
 * Added option to `zero_fill` to filter to specified species, along with more tests to ensure there are zeros to fill. 
 
 # LTMRdata 0.5.0
