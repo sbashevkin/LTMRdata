@@ -4,11 +4,18 @@
 \alias{zero_fill}
 \title{Fill in 0 catches}
 \usage{
-zero_fill(data, remove_unknown_lengths = TRUE, univariate = TRUE)
+zero_fill(
+  data,
+  species = NULL,
+  remove_unknown_lengths = TRUE,
+  univariate = TRUE
+)
 }
 \arguments{
 \item{data}{The input data, likely the output from \code{\link{LTMRpilot}}.
 Must contain at least the SampleID, Taxa, Length_NA_flag (if \code{remove_unmeasured_lengths=TRUE}), and Count columns.}
+
+\item{species}{Character vector of species to include. Set \code{species=NULL} (the default) to include all species. It is recommended to filter to species of interest using this option.}
 
 \item{remove_unknown_lengths}{Should samples associated with unknown lengths be removed from the data? Unknown lengths refer
 to rows with \code{Length_NA_flag=="Unknown length"}, corresponding to Suisun samples where unmeasured fish were not a random
@@ -25,8 +32,8 @@ the entire sample is removed and no 0s are filled in, since accurate community d
 Fill in 0s for samples in which a species was not recorded as caught.
 }
 \details{
-It is recommended that your data are filtered to the species (singular or plural) of interest before using this function, otherwise it will create a gigantic dataset.
-You can fill in 0s for multiple univariate analyses simultaneously by first filtering the dataset to include those species and then using this function with \code{univariate=TRUE}.
+It is recommended to use the \code{species} parameter to filter the data to the species (singular or plural) of interest, otherwise it will create a gigantic dataset.
+You can fill in 0s for multiple univariate analyses simultaneously by passing the species of interset to the \code{species} parameter and setting \code{univariate=TRUE}.
 }
 \examples{
 

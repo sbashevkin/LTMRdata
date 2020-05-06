@@ -3,6 +3,7 @@
 #' Fill in 0s for samples in which a species was not recorded as caught.
 #' @param data The input data, likely the output from \code{\link{LTMRpilot}}.
 #' Must contain at least the SampleID, Taxa, Length_NA_flag (if \code{remove_unmeasured_lengths=TRUE}), and Count columns.
+#' @param species Character vector of species to include. Set \code{species=NULL} (the default) to include all species. It is recommended to filter to species of interest using this option.
 #' @param remove_unknown_lengths Should samples associated with unknown lengths be removed from the data? Unknown lengths refer
 #' to rows with \code{Length_NA_flag=="Unknown length"}, corresponding to Suisun samples where unmeasured fish were not a random
 #' sample from the same pool fish were selected to be measured, AND the length range could not be estimated from the comments or
@@ -13,8 +14,8 @@
 #' In effect, this is transforming those records into missing data. If \code{univariate=FALSE}, when a \code{Length_NA_flag=="Unknown length"} record is found,
 #' the entire sample is removed and no 0s are filled in, since accurate community data cannot be confirmed for that sample.
 #'
-#' @details It is recommended that your data are filtered to the species (singular or plural) of interest before using this function, otherwise it will create a gigantic dataset.
-#' You can fill in 0s for multiple univariate analyses simultaneously by first filtering the dataset to include those species and then using this function with \code{univariate=TRUE}.
+#' @details It is recommended to use the \code{species} parameter to filter the data to the species (singular or plural) of interest, otherwise it will create a gigantic dataset.
+#' You can fill in 0s for multiple univariate analyses simultaneously by passing the species of interset to the \code{species} parameter and setting \code{univariate=TRUE}.
 #'
 #' @importFrom magrittr %>%
 #' @importFrom rlang .data
@@ -33,7 +34,21 @@
 #'
 #' @export
 
-zero_fill <- function(data, remove_unknown_lengths=TRUE, univariate=TRUE){
+zero_fill <- function(data, species=NULL, remove_unknown_lengths=TRUE, univariate=TRUE){
+
+  if(!is.null(species)){
+    if(!all(species%in%unique(data$Taxa))){
+      message(paste0("These species were not present in your data: ", paste(setdiff(species, unique(data$Taxa)), collapse=", ")))
+    }
+    data <- dplyr::filter(data, .data$Taxa%in%species | is.na(.data$Taxa))
+  }
+
+  if(nrow(dplyr::filter(data, is.na(.data$Taxa)))==0){
+    stop("There are no rows with NA Taxa, indicating there are no empty samples to fill with 0s.
+         Did you accidentally exclude these by filtering by 'Taxa' and not explicitly including is.na(Taxa)?
+         It is recommended to use the 'species' parameter to filter by species, rather than filtering the data before using this function.
+         If you do filter before using this function, be sure to do something like filter(data, Taxa%in%mytaxa | is.na(Taxa)).")
+  }
 
   if(!univariate & remove_unknown_lengths){
     remove<-data%>%
