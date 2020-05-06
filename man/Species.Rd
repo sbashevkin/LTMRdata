@@ -12,8 +12,8 @@ a tibble with 299 rows and 7 variables
   \item{SMF_Code}{Suisun Marsh Fish Study code.}
   \item{FMWT_Code}{Fall Midwater Trawl code.}
   \item{ScientificName}{Scientific name.}
+  \item{Taxa}{Scientific name and life stage.}
   \item{Lifestage}{Lifestage if specified.}
-  \item{Taxa}{Combination of scientific name and life stage.}
   }
 }
 \usage{

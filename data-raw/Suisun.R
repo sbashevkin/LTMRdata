@@ -186,9 +186,10 @@ Suisun <- Suisun1%>%
               mutate(ID=paste(SampleID, Taxa, SizeGroup))%>%
               filter(!ID%in%unique(Suisun1$ID))%>% # Avoiding data duplication, this is the reason Suisun1 had to be created in a prior step
               mutate(StandardLength=NA_real_, # Converting these 0 lengths to NAs
-                Length_NA_flag = "Unknown length"))%>% # Flagging these as unknown lengths
+                     Length_NA_flag = "Unknown length"))%>% # Flagging these as unknown lengths
   mutate(Count = if_else(is.na(TotalMeasured), NA_real_, (Count/TotalMeasured)*TotalCatch), # Calculate adjusted frequency, if no fish were measured, keep Count as-is
-         Sal_surf=ec2pss(Conductivity/1000, t=25))%>% # Calculate salinity from conductivity
+         Sal_surf=ec2pss(Conductivity/1000, t=25), # Calculate salinity from conductivity
+         Taxa=stringr::str_remove(Taxa, " \\((.*)"))%>% # Remove life stage from Taxa
   select(Source, Station, Latitude, Longitude, Date, Datetime, Depth, SampleID, Method, Tide, # Re-order variables
          Sal_surf, Temp_surf=Temperature, Secchi, DO_concentration=DO, DO_saturation=PctSaturation,
          Tow_duration=TowDuration, Tow_area, Taxa,
@@ -198,6 +199,7 @@ Suisun <- Suisun1%>%
 # Just measured lengths
 Suisun_measured_lengths <- catch_suisun2%>%
   filter(StandardLength!=0)%>%
+  mutate(Taxa=stringr::str_remove(Taxa, " \\((.*)"))%>% # Remove life stage from Taxa
   select(SampleID, Taxa, Dead, Length=StandardLength, Count)
 
 usethis::use_data(Suisun, Suisun_measured_lengths, overwrite=TRUE)

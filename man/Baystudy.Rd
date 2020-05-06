@@ -25,7 +25,7 @@ a tibble with 746,485 rows and 23 variables
   \item{Tow_area}{Area towed (\ifelse{html}{\out{m<sup>2</sup>}}{\eqn{m^{2}}}).}
   \item{Tow_volume}{Volume towed (\ifelse{html}{\out{m<sup>3</sup>}}{\eqn{m^{3}}}).}
   \item{Tow_direction}{Tow direction relative to current.}
-  \item{Taxa}{Scientific name and lifestage (if applicable).}
+  \item{Taxa}{Scientific name.}
   \item{Length}{Fork length, total length if there's no fork or heterocercal tail (sturgeon, shark). Bat Ray wing widths starting around 1989-1992 to present. (mm).}
   \item{Count}{Estimated count for each sample, taxa, and length.}
   \item{Length_NA_flag}{Why is the length NA?}

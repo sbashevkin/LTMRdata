@@ -23,7 +23,7 @@ a tibble with 180,320 rows and 21 variables
   \item{Secchi}{Secchi depth (cm).}
   \item{Tow_duration}{Duration of tow (minutes).}
   \item{Tow_area}{Area towed (\ifelse{html}{\out{m<sup>2</sup>}}{\eqn{m^{2}}}).}
-  \item{Taxa}{Scientific name and lifestage (if applicable).}
+  \item{Taxa}{Scientific name.}
   \item{Length}{Standard length for all species except sturgeon, which are fork length (mm).}
   \item{Count}{Estimated count for each sample, taxa, and length.}
   \item{Length_NA_flag}{Why is the length NA?}

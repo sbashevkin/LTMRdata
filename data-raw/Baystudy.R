@@ -7,7 +7,7 @@ require(tidyr)
 require(lubridate)
 require(readxl)
 require(LTMRdata)
-
+require(stringr)
 
 # Station locations -------------------------------------------------------
 
@@ -159,7 +159,8 @@ Baystudy <- env_baystudy%>% # Start with sample-level data to retain samples wit
          Sal_bott=ec2pss(ECBott/1000, t=25),
          Source="Bay Study",
          SampleID=paste(Source, SampleID), # Add unique identifier for each sample across all studies
-         Length_NA_flag=if_else(is.na(Length), "No fish caught", NA_character_))%>% # Add reasoning for an NA lengths (all "No Fish Caught" for Baystudy)
+         Length_NA_flag=if_else(is.na(Length), "No fish caught", NA_character_), # Add reasoning for an NA lengths (all "No Fish Caught" for Baystudy)
+         Taxa=stringr::str_remove(Taxa, " \\((.*)"))%>% # Remove life stage info from Taxa
   select(-ECSurf, -ECAvg, -ECBott, -CatchCode, -SizeGroup, -StationComment)%>% # Remove unneeded variables
   group_by_at(vars(-Count))%>%
   summarise(Count=sum(Count))%>% # Add up counts when the same species and length were recorded multiple times for a sample
@@ -180,6 +181,7 @@ Baystudy_measured_lengths<-length_baystudy%>%
               select(SampleID, Year, Survey, Station, Method)%>% # Add SampleID and Method to length data
               distinct(),
             by=c("Year", "Survey", "Station", "Method"))%>%
+  mutate(Taxa=stringr::str_remove(Taxa, " \\((.*)"))%>% #Remove life stage from Taxa
   select(SampleID, Taxa, Size_group=SizeGroup, Length, Count=Frequency)# Reorder variables for consistency
 
 Baystudy <- Baystudy%>%

@@ -25,7 +25,7 @@ a tibble with 228,639 rows and 21 variables
   \item{Tow_volume}{Volume towed (\ifelse{html}{\out{m<sup>3</sup>}}{\eqn{m^{3}}}).}
   \item{Tow_direction}{Tow direction relative to current.}
   \item{Cable_length}{Length of cable released when net deployed (feet?).}
-  \item{Taxa}{Scientific name and lifestage (if applicable).}
+  \item{Taxa}{Scientific name.}
   \item{Length}{Fork length from tip of the snout to a point at the fork of the caudal fin (mm).}
   \item{Count}{Estimated count for each sample, taxa, and length.}
   \item{Length_NA_flag}{Why is the length NA?}

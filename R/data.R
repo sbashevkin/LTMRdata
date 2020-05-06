@@ -22,7 +22,7 @@
 #'   \item{Tow_volume}{Volume towed (\ifelse{html}{\out{m<sup>3</sup>}}{\eqn{m^{3}}}).}
 #'   \item{Tow_direction}{Tow direction relative to current.}
 #'   \item{Cable_length}{Length of cable released when net deployed (feet?).}
-#'   \item{Taxa}{Scientific name and lifestage (if applicable).}
+#'   \item{Taxa}{Scientific name.}
 #'   \item{Length}{Fork length from tip of the snout to a point at the fork of the caudal fin (mm).}
 #'   \item{Count}{Estimated count for each sample, taxa, and length.}
 #'   \item{Length_NA_flag}{Why is the length NA?}
@@ -36,7 +36,7 @@
 #' @format a tibble with 220,785 rows and 5 variables
 #' \describe{
 #'   \item{SampleID}{Unique sample identifier.}
-#'   \item{Taxa}{Scientific name and lifestage (if applicable).}
+#'   \item{Taxa}{Scientific name.}
 #'   \item{Dead}{Was fish dead?}
 #'   \item{Length}{Sampling survey (loosely corresponds to month).}
 #'   \item{Count}{Number of fish measured to this length.}
@@ -65,7 +65,7 @@
 #'   \item{Secchi}{Secchi depth (cm).}
 #'   \item{Tow_duration}{Duration of tow (minutes).}
 #'   \item{Tow_area}{Area towed (\ifelse{html}{\out{m<sup>2</sup>}}{\eqn{m^{2}}}).}
-#'   \item{Taxa}{Scientific name and lifestage (if applicable).}
+#'   \item{Taxa}{Scientific name.}
 #'   \item{Length}{Standard length for all species except sturgeon, which are fork length (mm).}
 #'   \item{Count}{Estimated count for each sample, taxa, and length.}
 #'   \item{Length_NA_flag}{Why is the length NA?}
@@ -80,7 +80,7 @@
 #' @format a tibble with 155,447 rows and 5 variables
 #' \describe{
 #'   \item{SampleID}{Unique sample identifier.}
-#'   \item{Taxa}{Scientific name and lifestage (if applicable).}
+#'   \item{Taxa}{Scientific name.}
 #'   \item{Dead}{Was fish dead?}
 #'   \item{Length}{Standard length for all species except sturgeon, which are fork length (mm).}
 #'   \item{Count}{Number of fish measured to this length.}
@@ -111,7 +111,7 @@
 #'   \item{Tow_area}{Area towed (\ifelse{html}{\out{m<sup>2</sup>}}{\eqn{m^{2}}}).}
 #'   \item{Tow_volume}{Volume towed (\ifelse{html}{\out{m<sup>3</sup>}}{\eqn{m^{3}}}).}
 #'   \item{Tow_direction}{Tow direction relative to current.}
-#'   \item{Taxa}{Scientific name and lifestage (if applicable).}
+#'   \item{Taxa}{Scientific name.}
 #'   \item{Length}{Fork length, total length if there's no fork or heterocercal tail (sturgeon, shark). Bat Ray wing widths starting around 1989-1992 to present. (mm).}
 #'   \item{Count}{Estimated count for each sample, taxa, and length.}
 #'   \item{Length_NA_flag}{Why is the length NA?}
@@ -126,7 +126,7 @@
 #' @format a tibble with 743,295 rows and 5 variables
 #' \describe{
 #'   \item{SampleID}{Unique sample identifier.}
-#'   \item{Taxa}{Scientific name and lifestage (if applicable).}
+#'   \item{Taxa}{Scientific name.}
 #'   \item{Size_group}{When two different size groups of a species are collected, Bay study may split them into size groups and subsample from each size group separately for fish to measure.}
 #'   \item{Length}{Fork length, total length if there's no fork or heterocercal tail (sturgeon, shark). Bat Ray wing widths starting around 1989-1992 to present. (mm).}
 #'   \item{Count}{Number of fish measured to this length.}
@@ -144,8 +144,8 @@
 #'   \item{SMF_Code}{Suisun Marsh Fish Study code.}
 #'   \item{FMWT_Code}{Fall Midwater Trawl code.}
 #'   \item{ScientificName}{Scientific name.}
+#'   \item{Taxa}{Scientific name and life stage.}
 #'   \item{Lifestage}{Lifestage if specified.}
-#'   \item{Taxa}{Combination of scientific name and life stage.}
 #'   }
 "Species"
 

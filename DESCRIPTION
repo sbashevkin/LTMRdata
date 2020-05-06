@@ -22,11 +22,11 @@ Suggests:
     wql,
     testthat,
     covr,
+    stringr,
     tibble
 RoxygenNote: 7.1.0
 Imports: 
     dplyr,
     magrittr,
     rlang,
-    stringr,
     tidyr

@@ -51,15 +51,14 @@ LTMRpilot <- function(quiet=FALSE,
   }
 
   if(convert_lengths){
-    data<-dplyr::mutate(data, Species=stringr::str_remove(.data$Taxa, " \\((.*)"))
     Length_conversions<-LTMRdata::Length_conversions
     if(remove_unconverted_lengths){
-      data<-dplyr::filter(data, .data$Species%in%unique(Length_conversions$Species) | is.na(.data$Species))
+      data<-dplyr::filter(data, .data$Taxa%in%unique(Length_conversions$Species) | is.na(.data$Taxa))
     }
     data<-data%>%
-      dplyr::left_join(Length_conversions, by="Species")%>%
-      dplyr::mutate(Length=dplyr::if_else(.data$Source=="Suisun" & .data$Species%in%unique(Length_conversions$Species), .data$Intercept+.data$Slope*.data$Length, .data$Length))%>%
-      dplyr::select(-.data$Intercept, -.data$Slope, -.data$Species)
+      dplyr::left_join(Length_conversions, by=c("Taxa" = "Species"))%>%
+      dplyr::mutate(Length=dplyr::if_else(.data$Source=="Suisun" & .data$Taxa%in%unique(Length_conversions$Species), .data$Intercept+.data$Slope*.data$Length, .data$Length))%>%
+      dplyr::select(-.data$Intercept, -.data$Slope)
   }
 
   if(!is.null(size_cutoff)){

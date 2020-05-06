@@ -8,7 +8,7 @@
 a tibble with 155,447 rows and 5 variables
 \describe{
   \item{SampleID}{Unique sample identifier.}
-  \item{Taxa}{Scientific name and lifestage (if applicable).}
+  \item{Taxa}{Scientific name.}
   \item{Dead}{Was fish dead?}
   \item{Length}{Standard length for all species except sturgeon, which are fork length (mm).}
   \item{Count}{Number of fish measured to this length.}

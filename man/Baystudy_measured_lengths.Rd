@@ -8,7 +8,7 @@
 a tibble with 743,295 rows and 5 variables
 \describe{
   \item{SampleID}{Unique sample identifier.}
-  \item{Taxa}{Scientific name and lifestage (if applicable).}
+  \item{Taxa}{Scientific name.}
   \item{Size_group}{When two different size groups of a species are collected, Bay study may split them into size groups and subsample from each size group separately for fish to measure.}
   \item{Length}{Fork length, total length if there's no fork or heterocercal tail (sturgeon, shark). Bat Ray wing widths starting around 1989-1992 to present. (mm).}
   \item{Count}{Number of fish measured to this length.}
