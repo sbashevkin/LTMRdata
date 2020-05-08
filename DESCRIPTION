@@ -16,6 +16,7 @@ Depends:
 URL: https://github.com/sbashevkin/LTMRdata
 BugReports: https://github.com/sbashevkin/LTMRdata/issues
 Suggests: 
+    ps,
     readr,
     lubridate,
     readxl,
