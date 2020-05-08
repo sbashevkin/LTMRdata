@@ -80,7 +80,7 @@ boattow_baystudy<-read_csv(file.path("data-raw", "Baystudy", "BoatTow.csv"),
   select(-Tide, -Direction)%>%
   rename(Method=Net, Tidetow=Description)%>%
   mutate(Method=recode(Method, `1`="Midwater trawl", `2`="Otter trawl", `3`="EL"))%>% # Convert method codes to values
-  filter(Method%in%c("Midwater trawl", "Otter trawl"))%>% # Only include midwater and otter trawls
+  filter(Method%in%c("Midwater trawl", "Otter trawl"))%>% # Only include midwater and otter trawls. This currently does not do anything since those are the only two methods in the data.
   mutate(TowStatus=recode(Tow, `0`="Invalid", `1`="Valid", `2`="Valid", `51`="Valid", `52`="Invalid",
                           `53`="Invalid", `54`="Valid", `55`="Valid", `56`="Valid", `57`="Valid", `58`="Invalid"))%>% # Classify TowStatus into Valid or Invalid tows
   select(-Tow, -TotalMeter, -Distance) # Remove unneeded variables
