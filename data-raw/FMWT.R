@@ -10,20 +10,11 @@ require(stringr)
 
 # Station locations -------------------------------------------------------
 
-
-stations_fmwt <- read_csv(file.path("data-raw", "FMWT", "StationsLookUp.csv"),
-                          col_types = cols_only(StationCode="c", Active="i",
-                                                Lat="c", Long="c", Comments="c",
-                                                `Channel/Shoal`="i", `WGS84 Lat`="d", `WGS84 Long`="d"))%>%
-  select(Station=StationCode, Active, Lat, Long, Station_notes=Comments, Lat2=`WGS84 Lat`, Long2=`WGS84 Long`)%>%
-  separate(Lat, into=c("Lat_d", "Lat_m", "Lat_s"), sep="[ ]{1,}", convert=T)%>% # parse latitude and longitude into something usable
-  separate(Long, into=c("Long_d", "Long_m", "Long_s"), sep="[ ]{1,}", convert=T)%>%
-  mutate(Latitude=Lat_d+Lat_m/60+Lat_s/3600, # Convert Latitude and Longitude to decimal degrees
-         Longitude=Long_d-Long_m/60-Long_s/3600)%>%
-  mutate(Latitude=if_else(is.na(Latitude), Lat2, Latitude), #Use WGS84 Lats and Longs if values from Lat or Long columns are missing
-         Longitude=if_else(is.na(Longitude), -1*Long2, Longitude))%>% # WGS84 Longitude is positive
-  select(Station, Latitude, Longitude, Active)%>%
-  drop_na(Station, Latitude, Longitude) # Drop any rows with NAs in these variables
+stations_fmwt <- read_csv(file.path("data-raw", "FMWT", "FMWT_Station_Locations_corrected.csv"),
+                          col_types = cols_only(Station="i", DD_Latitude="d", DD_Longitude="d"))%>%
+  rename(Latitude=DD_Latitude, Longitude=DD_Longitude)%>%
+  mutate(Station=as.character(Station))%>%
+  drop_na()
 
 
 # Sample dates ------------------------------------------------------------
@@ -38,7 +29,7 @@ date_fmwt <- read_csv(file.path("data-raw", "FMWT", "Date.csv"), col_types=cols_
 
 
 sample_fmwt <- read_csv(file.path("data-raw", "FMWT", "Sample.csv"),
-                        col_types = cols_only(SampleRowID="i", StationCode="c", MethodCode="c",
+                        col_types = cols_only(SampleRowID="i", StationCode="i", MethodCode="c",
                                               SampleTimeStart="c", SurveyNumber="i", WaterTemperature="d",
                                               Turbidity="d", Secchi="d", SecchiEstimated="l", ConductivityTop="d",
                                               ConductivityBottom="d", TowDirectionCode="i", MeterStart="d",
@@ -47,7 +38,8 @@ sample_fmwt <- read_csv(file.path("data-raw", "FMWT", "Sample.csv"),
                                               WindDirection="c", BottomTemperature="d", DateID="i"))%>%
   left_join(date_fmwt, by="DateID")%>% # Add dates
   rename(Station=StationCode, Method=MethodCode, Tide=TideCode, Time=SampleTimeStart, Depth=DepthBottom)%>%
-  mutate(Time = parse_date_time(Time, "%m/%d/%Y %H:%M:%S", tz="America/Los_Angeles"),
+  mutate(Station=as.character(Station),
+         Time = parse_date_time(Time, "%m/%d/%Y %H:%M:%S", tz="America/Los_Angeles"),
          Tide=recode(Tide, `1` = "High Slack", `2` = "Ebb", `3` = "Low Slack", `4` = "Flood"), # Convert tide codes to values
          Weather=recode(WeatherCode, `1` = "Cloud (0-33%)", `2` = "Cloud (33-66%)", `3` = "Cloud (66-100%)", `4` = "Rain"), # Convert weather codes to values
          Waves=recode(WaveCode, `1` = "Calm", `2` = "Waves w/o whitecaps", `3` = "Waves w/ whitecaps"), # Convert wave codes to values
@@ -110,7 +102,7 @@ FMWT<-sample_fmwt%>% # Start with sample to ensure samples without any catch (em
          Secchi_estimated=SecchiEstimated, Survey=SurveyNumber, Cable_length=CableOut,
          Wind_direction=WindDirection)%>%
   select(-ConductivityTop, -ConductivityBottom, -LengthFrequency, -TotalMeasured,
-         -SampleRowID, -Time, -Catch, -Active, -Dead)%>% # Remove extra variables
+         -SampleRowID, -Time, -Catch, -Dead)%>% # Remove extra variables
   select(-Turbidity, -Microcystis, -Wind_direction, -Temp_bott, -Weather, -Waves, -Sal_bott)%>% # Remove extra environmental variables
   select(Source, Station, Latitude, Longitude, Date, Datetime, # Reorder variables for consistency
          Depth, SampleID, CatchRowID, Method, Tide, Sal_surf, Temp_surf, Secchi, Secchi_estimated,
