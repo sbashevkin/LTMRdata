@@ -1,3 +1,4 @@
+* Fixed incorrect Bay Study Tow_area values by converting Nautical miles to meters.
 * Updated FMWT coordinates to latest version from CDFW. Prior version may have had some 700 stations far east from their actual locations. 
 
 # LTMRdata 0.6.0

@@ -75,7 +75,7 @@ boattow_baystudy<-read_csv(file.path("data-raw", "Baystudy", "BoatTow.csv"),
   mutate(Time=parse_date_time(Time, orders="%m/%d/%Y %H:%M:%S"),
          Tow_direction=recode(Direction, `1`="With current", `2`="Against current", `3`="Slack or cross-current"), # Convert tow direction codes to values
          Tow_volume=TotalMeter * 0.02687 * 10.7, # Calculate tow volume using formulas in database metadata
-         Tow_area=Distance*3.42)%>% # Calculate tow area using formulas in database metadata
+         Tow_area=Distance*1852*3.42)%>% # Calculate tow area using formulas in database metadata, after first converting nautical miles to meters
   left_join(tidecodes_baystudy, by="Tide")%>% # Convert tide codes to values
   select(-Tide, -Direction)%>%
   rename(Method=Net, Tidetow=Description)%>%
