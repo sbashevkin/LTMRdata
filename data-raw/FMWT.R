@@ -10,10 +10,9 @@ require(stringr)
 
 # Station locations -------------------------------------------------------
 
-stations_fmwt <- read_csv(file.path("data-raw", "FMWT", "FMWT_Station_Locations_corrected.csv"),
-                          col_types = cols_only(Station="i", DD_Latitude="d", DD_Longitude="d"))%>%
-  rename(Latitude=DD_Latitude, Longitude=DD_Longitude)%>%
-  mutate(Station=as.character(Station))%>%
+stations_fmwt <- read_csv(file.path("data-raw", "FMWT", "StationsLookUp.csv"),
+                          col_types = cols_only(StationCode="c", DD_Latitude="d", DD_Longitude="d"))%>%
+  rename(Station=StationCode, Latitude=DD_Latitude, Longitude=DD_Longitude)%>%
   drop_na()
 
 
@@ -29,7 +28,7 @@ date_fmwt <- read_csv(file.path("data-raw", "FMWT", "Date.csv"), col_types=cols_
 
 
 sample_fmwt <- read_csv(file.path("data-raw", "FMWT", "Sample.csv"),
-                        col_types = cols_only(SampleRowID="i", StationCode="i", MethodCode="c",
+                        col_types = cols_only(SampleRowID="i", StationCode="c", MethodCode="c",
                                               SampleTimeStart="c", SurveyNumber="i", WaterTemperature="d",
                                               Turbidity="d", Secchi="d", SecchiEstimated="l", ConductivityTop="d",
                                               ConductivityBottom="d", TowDirectionCode="i", MeterStart="d",
@@ -38,8 +37,7 @@ sample_fmwt <- read_csv(file.path("data-raw", "FMWT", "Sample.csv"),
                                               WindDirection="c", BottomTemperature="d", DateID="i"))%>%
   left_join(date_fmwt, by="DateID")%>% # Add dates
   rename(Station=StationCode, Method=MethodCode, Tide=TideCode, Time=SampleTimeStart, Depth=DepthBottom)%>%
-  mutate(Station=as.character(Station),
-         Time = parse_date_time(Time, "%m/%d/%Y %H:%M:%S", tz="America/Los_Angeles"),
+  mutate(Time = parse_date_time(Time, "%m/%d/%Y %H:%M:%S", tz="America/Los_Angeles"),
          Tide=recode(Tide, `1` = "High Slack", `2` = "Ebb", `3` = "Low Slack", `4` = "Flood"), # Convert tide codes to values
          Weather=recode(WeatherCode, `1` = "Cloud (0-33%)", `2` = "Cloud (33-66%)", `3` = "Cloud (66-100%)", `4` = "Rain"), # Convert weather codes to values
          Waves=recode(WaveCode, `1` = "Calm", `2` = "Waves w/o whitecaps", `3` = "Waves w/ whitecaps"), # Convert wave codes to values
