@@ -71,7 +71,8 @@ sample_suisun <- read_csv(file.path("data-raw", "Suisun", "Sample.csv"),
 catch_suisun <- read_csv(file.path("data-raw", "Suisun", "Catch.csv"), na=c("NA", "n/p"),
                          col_types = cols_only(SampleRowID="c", OrganismCode="c", StandardLength="d",
                                                Dead="c", Count="d", CatchComments="c"))%>%
-  mutate(CatchComments=na_if(CatchComments, ""))%>% # Convert empty comments to NA
+  mutate(CatchComments=na_if(CatchComments, ""), # Convert empty comments to NA
+         Count=if_else(OrganismCode=="NOCATCH", 0, Count))%>% #Make sure "no catch" actually has a count of 0
   right_join(sample_suisun, # Add sample-level data
              by="SampleRowID")%>%
   filter(Method=="Otter trawl" & OrganismCode!="NOTRAWL")%>% # Only include otter trawl and exclude samples with no trawl.
