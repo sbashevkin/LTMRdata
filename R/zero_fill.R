@@ -88,5 +88,8 @@ zero_fill <- function(data, species=NULL, remove_unknown_lengths=TRUE, univariat
       dplyr::select(-.data$Remove)
   }
 
+  data<-data%>%
+    dplyr::filter(!is.na(.data$Taxa))
+
   return(data)
 }
