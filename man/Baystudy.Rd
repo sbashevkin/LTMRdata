@@ -14,6 +14,7 @@ a tibble with 746,485 rows and 23 variables
   \item{Longitude}{May not be accurate, see details.}
   \item{Date}{Date sample was collected.}
   \item{Datetime}{Date and time sample was collected.}
+  \item{Survey}{Survey number, roughly corresponding to month.}
   \item{Depth}{Bottom depth (m).}
   \item{SampleID}{Unique sample identifier.}
   \item{Method}{Sampling method (Otter Trawl or Midwater Trawl).}

@@ -185,6 +185,6 @@ Baystudy_measured_lengths<-length_baystudy%>%
   select(SampleID, Taxa, Size_group=SizeGroup, Length, Count=Frequency)# Reorder variables for consistency
 
 Baystudy <- Baystudy%>%
-  select(-Year, -Survey)# Remove unneeded variables
+  select(-Year)# Remove unneeded variables
 
 usethis::use_data(Baystudy, Baystudy_measured_lengths, overwrite = TRUE) # Save compressed data to /data folder

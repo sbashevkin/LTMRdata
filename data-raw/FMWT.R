@@ -102,7 +102,7 @@ FMWT<-sample_fmwt%>% # Start with sample to ensure samples without any catch (em
   select(-ConductivityTop, -ConductivityBottom, -LengthFrequency, -TotalMeasured,
          -SampleRowID, -Time, -Catch, -Dead)%>% # Remove extra variables
   select(-Turbidity, -Microcystis, -Wind_direction, -Temp_bott, -Weather, -Waves, -Sal_bott)%>% # Remove extra environmental variables
-  select(Source, Station, Latitude, Longitude, Date, Datetime, # Reorder variables for consistency
+  select(Source, Station, Latitude, Longitude, Date, Datetime, Survey, # Reorder variables for consistency
          Depth, SampleID, CatchRowID, Method, Tide, Sal_surf, Temp_surf, Secchi, Secchi_estimated,
          Tow_volume, Tow_direction, Cable_length, Taxa, Length, Count, Length_NA_flag)
 

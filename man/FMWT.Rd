@@ -6,7 +6,7 @@
 \alias{FMWT}
 \title{FMWT dataset}
 \format{
-a tibble with 228,639 rows and 21 variables
+a tibble with 228,639 rows and 22 variables
 \describe{
   \item{Source}{Name of source dataset.}
   \item{Station}{Station where sample was collected.}
@@ -14,6 +14,7 @@ a tibble with 228,639 rows and 21 variables
   \item{Longitude}{Longitude (decimal degrees).}
   \item{Date}{Date sample was collected.}
   \item{Datetime}{Date and time sample was collected.}
+  \item{Survey}{Survey number, roughly corresponding to month.}
   \item{Depth}{Bottom depth (m).}
   \item{SampleID}{Unique sample identifier.}
   \item{Method}{Sampling method (Otter Trawl or Midwater Trawl).}
