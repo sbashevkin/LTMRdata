@@ -1,3 +1,5 @@
+# LTMRdata 1.0.0
+
 * Fixed incorrect Bay Study Tow_area values by converting Nautical miles to meters.
 * Updated FMWT coordinates to latest version from CDFW. Prior version may have had some 700 stations far east from their actual locations. 
 * Fixed issue with Suisun data by forcing all counts corresponding to `OrganismCode=="NOCATCH"` to be 0.
