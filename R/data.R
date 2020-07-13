@@ -153,11 +153,11 @@
 
 #' Length conversions
 #'
-#' Intercepts and slopes for equations to convert Standard Length to Fork Length (or Total Length if no fork).
+#' Intercepts and slopes for equations to convert Standard Length to Fork Length (or Total Length if no fork). Equations derived from the CDFW length-weight study (2005) and Jereme Gaeta, unpublished.
 #'
 #' @format a tibble with 20 rows and 3 variables
 #' \describe{
-#'   \item{ScientificName}{Scientific name.}
+#'   \item{Species}{Scientific name.}
 #'   \item{Intercept}{Intercept in the equation FL = Intercept + Slope * SL.}
 #'   \item{Slope}{Slope in the equation FL = Intercept + Slope * SL.}
 #'   }
