@@ -73,13 +73,13 @@ boattow_baystudy<-read_csv(file.path("data-raw", "Baystudy", "BoatTow.csv"),
                                                  EndLat="d", Distance="d", TowComment="c"))%>%
   select(-StartLong, -EndLong, -StartLat, -EndLat, -StartMeter, -EndMeter)%>% # Removing survey lats/longs and start/end meters for now
   mutate(Time=parse_date_time(Time, orders="%m/%d/%Y %H:%M:%S"),
-         Tow_direction=recode(Direction, `1`="With current", `2`="Against current", `3`="Slack or cross-current"), # Convert tow direction codes to values
-         Tow_volume=TotalMeter * 0.02687 * 10.7, # Calculate tow volume using formulas in database metadata
-         Tow_area=Distance*1852*3.42)%>% # Calculate tow area using formulas in database metadata, after first converting nautical miles to meters
+         Tow_direction=recode(Direction, `1`="With current", `2`="Against current", `3`="Slack or cross-current"))%>% # Convert tow direction codes to values
   left_join(tidecodes_baystudy, by="Tide")%>% # Convert tide codes to values
   select(-Tide, -Direction)%>%
   rename(Method=Net, Tidetow=Description)%>%
   mutate(Method=recode(Method, `1`="Midwater trawl", `2`="Otter trawl", `3`="EL"))%>% # Convert method codes to values
+  mutate(Tow_volume=if_else(Method=="Midwater trawl", TotalMeter * 0.02687 * 10.7, NA_real_),# Calculate tow volume using formulas in database metadata
+         Tow_area=if_else(Method=="Otter trawl", Distance*1852*3.42, NA_real_))%>% # Calculate tow area using formulas in database metadata, after first converting nautical miles to meters)
   filter(Method%in%c("Midwater trawl", "Otter trawl"))%>% # Only include midwater and otter trawls. This currently does not do anything since those are the only two methods in the data.
   mutate(TowStatus=recode(Tow, `0`="Invalid", `1`="Valid", `2`="Valid", `51`="Valid", `52`="Invalid",
                           `53`="Invalid", `54`="Valid", `55`="Valid", `56`="Valid", `57`="Valid", `58`="Invalid"))%>% # Classify TowStatus into Valid or Invalid tows
