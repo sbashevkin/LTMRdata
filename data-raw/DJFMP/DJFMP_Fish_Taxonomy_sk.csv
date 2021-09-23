@@ -1,0 +1,181 @@
+ScientificName,OrganismCode,IngratedDS,CommonName,NonNative,Phylum,Class,Order,Family,Genus,Species,Active
+Aurelia aurita,AAURIT,Aurelia aurita,moon jelly,no,Cnidaria,Scyphozoa,Semaeostomeae,Ulmaridae,Aurelia,aurita,1
+Potamocorbula amurensis,ACL,Potamocorbula amurensis,Asian clam,yes,Mollusca,Bivalvia,Myodia,Sphaeriidae,Potamocorbula,amurensis,0
+Aurelia labiata,ALABIA,no ADD,Aurelia labiata,no,Cnidaria,Scyphozoa,Semaeostomeae,Ulmaridae,Aurelia,labiata,1
+Anguilla rostrata,AME,Anguilla rostrata,American eel,yes,Chordata,Actinopterygii,Anguilliformes,Anguillidae,Anguilla,rostrata,0
+Alosa sapidissima,AMS,Alosa sapidissima,American shad,yes,Chordata,Actinopterygii,Clupeiformes,Clupeidae,Alosa,sapidissima,1
+Clevelandia ios,ARG,Clevelandia ios,arrow goby,no,Chordata,Actinopterygii,Perciformes,Gobiidae,Clevelandia,ios,1
+Micropterus NA,BAS,ADD,bass unknown,,Chordata,Actinopterygii,Perciformes,Centrarchidae,Micropterus,NA,1
+Lepidogobius lepidus,BG,Lepidogobius lepidus,bay goby,no,Chordata,Actinopterygii,Perciformes,Gobiidae,Lepidogobius,lepidus,1
+Lepomis macrochirus,BGS,Lepomis macrochirus,bluegill,yes,Chordata,Actinopterygii,Perciformes,Centrarchidae,Lepomis,macrochirus,1
+Ameiurus melas,BKB,Ameiurus melas,black bullhead,yes,Chordata,Actinopterygii,Siluriformes,Ictaluridae,Ameiurus,melas,1
+Pomoxis nigromaculatus,BKS,Pomoxis nigromaculatus,black crappie,yes,Chordata,Actinopterygii,Perciformes,Centrarchidae,Pomoxis,nigromaculatus,1
+Ictalurus furcatus,BLC,Ictalurus furcatus,blue catfish,yes,Chordata,Actinopterygii,Siluriformes,Ictaluridae,Ictalurus,furcatus,1
+Hippoglossina stomata,BMS,Hippoglossina stomata,bigmouth sole,yes,Chordata,Actinopterygii,Pleuronectiformes,Paralichthyidae,Hippoglossina,stomata,1
+Syngnathus leptorhynchus,BPF,Syngnathus leptorhynchus,bay pipefish,no,Chordata,Actinopterygii,Gasterosteiformes,Syngnathidae,Syngnathus,leptorhynchus,1
+Ameiurus nebulosus,BRB,Ameiurus nebulosus,brown bullhead,yes,Chordata,Actinopterygii,Siluriformes,Ictaluridae,Ameiurus,nebulosus,1
+Sebastes auriculatus,BRF,Sebastes auriculatus,Brown Rockfish,,Chordata,Osteichthyes,Scopaeniformes,Scorpaenidae,Sebastes,auriculatus,1
+Lucania goodei,BRFK,no ADD,Bluefin Killifish,yes,Chordata,Actinopterygii,Cyprinodontiformes,Fundulidae,Lucania,goodei,1
+Myliobatis californica,BRY,Myliobatis californica,bat ray,no,Chordata,Chondrichthyes,Rajiformes,Mobulidae,Myliobatis,californica,1
+Embiotoca jacksoni,BSFP,Embiotoca jacksoni,black perch,,Chordata,Actinopterygii,Percifomes,Embiotocidae,Embiotoca,jacksoni,1
+Raja binoculata,BSK,Raja binoculata,big skate,no,Chordata,Chondrichthyes,Rajiformes,Rajidae,Raja,binoculata,0
+Mustelus henlei,BSM,Mustelus henlei,brown smoothhound,no,Chordata,Chondrichthyes,Lamniformes,Carcharhinidae,Mustelus,henlei,0
+Amphistichus argenteus,BSP,Amphistichus argenteus,barred surfperch,no,Chordata,Actinopterygii,Perciformes,Embiotocidae,Amphistichus,argenteus,1
+Salmo trutta,BT,Salmo trutta,brown trout,yes,Chordata,Actinopterygii,Salmoniformes,Salmonidae,Salmo,trutta,0
+Isopsetta isolepis,BUT,Isopsetta isolepis,butter sole,no,Chordata,Actinopterygii,Pleuronectiformes,Pleuronectidae,Isopsetta,isolepis,1
+Blackfordia virginica,BVIRGI,no ADD,Blackfordia virginica,yes,Cnidaria,Hydrozoa,Thecatae,Blackfordiidae,Blackfordia,virginica,1
+Cyprinus carpio,C,Cyprinus carpio,common carp,yes,Chordata,Actinopterygii,Cypriniformes,Cyprinidae,Cyprinus,carpio,1
+Paralichthys californicus,CAH,Paralichthys californicus,California halibut,no,Chordata,Actinopterygii,Pleuronectiformes,Bothidae,Paralichthys,californicus,1
+Hesperoleucus symmetricus,CAR,Hesperoleucus symmetricus,California roach,no,Chordata,Actinopterygii,Cypriniformes,Cyprinidae,Hesperoleucus,symmetricus,1
+Ictaluridae,CAT,Ictaluridae,catfish unknown,,Chordata,Actinopterygii,Siluriformes,Ictaluridae,NA,NA,0
+Scorpaenichthys marmoratus,CBZ,Scorpaenichthys marmoratus,cabezon,no,Chordata,Actinopterygii,Scorpaeniformes,Cottidae,Scorpaenichthys,marmoratus,1
+Cyanea capillata,CCAPIL,no ADD,lions mane,no,Cnidaria,Scyphozoa,Semaeostomeae,Cyaneidae,Cyanea,capillata,1
+Chrysaora fuscescens,CFUSCE,Chrysaora fuscescens,Chrysaora fuscescens,no,Cnidaria,Scyphozoa,Semaeostomeae,Pelagiidae,Chrysaora,fuscescens,1
+Ictalurus punctatus,CHC,Ictalurus punctatus,channel catfish,yes,Chordata,Actinopterygii,Siluriformes,Ictaluridae,Ictalurus,punctatus,1
+Tridentiger trigonocephalus,CHG,Tridentiger trigonocephalus,chameleon goby,yes,Chordata,Actinopterygii,Perciformes,Gobiidae,Tridentiger,trigonocephalus,1
+Oncorhynchus tshawytscha,CHN,Oncorhynchus tshawytscha,Chinook salmon,no,Chordata,Actinopterygii,Salmoniformes,Salmonidae,Oncorhynchus,tshawytscha,1
+Oncorhynchus kisutch,CHO,Oncorhynchus kisutch,coho salmon,no,Chordata,Actinopterygii,Salmoniformes,Salmonidae,Oncorhynchus,kisutch,0
+Eriocheir sinensis,CMC,Eriocheir sinensis,Chinese mitten crab,yes,Arthropoda,Malacostraca,Decapoda,Varunidae,Eriocheir,sinensis,1
+Cnidaria,Cnidaria,Cnidaria,Cnidarian unknown,,Cnidaria,NULL,NULL,NULL,NULL,NULL,1
+Pomoxis NA,CPY,ADD,crappie unknown,yes,Chordata,Actinopterygii,Perciformes,Centrarchidae,Pomoxis,NA,0
+Gibbonsia montereyensis,CRKF,Gibbonsia montereyensis,crevice kelpfish,no,Chordata,Actinopterygii,Perciformes,Clinidae,Gibbonsia,montereyensis,1
+Ilypnus gilberti,CSG,Ilypnus gilberti,cheekspot goby,no,Chordata,Actinopterygii,Perciformes,Gobiidae,Ilypnus,gilberti,1
+Centrarchidae,CSN,Centrarchidae,sunfish unknown,,Chordata,Actinopterygii,Perciformes,Centrarchidae,NA,NA,0
+Amphistichus koelzi,CSP,Amphistichus koelzi,calico surfperch,no,Chordata,Actinopterygii,Percifomes,Embiotocidae,Amphistichus,koelzi,1
+Crangon ,Cspp,no ADD,Crangon Spp.,,Arthropoda,Malacostraca,Decapoda,Crangonidae,Crangon,,1
+Symphurus atricauda,CTF,Symphurus atricauda,California Tonguefish,no,Chordata,Actinopterygii,Pleuronectiformes,Cynoglossidae,Symphurus,atricauda,1
+Rhinichthys osculus,DACE,Rhinichthys osculus,speckled dace,no,Chordata,Actinopterygii,Cypriniformes,Cyprinidae,Rhinichthys,osculus,1
+Pleuronichthys guttulatus,DMT,Pleuronichthys guttulatus,diamond turbot,no,Chordata,Actinopterygii,Pleuronectiformes,Pleuronectidae,Pleuronichthys,guttulatus,1
+Pandalus danae,DSH,no ADD,Dock Shrimp,,Arthropoda,Malacostraca,Decapoda,Pandalidae,Pandalus,danae,1
+Hypomesus transpacificus,DSM,Hypomesus transpacificus,Delta smelt,no,Chordata,Actinopterygii,Salmoniformes,Osmeridae,Hypomesus,transpacificus,1
+Micrometrus minimus,DSP,Micrometrus minimus,dwarf surfperch,no,Chordata,Actinopterygii,Perciformes,Embiotocidae,Micrometrus,minimus,1
+,EEL,ADD,eel unknown,,Chordata,Actinopterygii,Anguilliformes,NA,NA,NA,0
+Parophrys vetulus,ELS,Parophrys vetulus,English sole,no,Chordata,Actinopterygii,Pleuronectiformes,Pleuronectidae,Parophrys,vetulus,1
+Exopalaemon modestus,EXP,no ADD,Siberian prawn,yes,Arthropoda,Malacostraca,Decapoda,Palaemonidae,Exopalaemon,modestus,1
+Pimephales promelas,FHM,Pimephales promelas,fathead minnow,yes,Chordata,Actinopterygii,Cypriniformes,Cyprinidae,Pimephales,promelas,1
+,FLF,no ADD,flatfish unknown,,Chordata,Actinopterygii,Pleuronectiformes,NA,NA,NA,0
+Cordylophora caspia,FWH,no ADD,freshwater hydroid,yes,Cnidaria,Hydrozoa,Athecatae,Clavidae,Cordylophora,caspia,0
+Gobiidae,GBY,Gobiidae,goby unknown,,Chordata,Actinopterygii,Perciformes,Gobiidae,NA,NA,0
+Carassius auratus,GF,Carassius auratus,goldfish,yes,Chordata,Actinopterygii,Cypriniformes,Cyprinidae,Carassius,auratus,1
+Heterostichus rostratus,GKF,Heterostichus rostratus,giant kelpfish,no,Chordata,Actinopterygii,Perciformes,Clinidae,Heterostichus,rostratus,0
+Sebastes carnatus,GRF,ADD,Gopher Rockfish,no,Chordata,Actinopterygii,Scorpaeniformes,Scorpaenidae,Sebastes,carnatus,1
+Lepomis cyanellus,GSF,Lepomis cyanellus,green sunfish,yes,Chordata,Actinopterygii,Perciformes,Centrarchidae,Lepomis,cyanellus,1
+Mustelus californicus,GSM,Mustelus californicus,grey smoothhound,no,Chordata,Chondrichthyes,Lamniformes,Carcharhinidae,Mustelus,californicus,0
+Notemigonus crysoleucas,GSN,Notemigonus crysoleucas,golden shiner,yes,Chordata,Actinopterygii,Cypriniformes,Cyprinidae,Notemigonus,crysoleucas,1
+Acipenser medirostris,GST,Acipenser medirostris,green sturgeon,no,Chordata,Actinopterygii,Acipenseriformes,Acipenseridae,Acipenser,medirostris,1
+Lavinia exilicauda,HCH,Lavinia exilicauda,hitch,no,Chordata,Actinopterygii,Cypriniformes,Cyprinidae,Lavinia,exilicauda,1
+Clupeidae,HER,Clupeidae,herring unknown,,Chordata,Actinopterygii,Clupeiformes,Clupeidae,NA,NA,0
+Mylopharodon conocephalus,HH,Mylopharodon conocephalus,hardhead,no,Chordata,Actinopterygii,Cypriniformes,Cyprinidae,Mylopharodon,conocephalus,1
+Heptacarpus NA,Hspp,no ADD,Heptacarpus Spp.,,Arthropoda,Malacostraca,Decapoda,Hippolytidae,Heptacarpus,NA,1
+Atherinopsis californiensis,JSM,Atherinopsis californiensis,jacksmelt,no,Chordata,Actinopterygii,Atheriniformes,Atherinidae,Atherinopsis,californiensis,1
+Oncorhynchus nerka,KOS,Oncorhynchus nerka,kokanee salmon,yes,Chordata,Actinopterygii,Salmoniformes,Salmonidae,Oncorhynchus,nerka,0
+Brachyistius frenatus,KSP,Brachyistius frenatus,kelp perch,no,Chordata,Actinopterygii,Perciformes,Embiotocidae,Brachyistius,frenatus,0
+Lampetra NA,LAM,no ADD,lamprey unknown,,Chordata,Cephalaspidomorphi,Petromyzontiformes,Petromyzontidae,Lampetra,NA,1
+Spirinchus thaleichthys,LFS,Spirinchus thaleichthys,longfin smelt,no,Chordata,Actinopterygii,Salmoniformes,Osmeridae,Spirinchus,thaleichthys,1
+Ophiodon elongatus,LIC,Ophiodon elongatus,lingcod,no,Chordata,Actinopterygii,Scorpaeniformes,Hexagrammidae,Ophiodon,elongatus,0
+Micropterus salmoides,LMB,Micropterus salmoides,largemouth bass,yes,Chordata,Actinopterygii,Perciformes,Centrarchidae,Micropterus,salmoides,1
+Gillichthys mirabilis,LMS,Gillichthys mirabilis,longjaw mudsucker,no,Chordata,Actinopterygii,Percifomes,Gobiidae,Gillichthys,mirabilis,1
+Percina macrolepida,LP,Percina macrolepida,bigscale logperch,yes,Chordata,Actinopterygii,Perciformes,Percidae,Percina,macrolepida,1
+Triakis semifasciata,LPS,Triakis semifasciata,leopard shark,no,Chordata,Chondrichthyes,Carcharhiniformes,Triakidae,Triakis,semifasciata,1
+Cyprinidae,MIN,Cyprinidae,minnow unknown,,Chordata,Actinopterygii,Cypriniformes,Cyprinidae,NA,NA,0
+Maeotias marginata,MMARGI,Maeotias marginata,Black Sea jellyfish,yes,Cnidaria,Hydrozoa,Limnomedusae,Olindiidae,Maeotias,marginata,1
+Moerisia sp.,MOERIS,no ADD,Moerisia sp.,no,Cnidaria,Hydrozoa,Anthomedusae,Moerisiidae,Moerisia,sp.,1
+Gambusia affinis,MQF,Gambusia affinis,western mosquitofish,yes,Chordata,Actinopterygii,Cyprinodontiformes,Poeciliidae,Gambusia,affinis,1
+Menidia beryllina,MSS,ADD,inland silverside,yes,Chordata,Actinopterygii,Atheriniformes,Atherinopsidae,Menidia,beryllina,1
+Engraulis mordax,NAN,Engraulis mordax,northern anchovy,no,Chordata,Actinopterygii,Clupeiformes,Engraulidae,Engraulis,mordax,1
+,NOFISH,no ADD,no catch,,NULL,NULL,NULL,NULL,NULL,NULL,1
+Esox lucius,NPK,Esox lucius,northern pike,yes,Chordata,Actinopterygii,Esociformes,Esocidae,Esox,lucius,0
+Spirinchus starksi,NSM,Spirinchus starksi,night smelt,no,Chordata,Actinopterygii,Salmoniformes,Osmeridae,Spirinchus,starksi,1
+Palaemon macrodactylus,ORSH,Palaemon macrodactylus,oriental shrimp,yes,Arthropoda,Malacostraca,Decapoda,Palaemonidae,Palaemon,macrodactylus,1
+Antromysis cenotensis,OSH,no ADD,opossum shrimp,no,Arthropoda,Eumalacostraca,Mysidacea,Mysidae,Antromysis,cenotensis,0
+Clupea pallasii,PAH,Clupea pallasii,Pacific herring,no,Chordata,Actinopterygii,Clupeiformes,Clupeidae,Clupea,pallasii,1
+Pleurobrachia bachei,PBACHE,Pleurobrachia bachei,comb jelly,no,Ctenophora,Tentaculata,Cydippida,Pleurobrachiidae,Pleurobrachia,bachei,1
+Lampetra richardsoni,PBL,Lampetra richardsoni,western brook lamprey,no,Chordata,Cephalaspidomorphi,Petromyzontiformes,Petromyzontidae,Lampetra,richardsoni,0
+Peprilus simillimus,PBU,Peprilus simillimus,Pacific pompano,no,Chordata,Actinopterygii,Perciformes,Stromateidae,Peprilus,simillimus,0
+Phacellophora camtschatica,PCAMTS,no ADD,egg yolk jelly,no,Cnidaria,Scyphozoa,Semaeostomeae,Ulmaridae,Phacellophora,camtschatica,1
+Percidae,PCH,ADD,perch unknown,,Chordata,Actinopterygii,Perciformes,Percidae,NA,NA,0
+Pelagia colorata,PCOLOR,no ADD,purple-striped jelly,no,Cnidaria,Scyphozoa,Semaeostomeae,Pelagiidae,Pelagia,colorata,1
+Torpedo californica,PELR,Torpedo californica,Pacific electric ray,no,Chordata,Chondrichthyes,Rajiformes,Torpedinidae,Torpedo,californica,0
+Hippoglossus stenolepis,PHA,Hippoglossus stenolepis,Pacific halibut,no,Chordata,Actinopterygii,Pleuronectiformes,Pleuronectidae,Hippoglossus,stenolepis,0
+Polyorchis haplus,PHAP,no ADD,penicillate jellyfish other,no,Cnidaria,Hydrozoa,Anthoathecatae,Polyorchidae,Polyorchis,haplus,1
+Oncorhynchus gorbuscha,PKS,Oncorhynchus gorbuscha,pink salmon,yes,Chordata,Actinopterygii,Salmoniformes,Salmonidae,Oncorhynchus,gorbuscha,0
+Lampetra tridentata,PL,Lampetra tridentata,Pacific lamprey,no,Chordata,Cephalaspidomorphi,Petromyzontiformes,Petromyzontidae,Lampetra,tridentata,1
+Porichthys notatus,PMP,Porichthys notatus,plainfin midshipman,no,Chordata,Actinopterygii,Batrachoidiformes,Batrachoididae,Porichthys,notatus,1
+Rhacochilus vacca,PPE,Rhacochilus vacca,pile perch,no,Chordata,Actinopterygii,Percifomes,Embiotocidae,Rhacochilus,vacca,1
+Polyorchis penicillatus,PPENIC,Polyorchis penicillatus,penicillate jellyfish,no,Cnidaria,Hydrozoa,Anthoathecatae,Polyorchidae,Polyorchis,penicillatus,1
+Cottus asper,PRS,Cottus asper,prickly sculpin,no,Chordata,Actinopterygii,Scorpaeniformes,Cottidae,Cottus,asper,1
+Citharichthys sordidus,PS,Citharichthys sordidus,Pacific sanddab,no,Chordata,Actinopterygii,Pleuronectiformes,Paralichthyidae,Citharichthys,sordidus,0
+Sardinops sagax,PSA,Sardinops sagax,Pacific sardine,no,Chordata,Actinopterygii,Clupeiformes,Clupeidae,Sardinops,sagax,0
+Lepomis gibbosus,PSF,Lepomis gibbosus,pumpkinseed,yes,Chordata,Actinopterygii,Perciformes,Centrarchidae,Lepomis,gibbosus,1
+Palaemonetes,Pspp,no ADD,Palaemonetes Spp.,,Arthropoda,Malacostraca,Decapoda,Palaemonidae,Palaemonetes,NA,1
+Leptocottus armatus,PSS,Leptocottus armatus,Pacific staghorn sculpin,no,Chordata,Actinopterygii,Scorpaeniformes,Cottidae,Leptocottus,armatus,1
+Apodichthys flavidus,PTG,Apodichthys flavidus,penpoint gunnel,no,Chordata,Actinopterygii,Perciformes,Pholidae,Apodichthys,flavidus,1
+Microgadus proximus,PTO,Microgadus proximus,Pacific tomcod,no,Chordata,Actinopterygii,Gadiformes,Gadidae,Microgadus,proximus,0
+Oncorhynchus mykiss,RBT,Oncorhynchus mykiss,rainbow / steelhead trout,no,Chordata,Actinopterygii,Salmoniformes,Salmonidae,Oncorhynchus,mykiss,1
+Pholis schultzi,RDG,Pholis schultzi,red gunnel,no,Chordata,Actinopterygii,Perciformes,Pholidae,Pholis,schultzi,1
+Micropterus coosae,REB,Micropterus coosae,redeye bass,yes,Chordata,Actinopterygii,Perciformes,Centrarchidae,Micropterus,coosae,1
+Lepomis microlophus,RES,Lepomis microlophus,redear sunfish,yes,Chordata,Actinopterygii,Perciformes,Centrarchidae,Lepomis,microlophus,1
+Pleuronectidae,RFF,Pleuronectidae,righteye flounder unknown,,Chordata,Actinopterygii,Pleuronectiformes,Pleuronectidae,NA,NA,0
+Lucania parva,RFK,Lucania parva,rainwater killifish,yes,Chordata,Actinopterygii,Cyprinodontiformes,Fundulidae,Lucania,parva,1
+Notropis rubellus,RFS,Notropis rubellus,rosyface shiner,yes,Chordata,Actinopterygii,Cypriniformes,Cyprinidae,Notropis,rubellus,0
+Lampetra ayresii,RL,Lampetra ayresii,river lamprey,no,Chordata,Cephalaspidomorphi,Petromyzontiformes,Petromyzontidae,Lampetra,ayresii,1
+Scorpaenidae,ROC,no ADD,rockfish unknown,,Chordata,Actinopterygii,Scorpaeniformes,Scorpaenidae,NA,NA,0
+Lepidopsetta bilineata,ROS,Lepidopsetta bilineata,rock sole,no,Chordata,Actinopterygii,Pleuronectiformes,Pleuronectidae,Lepidopsetta,bilineata,1
+Cottus gulosus,RSC,Cottus gulosus,riffle sculpin,no,Chordata,Actinopterygii,Scorpaeniformes,Cottidae,Cottus,gulosus,0
+Cyprinella lutrensis,RSN,Cyprinella lutrensis,red shiner,yes,Chordata,Actinopterygii,Cypriniformes,Cyprinidae,Cyprinella,lutrensis,1
+Amphistichus rhodoterus,RSP,Amphistichus rhodoterus,redtail surfperch,no,Chordata,Actinopterygii,Perciformes,Embiotocidae,Amphistichus,rhodoterus,0
+Rhacochilus toxotes,RSU,Rhacochilus toxotes,rubberlip seaperch,no,Chordata,Actinopterygii,Perciformes,Embiotocidae,Rhacochilus,toxotes,0
+Ptychocheilus grandis,SAPM,Ptychocheilus grandis,Sacramento pikeminnow,no,Chordata,Actinopterygii,Cypriniformes,Cyprinidae,Ptychocheilus,grandis,1
+Psettichthys melanostictus,SAS,Psettichthys melanostictus,sand sole,no,Chordata,Actinopterygii,Pleuronectiformes,Pleuronectidae,Psettichthys,melanostictus,1
+Catostomus occidentalis,SASU,Catostomus occidentalis,Sacramento sucker,no,Chordata,Actinopterygii,Cypriniformes,Catostomidae,Catostomus,occidentalis,1
+Pholis ornata,SBG,Pholis ornata,saddleback gunnel,no,Chordata,Actinopterygii,Perciformes,Pholidae,Pholis,ornata,1
+Oligocottus rimensis,SBS,Oligocottus rimensis,saddleback sculpin,no,Chordata,Actinopterygii,Scorpaeniformes,Cottidae,Oligocottus,rimensis,1
+Orthodon microlepidotus,SCB,Orthodon microlepidotus,Sacramento blackfish,no,Chordata,Actinopterygii,Cypriniformes,Cyprinidae,Orthodon,microlepidotus,1
+Cottidae,SCU,ADD,sculpin unknown,,Chordata,Actinopterygii,Scorpaeniformes,Cottidae,NA,NA,0
+Squalus acanthias,SDO,Squalus acanthias,spiny dogfish,no,Chordata,Chondrichthyes,Squaliformes,Squalidae,Squalus,acanthias,0
+Tridentiger barbatus,SHG,Tridentiger barbatus,Shokihaze goby,yes,Chordata,Actinopterygii,Perciformes,Gobiidae,Tridentiger,barbatus,1
+Cyprinidae,SHI,Cyprinidae,shiner unknown,,Chordata,Actinopterygii,Cypriniformes,Cyprinidae,NA,,0
+Tridentiger bifasciatus,SHM,Tridentiger bifasciatus,shimofuri goby,yes,Chordata,Actinopterygii,Perciformes,Gobiidae,Tridentiger,bifasciatus,1
+,SHRIMP,no ADD,shrimp unknown,,Arthropoda,Malacostraca,NA,NA,NA,NA,1
+,SIL,no ADD,silversides unknown,,Chordata,Actinopterygii,Atheriniformes,NA,NA,NA,0
+Gibbonsia metzi,SKP,Gibbonsia metzi,striped kelpfish,no,Chordata,Actinopterygii,Perciformes,Clinidae,Gibbonsia,metzi,1
+Micropterus dolomieu,SMB,Micropterus dolomieu,smallmouth bass,yes,Chordata,Actinopterygii,Perciformes,Centrarchidae,Micropterus,dolomieu,1
+Osmeridae,SMT,ADD,smelt unknown,,Chordata,Actinopterygii,Salmoniformes,Osmeridae,NA,NA,0
+Mugil cephalus,SMU,Mugil cephalus,striped mullet,no,Chordata,Actinopterygii,Perciformes,Mugilidae,Mugil,cephalus,1
+Scrippsia pacifica,SPACIF,Scrippsia pacifica,Scrippsia pacifica,no,Cnidaria,Hydrozoa,Anthoathecatae,Polyorchidae,Scrippsia,pacifica,1
+Micropterus punctulatus,SPB,Micropterus punctulatus,spotted bass,yes,Chordata,Actinopterygii,Perciformes,Centrarchidae,Micropterus,punctulatus,1
+Hyperprosopon anale,SPCH,Hyperprosopon anale,spotfin surfperch,no,Chordata,Actinopterygii,Percifomes,Embiotocidae,Hyperprosopon,anale,1
+Citharichthys stigmaeus,SPK,Citharichthys stigmaeus,speckled sanddab,no,Chordata,Actinopterygii,Pleuronectiformes,Paralichthyidae,Citharichthys,stigmaeus,1
+Pogonichthys macrolepidotus,SPLT,Pogonichthys macrolepidotus,splittail,no,Chordata,Actinopterygii,Cypriniformes,Cyprinidae,Pogonichthys,macrolepidotus,1
+Archoplites interruptus,SPR,Archoplites interruptus,Sacramento perch,no,Chordata,Actinopterygii,Perciformes,Centrarchidae,Archoplites,interruptus,0
+Cymatogaster aggregata,SRF,Cymatogaster aggregata,shiner perch,no,Chordata,Actinopterygii,Perciformes,Embiotocidae,Cymatogaster,aggregata,1
+Hypomesus pretiosus,SSM,Hypomesus pretiosus,surf smelt,no,Chordata,Actinopterygii,Salmoniformes,Osmeridae,Hypomesus,pretiosus,1
+Morone saxatilis,STB,Morone saxatilis,striped bass,yes,Chordata,Actinopterygii,Perciformes,Moronidae,Morone,saxatilis,1
+Platichthys stellatus,STF,Platichthys stellatus,starry flounder,no,Chordata,Actinopterygii,Pleuronectiformes,Pleuronectidae,Platichthys,stellatus,1
+Embiotoca lateralis,STSP,Embiotoca lateralis,Striped Seaperch,no,Chordata,Osteichthyes,Perciformes,Embiotocidae,Embiotoca,lateralis,1
+Acipenser NA,STU,ADD,sturgeon unknown,,Chordata,Actinopterygii,Acipenseriformes,Acipenseridae,Acipenser,NA,0
+Catostomidae,SUC,ADD,sucker unknown,,Chordata,Actinopterygii,Cypriniformes,Catostomidae,NA,NA,0
+Hyperprosopon ellipticum,SVR,Hyperprosopon ellipticum,silver surfperch,no,Chordata,Actinopterygii,Perciformes,Embiotocidae,Hyperprosopon,ellipticum,1
+Gila bicolor,TC,no ADD,tui chub,no,Chordata,Actinopterygii,Cypriniformes,Cyprinidae,Gila,bicolor,1
+Dorosoma petenense,TFS,Dorosoma petenense,threadfin shad,yes,Chordata,Actinopterygii,Clupeiformes,Clupeidae,Dorosoma,petenense,1
+Eucyclogobius newberryi,TGO,Eucyclogobius newberryi,tidewater goby,no,Chordata,Actinopterygii,Perciformes,Gobiidae,Eucyclogobius,newberryi,0
+Platyrhinoidis triseriata,THORNB,Platyrhinoidis triseriata,Thornback Ray,,Chordata,Chondrichthyes,Rajiformes,Platyrhinidae,Platyrhinoidis,triseriata,1
+Hysterocarpus traskii,TP,Hysterocarpus traskii,tule perch,no,Chordata,Actinopterygii,Perciformes,Embiotocidae,Hysterocarpus,traskii,1
+Oligocottus maculosus,TPS,Oligocottus maculosus,tidepool sculpin,No,Chordata,Osteichthyes,Scorpaeniformes,Cottidae,Oligocottus,maculosus,1
+Atherinops affinis,TSM,Atherinops affinis,topsmelt,no,Chordata,Actinopterygii,Atheriniformes,Atherinopsidae,Atherinops,affinis,1
+Gasterosteus aculeatus,TSS,Gasterosteus aculeatus,threespine stickleback,no,Chordata,Actinopterygii,Gasterosteiformes,Gasterosteidae,Gasterosteus,aculeatus,1
+,UNID,no ADD,unid fish,,Chordata,NA,NA,NA,NA,NA,1
+Lepomis gulosus,W,Lepomis gulosus,warmouth,yes,Chordata,Actinopterygii,Perciformes,Centrarchidae,Lepomis,gulosus,1
+Hypomesus nipponensis,WAG,Hypomesus nipponensis,wakasagi,yes,Chordata,Actinopterygii,Salmoniformes,Osmeridae,Hypomesus,nipponensis,1
+Allosmerus elongatus,WBS,Allosmerus elongatus,whitebait smelt,no,Chordata,Actinopterygii,Salmoniformes,Osmeridae,Allosmerus,elongatus,1
+Genyonemus lineatus,WCK,Genyonemus lineatus,white croaker,no,Chordata,Actinopterygii,Perciformes,Sciaenidae,Genyonemus,lineatus,1
+Anarrhichthys ocellatus,WEE,Anarrhichthys ocellatus,wolf-eel,no,Chordata,Actinopterygii,Percifomes,Anarhichadidae,Anarrhichthys,ocellatus,0
+Morone chrysops,WHB,Morone chrysops,white bass,no,Chordata,Actinopterygii,Perciformes,Moronidae,Morone,chrysops,0
+Ameiurus catus,WHC,Ameiurus catus,white catfish,yes,Chordata,Actinopterygii,Siluriformes,Ictaluridae,Ameiurus,catus,1
+Pomoxis annularis,WHS,Pomoxis annularis,white crappie,yes,Chordata,Actinopterygii,Perciformes,Centrarchidae,Pomoxis,annularis,1
+Hyperprosopon argenteum,WSP,Hyperprosopon argenteum,walleye surfperch,no,Chordata,Actinopterygii,Perciformes,Embiotocidae,Hyperprosopon,argenteum,1
+Acipenser transmontanus,WST,Acipenser transmontanus,white sturgeon,no,Chordata,Actinopterygii,Acipenseriformes,Acipenseridae,Acipenser,transmontanus,1
+Phanerodon furcatus,WTSP,Phanerodon furcatus,white seaperch,no,Chordata,Actinopterygii,Percifomes,Embiotocidae,Phanerodon,furcatus,1
+Ameiurus natalis,YEB,Ameiurus natalis,yellow bullhead,yes,Chordata,Actinopterygii,Siluriformes,Ictaluridae,Ameiurus,natalis,1
+Perca flavescens,YEP,Perca flavescens,yellow perch,yes,Chordata,Actinopterygii,Perciformes,Percidae,Perca,flavescens,0
+Acanthogobius flavimanus,YFG,Acanthogobius flavimanus,yellowfin goby,yes,Chordata,Actinopterygii,Perciformes,Gobiidae,Acanthogobius,flavimanus,1
