@@ -93,3 +93,33 @@ unique(EDSM.KDTR %>% filter(is.na(EDSM.KDTR$Taxa)) %>% select(OrganismCode, Taxa
 
 # Save compressed data to /data
 usethis::use_data(EDSM.KDTR, overwrite=TRUE)
+
+#' EDSM dataset
+#'
+#' US Fish and Wildlife Service Enhanced Delta Smelt Monitoring (EDSM) data.
+#'
+#' @encoding UTF-8
+#' @format a tibble with X rows and Y number of variables
+#' \describe{
+#'   \item{Source}{Name of source dataset.}
+#'   \item{Station}{Station where sample was collected.}
+#'   \item{Latitude}{Average of start and end Latitude.}
+#'   \item{Longitude}{Average of start and end Longitude.}
+#'   \item{Date}{Date sample was collected.}
+#'   \item{Datetime}{Date and time sample was collected.}
+#'   \item{Survey}{Survey number assigned as the month of the survey.}
+#'   \item{Depth}{Bottom depth (m). Start depth as noted in survey.}
+#'   \item{SampleID}{Unique sample identifier.}
+#'   \item{Method}{Sampling method (Otter Trawl or Midwater Trawl).}
+#'   \item{Tide}{Tidal stage.}
+#'   \item{Sal_surf}{Surface salinity.}
+#'   \item{Temp_surf}{Surface temperature in °C.}
+#'   \item{Secchi}{Secchi depth (cm).}
+#'   \item{Tow_volume}{Volume towed (\ifelse{html}{\out{m<sup>3</sup>}}{\eqn{m^{3}}}).}
+#'   \item{Tow_direction}{Tow direction relative to current.}
+#'   \item{Taxa}{Scientific name.}
+#'   \item{Length}{Fork length, total length if there's no fork or heterocercal tail (sturgeon, shark).}
+#'   \item{Count}{Estimated count for each sample, taxa, and length.}
+#'   }
+#'   @details Stations change randomly due to random stratified sampling.
+"EDSM"

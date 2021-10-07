@@ -1,3 +1,32 @@
+#' DJFMP dataset
+#'
+#' US Fish and Wildlife Service Delta Juvenile Fish Monitoring Program data.
+#'
+#' @encoding UTF-8
+#' @format a tibble with 2,489,113 rows and 18 variables
+#' \describe{
+#'   \item{Source}{Name of source dataset.}
+#'   \item{Station}{Station where sample was collected.}
+#'   \item{Latitude}{Latitude (decimal degrees).}
+#'   \item{Longitude}{Longitude (decimal degrees).}
+#'   \item{Date}{Date sample was collected.}
+#'   \item{Datetime}{Date and time sample was collected.}
+#'   \item{Depth}{Bottom depth (m).}
+#'   \item{SampleID}{Unique sample identifier.}
+#'   \item{Method}{Sampling method (Otter Trawl or Midwater Trawl).}
+#'   \item{Sal_surf}{Surface salinity.}
+#'   \item{Temp_surf}{Surface temperature in °C.}
+#'   \item{Secchi}{Secchi depth (cm).}
+#'   \item{Tow_volume}{Volume towed (\ifelse{html}{\out{m<sup>3</sup>}}{\eqn{m^{3}}}).}
+#'   \item{Tow_direction}{Tow direction relative to current.}
+#'   \item{Taxa}{Scientific name.}
+#'   \item{Length}{Fork length from tip of the snout to a point at the fork of the caudal fin (mm).}
+#'   \item{Count}{Estimated count for each sample, taxa, and length.}
+#'   \item{Length_NA_flag}{Why is the length NA?}
+#'   }
+#' @details Some station locations have moved over time due to shoals filling in, trees, etc. More metadata and information on methods are available \href{https://portal.edirepository.org/nis/mapbrowse?packageid=edi.244.7}{here}.
+"DJFMP"
+
 #' FMWT dataset
 #'
 #' California Department of Fish and Wildlife Fall Midwater Trawl data.
@@ -139,7 +168,7 @@
 #'
 #' Crosswalk table of species codes to common and scientific names
 #'
-#' @format a tibble with 299 rows and 7 variables
+#' @format a tibble with 254 rows and 9 variables
 #' \describe{
 #'   \item{Baystudy_Code}{Bay Study code.}
 #'   \item{CommonName}{Common name.}
@@ -164,92 +193,3 @@
 #'   \item{Slope}{Slope in the equation FL = Intercept + Slope * SL.}
 #'   }
 "Length_conversions"
-
-#' DJFMP dataset
-#'
-#' US Fish and Wildlife Service Delta Juvenile Fish Monitoring Program (DJFMP) data.
-#'
-#' @encoding UTF-8
-#' @format a tibble with X rows and Y number of variables
-#' \describe{
-#'   \item{Source}{Name of source dataset.}
-#'   \item{Station}{Station where sample was collected.}
-#'   \item{Latitude}{May not be accurate, see details.}
-#'   \item{Longitude}{May not be accurate, see details.}
-#'   \item{Date}{Date sample was collected.}
-#'   \item{Datetime}{Date and time sample was collected.}
-#'   \item{Survey}{Survey number assigned as the month of the survey.}
-#'   \item{SampleID}{Unique sample identifier.}
-#'   \item{Method}{Sampling method (Otter Trawl or Midwater Trawl).}
-#'   \item{Sal_surf}{Surface salinity.}
-#'   \item{Temp_surf}{Surface temperature in °C.}
-#'   \item{Secchi}{Secchi depth (cm).}
-#'   \item{Tow_volume}{Volume towed (\ifelse{html}{\out{m<sup>3</sup>}}{\eqn{m^{3}}}).}
-#'   \item{Tow_direction}{Tow direction relative to current.}
-#'   \item{Taxa}{Scientific name.}
-#'   \item{Length}{Fork length, total length if there's no fork or heterocercal tail (sturgeon, shark).}
-#'   \item{Count}{Estimated count for each sample, taxa, and length.}
-#'   }
-#'   @details Some station locations have moved over time due to shoals filling in, trees, etc.
-"DJFMP"
-
-#' EDSM dataset
-#'
-#' US Fish and Wildlife Service Enhanced Delta Smelt Monitoring (EDSM) data.
-#'
-#' @encoding UTF-8
-#' @format a tibble with X rows and Y number of variables
-#' \describe{
-#'   \item{Source}{Name of source dataset.}
-#'   \item{Station}{Station where sample was collected.}
-#'   \item{Latitude}{Average of start and end Latitude.}
-#'   \item{Longitude}{Average of start and end Longitude.}
-#'   \item{Date}{Date sample was collected.}
-#'   \item{Datetime}{Date and time sample was collected.}
-#'   \item{Survey}{Survey number assigned as the month of the survey.}
-#'   \item{Depth}{Bottom depth (m). Start depth as noted in survey.}
-#'   \item{SampleID}{Unique sample identifier.}
-#'   \item{Method}{Sampling method (Otter Trawl or Midwater Trawl).}
-#'   \item{Tide}{Tidal stage.}
-#'   \item{Sal_surf}{Surface salinity.}
-#'   \item{Temp_surf}{Surface temperature in °C.}
-#'   \item{Secchi}{Secchi depth (cm).}
-#'   \item{Tow_volume}{Volume towed (\ifelse{html}{\out{m<sup>3</sup>}}{\eqn{m^{3}}}).}
-#'   \item{Tow_direction}{Tow direction relative to current.}
-#'   \item{Taxa}{Scientific name.}
-#'   \item{Length}{Fork length, total length if there's no fork or heterocercal tail (sturgeon, shark).}
-#'   \item{Count}{Estimated count for each sample, taxa, and length.}
-#'   }
-#'   @details Stations change randomly due to random stratified sampling.
-"EDSM"
-
-#' SKT dataset
-#'
-#' California Department of Fish and Wildlife Spring Kodiac Trawl (SKT) data.
-#'
-#' @encoding UTF-8
-#' @format a tibble with X rows and Y number of variables
-#' \describe{
-#'   \item{Source}{Name of source dataset.}
-#'   \item{Station}{Station where sample was collected.}
-#'   \item{Latitude}{Latitude of Station}
-#'   \item{Longitude}{Longitude of Station}
-#'   \item{Date}{Date sample was collected.}
-#'   \item{Datetime}{Date and time sample was collected.}
-#'   \item{Survey}{Survey number, roughly corresponding to month.}
-#'   \item{Depth}{Bottom depth (m).}
-#'   \item{SampleID}{Unique sample identifier.}
-#'   \item{Method}{Sampling method (Otter Trawl or Midwater Trawl).}
-#'   \item{Tide}{Tidal stage.}
-#'   \item{Sal_surf}{Surface salinity.}
-#'   \item{Temp_surf}{Surface temperature in °C.}
-#'   \item{Secchi}{Secchi depth (cm).}
-#'   \item{Tow_volume}{Volume towed (\ifelse{html}{\out{m<sup>3</sup>}}{\eqn{m^{3}}}).}
-#'   \item{Tow_direction}{Tow direction relative to current.}
-#'   \item{Taxa}{Scientific name.}
-#'   \item{Length}{Fork length, total length if there's no fork or heterocercal tail (sturgeon, shark).}
-#'   \item{Count}{Estimated count for each sample, taxa, and length.}
-#'   \item{Length_NA_flag}{Why is the length NA?}
-#'   }
-#'   @details Anything to say here?
-"SKT"

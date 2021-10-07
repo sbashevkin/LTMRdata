@@ -139,3 +139,35 @@ rm(catchlength_skt, catch_skt, length_skt, sample_skt, stations_skt)
 
 # Save compressed data to /data
 usethis::use_data(SKT, SKT_measured_lengths, overwrite=TRUE)
+
+
+#' SKT dataset
+#'
+#' California Department of Fish and Wildlife Spring Kodiac Trawl (SKT) data.
+#'
+#' @encoding UTF-8
+#' @format a tibble with X rows and Y number of variables
+#' \describe{
+#'   \item{Source}{Name of source dataset.}
+#'   \item{Station}{Station where sample was collected.}
+#'   \item{Latitude}{Latitude of Station}
+#'   \item{Longitude}{Longitude of Station}
+#'   \item{Date}{Date sample was collected.}
+#'   \item{Datetime}{Date and time sample was collected.}
+#'   \item{Survey}{Survey number, roughly corresponding to month.}
+#'   \item{Depth}{Bottom depth (m).}
+#'   \item{SampleID}{Unique sample identifier.}
+#'   \item{Method}{Sampling method (Otter Trawl or Midwater Trawl).}
+#'   \item{Tide}{Tidal stage.}
+#'   \item{Sal_surf}{Surface salinity.}
+#'   \item{Temp_surf}{Surface temperature in °C.}
+#'   \item{Secchi}{Secchi depth (cm).}
+#'   \item{Tow_volume}{Volume towed (\ifelse{html}{\out{m<sup>3</sup>}}{\eqn{m^{3}}}).}
+#'   \item{Tow_direction}{Tow direction relative to current.}
+#'   \item{Taxa}{Scientific name.}
+#'   \item{Length}{Fork length, total length if there's no fork or heterocercal tail (sturgeon, shark).}
+#'   \item{Count}{Estimated count for each sample, taxa, and length.}
+#'   \item{Length_NA_flag}{Why is the length NA?}
+#'   }
+#'   @details Anything to say here?
+"SKT"
