@@ -12,6 +12,7 @@ Description: Integration of the Fall Midwater Trawl, Bay Study, and Suisun Marsh
 License: GPL-3
 Encoding: UTF-8
 LazyData: true
+LazyDataCompression: xz
 Depends: 
      R (>= 3.5.0)
 URL: https://github.com/sbashevkin/LTMRdata

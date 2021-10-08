@@ -1,3 +1,32 @@
+#' DJFMP dataset
+#'
+#' US Fish and Wildlife Service Delta Juvenile Fish Monitoring Program data.
+#'
+#' @encoding UTF-8
+#' @format a tibble with 2,489,113 rows and 18 variables
+#' \describe{
+#'   \item{Source}{Name of source dataset.}
+#'   \item{Station}{Station where sample was collected.}
+#'   \item{Latitude}{Latitude (decimal degrees).}
+#'   \item{Longitude}{Longitude (decimal degrees).}
+#'   \item{Date}{Date sample was collected.}
+#'   \item{Datetime}{Date and time sample was collected.}
+#'   \item{Depth}{Bottom depth (m).}
+#'   \item{SampleID}{Unique sample identifier.}
+#'   \item{Method}{Sampling method (Otter Trawl or Midwater Trawl).}
+#'   \item{Sal_surf}{Surface salinity.}
+#'   \item{Temp_surf}{Surface temperature in °C.}
+#'   \item{Secchi}{Secchi depth (cm).}
+#'   \item{Tow_volume}{Volume towed (\ifelse{html}{\out{m<sup>3</sup>}}{\eqn{m^{3}}}).}
+#'   \item{Tow_direction}{Tow direction relative to current.}
+#'   \item{Taxa}{Scientific name.}
+#'   \item{Length}{Fork length from tip of the snout to a point at the fork of the caudal fin (mm).}
+#'   \item{Count}{Estimated count for each sample, taxa, and length.}
+#'   \item{Length_NA_flag}{Why is the length NA?}
+#'   }
+#' @details Some station locations have moved over time due to shoals filling in, trees, etc. More metadata and information on methods are available \href{https://portal.edirepository.org/nis/mapbrowse?packageid=edi.244.7}{here}.
+"DJFMP"
+
 #' FMWT dataset
 #'
 #' California Department of Fish and Wildlife Fall Midwater Trawl data.
@@ -139,15 +168,17 @@
 #'
 #' Crosswalk table of species codes to common and scientific names
 #'
-#' @format a tibble with 299 rows and 7 variables
+#' @format a tibble with 254 rows and 9 variables
 #' \describe{
 #'   \item{Baystudy_Code}{Bay Study code.}
 #'   \item{CommonName}{Common name.}
 #'   \item{SMF_Code}{Suisun Marsh Fish Study code.}
+#'   \item{SKT_Code}{Spring Kodiak Trawl code.}
 #'   \item{FMWT_Code}{Fall Midwater Trawl code.}
 #'   \item{ScientificName}{Scientific name.}
 #'   \item{Taxa}{Scientific name and life stage.}
 #'   \item{Lifestage}{Lifestage if specified.}
+#'   \item{USFWS_Code}{EDSM and DJFMP codes.}
 #'   }
 "Species"
 
