@@ -6,7 +6,7 @@
 \alias{DJFMP}
 \title{DJFMP dataset}
 \format{
-a tibble with 2,489,113 rows and 18 variables
+a tibble with 2,500,123 rows and 18 variables
 \describe{
   \item{Source}{Name of source dataset.}
   \item{Station}{Station where sample was collected.}

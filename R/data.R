@@ -3,7 +3,7 @@
 #' US Fish and Wildlife Service Delta Juvenile Fish Monitoring Program data.
 #'
 #' @encoding UTF-8
-#' @format a tibble with 2,489,113 rows and 18 variables
+#' @format a tibble with 2,500,123 rows and 18 variables
 #' \describe{
 #'   \item{Source}{Name of source dataset.}
 #'   \item{Station}{Station where sample was collected.}
@@ -122,7 +122,7 @@
 #' California Department of Fish and Wildlife Bay Study data.
 #'
 #' @encoding UTF-8
-#' @format a tibble with 746,485 rows and 23 variables
+#' @format a tibble with 764,592 rows and 23 variables
 #' \describe{
 #'   \item{Source}{Name of source dataset.}
 #'   \item{Station}{Station where sample was collected.}
@@ -154,7 +154,7 @@
 #' Baystudy measured lengths
 #'
 #' Only measued lengths from the Baystudy data
-#' @format a tibble with 743,295 rows and 5 variables
+#' @format a tibble with 761,128 rows and 5 variables
 #' \describe{
 #'   \item{SampleID}{Unique sample identifier.}
 #'   \item{Taxa}{Scientific name.}

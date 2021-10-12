@@ -57,11 +57,15 @@ DJFMP <-  bind_rows(
          Method = recode(Method, MWTR="Midwater trawl", KDTR="Kodiak trawl", SEIN="Beach seine"),
          Tow_direction = recode(Tow_direction, U="Upstream", D="Downstream", X="Neither"),
          SampleID=paste(Datetime, Station, TowNumber, Method),
-         SalmonCode=if_else(MarkCode=="None" & OrganismCode=="CHN", RaceByLength, NA_character_))%>% # Set up code for Chinoook Salmon to ensure adjusted length frequency calculation works correctly
+         MarkCode=if_else(OrganismCode=="NOFISH", "None", MarkCode),
+         # Set up code for sub-groups to apply plus counts. Untagged Chinoook Salmon are grouped by RaceByLength and any tagged fish are not incorporated into the process
+         Group=case_when(MarkCode=="None" & OrganismCode=="CHN" ~ RaceByLength,
+                         MarkCode!="None" ~ paste("Tag", 1:nrow(.)),
+                         TRUE ~ NA_character_))%>%
   select(-Time, -MarkCode, -RaceByLength) %>%
   group_by(across(-Count))%>% # Some species are recorded with the same length multiple times
   summarise(Count=sum(Count), .groups="drop")%>%
-  group_by(SampleID, OrganismCode, SalmonCode)%>%
+  group_by(SampleID, OrganismCode, Group)%>%
   mutate(TotalMeasured=sum(Count[which(Length!=0)]), # Calculate total number of fish of each species measured
          Total=sum(Count), # Calculate total number of fish of each species caught
          Count=(Count/TotalMeasured)*Total)%>% # Calculate the adjusted length frequency
@@ -73,8 +77,8 @@ DJFMP <-  bind_rows(
            TRUE ~ NA_character_), # Add reasoning for an NA lengths (all "No Fish Caught" for FMWT)
     Count=if_else(is.infinite(Count), Total, Count))%>%
   filter(Length!=0 | is.na(Length))%>%
-  select(-Total, -TotalMeasured, -SalmonCode)%>%
-  group_by(across(-Count))%>% # Add up any new multiples after removing SalmonCode
+  select(-Total, -TotalMeasured, -Group)%>%
+  group_by(across(-Count))%>% # Add up any new multiples after removing Group
   summarise(Count=sum(Count), .groups="drop")%>%
   left_join(DJFMP_stations, by = "Station") %>%
   # Add species names
