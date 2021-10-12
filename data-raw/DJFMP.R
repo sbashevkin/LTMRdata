@@ -84,9 +84,8 @@ DJFMP <-  bind_rows(
   # Add species names
   left_join(Species %>%
               select(USFWS_Code, Taxa) %>%
-              filter(!is.na(USFWS_Code)), by=c("OrganismCode"="USFWS_Code")) %>%
-  # Remove unneeded variable
-  select(-OrganismCode) %>%
+              filter(!is.na(USFWS_Code)),
+            by=c("OrganismCode"="USFWS_Code")) %>%
   mutate(SampleID=paste(Source, SampleID), # Add variable for unique (across all studies) sampleID
          Taxa=str_remove(Taxa, " \\((.*)"))%>% # Remove life stage info from Taxa names
   select(Source, Station, Latitude, Longitude, Date, Datetime, Depth, SampleID, Method, Sal_surf,

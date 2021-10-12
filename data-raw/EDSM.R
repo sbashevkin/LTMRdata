@@ -8,7 +8,8 @@ require(LTMRdata)
 require(readr)
 require(dplyr)
 require(lubridate)
-require(hms)
+require(tidyr)
+require(stringr)
 
 # downloading data because the dataset is too huge to keep on file
 
@@ -16,110 +17,68 @@ download.file("https://pasta.lternet.edu/package/data/eml/edi/415/5/d468c513fa69
 download.file("https://pasta.lternet.edu/package/data/eml/edi/415/5/4d7de6f0a38eff744a009a92083d37ae", file.path(tempdir(), "EDSM_KDTR.csv"), mode="wb",method="libcurl")
 
 
-EDSM.20mm <- read_csv(file.path(tempdir(), "EDSM_20mm.csv"),
-                  col_types = cols_only(Station = "c", Date = "c", Time = "c", Tide = "c",
-                                        StartLong = "d", StopLong = "d", StartLat = "d", StopLat = "d",
-                                        TopEC = "d", TopTemp = "d", Scchi = "d", Depth = "d",
-                                        Dur = "d", Volume = "d", Dir = "c", GearType = "c",
-                                        OrganismCode = "c", ForkLength = "d", SumOfCatchCount = "d")) %>%
-  # Station might need species attention because after July 1 of some year, also includes sample year & week
-  rename(Temp_surf = TopTemp, Tow_duration = Dur, Tow_volume = Volume, Method = GearType, Secchi = Scchi,
-         Tow_direction = Dir, Length = ForkLength, Conductivity = TopEC, Count = SumOfCatchCount) %>%
-  # convert Secchi to cm
-  mutate(Secchi = Secchi*100) %>%
+EDSM <- bind_rows(
+  read_csv(file.path(tempdir(), "EDSM_20mm.csv"),
+           col_types = cols_only(Station = "c", Date = "c", Time = "c", Tide = "c",
+                                 StartLong = "d", StartLat = "d", Tow="d",
+                                 TopEC = "d", TopTemp = "d", Scchi = "d", Depth = "d",
+                                 Volume = "d", Dir = "c", GearType = "c",
+                                 OrganismCode = "c", ForkLength = "d", SumOfCatchCount = "d",
+                                 MarkCode="c", RaceByLength="c")),
+  read_csv(file.path(tempdir(), "EDSM_KDTR.csv"),
+           col_types = cols_only(Station = "c", Date = "c", Time = "c", Tide = "c",
+                                 StartLong = "d", StartLat = "d", Tow="d",
+                                 EC = "d", Temp = "d", Scchi = "d", StartDepth = "d",
+                                 Volume = "d", Dir = "c", GearType = "c",
+                                 OrganismCode = "c", ForkLength = "d", SumOfCatchCount = "d",
+                                 MarkCode="c", RaceByLength="c"))%>%
+    rename(TopEC=EC, TopTemp=Temp, Depth=StartDepth))%>%
+  rename(Temp_surf = TopTemp, Tow_volume = Volume, Method = GearType, Secchi = Scchi,
+         Tow_direction = Dir, Length = ForkLength, Conductivity = TopEC, Count = SumOfCatchCount,
+         Latitude=StartLat, Longitude=StartLong) %>%
   mutate(Source = "EDSM",
          Date = parse_date_time(Date, "%Y-%m-%d", tz = "America/Los_Angeles"),
          Time = parse_date_time(Time, "%H:%M:%S", tz = "America/Los_Angeles"),
          Datetime = parse_date_time(if_else(is.na(Time), NA_character_, paste0(Date, " ", hour(Time), ":", minute(Time))), "%Y-%m-%d %H:%M", tz="America/Los_Angeles"),
          # Removing conductivity data from dates before it was standardized
-         # Conductivity = if_else(Date<parse_date_time("2019-06-01", "%Y-%m-%d", tz="America/Los_Angeles"), NA_real_, Conductivity),
-         # Method = if_else(Method == "MWTR", "Midwater trawl", "Kodiak trawl"),
-         Latitude = (StartLat + StopLat)/2, Longitude = (StartLong + StopLong)/2,
-         Tow_direction = if_else(Tow_direction == "U", "Upstream", if_else(Tow_direction == "D", "Downstream", "NA"))) %>%
-  mutate(Sal_surf = ec2pss(Conductivity/1000, t=25)) %>%
-  select(-Time) %>%
-  # distinct(Station, Datetime, .keep_all = TRUE) %>%
-  # left_join(DJFMP_stations, by = "Station") %>%
-  # Add species names
-  left_join(Species %>% select(OrganismCode = USFWS_Code, Taxa) %>% filter(!is.na(OrganismCode)), by="OrganismCode") %>%
-  mutate(Survey = month(Date)) %>%
-  # Remove unneeded variable
-  select(-StartLat, -StartLong, -StopLat, -StopLong) %>%
-  mutate(SampleID = 1:nrow(.)) %>%
-  select(Source, Station, Latitude, Longitude, Date, Datetime, Survey, Depth, SampleID, Method, Tide,
-         Sal_surf, Temp_surf, Secchi, Tow_volume, Tow_direction, OrganismCode, Taxa, Length, Count)
-
-# which OrganismCodes are do not have a translation in the species file?
-unique(EDSM.20mm %>% filter(is.na(EDSM.20mm$Taxa)) %>% select(OrganismCode, Taxa))
-
-# Save compressed data to /data
-usethis::use_data(EDSM.20mm, overwrite=TRUE)
-
-EDSM.KDTR <- read_csv(file.path(tempdir(), "EDSM_KDTR.csv"),
-                      col_types = cols_only(Station = "c", Date = "c", Time = "c", Tide = "c",
-                                            StartLong = "d", StopLong = "d", StartLat = "d", StopLat = "d",
-                                            EC = "d", Temp = "d", Scchi = "d", StartDepth = "d",
-                                            Dur = "d", Volume = "d", Dir = "c", GearType = "c",
-                                            OrganismCode = "c", ForkLength = "d", SumOfCatchCount = "d")) %>%
-  # Station might need species attention because after July 1 of some year, also includes sample year & week
-  rename(Temp_surf = Temp, Tow_duration = Dur, Tow_volume = Volume, Method = GearType, Secchi = Scchi, Depth = StartDepth,
-         Tow_direction = Dir, Length = ForkLength, Conductivity = EC, Count = SumOfCatchCount) %>%
-  # convert Secchi to cm
-  mutate(Secchi = Secchi*100) %>%
-  mutate(Source = "EDSM",
-         Date = parse_date_time(Date, "%Y-%m-%d", tz = "America/Los_Angeles"),
-         Time = parse_date_time(Time, "%H:%M:%S", tz = "America/Los_Angeles"),
-         Datetime = parse_date_time(if_else(is.na(Time), NA_character_, paste0(Date, " ", hour(Time), ":", minute(Time))), "%Y-%m-%d %H:%M", tz="America/Los_Angeles"),
-         # Removing conductivity data from dates before it was standardized
-         # Conductivity = if_else(Date<parse_date_time("2019-06-01", "%Y-%m-%d", tz="America/Los_Angeles"), NA_real_, Conductivity),
-         # Method = if_else(Method == "MWTR", "Midwater trawl", "Kodiak trawl"),
-         Latitude = (StartLat + StopLat)/2, Longitude = (StartLong + StopLong)/2,
-         Tow_direction = if_else(Tow_direction == "U", "Upstream", if_else(Tow_direction == "D", "Downstream", "NA"))) %>%
-  mutate(Sal_surf = ec2pss(Conductivity/1000, t = 25)) %>%
-  select(-Time) %>%
-  # distinct(Station, Datetime, .keep_all = TRUE) %>%
-  # left_join(DJFMP_stations, by = "Station") %>%
-  # Add species names
-  left_join(Species %>% select(OrganismCode = USFWS_Code, Taxa) %>% filter(!is.na(OrganismCode)), by="OrganismCode") %>%
-  mutate(Survey = month(Date)) %>%
-  # Remove unneeded variable
-  select(-StartLat, -StartLong, -StopLat, -StopLong) %>%
-  mutate(SampleID = 1:nrow(.)) %>%
-  select(Source, Station, Latitude, Longitude, Date, Datetime, Survey, Depth, SampleID, Method, Tide,
-         Sal_surf, Temp_surf, Secchi, Tow_volume, Tow_direction, OrganismCode, Taxa, Length, Count)
-
-# which OrganismCodes are do not have a translation in the species file?
-unique(EDSM.KDTR %>% filter(is.na(EDSM.KDTR$Taxa)) %>% select(OrganismCode, Taxa))
+         Conductivity = if_else(Date<parse_date_time("2019-06-01", "%Y-%m-%d", tz="America/Los_Angeles"), NA_real_, Conductivity),
+         Sal_surf = ec2pss(Conductivity/1000, t=25),
+         Method = recode(Method, KDTR="Kodiak trawl"),
+         Tow_direction = recode(Tow_direction, U="Upstream", D="Downstream"),
+         Depth = if_else(Method=="20mm", Depth*0.3048, Depth), # Convert feet to meters for 20mm (KDTR already in meters)
+         Secchi = Secchi*100, # convert Secchi to cm
+         Tide=recode(Tide, HS="High Slack", LS = "Low Slack"), #Standardize tide codes
+         SampleID=paste(Datetime, Station, Tow, Method, Latitude, Longitude),
+         MarkCode=replace_na(MarkCode, "None"),
+         Group=case_when(MarkCode=="None" & OrganismCode=="CHN" ~ RaceByLength,
+                         MarkCode!="None" ~ paste("Tag", 1:nrow(.)),
+                         TRUE ~ NA_character_))%>%
+  select(-Time, -MarkCode, -RaceByLength) %>%
+  group_by(across(-Count))%>% # Some species are recorded with the same length multiple times
+  summarise(Count=sum(Count), .groups="drop")%>%
+  group_by(SampleID, OrganismCode, Group)%>%
+  mutate(TotalMeasured=sum(Count[which(Length!=0)]), # Calculate total number of fish of each species measured
+         Total=sum(Count), # Calculate total number of fish of each species caught
+         Count=(Count/TotalMeasured)*Total)%>% # Calculate the adjusted length frequency
+  ungroup()%>%
+  mutate(Length=if_else(is.infinite(Count) & Length==0, NA_real_, Length), # Some Chinook were not measured, so these lines fix some after-effects of that
+         Length_NA_flag=case_when(
+           is.infinite(Count) ~ "Unknown length",
+           is.na(Length)~ "No fish caught",
+           TRUE ~ NA_character_), # Add reasoning for an NA lengths (all "No Fish Caught" for FMWT)
+         Count=if_else(is.infinite(Count), Total, Count))%>%
+  filter(Length!=0 | is.na(Length))%>%
+  select(-Total, -TotalMeasured, -Group)%>%
+  group_by(across(-Count))%>% # Add up any new multiples after removing Group
+  summarise(Count=sum(Count), .groups="drop")%>%
+  left_join(Species %>%
+              select(USFWS_Code, Taxa) %>%
+              filter(!is.na(USFWS_Code)),
+            by=c("OrganismCode"="USFWS_Code")) %>%
+  mutate(SampleID=paste(Source, SampleID), # Add variable for unique (across all studies) sampleID
+         Taxa=str_remove(Taxa, " \\((.*)"))%>% # Remove life stage info from Taxa names
+  select(Source, Station, Latitude, Longitude, Date, Datetime, Depth, SampleID, Method, Tide, Sal_surf,
+         Temp_surf, Secchi, Tow_volume, Tow_direction, Taxa, Length, Count, Length_NA_flag)
 
 # Save compressed data to /data
-usethis::use_data(EDSM.KDTR, overwrite=TRUE)
-
-#' EDSM dataset
-#'
-#' US Fish and Wildlife Service Enhanced Delta Smelt Monitoring (EDSM) data.
-#'
-#' @encoding UTF-8
-#' @format a tibble with X rows and Y number of variables
-#' \describe{
-#'   \item{Source}{Name of source dataset.}
-#'   \item{Station}{Station where sample was collected.}
-#'   \item{Latitude}{Average of start and end Latitude.}
-#'   \item{Longitude}{Average of start and end Longitude.}
-#'   \item{Date}{Date sample was collected.}
-#'   \item{Datetime}{Date and time sample was collected.}
-#'   \item{Survey}{Survey number assigned as the month of the survey.}
-#'   \item{Depth}{Bottom depth (m). Start depth as noted in survey.}
-#'   \item{SampleID}{Unique sample identifier.}
-#'   \item{Method}{Sampling method (Otter Trawl or Midwater Trawl).}
-#'   \item{Tide}{Tidal stage.}
-#'   \item{Sal_surf}{Surface salinity.}
-#'   \item{Temp_surf}{Surface temperature in °C.}
-#'   \item{Secchi}{Secchi depth (cm).}
-#'   \item{Tow_volume}{Volume towed (\ifelse{html}{\out{m<sup>3</sup>}}{\eqn{m^{3}}}).}
-#'   \item{Tow_direction}{Tow direction relative to current.}
-#'   \item{Taxa}{Scientific name.}
-#'   \item{Length}{Fork length, total length if there's no fork or heterocercal tail (sturgeon, shark).}
-#'   \item{Count}{Estimated count for each sample, taxa, and length.}
-#'   }
-#'   @details Stations change randomly due to random stratified sampling.
-"EDSM"
+usethis::use_data(EDSM, overwrite=TRUE, compress = "xz")
