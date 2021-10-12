@@ -15,29 +15,20 @@ stations_fmwt <- read_csv(file.path("data-raw", "FMWT", "StationsLookUp.csv"),
   rename(Station=StationCode, Latitude=DD_Latitude, Longitude=DD_Longitude)%>%
   drop_na()
 
-
-# Sample dates ------------------------------------------------------------
-
-
-date_fmwt <- read_csv(file.path("data-raw", "FMWT", "Date.csv"), col_types=cols_only(DateID="i", SampleDate="c"))%>%
-  mutate(SampleDate=parse_date_time(SampleDate, "%m/%d/%Y %H:%M:%S", tz="America/Los_Angeles"))%>%
-  rename(Date=SampleDate)
-
-
 # Sample-level data -------------------------------------------------------
 
 
 sample_fmwt <- read_csv(file.path("data-raw", "FMWT", "Sample.csv"),
-                        col_types = cols_only(SampleRowID="i", StationCode="c", MethodCode="c",
+                        col_types = cols_only(SampleRowID="i", StationCode="c", MethodCode="c", SampleDate="c",
                                               SampleTimeStart="c", SurveyNumber="i", WaterTemperature="d",
                                               Turbidity="d", Secchi="d", SecchiEstimated="l", ConductivityTop="d",
                                               ConductivityBottom="d", TowDirectionCode="i", MeterStart="d",
                                               MeterEnd="d", CableOut="d", TideCode="i", DepthBottom="d",
                                               WeatherCode="i", Microcystis="i", WaveCode="i",
-                                              WindDirection="c", BottomTemperature="d", DateID="i"))%>%
-  left_join(date_fmwt, by="DateID")%>% # Add dates
-  rename(Station=StationCode, Method=MethodCode, Tide=TideCode, Time=SampleTimeStart, Depth=DepthBottom)%>%
-  mutate(Time = parse_date_time(Time, "%m/%d/%Y %H:%M:%S", tz="America/Los_Angeles"),
+                                              WindDirection="c", BottomTemperature="d"))%>%
+  rename(Station=StationCode, Method=MethodCode, Tide=TideCode, Time=SampleTimeStart, Depth=DepthBottom, Date=SampleDate)%>%
+  mutate(Date=parse_date_time(Date, "%m/%d/%Y %H:%M:%S", tz="America/Los_Angeles"),
+         Time = parse_date_time(Time, "%m/%d/%Y %H:%M:%S", tz="America/Los_Angeles"),
          Tide=recode(Tide, `1` = "High Slack", `2` = "Ebb", `3` = "Low Slack", `4` = "Flood"), # Convert tide codes to values
          Weather=recode(WeatherCode, `1` = "Cloud (0-33%)", `2` = "Cloud (33-66%)", `3` = "Cloud (66-100%)", `4` = "Rain"), # Convert weather codes to values
          Waves=recode(WaveCode, `1` = "Calm", `2` = "Waves w/o whitecaps", `3` = "Waves w/ whitecaps"), # Convert wave codes to values
@@ -50,7 +41,7 @@ sample_fmwt <- read_csv(file.path("data-raw", "FMWT", "Sample.csv"),
   mutate(Method=recode(Method, MWTR="Midwater trawl"), # Recode method for consistency
          Microcystis=recode(Microcystis, `1`="Absent", `2`="Low", `6`="Low", `3`="Medium", `4`="High", `5`="Very high"), #Convert Microcystis codes to values
          Tow_direction = recode(TowDirectionCode, `1`="With current", `2`="Against current", `3`="Unknown"))%>% # Convert tow direction codes to values
-  select(-TowDirectionCode, -WeatherCode, -WaveCode, -MeterEnd, -MeterStart, -Meter_total, -DateID)%>% # Remove unneeded variables
+  select(-TowDirectionCode, -WeatherCode, -WaveCode, -MeterEnd, -MeterStart, -Meter_total)%>% # Remove unneeded variables
   left_join(stations_fmwt, by="Station")%>% # Add station coordinates
   mutate(SampleID=1:nrow(.)) # Add unique identifier for each sample (net tow)
 
@@ -71,7 +62,7 @@ catch_fmwt <- read_csv(file.path("data-raw", "FMWT", "Catch.csv"),
 # Length data -------------------------------------------------------------
 
 
-length_fmwt<- read_csv(file.path("data-raw", "FMWT", "Length.csv"), na=c("NA", "n/p"),
+length_fmwt<- read_csv(file.path("data-raw", "FMWT", "Length.csv"), na=c("NA", "n/p", ""),
                        col_types = cols_only(CatchRowID="i", ForkLength="d", Dead="c", LengthFrequency="d"))%>%
   filter(ForkLength!=0) # 0 fork length means not measured, so removing those from length table so those fish can be redistributed among measured lengths
 
@@ -118,6 +109,6 @@ FMWT_measured_lengths<-length_fmwt%>%
 FMWT<-FMWT%>%
   select(-CatchRowID) # Remove unneeded variable
 
-rm(catchlength_fmwt, catch_fmwt, length_fmwt, sample_fmwt, date_fmwt, stations_fmwt) # Clean up
+rm(catchlength_fmwt, catch_fmwt, length_fmwt, sample_fmwt, stations_fmwt) # Clean up
 
-usethis::use_data(FMWT, FMWT_measured_lengths, overwrite=TRUE) # Save compressed data to /data
+usethis::use_data(FMWT, FMWT_measured_lengths, overwrite=TRUE, compress="xz") # Save compressed data to /data

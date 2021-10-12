@@ -1,186 +1,187 @@
-"StationRowID","StationCode","Active","Location","RKI","DD_Longitude","DD_Latitude","Comments","Channel/Shoal","X","Y","Offset"
+"StationRowID","StationCode","Active","Location","DD_Longitude","DD_Latitude","RKI","Comments","Channel/Shoal","X","Y","Offset"
 1,"???",1,"ERROR Code used locally to handle parsing errors",,,,,,,,
-2,"070",0,,"SLGRG18","-121.51994","38.23331",,,,,
-3,"071",0,,"RSAC124","-121.51056","38.24714",,,,,
-4,"072",1,"Sacramento River - 600 yards S. of lug No. 40","RSAC113","-121.58057","38.18775",,1,966,478,1
-5,"073",1,"Sacramento River - at Vorden","RSAC128","-121.53937","38.27433",,1,1005,373,1
-6,"101",0,"South San Francisco Bay - 1500 yards E. of Light 4","CHSSFB17","-122.3125","37.67917",,,,,
-7,"102",0,"South San Francisco Bay - near dolphin E. of Oyster Point","CHSSFB16","-122.31306","37.69361",,,,,
-8,"103",0,"South San Francisco Bay - 1300 yards N. of San Mateo Bridge","CHSSFB29","-122.25972","37.59028",,,,,
-9,"104",0,"South San Francisco Bay - Ship Channel near Light 8","CHSSEB26","-122.28472","37.60556",,,,,
-10,"105",0,"South San Francisco Bay - Ship Channel Midway between Lights 6 & 8","CHSSFB23","-122.30111","37.62444",,,,,
-11,"106",0,"South San Francisco Bay - at Light 6","CHSSFB21","-122.31389","37.64583",,,,,
-12,"107",0,"South San Francisco Bay - Ship Channel at Light 4","CHSSFB18","-122.32611","37.66806",,,,,
-13,"108",0,"South San Francisco Bay - Ship Channel South of Light 2","CHSSFB15","-122.33889","37.69167",,,,,
-14,"109",0,"South San Francisco Bay - 1700 yards SE. of Hunter's Point","CHSSFB13","-122.33944","37.71167",,,,,
-15,"110",0,"South San Francisco Bay - 1100 yards NE. of Point Avisadero","CHSSFB11","-122.34528","37.73333",,,,,
-16,"111",0,"South San Francisco Bay - 2700 yards E. of Potrero Point","CHSSFB08","-122.35083","37.75417",,,,,
-17,"112",0,"South San Francisco Bay - 1600 yards E. of Rincon Point","CHSSFB05","-122.36111","37.78583",,,,,
-18,"113",0,"South San Francisco Bay - 2400 yards E. of Sierra Point","LSFD03","-122.35833","37.67917",,,,,
-19,"201",0,"North San Francisco Bay - midway between Alcatraz Island and SF","RSAC005","-122.42139","37.81861",,,,,
-20,"202",0,"North San Francisco Bay - 1300 yards SW. of Point Knox on Angel Island","LRCHB3","-122.44722","37.84722",,,,,
-21,"203",0,"San Francisco Bay - Richardson Bay N. Of Light 2","LRCHB5","-122.46972","37.85778",,,,,
-22,"204",0,"North San Francisco Bay - 600 yards E. of Angel Island","RSAC007","-122.39639","37.83417",,,,,
-23,"205",0,"North San Francisco Bay - 500 yards E. of Treasure Island docks","LSFA01","-122.35833","37.82778",,,,,
-24,"206",0,"North San Francisco Bay - -Berekely Flats 2700 yards NE. of Treasure Island","LSFB03","-122.34111","37.84389",,,,,
-25,"207",0,"North San Francisco Bay - 2200 yards N. of Berkeley Pier midpoint","LSFB06","-122.345","37.87",,,,,
-26,"208",0,"North San Francisco Bay - 1800 yards E. of Angel Island","RSAC010","-122.39861","37.86528",,,,,
-27,"209",0,"North San Francisco Bay - 1600 yards NE. of Bluff Point on Tiburon","RSAC013","-122.42222","37.88972",,,,,
-28,"210",0,"North San Francisco Bay - 1400 SW. of Red Rock","RSAC018","-122.44","37.92139",,,,,
-29,"211",0,"North San Francisco Bay - W. of Ship Channel-N. of San Rafael Bridge","RSAC020","-122.44583","37.94028",,,,,
-30,"301",0,"San Pablo Bay - 800 yards NE. of Point San Pablo","RSAC025","-122.41197","37.98031",,,,,
-31,"302",0,"San Pablo Bay - 950 yards NW. of Point Pinole","LSPE06","-122.375","38.01389",,,,,
-32,"303",0,"San Pablo Bay - N. of Light 2 at Point San Pablo","RSAC024","-122.425","37.97219",,1,,,
-33,"304",0,"San Pablo Bay - 500 yards N. of the Sisters","LSPD01","-122.436","37.99581",,,,,
-34,"305",1,"San Pablo Bay - 1500 yards NE. of Light 4 opposite the sisters","RSAC027","-122.4086","37.9987",,1,174,707,3
-35,"306",1,"San Pablo Bay - 1300 yards SW. of bouy between ""E""  in ship channel","RSAC028","-122.41488","38.00042",,1,168,705,1
-36,"307",1,"San Pablo Bay - 2500 yards NE. of sisters, NW. of station 306","LSPD02","-122.4192","38.00472",,1,164,699,1
-37,"308",1,"San Pablo Bay - 960 yards NW. of buoy between ""E"" in ship channel","RSAC029","-122.40438","38.01745",,1,178,684,1
-38,"309",1,"San Pablo Bay - just NE. of buoy between ""E"" in ship channel","RSAC030","-122.39387","38.01442",,1,189,688,3
-39,"310",1,"San Pablo Bay - 1100 yards SW. of channel Light 7 and 8","RSAC032","-122.37355","38.0297",,1,207,670,1
-40,"311",1,"San Pablo Bay - 1500 yards NW. of Pt. Pinole","RSAC031","-122.37743","38.02087",,1,204,680,4
-41,"312",0,"San Pablo Bay - 2200 yards NE. of sisters toward Petaluma channel","LSPD03","-122.432","38.01189",,1,,,
-42,"313",0,"San Pablo Bay - 2200 yards NE. of Rat Rock","LSPC02","-122.449","38.02219",,2,,,
-43,"314",1,"San Pablo Bay - midway between markers between ""E"" and Petaluma Light 1","LSPD05","-122.41167","38.02812",,2,172,672,1
-44,"315",1,"San Pablo Bay - 2200 yards WNW. Of Petaluma Channel Lights 1 & 2","LSPD07","-122.3936","38.03815",,2,189,659,1
-45,"316",0,"San Pablo Bay - at Petaluma Channel Light 6","LSPB01","-122.427","38.06669",,2,,,
-46,"317",0,"San Pablo Bay - flats 960 yards N. of Point San Pedro","LSPD00","-122.449","37.99831",,,,,
-47,"318",0,"San Pablo Bay - N. of Light 1, South of Petaluma Boat Channel","LSPC05","-122.431","38.05",,,,,
-48,"319",0,"San Pablo Bay - at Marker No. 8 - Petaluma Boat Channel","LSPB02","-122.432","38.0775",,,,,
-49,"320",0,"San Pablo Bay - flats 2000 yards NW. of Hercules","LSPE12","-122.305","38.02361",,,,,
-50,"321",1,"San Pablo Bay - ship channel ENE. of Lights 7 and 8","RSAC033","-122.36103","38.03612",,1,220,662,2
-51,"322",1,"San Pablo Bay - 1500 yards NE. of Point Pinole","LSPE08","-122.35078","38.02363",,2,229,677,4
-52,"323",1,"San Pablo Bay - 2200 yards SE. of Ship Channel Light 10","LSPE11","-122.32817","38.02853",,2,251,670,4
-53,"324",0,"San Pablo Bay - E. of Ship Channel Lights 11 and 12","RSAC037","-122.319","38.05281",,1,,,
-54,"325",1,"San Pablo Bay - 900 yards E. of Channel Lights 13 and 14","RSAC039","-122.2955","38.05605",,1,282,637,1
-55,"326",1,"San Pablo Bay - 2200 yards NW. of Rodeo","LSPE13","-122.29592","38.04038",,2,283,656,1
-56,"327",1,"San Pablo Bay - 1600 yards NW. Ship Channel Light 9","LSPD10","-122.36672","38.04772",,2,214,647,2
-57,"328",1,"San Pablo Bay - about 1900 yards NW. of Ship Channel 11","LSPD12","-122.34842","38.06005",,2,232,633,2
-58,"329",1,"San Pablo Bay - 800 yards N. of Ship Channel Light 13","LSPD16","-122.30588","38.06312",,2,273,629,1
-59,"330",0,"San Pablo Bay - NE. from Petaluma Boat Channel Light 2","LSPC07","-122.414","38.05189",,2,,,
-60,"331",0,"San Pablo Bay - 3300 yards NE. of Petaluma Channel Light 2","LSPC09","-122.394","38.06531",,2,,,
-61,"332",0,"San Pablo Bay - 5200 yards NE. of Petaluma Channel Light 2","LSPC11","-122.392","38.07331",,2,,,
-62,"333",0,"San Pablo Bay - 3700 yards N. of Ship Channel Light 9","LSPC13","-122.357","38.07311",,2,,,
-63,"334",1,"San Pablo Bay - 3000 yards N. of Ship Channel Light 11","LSPC14","-122.33933","38.07553",,2,241,614,1
-64,"335",1,"San Pablo Bay - 2700 yards NW. of Rockwall on flats","LSPC16","-122.3243","38.0705",,2,256,620,1
-65,"336",1,"San Pablo Bay - along N. side of channel E. of Light 15","RSAC040","-122.27875","38.06275",,1,298,629,2
-66,"337",1,"San Pablo Bay - opposite Rockwall E. of Channel Lightt 15","RSAC041","-122.27232","38.0595",,1,305,634,3
-67,"338",1,"San Pablo Bay - mouth of Carquinez Strait opposite Napa River","RSAC043","-122.24892","38.06003",,1,328,633,4
-68,"339",1,"San Pablo Bay - along Rockwall 1900 yards E. Channel Light 15","RSAC042","-122.2568","38.0667",,2,319,625,2
-69,"340",1,"Napa River - Mare Island above fixed bridge","RNAP005","-122.26988","38.10508",,1,307,578,1
-70,"341",1,"Napa River - 0.7 km upstream of Hwy 37","RNAP007","-122.2802","38.12828",,1,297,550,1
-71,"401",1,"Carquinez Strait - along C&H sugar plant dock E. of bridge","RSAC047","-122.21245","38.05758",,1,361,636,3
-72,"402",0,"Carquinez Strait - E. of Dillon Point","RSAC049","-122.183","38.05561",,1,,,
-73,"403",1,"Carquinez Strait - edge of flats in Channel near Benicia","RSAC051","-122.17192","38.04883",,2,400,646,4
-74,"404",1,"Carquinez Strait - inshore near Port Costa E. Light 22","RSAC050","-122.17887","38.04645",,1,394,650,1
-75,"405",1,"Carquinez Strait - E. of Light 23","RSAC052","-122.15815","38.03353",,1,413,665,1
-76,"406",1,"Carquinez Strait - E. of Ozol Dock; SE. Light 25","RSAC053","-122.15057","38.028",,1,421,672,3
-77,"407",1,"Carquinez Strait - midchannel 1600 yards E. Light 23","RSAC054","-122.14515","38.03298",,1,426,665,4
-78,"408",1,"Carquinez Strait - Chanel 1000 yards downstream Benecia Bridge","RSAC055","-122.12897","38.03513",,1,442,662,4
-79,"409",1,"Suisun Bay - 850 yards upstream from San Pablo Railroad Bridge","RSAC057","-122.10637","38.04455",,1,464,652,4
-80,"410",1,"Suisun Bay - 2400 yards upstream of San Pablo Bridge, Light 7","RSAC059","-122.09647","38.04883",,1,472,646,4
-81,"411",1,"Suisun Bay - 700 yards upstream from Light 10","RSAC061","-122.06828","38.06117",,1,499,631,3
-82,"412",1,"Suisun Bay - between Lights 11-12 in center of channel","RSAC062","-122.06007","38.06462",,1,507,628,2
-83,"413",1,"Suisun Bay - 400 yards upstream from Light 14","RSAC063","-122.0473","38.06595",,1,520,626,3
-84,"414",1,"Suisun Bay - N. NW. of Light 2, NE. of boom","LSBB01","-122.11128","38.05213",,1,459,642,1
-85,"415",1,"Suisun Bay - 1100 yards SW. of Light 4","LSBB02","-122.10772","38.05678",,1,461,637,2
-86,"416",1,"Suisun Bay - 550 yards N. of Light 4","LSBB04","-122.09415","38.0702",,1,475,620,1
-87,"417",1,"Suisun Bay - at Light 6 near Reserve Fleet","LSBB06","-122.083","38.08075",,1,486,608,1
-88,"418",1,"Suisun Bay - SW. of Light 8","LSBB07","-122.06973","38.09383",,1,499,591,1
-89,"419",0,"Suisun Bay - SW. of Light 9","LSBB09","-122.058","38.10419",,,,,
-90,"501",1,"Suisun Bay - downstream from Light 17","RSAC065","-122.01955","38.06167",,1,546,631,2
-91,"502",1,"Suisun Bay - downstream from Light 19","RSAC067","-122.00397","38.05997",,1,562,633,3
-92,"503",1,"Suisun Bay - downstream from Light 21","RSAC069","-121.9832","38.06022",,1,581,633,2
-93,"504",1,"Suisun Bay - upstream of Light 22","RSAC070","-121.9767","38.05945",,1,588,633,4
-94,"505",1,"Suisun Bay - 500 yards upstream from Lights 24 & 25","RSAC071","-121.95597","38.05713",,1,607,636,5
-95,"506",0,"Suisun Bay - 500 yards due N. of Stake Point","RSAC072","-121.944","38.05281",,1,,,
-96,"507",1,"Suisun Bay - at Light 27","RSAC073","-121.939","38.05228",,1,624,642,5
-97,"508",1,"Suisun Bay - 500 yards due N. of Light 28","RSAC075","-121.91492","38.04813",,1,646,648,1
-98,"509",1,"Suisun Bay - 1200 yards upstream from Light 28","RSAC076","-121.90412","38.04547",,1,657,650,3
-99,"510",1,"Suisun Bay - opposite Light 30 in Ship Channel","RSAC077","-121.88783","38.04888",,1,672,647,3
-100,"511",1,"Suisun Bay - upstream from Light 31","RSAC078","-121.88","38.0513",,1,679,644,4
-101,"512",1,"Sacramento River - 1000 yards upsteam from Light 31","RSAC079","-121.87722","38.05638",,1,682,637,2
-102,"513",1,"Sacramento River - off Vansickle Island at Light 34","RSAC080","-121.86842","38.0592",,1,691,634,4
-103,"514",0,"Sacramento River - upstream of Light 1","RSAC082","-121.844","38.06389",,1,,,
-104,"515",1,"Suisun Bay Cutoff - 550 yards SE. at 150 from Point Buckler","LSBB15","-122.01472","38.092",,1,550,595,5
-105,"516",1,"Suisun Bay - 300 yards W. of West end of Freeman Island","LSBB17","-121.99408","38.07867",,2,571,610,2
-106,"517",1,"Suisun Bay - 700 Yds SO. of East end of Freeman Island","LSBB19","-121.97938","38.07022",,2,585,620,2
-107,"518",1,"Honker Bay - 1100 yards S. of mouth of Chanpion Slough","LSBB21","-121.96802","38.06875",,2,595,622,5
-108,"519",1,"Honker Bay - 2200 yards N. of Simmons Point","LSBB23","-121.94725","38.07378",,2,616,615,5
-109,"601",1,"Grizzly Bay - 1300 yards NE. at 30 from Garnet Point","LSBB13","-122.0356","38.1031",,2,531,581,4
-110,"602",1,"Grizzly Bay - 2500 yds NE. at 20 from Garnet Point","LSBB12","-122.04183","38.11783",,2,524,563,4
-111,"603",1,"Grizzly Bay - 2500 yds NW. at 10 from Garnet Point","LSBB11","-122.04805","38.11552",,2,520,565,1
-112,"604",1,"Grizzly Bay - 1000 yds E. at Light 10 at Montezuma Slough","LSBB10","-122.05717","38.12163",,2,510,558,2
-113,"605",1,"West end of Montezuma Slough - 1700 yards upstream of mouth","SLMZU02","-122.05738","38.14853",,1,510,526,4
-114,"606",1,"West end of Montezuma Slough - at overhead power cables","SLMZU06","-122.02177","38.1698",,1,544,500,4
-115,"607",0,"Montezuma Slough - 850 yards downstream from Cross Slough","SLMZU12","-121.967","38.18381",,1,,,
-116,"608",1,"Montezuma Slough - at E. end of Roaring River Slough","SLMZU29","-121.88332","38.0887",,1,677,598,4
-117,"609",0,"Montezuma Slough - at junction with Nurse Slough","SLMZU16","-121.9347","38.16771",,,,,
-118,"701",1,"Sacramento River - at Lights 5 & 6","RSAC083","-121.83475","38.06505",,1,723,627,1
-119,"702",0,"Sacramento River - downstream of lights 7 & 8","RSAC084","-121.814","38.06111",,1,,,
-120,"703",1,"Sacramento River - upstream of lights 9 and 10","RSAC086","-121.79692","38.06087",,1,758,632,1
-121,"704",1,"Sacramento River - 1300 yards upstream of Lights 11 & 12","RSAC088","-121.77892","38.07087",,1,776,619,1
-122,"705",1,"Sacramento River - 500 yards upstream of Lights 13 & 14","RSAC090","-121.7618","38.07925",,1,793,609,1
-123,"706",1,"Sacramento River - upstream of Lights 15 & 16","RSAC092","-121.74","38.0903",,1,813,596,1
-124,"707",1,"Sacramento River - upstream of Lights 19 & 20","RSAC096","-121.70797","38.11397",,1,844,567,1
-125,"708",1,"Sacramento River -  upstream of Light 23","RSAC098","-121.6967","38.12608",,1,855,553,5
-126,"709",1,"Sacramento River -  downstream of Lights 27 & 28","RSAC100","-121.69048","38.14787",,1,860,526,5
-127,"710",1,"Sacramento River -  upstream of Rio Vista Bridge","RSAC102","-121.68228","38.162",,1,868,510,1
-128,"711",1,"Sacramento River -  600 yards upstream of Light 36","RSAC103","-121.67028","38.17595",,1,881,493,1
-129,"712",1,"Steamboat Slough - N. of Windmill, between siphons","SLSBT03","-121.64095","38.19042",,1,908,475,1
-130,"713",1,"Cache Slough - N. of Light 43","SLCCH03","-121.66008","38.20712",,1,890,454,1
-131,"715",1,"Cache Slough - N. of Light 47","SLCCH05","-121.67362","38.22295",,1,876,435,1
-132,"716",1,"Cache Slough - N. of cable Ferry 1 & 51","SLCCH08","-121.68438","38.23787",,1,866,418,1
-133,"717",1,"Sacramento River - at Grand Island below Isleton","RSAC107","-121.63138","38.17017",,1,917,500,5
+2,"070",0,,"-121.51994","38.23331","SLGRG18",,,,,
+3,"071",0,,"-121.51056","38.24714","RSAC124",,,,,
+4,"072",1,"Sacramento River - 600 yards S. of lug No. 40","-121.58057","38.18775","RSAC113",,1,966,478,1
+5,"073",1,"Sacramento River - at Vorden","-121.53937","38.27433","RSAC128",,1,1005,373,1
+6,"101",0,"South San Francisco Bay - 1500 yards E. of Light 4","-122.3125","37.67917","CHSSFB17",,,,,
+7,"102",0,"South San Francisco Bay - near dolphin E. of Oyster Point","-122.31306","37.69361","CHSSFB16",,,,,
+8,"103",0,"South San Francisco Bay - 1300 yards N. of San Mateo Bridge","-122.25972","37.59028","CHSSFB29",,,,,
+9,"104",0,"South San Francisco Bay - Ship Channel near Light 8","-122.28472","37.60556","CHSSEB26",,,,,
+10,"105",0,"South San Francisco Bay - Ship Channel Midway between Lights 6 & 8","-122.30111","37.62444","CHSSFB23",,,,,
+11,"106",0,"South San Francisco Bay - at Light 6","-122.31389","37.64583","CHSSFB21",,,,,
+12,"107",0,"South San Francisco Bay - Ship Channel at Light 4","-122.32611","37.66806","CHSSFB18",,,,,
+13,"108",0,"South San Francisco Bay - Ship Channel South of Light 2","-122.33889","37.69167","CHSSFB15",,,,,
+14,"109",0,"South San Francisco Bay - 1700 yards SE. of Hunter's Point","-122.33944","37.71167","CHSSFB13",,,,,
+15,"110",0,"South San Francisco Bay - 1100 yards NE. of Point Avisadero","-122.34528","37.73333","CHSSFB11",,,,,
+16,"111",0,"South San Francisco Bay - 2700 yards E. of Potrero Point","-122.35083","37.75417","CHSSFB08",,,,,
+17,"112",0,"South San Francisco Bay - 1600 yards E. of Rincon Point","-122.36111","37.78583","CHSSFB05",,,,,
+18,"113",0,"South San Francisco Bay - 2400 yards E. of Sierra Point","-122.35833","37.67917","LSFD03",,,,,
+19,"201",0,"North San Francisco Bay - midway between Alcatraz Island and SF","-122.42139","37.81861","RSAC005",,,,,
+20,"202",0,"North San Francisco Bay - 1300 yards SW. of Point Knox on Angel Island","-122.44722","37.84722","LRCHB3",,,,,
+21,"203",0,"San Francisco Bay - Richardson Bay N. Of Light 2","-122.46972","37.85778","LRCHB5",,,,,
+22,"204",0,"North San Francisco Bay - 600 yards E. of Angel Island","-122.39639","37.83417","RSAC007",,,,,
+23,"205",0,"North San Francisco Bay - 500 yards E. of Treasure Island docks","-122.35833","37.82778","LSFA01",,,,,
+24,"206",0,"North San Francisco Bay - -Berekely Flats 2700 yards NE. of Treasure Island","-122.34111","37.84389","LSFB03",,,,,
+25,"207",0,"North San Francisco Bay - 2200 yards N. of Berkeley Pier midpoint","-122.345","37.87","LSFB06",,,,,
+26,"208",0,"North San Francisco Bay - 1800 yards E. of Angel Island","-122.39861","37.86528","RSAC010",,,,,
+27,"209",0,"North San Francisco Bay - 1600 yards NE. of Bluff Point on Tiburon","-122.42222","37.88972","RSAC013",,,,,
+28,"210",0,"North San Francisco Bay - 1400 SW. of Red Rock","-122.44","37.92139","RSAC018",,,,,
+29,"211",0,"North San Francisco Bay - W. of Ship Channel-N. of San Rafael Bridge","-122.44583","37.94028","RSAC020",,,,,
+30,"301",0,"San Pablo Bay - 800 yards NE. of Point San Pablo","-122.41197","37.98031","RSAC025",,,,,
+31,"302",0,"San Pablo Bay - 950 yards NW. of Point Pinole","-122.375","38.01389","LSPE06",,,,,
+32,"303",0,"San Pablo Bay - N. of Light 2 at Point San Pablo","-122.425","37.97219","RSAC024",,1,,,
+33,"304",0,"San Pablo Bay - 500 yards N. of the Sisters","-122.436","37.99581","LSPD01",,,,,
+34,"305",1,"San Pablo Bay - 1500 yards NE. of Light 4 opposite the sisters","-122.4086","37.9987","RSAC027",,1,174,707,3
+35,"306",1,"San Pablo Bay - 1300 yards SW. of bouy between ""E""  in ship channel","-122.41488","38.00042","RSAC028",,1,168,705,1
+36,"307",1,"San Pablo Bay - 2500 yards NE. of sisters, NW. of station 306","-122.4192","38.00472","LSPD02",,1,164,699,1
+37,"308",1,"San Pablo Bay - 960 yards NW. of buoy between ""E"" in ship channel","-122.40438","38.01745","RSAC029",,1,178,684,1
+38,"309",1,"San Pablo Bay - just NE. of buoy between ""E"" in ship channel","-122.39387","38.01442","RSAC030",,1,189,688,3
+39,"310",1,"San Pablo Bay - 1100 yards SW. of channel Light 7 and 8","-122.37355","38.0297","RSAC032",,1,207,670,1
+40,"311",1,"San Pablo Bay - 1500 yards NW. of Pt. Pinole","-122.37743","38.02087","RSAC031",,1,204,680,4
+41,"312",0,"San Pablo Bay - 2200 yards NE. of sisters toward Petaluma channel","-122.432","38.01189","LSPD03",,1,,,
+42,"313",0,"San Pablo Bay - 2200 yards NE. of Rat Rock","-122.449","38.02219","LSPC02",,2,,,
+43,"314",1,"San Pablo Bay - midway between markers between ""E"" and Petaluma Light 1","-122.41167","38.02812","LSPD05",,2,172,672,1
+44,"315",1,"San Pablo Bay - 2200 yards WNW. Of Petaluma Channel Lights 1 & 2","-122.3936","38.03815","LSPD07",,2,189,659,1
+45,"316",0,"San Pablo Bay - at Petaluma Channel Light 6","-122.427","38.06669","LSPB01",,2,,,
+46,"317",0,"San Pablo Bay - flats 960 yards N. of Point San Pedro","-122.449","37.99831","LSPD00",,,,,
+47,"318",0,"San Pablo Bay - N. of Light 1, South of Petaluma Boat Channel","-122.431","38.05","LSPC05",,,,,
+48,"319",0,"San Pablo Bay - at Marker No. 8 - Petaluma Boat Channel","-122.432","38.0775","LSPB02",,,,,
+49,"320",0,"San Pablo Bay - flats 2000 yards NW. of Hercules","-122.305","38.02361","LSPE12",,,,,
+50,"321",1,"San Pablo Bay - ship channel ENE. of Lights 7 and 8","-122.36103","38.03612","RSAC033",,1,220,662,2
+51,"322",1,"San Pablo Bay - 1500 yards NE. of Point Pinole","-122.35078","38.02363","LSPE08",,2,229,677,4
+52,"323",1,"San Pablo Bay - 2200 yards SE. of Ship Channel Light 10","-122.32817","38.02853","LSPE11",,2,251,670,4
+53,"324",0,"San Pablo Bay - E. of Ship Channel Lights 11 and 12","-122.319","38.05281","RSAC037",,1,,,
+54,"325",1,"San Pablo Bay - 900 yards E. of Channel Lights 13 and 14","-122.2955","38.05605","RSAC039",,1,282,637,1
+55,"326",1,"San Pablo Bay - 2200 yards NW. of Rodeo","-122.29592","38.04038","LSPE13",,2,283,656,1
+56,"327",1,"San Pablo Bay - 1600 yards NW. Ship Channel Light 9","-122.36672","38.04772","LSPD10",,2,214,647,2
+57,"328",1,"San Pablo Bay - about 1900 yards NW. of Ship Channel 11","-122.34842","38.06005","LSPD12",,2,232,633,2
+58,"329",1,"San Pablo Bay - 800 yards N. of Ship Channel Light 13","-122.30588","38.06312","LSPD16",,2,273,629,1
+59,"330",0,"San Pablo Bay - NE. from Petaluma Boat Channel Light 2","-122.414","38.05189","LSPC07",,2,,,
+60,"331",0,"San Pablo Bay - 3300 yards NE. of Petaluma Channel Light 2","-122.394","38.06531","LSPC09",,2,,,
+61,"332",0,"San Pablo Bay - 5200 yards NE. of Petaluma Channel Light 2","-122.392","38.07331","LSPC11",,2,,,
+62,"333",0,"San Pablo Bay - 3700 yards N. of Ship Channel Light 9","-122.357","38.07311","LSPC13",,2,,,
+63,"334",1,"San Pablo Bay - 3000 yards N. of Ship Channel Light 11","-122.33933","38.07553","LSPC14",,2,241,614,1
+64,"335",1,"San Pablo Bay - 2700 yards NW. of Rockwall on flats","-122.3243","38.0705","LSPC16",,2,256,620,1
+65,"336",1,"San Pablo Bay - along N. side of channel E. of Light 15","-122.27875","38.06275","RSAC040",,1,298,629,2
+66,"337",1,"San Pablo Bay - opposite Rockwall E. of Channel Lightt 15","-122.27232","38.0595","RSAC041",,1,305,634,3
+67,"338",1,"San Pablo Bay - mouth of Carquinez Strait opposite Napa River","-122.24892","38.06003","RSAC043",,1,328,633,4
+68,"339",1,"San Pablo Bay - along Rockwall 1900 yards E. Channel Light 15","-122.2568","38.0667","RSAC042",,2,319,625,2
+69,"340",1,"Napa River - Mare Island above fixed bridge","-122.26988","38.10508","RNAP005",,1,307,578,1
+70,"341",1,"Napa River - 0.7 km upstream of Hwy 37","-122.2802","38.12828","RNAP007",,1,297,550,1
+71,"401",1,"Carquinez Strait - along C&H sugar plant dock E. of bridge","-122.21245","38.05758","RSAC047",,1,361,636,3
+72,"402",0,"Carquinez Strait - E. of Dillon Point","-122.183","38.05561","RSAC049",,1,,,
+73,"403",1,"Carquinez Strait - edge of flats in Channel near Benicia","-122.17192","38.04883","RSAC051",,2,400,646,4
+74,"404",1,"Carquinez Strait - inshore near Port Costa E. Light 22","-122.17887","38.04645","RSAC050",,1,394,650,1
+75,"405",1,"Carquinez Strait - E. of Light 23","-122.15815","38.03353","RSAC052",,1,413,665,1
+76,"406",1,"Carquinez Strait - E. of Ozol Dock; SE. Light 25","-122.15057","38.028","RSAC053",,1,421,672,3
+77,"407",1,"Carquinez Strait - midchannel 1600 yards E. Light 23","-122.14515","38.03298","RSAC054",,1,426,665,4
+78,"408",1,"Carquinez Strait - Chanel 1000 yards downstream Benecia Bridge","-122.12897","38.03513","RSAC055",,1,442,662,4
+79,"409",1,"Suisun Bay - 850 yards upstream from San Pablo Railroad Bridge","-122.10637","38.04455","RSAC057",,1,464,652,4
+80,"410",1,"Suisun Bay - 2400 yards upstream of San Pablo Bridge, Light 7","-122.09647","38.04883","RSAC059",,1,472,646,4
+81,"411",1,"Suisun Bay - 700 yards upstream from Light 10","-122.06828","38.06117","RSAC061",,1,499,631,3
+82,"412",1,"Suisun Bay - between Lights 11-12 in center of channel","-122.06007","38.06462","RSAC062",,1,507,628,2
+83,"413",1,"Suisun Bay - 400 yards upstream from Light 14","-122.0473","38.06595","RSAC063",,1,520,626,3
+84,"414",1,"Suisun Bay - N. NW. of Light 2, NE. of boom","-122.11128","38.05213","LSBB01",,1,459,642,1
+85,"415",1,"Suisun Bay - 1100 yards SW. of Light 4","-122.10772","38.05678","LSBB02",,1,461,637,2
+86,"416",1,"Suisun Bay - 550 yards N. of Light 4","-122.09415","38.0702","LSBB04",,1,475,620,1
+87,"417",1,"Suisun Bay - at Light 6 near Reserve Fleet","-122.083","38.08075","LSBB06",,1,486,608,1
+88,"418",1,"Suisun Bay - SW. of Light 8","-122.06973","38.09383","LSBB07",,1,499,591,1
+89,"419",0,"Suisun Bay - SW. of Light 9","-122.058","38.10419","LSBB09",,,,,
+90,"501",1,"Suisun Bay - downstream from Light 17","-122.01955","38.06167","RSAC065",,1,546,631,2
+91,"502",1,"Suisun Bay - downstream from Light 19","-122.00397","38.05997","RSAC067",,1,562,633,3
+92,"503",1,"Suisun Bay - downstream from Light 21","-121.9832","38.06022","RSAC069",,1,581,633,2
+93,"504",1,"Suisun Bay - upstream of Light 22","-121.9767","38.05945","RSAC070",,1,588,633,4
+94,"505",1,"Suisun Bay - 500 yards upstream from Lights 24 & 25","-121.95597","38.05713","RSAC071",,1,607,636,5
+95,"506",0,"Suisun Bay - 500 yards due N. of Stake Point","-121.944","38.05281","RSAC072",,1,,,
+96,"507",1,"Suisun Bay - at Light 27","-121.939","38.05228","RSAC073",,1,624,642,5
+97,"508",1,"Suisun Bay - 500 yards due N. of Light 28","-121.91492","38.04813","RSAC075",,1,646,648,1
+98,"509",1,"Suisun Bay - 1200 yards upstream from Light 28","-121.90412","38.04547","RSAC076",,1,657,650,3
+99,"510",1,"Suisun Bay - opposite Light 30 in Ship Channel","-121.88783","38.04888","RSAC077",,1,672,647,3
+100,"511",1,"Suisun Bay - upstream from Light 31","-121.88","38.0513","RSAC078",,1,679,644,4
+101,"512",1,"Sacramento River - 1000 yards upsteam from Light 31","-121.87722","38.05638","RSAC079",,1,682,637,2
+102,"513",1,"Sacramento River - off Vansickle Island at Light 34","-121.86842","38.0592","RSAC080",,1,691,634,4
+103,"514",0,"Sacramento River - upstream of Light 1","-121.844","38.06389","RSAC082",,1,,,
+104,"515",1,"Suisun Bay Cutoff - 550 yards SE. at 150 from Point Buckler","-122.01472","38.092","LSBB15",,1,550,595,5
+105,"516",1,"Suisun Bay - 300 yards W. of West end of Freeman Island","-121.99408","38.07867","LSBB17",,2,571,610,2
+106,"517",1,"Suisun Bay - 700 Yds SO. of East end of Freeman Island","-121.97938","38.07022","LSBB19",,2,585,620,2
+107,"518",1,"Honker Bay - 1100 yards S. of mouth of Chanpion Slough","-121.96802","38.06875","LSBB21",,2,595,622,5
+108,"519",1,"Honker Bay - 2200 yards N. of Simmons Point","-121.94725","38.07378","LSBB23",,2,616,615,5
+109,"601",1,"Grizzly Bay - 1300 yards NE. at 30 from Garnet Point","-122.0356","38.1031","LSBB13",,2,531,581,4
+110,"602",1,"Grizzly Bay - 2500 yds NE. at 20 from Garnet Point","-122.04183","38.11783","LSBB12",,2,524,563,4
+111,"603",1,"Grizzly Bay - 2500 yds NW. at 10 from Garnet Point","-122.04805","38.11552","LSBB11",,2,520,565,1
+112,"604",1,"Grizzly Bay - 1000 yds E. at Light 10 at Montezuma Slough","-122.05717","38.12163","LSBB10",,2,510,558,2
+113,"605",1,"West end of Montezuma Slough - 1700 yards upstream of mouth","-122.05738","38.14853","SLMZU02",,1,510,526,4
+114,"606",1,"West end of Montezuma Slough - at overhead power cables","-122.02177","38.1698","SLMZU06",,1,544,500,4
+115,"607",0,"Montezuma Slough - 850 yards downstream from Cross Slough","-121.967","38.18381","SLMZU12",,1,,,
+116,"608",1,"Montezuma Slough - at E. end of Roaring River Slough","-121.88332","38.0887","SLMZU29",,1,677,598,4
+117,"609",0,"Montezuma Slough - at junction with Nurse Slough","-121.9347","38.16771","SLMZU16",,,,,
+118,"701",1,"Sacramento River - at Lights 5 & 6","-121.83475","38.06505","RSAC083",,1,723,627,1
+119,"702",0,"Sacramento River - downstream of lights 7 & 8","-121.814","38.06111","RSAC084",,1,,,
+120,"703",1,"Sacramento River - upstream of lights 9 and 10","-121.79692","38.06087","RSAC086",,1,758,632,1
+121,"704",1,"Sacramento River - 1300 yards upstream of Lights 11 & 12","-121.77892","38.07087","RSAC088",,1,776,619,1
+122,"705",1,"Sacramento River - 500 yards upstream of Lights 13 & 14","-121.7618","38.07925","RSAC090",,1,793,609,1
+123,"706",1,"Sacramento River - upstream of Lights 15 & 16","-121.74","38.0903","RSAC092",,1,813,596,1
+124,"707",1,"Sacramento River - upstream of Lights 19 & 20","-121.70797","38.11397","RSAC096",,1,844,567,1
+125,"708",1,"Sacramento River -  upstream of Light 23","-121.6967","38.12608","RSAC098",,1,855,553,5
+126,"709",1,"Sacramento River -  downstream of Lights 27 & 28","-121.69048","38.14787","RSAC100",,1,860,526,5
+127,"710",1,"Sacramento River -  upstream of Rio Vista Bridge","-121.68228","38.162","RSAC102",,1,868,510,1
+128,"711",1,"Sacramento River -  600 yards upstream of Light 36","-121.67028","38.17595","RSAC103",,1,881,493,1
+129,"712",1,"Steamboat Slough - N. of Windmill, between siphons","-121.64095","38.19042","SLSBT03",,1,908,475,1
+130,"713",1,"Cache Slough - N. of Light 43","-121.66008","38.20712","SLCCH03",,1,890,454,1
+131,"715",1,"Cache Slough - N. of Light 47","-121.67362","38.22295","SLCCH05",,1,876,435,1
+132,"716",1,"Cache Slough - N. of cable Ferry 1 & 51","-121.68438","38.23787","SLCCH08",,1,866,418,1
+133,"717",1,"Sacramento River - at Grand Island below Isleton","-121.63138","38.17017","RSAC107",,1,917,500,5
 134,"718",0,,,,,,,,,
-135,"719",1,"Sacramento Deep Water Ship Channel - between Lights 59 & 60","SHSAC13","-121.64733","38.33428",,1,901,300,4
-136,"721",1,"Cache Slough - 75 yards S. of Pumphouse on West Bank","SLCCH11","-121.70277","38.26815",,2,849,381,4
-137,"723",1,"Sacramento Deep Water Ship Channel - between Lights 51& 52","SHSAC00","-121.67348","38.23615",,1,877,419,4
-138,"724",1,"Sacramento River - at Ryde Hotel","RSAC123","-121.55878","38.23578","Old descrip: Sac R. @ Georgiana Sl. (old # 725)",1,987,420,1
-139,"735",1,"Sacramento River - at courtland about 1000 yards above Sutter Slough","RSAC136","-121.56968","38.33343",,1,976,302,1
-140,"736",1,"Sacramento River - at Hood, abreast of yellow shed on E. bank","RSAC144","-121.5214","38.36737","Old descrip: Sac R. @ Rosebud Lndg (Old # 74)",1,1023,260,1
-141,"794",0,"Sacramento Deep Water Ship Channel - Turning Basin near S. Bank","SHSAC39","-121.55618","38.56118333",,1,,,
-142,"795",1,"Sacramento Deep Water Ship Channel - between Lights 75 & 76","SHSAC36","-121.58468","38.5377",,1,962,53,4
-143,"796",1,"Sacramento Deep Water Ship Channel - between Lights 71 & 72","SHSAC28","-121.5844","38.47387",,1,962,132,4
-144,"797",1,"Sacramento Deep Water Ship Channel - between Lights 65 & 66","SHSAC22","-121.6156","38.40462",,1,932,216,4
-145,"799",0,"Sacramento Deep Water Ship Channel - between Lights 63 & 64","SHSAC17","-121.63075","38.370767",,1,,,
-146,"801",0,"San Joaquin River - Broad Slough 500 yards S. of Sacramento Light 2","RSAN001","-121.847","38.05561",,,,,
-147,"802",1,"San Joaquin River - 500 yards N. of Point Beenar","RSAN003","-121.83875","38.03528",,1,719,663,1
-148,"803",0,"San Joaquin River - upstream from Antioch Point","RSAN005","-121.819","38.02219",,,,,
-149,"804",1,"San Joaquin River - 600 yards upsteam from Light 8","RSAN007","-121.79868","38.02308",,1,758,677,1
-150,"805",0,"San Joaquin River - 500 yards downstream from Light 11","RSAN009","-121.772","38.02683",,,,,
-151,"806",1,"San Joaquin River - 500 yards upstream from Light 11","RSAN011","-121.7617","38.02872",,1,792,671,4
-152,"807",1,"San Joaquin River - 600 yards upstream from Light 17","RSAN013","-121.73203","38.02995",,1,821,669,4
-153,"808",1,"San Joaquin River - 200 yards upstream of Blind Point","RSAN015","-121.71942","38.03337",,1,833,665,4
-154,"809",1,"San Joaquin River - near Light 24 at Jersey Point","RSAN018","-121.69305","38.0512",,1,858,643,4
-155,"810",1,"San Joaquin River - 500 yards upstream from Light 26","RSAN021","-121.67622","38.07083",,1,875,620,4
-156,"811",1,"San Joaquin River - upstream from Light 33","RSAN024","-121.66487","38.09742",,1,885,588,1
-157,"812",1,"San Joaquin River - upstream from Light 34","RSAN026","-121.64883","38.08792",,1,901,599,4
-158,"813",1,"San Joaquin River - upstream of Light 38","RSAN028","-121.62767","38.09978",,1,920,584,2
-159,"814",1,"San Joaquin River - downstream from Light 42","RSAN031","-121.6022","38.10128",,1,945,582,3
-160,"815",1,"San Joaquin River - at junction with Mokulumne River","RSAN033","-121.57587","38.0913",,1,970,595,5
-161,"901",0,"False River - one KM E. of San Joaquin River junction","RFAL1","-121.667","38.05669",,1,,,
-162,"902",1,"Holland Cut - Just S.of North tip of Holland Tract","CFHLNO","-121.58255","38.0205",,1,964,680,1
-163,"903",1,"North Fork Moklumne River  - 1600 yards from San Joaquin River","RMKL002","-121.56747","38.10628",,1,978,577,5
-164,"904",1,"San Joaquin River - upstream from Light 53","RSAN035","-121.56847","38.07828",,1,978,611,4
-165,"905",1,"San Joaquin River - upstream of Prisoners Point Light 57","RSAN037","-121.55573","38.05953",,1,990,634,1
-166,"906",1,"San Joaquin River - between Lights 5 and 6","RSAN041","-121.51653","38.05412",,1,1027,641,5
-167,"907",0,"Little Connection Slough - 600 yards S. of Potato Slough","SLLCN2","-121.50056","38.0625",,1,,,
-168,"908",1,"Middle River - at junction Threeriver Reach","RMID00","-121.5298","38.04308",,1,1014,654,1
-169,"909",1,"San Joaquin River - 300 yards NW. of Light 18","RSAN046","-121.46705","38.02442",,1,1075,676,5
-170,"910",1,"San Joaquin River - E. of S. tip of Spud Island","RSAN050","-121.45037","38.00228",,1,1089,702,5
-171,"911",1,"San Joaquin River - 500 yards upstream Lights 33 & 34","RSAN053","-121.40875","37.99247",,1,1130,715,5
-172,"912",1,"San Joaquin River - near mouth of Calaveras River","RSAN058","-121.37172","37.96883",,1,1165,743,2
-173,"913",1,"Middle River - off SW. end of Mildred Island","RMID11","-121.53705","37.97012",,1,1007,741,4
-174,"914",1,"Middle River - at SE. corner of Bacon Island","RMID15","-121.53475","37.94662",,1,1010,770,4
-175,"915",1,"Old River - along E. side of Fay Island","ROLD26","-121.55908","37.949",,1,986,767,1
-176,"916",0,"Old River - at Swing Bridge - Victoria Island","ROLD37","-121.575","37.87919",,,,,
-177,"917",0,"Victoria Canal Midway","CHVCT3","-121.52331","37.87419",,,,,
-178,"918",0,"Old River - Northwest of Coney Island","ROLD39","-121.56931","37.86111",,,,,
-179,"919",1,"Little Potato Slough - 1200 yards N. of junction W. White Slough","SLLPT4","-121.49525","38.10572",,1,1048,578,5
-180,"920",1,"South Fork Moklumne River - at Sycamore Slough","RSMKL12","-121.50475","38.14138",,1,1038,535,5
-181,"921",1,"South Fork Moklumne River - at mouth of Hay Slough","RSMKL15","-121.49303","38.16513",,1,1049,505,1
-182,"922",1,"South Fork Moklumne River - at mouth of Beaver Slough","RSMKL19","-121.4789","38.20438",,1,1063,458,1
-183,"923",1,"Mokelumne River - at bend above South Mokelumne River","RMKL007","-121.56625","38.13445",,1,979,543,4
-184,"924",0,"Potato Slough - 3 KM from confluence with North San Joaquin River","SLPAT3","-121.53575","38.08914",,,,,
-185,"925",0,"Sycamore Slough - 2 KM from confluence with South Mokelumne River","SLSYC2","-121.47947","38.14039",,,,,
+135,"719",1,"Sacramento Deep Water Ship Channel - between Lights 59 & 60","-121.64733","38.33428","SHSAC13",,1,901,300,4
+136,"721",1,"Cache Slough - 75 yards S. of Pumphouse on West Bank","-121.70277","38.26815","SLCCH11",,2,849,381,4
+186,"722",1,"Cache Slough - 75 yards S. of Pumphouse on West Bank","-121.6885833","38.25502778","SLCCH11","is same as SKT 716",2,862,397,4
+137,"723",1,"Sacramento Deep Water Ship Channel - between Lights 51& 52","-121.67348","38.23615","SHSAC00",,1,877,419,4
+138,"724",1,"Sacramento River - at Ryde Hotel","-121.55878","38.23578","RSAC123","Old descrip: Sac R. @ Georgiana Sl. (old # 725)",1,987,420,1
+139,"735",1,"Sacramento River - at courtland about 1000 yards above Sutter Slough","-121.56968","38.33343","RSAC136",,1,976,302,1
+140,"736",1,"Sacramento River - at Hood, abreast of yellow shed on E. bank","-121.5214","38.36737","RSAC144","Old descrip: Sac R. @ Rosebud Lndg (Old # 74)",1,1023,260,1
+141,"794",0,"Sacramento Deep Water Ship Channel - Turning Basin near S. Bank","-121.55618","38.56118333","SHSAC39",,1,,,
+142,"795",1,"Sacramento Deep Water Ship Channel - between Lights 75 & 76","-121.58468","38.5377","SHSAC36",,1,962,53,4
+143,"796",1,"Sacramento Deep Water Ship Channel - between Lights 71 & 72","-121.5844","38.47387","SHSAC28",,1,962,132,4
+144,"797",1,"Sacramento Deep Water Ship Channel - between Lights 65 & 66","-121.6156","38.40462","SHSAC22",,1,932,216,4
+145,"799",0,"Sacramento Deep Water Ship Channel - between Lights 63 & 64","-121.63075","38.370767","SHSAC17",,1,,,
+146,"801",0,"San Joaquin River - Broad Slough 500 yards S. of Sacramento Light 2","-121.847","38.05561","RSAN001",,,,,
+147,"802",1,"San Joaquin River - 500 yards N. of Point Beenar","-121.83875","38.03528","RSAN003",,1,719,663,1
+148,"803",0,"San Joaquin River - upstream from Antioch Point","-121.819","38.02219","RSAN005",,,,,
+149,"804",1,"San Joaquin River - 600 yards upsteam from Light 8","-121.79868","38.02308","RSAN007",,1,758,677,1
+150,"805",0,"San Joaquin River - 500 yards downstream from Light 11","-121.772","38.02683","RSAN009",,,,,
+151,"806",1,"San Joaquin River - 500 yards upstream from Light 11","-121.7617","38.02872","RSAN011",,1,792,671,4
+152,"807",1,"San Joaquin River - 600 yards upstream from Light 17","-121.73203","38.02995","RSAN013",,1,821,669,4
+153,"808",1,"San Joaquin River - 200 yards upstream of Blind Point","-121.71942","38.03337","RSAN015",,1,833,665,4
+154,"809",1,"San Joaquin River - near Light 24 at Jersey Point","-121.69305","38.0512","RSAN018",,1,858,643,4
+155,"810",1,"San Joaquin River - 500 yards upstream from Light 26","-121.67622","38.07083","RSAN021",,1,875,620,4
+156,"811",1,"San Joaquin River - upstream from Light 33","-121.66487","38.09742","RSAN024",,1,885,588,1
+157,"812",1,"San Joaquin River - upstream from Light 34","-121.64883","38.08792","RSAN026",,1,901,599,4
+158,"813",1,"San Joaquin River - upstream of Light 38","-121.62767","38.09978","RSAN028",,1,920,584,2
+159,"814",1,"San Joaquin River - downstream from Light 42","-121.6022","38.10128","RSAN031",,1,945,582,3
+160,"815",1,"San Joaquin River - at junction with Mokulumne River","-121.57587","38.0913","RSAN033",,1,970,595,5
+161,"901",0,"False River - one KM E. of San Joaquin River junction","-121.667","38.05669","RFAL1",,1,,,
+162,"902",1,"Holland Cut - Just S.of North tip of Holland Tract","-121.58255","38.0205","CFHLNO",,1,964,680,1
+163,"903",1,"North Fork Moklumne River  - 1600 yards from San Joaquin River","-121.56747","38.10628","RMKL002",,1,978,577,5
+164,"904",1,"San Joaquin River - upstream from Light 53","-121.56847","38.07828","RSAN035",,1,978,611,4
+165,"905",1,"San Joaquin River - upstream of Prisoners Point Light 57","-121.55573","38.05953","RSAN037",,1,990,634,1
+166,"906",1,"San Joaquin River - between Lights 5 and 6","-121.51653","38.05412","RSAN041",,1,1027,641,5
+167,"907",0,"Little Connection Slough - 600 yards S. of Potato Slough","-121.50056","38.0625","SLLCN2",,1,,,
+168,"908",1,"Middle River - at junction Threeriver Reach","-121.5298","38.04308","RMID00",,1,1014,654,1
+169,"909",1,"San Joaquin River - 300 yards NW. of Light 18","-121.46705","38.02442","RSAN046",,1,1075,676,5
+170,"910",1,"San Joaquin River - E. of S. tip of Spud Island","-121.45037","38.00228","RSAN050",,1,1089,702,5
+171,"911",1,"San Joaquin River - 500 yards upstream Lights 33 & 34","-121.40875","37.99247","RSAN053",,1,1130,715,5
+172,"912",1,"San Joaquin River - near mouth of Calaveras River","-121.37172","37.96883","RSAN058",,1,1165,743,2
+173,"913",1,"Middle River - off SW. end of Mildred Island","-121.53705","37.97012","RMID11",,1,1007,741,4
+174,"914",1,"Middle River - at SE. corner of Bacon Island","-121.53475","37.94662","RMID15",,1,1010,770,4
+175,"915",1,"Old River - along E. side of Fay Island","-121.55908","37.949","ROLD26",,1,986,767,1
+176,"916",0,"Old River - at Swing Bridge - Victoria Island","-121.575","37.87919","ROLD37",,,,,
+177,"917",0,"Victoria Canal Midway","-121.52331","37.87419","CHVCT3",,,,,
+178,"918",0,"Old River - Northwest of Coney Island","-121.56931","37.86111","ROLD39",,,,,
+179,"919",1,"Little Potato Slough - 1200 yards N. of junction W. White Slough","-121.49525","38.10572","SLLPT4",,1,1048,578,5
+180,"920",1,"South Fork Moklumne River - at Sycamore Slough","-121.50475","38.14138","RSMKL12",,1,1038,535,5
+181,"921",1,"South Fork Moklumne River - at mouth of Hay Slough","-121.49303","38.16513","RSMKL15",,1,1049,505,1
+182,"922",1,"South Fork Moklumne River - at mouth of Beaver Slough","-121.4789","38.20438","RSMKL19",,1,1063,458,1
+183,"923",1,"Mokelumne River - at bend above South Mokelumne River","-121.56625","38.13445","RMKL007",,1,979,543,4
+184,"924",0,"Potato Slough - 3 KM from confluence with North San Joaquin River","-121.53575","38.08914","SLPAT3",,,,,
+185,"925",0,"Sycamore Slough - 2 KM from confluence with South Mokelumne River","-121.47947","38.14039","SLSYC2",,,,,

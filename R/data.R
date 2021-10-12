@@ -32,7 +32,7 @@
 #' US Fish and Wildlife Service Enhanced Delta Smelt Monitoring (EDSM) data.
 #'
 #' @encoding UTF-8
-#' @format a tibble with X rows and Y number of variables
+#' @format a tibble with 146,896 rows and 19 number of variables
 #' \describe{
 #'   \item{Source}{Name of source dataset.}
 #'   \item{Station}{Station where sample was collected.}
@@ -62,7 +62,7 @@
 #' California Department of Fish and Wildlife Fall Midwater Trawl data.
 #'
 #' @encoding UTF-8
-#' @format a tibble with 228,639 rows and 22 variables
+#' @format a tibble with 231,233 rows and 22 variables
 #' \describe{
 #'   \item{Source}{Name of source dataset.}
 #'   \item{Station}{Station where sample was collected.}
@@ -93,7 +93,7 @@
 #' FMWT measured lengths
 #'
 #' Only measued lengths from the FMWT data
-#' @format a tibble with 220,785 rows and 5 variables
+#' @format a tibble with 223,154 rows and 5 variables
 #' \describe{
 #'   \item{SampleID}{Unique sample identifier.}
 #'   \item{Taxa}{Scientific name.}
