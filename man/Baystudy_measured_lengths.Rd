@@ -18,6 +18,6 @@ a tibble with 761,128 rows and 5 variables
 Baystudy_measured_lengths
 }
 \description{
-Only measued lengths from the Baystudy data
+Only measured lengths from the Baystudy data
 }
 \keyword{datasets}

@@ -78,7 +78,7 @@
 #'   \item{Sal_surf}{Surface salinity.}
 #'   \item{Temp_surf}{Surface temperature in °C.}
 #'   \item{Secchi}{Secchi depth (cm).}
-#'   \item{Secchi_estimated}{Was Secchi depth estimted?}
+#'   \item{Secchi_estimated}{Was Secchi depth estimated?}
 #'   \item{Tow_volume}{Volume towed (\ifelse{html}{\out{m<sup>3</sup>}}{\eqn{m^{3}}}).}
 #'   \item{Tow_direction}{Tow direction relative to current.}
 #'   \item{Cable_length}{Length of cable released when net deployed (feet?).}
@@ -92,7 +92,7 @@
 
 #' FMWT measured lengths
 #'
-#' Only measued lengths from the FMWT data
+#' Only measured lengths from the FMWT data
 #' @format a tibble with 223,154 rows and 5 variables
 #' \describe{
 #'   \item{SampleID}{Unique sample identifier.}
@@ -136,7 +136,7 @@
 
 #' Suisun measured lengths
 #'
-#' Only measued lengths from the Suisun data
+#' Only measured lengths from the Suisun data
 #' @format a tibble with 155,447 rows and 5 variables
 #' \describe{
 #'   \item{SampleID}{Unique sample identifier.}
@@ -183,7 +183,7 @@
 
 #' Baystudy measured lengths
 #'
-#' Only measued lengths from the Baystudy data
+#' Only measured lengths from the Baystudy data
 #' @format a tibble with 761,128 rows and 5 variables
 #' \describe{
 #'   \item{SampleID}{Unique sample identifier.}

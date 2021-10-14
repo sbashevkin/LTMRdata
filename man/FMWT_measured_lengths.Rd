@@ -18,6 +18,6 @@ a tibble with 223,154 rows and 5 variables
 FMWT_measured_lengths
 }
 \description{
-Only measued lengths from the FMWT data
+Only measured lengths from the FMWT data
 }
 \keyword{datasets}

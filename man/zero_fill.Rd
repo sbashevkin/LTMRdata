@@ -33,7 +33,7 @@ Fill in 0s for samples in which a species was not recorded as caught.
 }
 \details{
 It is recommended to use the \code{species} parameter to filter the data to the species (singular or plural) of interest, otherwise it will create a gigantic dataset.
-You can fill in 0s for multiple univariate analyses simultaneously by passing the species of interset to the \code{species} parameter and setting \code{univariate=TRUE}.
+You can fill in 0s for multiple univariate analyses simultaneously by passing the species of interest to the \code{species} parameter and setting \code{univariate=TRUE}.
 }
 \examples{
 

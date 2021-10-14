@@ -18,6 +18,6 @@ a tibble with 155,447 rows and 5 variables
 Suisun_measured_lengths
 }
 \description{
-Only measued lengths from the Suisun data
+Only measured lengths from the Suisun data
 }
 \keyword{datasets}

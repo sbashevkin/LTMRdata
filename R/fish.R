@@ -1,6 +1,6 @@
 #' Integrate fish datasets
 #'
-#' Integrates your desired fish datasets according to a number of user-specificed parameters
+#' Integrates your desired fish datasets according to a number of user-specified parameters
 #' @param sources Which data sources would you like included? Options include: "Baystudy", "Suisun", "FMWT", "SKT", "DJFMP", and "EDSM".
 #' @param zero_fill Should zeros be filled in for samples in which a species was not recorded as caught, using the \code{\link{zero_fill}} function. The \code{remove_unknown_lengths} and \code{univariate} parameters control the behavior of this functionality and these parameters are passed to the \code{\link{zero_fill}} function.
 #' @inherit LTMRpilot

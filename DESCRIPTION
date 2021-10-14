@@ -26,10 +26,12 @@ Suggests:
     testthat,
     covr,
     stringr,
-    tibble
+    tibble,
+    spelling
 RoxygenNote: 7.1.1
 Imports: 
     dplyr,
     magrittr,
     rlang,
     tidyr
+Language: en-US

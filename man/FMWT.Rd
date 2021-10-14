@@ -22,7 +22,7 @@ a tibble with 231,233 rows and 22 variables
   \item{Sal_surf}{Surface salinity.}
   \item{Temp_surf}{Surface temperature in °C.}
   \item{Secchi}{Secchi depth (cm).}
-  \item{Secchi_estimated}{Was Secchi depth estimted?}
+  \item{Secchi_estimated}{Was Secchi depth estimated?}
   \item{Tow_volume}{Volume towed (\ifelse{html}{\out{m<sup>3</sup>}}{\eqn{m^{3}}}).}
   \item{Tow_direction}{Tow direction relative to current.}
   \item{Cable_length}{Length of cable released when net deployed (feet?).}
