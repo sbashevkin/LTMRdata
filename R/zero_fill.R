@@ -1,7 +1,7 @@
 #' Fill in 0 catches
 #'
 #' Fill in 0s for samples in which a species was not recorded as caught.
-#' @param data The input data, likely the output from \code{\link{LTMRpilot}}.
+#' @param data The input data, likely the output from \code{\link{LTMRpilot}}, \code{\link{fish}}, or some row-bound combination of the internal package datasets.
 #' Must contain at least the SampleID, Taxa, Length_NA_flag (if \code{remove_unmeasured_lengths=TRUE}), and Count columns.
 #' @param species Character vector of species to include. Set \code{species=NULL} (the default) to include all species. It is recommended to filter to species of interest using this option.
 #' @param remove_unknown_lengths Should samples associated with unknown lengths be removed from the data? Unknown lengths refer

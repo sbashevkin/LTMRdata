@@ -12,7 +12,7 @@ zero_fill(
 )
 }
 \arguments{
-\item{data}{The input data, likely the output from \code{\link{LTMRpilot}}.
+\item{data}{The input data, likely the output from \code{\link{LTMRpilot}}, \code{\link{fish}}, or some row-bound combination of the internal package datasets.
 Must contain at least the SampleID, Taxa, Length_NA_flag (if \code{remove_unmeasured_lengths=TRUE}), and Count columns.}
 
 \item{species}{Character vector of species to include. Set \code{species=NULL} (the default) to include all species. It is recommended to filter to species of interest using this option.}

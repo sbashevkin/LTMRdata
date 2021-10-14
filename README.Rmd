@@ -44,28 +44,46 @@ require(LTMRdata)
 
 Suisun Marsh Fish Study
 ```{r}
-data(Suisun)
 str(Suisun)
 ```
 
 Fall Midwater Trawl
 ```{r}
-data(FMWT)
 str(FMWT)
 ```
 
 Bay Study
 ```{r}
-data(Baystudy)
 str(Baystudy)
 ```
 
-## To access the integrated dataset
+Delta Juvenile Fish Monitoring Program
+```{r}
+str(DJFMP)
+```
+
+Enhanced Delta Smelt Monitoring
+```{r}
+str(EDSM)
+```
+
+Spring Kodiak Trawl
+```{r}
+str(SKT)
+```
+
+## To access the integrated dataset for a community-level analysis
 
 ```{r}
-Data <- LTMRpilot(convert_lengths=TRUE,
-                  remove_unconverted_lengths=TRUE,
-                  size_cutoff=40)
+Data <- fish(sources=c("Suisun", "FMWT", "Baystudy", "DJFMP", "EDSM", "SKT"),
+             species=NULL,
+             convert_lengths=TRUE,
+             remove_unconverted_lengths=FALSE,
+             size_cutoff=40,
+             zero_fill = TRUE,
+             remove_unknown_lengths = TRUE,
+             univariate = FALSE,
+             quiet = FALSE)
 str(Data)
 ```
 
