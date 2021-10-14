@@ -2,8 +2,9 @@ require(LTMRdata)
 require(dplyr)
 
 species <- c("Clupea pallasii", "Morone saxatilis", "Parophrys vetulus", "Sardinops sagax")
+sources<-c("Baystudy", "Suisun", "FMWT", "SKT", "EDSM")
 
-Data <- LTMRpilot(convert_lengths=TRUE, remove_unconverted_lengths=TRUE)
+Data <- fish(sources=sources, convert_lengths=TRUE, remove_unconverted_lengths=TRUE, zero_fill=FALSE)
 
 Data_species <- filter(Data, Taxa%in%species[1])
 
@@ -11,7 +12,7 @@ Data_species_correct <- filter(Data, Taxa%in%species[1] | is.na(Taxa))
 
 Data_multspecies <- filter(Data, Taxa%in%species)
 
-Data <- LTMRpilot(convert_lengths=TRUE, remove_unconverted_lengths=TRUE)
+Data <- fish(sources=sources, convert_lengths=TRUE, remove_unconverted_lengths=TRUE, zero_fill=FALSE)
 
 Data_filled<- zero_fill(Data, remove_unknown_lengths=FALSE)
 
@@ -50,19 +51,6 @@ test_that("No unknown lengths remain after zero_fill with remove_unknown_lengths
   expect_equal(nrow(filter(Data_filled_multivariate, Length_NA_flag=="Unknown length")), 0)
   expect_equal(nrow(filter(Data_filled_univariate_species, Length_NA_flag=="Unknown length")), 0)
   expect_equal(nrow(filter(Data_filled_univariate_multspecies, Length_NA_flag=="Unknown length")), 0)
-})
-
-test_that("All Lats are between 37 ad 39 and all Longs are between -123 and -121", {
-  expect_true(all((Data_filled$Latitude<39 & Data_filled$Latitude>37) | is.na(Data_filled$Latitude)))
-  expect_true(all((Data_filled_univariate$Latitude<39 & Data_filled_univariate$Latitude>37) | is.na(Data_filled_univariate$Latitude)))
-  expect_true(all((Data_filled_univariate_species$Latitude<39 & Data_filled_univariate_species$Latitude>37) | is.na(Data_filled_univariate_species$Latitude)))
-  expect_true(all((Data_filled_univariate_multspecies$Latitude<39 & Data_filled_univariate_multspecies$Latitude>37) | is.na(Data_filled_univariate_multspecies$Latitude)))
-  expect_true(all((Data_filled_multivariate$Latitude<39 & Data_filled_multivariate$Latitude>37) | is.na(Data_filled_multivariate$Latitude)))
-  expect_true(all((Data_filled$Longitude<(-121) & Data_filled$Longitude>(-123)) | is.na(Data_filled$Longitude)))
-  expect_true(all((Data_filled_univariate$Longitude<(-121) & Data_filled_univariate$Longitude>(-123)) | is.na(Data_filled_univariate$Longitude)))
-  expect_true(all((Data_filled_univariate_species$Longitude<(-121) & Data_filled_univariate_species$Longitude>(-123)) | is.na(Data_filled_univariate_species$Longitude)))
-  expect_true(all((Data_filled_univariate_multspecies$Longitude<(-121) & Data_filled_univariate_multspecies$Longitude>(-123)) | is.na(Data_filled_univariate_multspecies$Longitude)))
-  expect_true(all((Data_filled_multivariate$Longitude<(-121) & Data_filled_multivariate$Longitude>(-123)) | is.na(Data_filled_multivariate$Longitude)))
 })
 
 test_that("Species filtering works correctly", {

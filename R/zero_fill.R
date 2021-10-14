@@ -6,7 +6,7 @@
 #' @param species Character vector of species to include. Set \code{species=NULL} (the default) to include all species. It is recommended to filter to species of interest using this option.
 #' @param remove_unknown_lengths Should samples associated with unknown lengths be removed from the data? Unknown lengths refer
 #' to rows with \code{Length_NA_flag=="Unknown length"}, corresponding to Suisun samples where unmeasured fish were not a random
-#' sample from the same pool fish were selected to be measured, AND the length range could not be estimated from the comments or
+#' sample from the same pool fish were selected to be measured, AND the length range could not be estimated from the comments, or
 #' no fish within that size range were measured in that sample. The behavior of this option depends on the \code{univariate} parameter.
 #' @param univariate Controls behavior of the \code{remove_unknown_lengths} option. If \code{remove_unknown_lengths=FALSE} this parameter is ignored.
 #' Will these data be used for univariate analyses (\code{univariate=TRUE})? Or multi-species analyses (\code{univariate=FALSE})?
@@ -74,18 +74,20 @@ zero_fill <- function(data, species=NULL, remove_unknown_lengths=TRUE, univariat
     tidyr::complete(.data$SampleID, .data$Taxa, fill=list(Count=0))%>%
     dplyr::left_join(data_env, by="SampleID")
 
+  gc()
+
   if(univariate & remove_unknown_lengths){
     remove<-data%>%
       dplyr::filter(is.na(.data$Length) & .data$Length_NA_flag=="Unknown length")%>%
       dplyr::select(.data$Taxa, .data$SampleID)%>%
-      dplyr::distinct()%>%
-      dplyr::mutate(Remove=TRUE)
+      dplyr::distinct()
+
+    gc()
 
     data<-data%>%
-      dplyr::left_join(remove, by=c("Taxa", "SampleID"))%>%
-      dplyr::mutate(Remove=tidyr::replace_na(.data$Remove, FALSE))%>%
-      dplyr::filter(!.data$Remove)%>%
-      dplyr::select(-.data$Remove)
+      dplyr::anti_join(remove, by=c("Taxa", "SampleID"))
+
+    gc()
   }
 
   data<-data%>%
