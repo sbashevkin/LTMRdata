@@ -40,7 +40,8 @@ sample_skt <- read_csv(file.path("data-raw", "SKT", "tblSample.csv"),
          # Convert tide codes to values
          Tide = recode(TideCode, `1` = "High Slack", `2` = "Ebb", `3` = "Low Slack", `4` = "Flood", .default = NA_character_),
          # Calculate flowmeter total difference
-         Meter_total = MeterEnd - MeterStart) %>%
+         Meter_total = MeterEnd - MeterStart,
+         Depth = Depth*0.3048)%>% # Convert feet to meters
   # Calculate tow volume using formula provided by Trishelle Temple
   # Volume = A*K*D (A = 13.95 area of trawl mouth; K = 0.026873027 K factor of flow meter; D = difference in flow readings)
   mutate(Tow_volume = Meter_total*0.026873027*13.95,
