@@ -62,7 +62,7 @@ zero_fill <- function(data, species=NULL, remove_unknown_lengths=TRUE, univariat
   }
 
   data_env<-data%>%
-    dplyr::select(-.data$Taxa, -.data$Length, -.data$Count, -.data$Notes_catch, -.data$Length_NA_flag)%>%
+    dplyr::select(-tidyselect::any_of(c("Taxa", "Length", "Count", "Notes_catch", "Length_NA_flag")))%>%
     dplyr::distinct()
 
   if(any(duplicated(data_env$SampleID))){
@@ -70,7 +70,7 @@ zero_fill <- function(data, species=NULL, remove_unknown_lengths=TRUE, univariat
   }
 
   data<-data%>%
-    dplyr::select(.data$SampleID, .data$Taxa, .data$Length, .data$Count, .data$Notes_catch, .data$Length_NA_flag)%>%
+    dplyr::select(tidyselect::any_of(c("SampleID", "Taxa", "Length", "Count", "Notes_catch", "Length_NA_flag")))%>%
     tidyr::complete(.data$SampleID, .data$Taxa, fill=list(Count=0))%>%
     dplyr::left_join(data_env, by="SampleID")
 
