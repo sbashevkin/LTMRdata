@@ -5,11 +5,10 @@
 \alias{FMWT_measured_lengths}
 \title{FMWT measured lengths}
 \format{
-a tibble with 223,154 rows and 5 variables
+a tibble with 223,033 rows and 4 variables
 \describe{
   \item{SampleID}{Unique sample identifier.}
   \item{Taxa}{Scientific name.}
-  \item{Dead}{Was fish dead?}
   \item{Length}{Sampling survey (loosely corresponds to month).}
   \item{Count}{Number of fish measured to this length.}
   }

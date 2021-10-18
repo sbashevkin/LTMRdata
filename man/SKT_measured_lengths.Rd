@@ -6,7 +6,7 @@
 \alias{SKT_measured_lengths}
 \title{SKT dataset}
 \format{
-a tibble with X rows and Y number of variables
+a tibble with 38,448 rows and 4 variables
 \describe{
   \item{SampleID}{Unique sample identifier.}
   \item{Taxa}{Scientific name.}

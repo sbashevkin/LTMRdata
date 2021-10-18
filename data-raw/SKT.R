@@ -20,7 +20,10 @@ require(stringr)
 # read table with station latitude and longitude (one row per station)
 
 stations_skt <- read_csv(file.path("data-raw", "SKT", "lktblStationsSKT.csv"),
-                         col_types = cols_only(Station = "c", Latitude = "d", Longitude = "d")) %>%
+                         col_types=cols_only(Station="c", LatDeg="d", LatMin="d", LatSec="d",
+                                             LongDec="d", LongMin="d", LongSec="d"))%>%
+  mutate(Latitude=LatDeg+LatMin/60+LatSec/3600,
+         Longitude=(LongDec+LongMin/60+LongSec/3600)*-1) %>%
   drop_na()
 
 # Sample-level data -------------------------------------------------------
