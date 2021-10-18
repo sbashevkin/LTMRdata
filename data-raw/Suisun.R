@@ -55,7 +55,7 @@ sample_suisun <- read_csv(file.path("data-raw", "Suisun", "Sample.csv"),
   select(-Time)%>% # Remove unneeded variable
   mutate(Tide=recode(Tide, flood="Flood", ebb="Ebb", low="Low Slack", high="High Slack", outgoing="Ebb", incoming="Flood"), # Rename tide codes for consistency
          Source="Suisun",
-         SampleID=paste(Source, 1:nrow(.)))%>% # Create identifier for each sample
+         SampleID=paste(Source, SampleRowID))%>% # Create identifier for each sample
   left_join(stations_suisun, # Add station locations
             by="Station")%>%
   left_join(depth_suisun, # Add bottom depths
@@ -83,7 +83,7 @@ catch_suisun <- read_csv(file.path("data-raw", "Suisun", "Catch.csv"), na=c("NA"
   mutate(Count = if_else(SampleRowID=="{8327B645-BC36-4405-ADB3-C6561718A17B}" & StandardLength==87, Count+1, Count))%>% # Correcting for misstyped data point per email from Teejay that
   filter(!(!QADone & Taxa=="Pogonichthys macrolepidotus" & StandardLength==8))%>% # all QADone==FALSE data from January 2007 are correct EXCEPT for that lone splittail measuring 8 mm (was actually 87 mm).
   mutate(StandardLength=if_else(is.na(Taxa), NA_real_, StandardLength))%>% #COnverting lengths to NA for samples in which no fish were caught (i.e. Taxa is NA).
-  mutate(CatchComments=if_else(SampleID=="Suisun 1536" & Taxa=="Gobiidae" & StandardLength==0, "larval", CatchComments)) # Removing weird symbol in this comment that messes up code
+  mutate(CatchComments=if_else(SampleID=="Suisun {490F4873-8947-4352-81C9-3AA475D5FEEE}" & Taxa=="Gobiidae" & StandardLength==0, "larval", CatchComments)) # Removing weird symbol in this comment that messes up code
 
 
 
@@ -102,7 +102,17 @@ catch_suisun <- read_csv(file.path("data-raw", "Suisun", "Catch.csv"), na=c("NA"
 # Other comments had nothing to do with length (e.g., "with eggs") and those comments are marked "ignore" to indicate we will assume they DO represent
 # random samples of all catch of that species.
 
-# write_csv(filter(catch_suisun, StandardLength==0 & !is.na(CatchComments)), "~/Suisun comments.csv")
+# filter(catch_suisun, StandardLength==0 & !is.na(CatchComments))%>%
+# select(SampleRowID, Station, Date, Datetime, SampleID, TrawlComments, Taxa, Count, CatchComments)%>%
+#   write_csv("~/Suisun comments.csv")
+
+## For future updates, create the csv files as follows
+# old<-read_excel(file.path("data-raw", "Suisun", "Suisun comments.xlsx"))%>%mutate(ID=paste(SampleID, Taxa, CatchComments))
+# filter(catch_suisun, StandardLength==0 & !is.na(CatchComments))%>%
+# mutate(ID=paste(SampleID, Taxa, CatchComments))%>%
+# filter(!ID%in%old$ID)%>%
+# select(SampleRowID, Station, Date, Datetime, SampleID, TrawlComments, Taxa, Count, CatchComments)%>%
+#   write_csv("~/Suisun comments.csv")
 
 # The overall approach is to, where possible, convert these comments into Size Groups as used by Baystudy
 # If we can identify the range of lengths sampled for these unmeasured lengths, we can then find all fish actually

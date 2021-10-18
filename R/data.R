@@ -228,7 +228,7 @@
 #' UC Davis Suisun Marsh Fish Study data.
 #'
 #' @encoding UTF-8
-#' @format a tibble with 180,290 rows and 21 variables
+#' @format a tibble with 190,764 rows and 21 variables
 #' \describe{
 #'   \item{Source}{Name of source dataset.}
 #'   \item{Station}{Station where sample was collected.}
@@ -257,7 +257,7 @@
 #' Suisun measured lengths
 #'
 #' Only measured lengths from the Suisun data
-#' @format a tibble with 155,447 rows and 5 variables
+#' @format a tibble with 162,198 rows and 5 variables
 #' \describe{
 #'   \item{SampleID}{Unique sample identifier.}
 #'   \item{Taxa}{Scientific name.}
