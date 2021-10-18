@@ -63,8 +63,10 @@ catch_fmwt <- read_csv(file.path("data-raw", "FMWT", "Catch.csv"),
 
 
 length_fmwt<- read_csv(file.path("data-raw", "FMWT", "Length.csv"), na=c("NA", "n/p", ""),
-                       col_types = cols_only(CatchRowID="i", ForkLength="d", Dead="c", LengthFrequency="d"))%>%
-  filter(ForkLength!=0) # 0 fork length means not measured, so removing those from length table so those fish can be redistributed among measured lengths
+                       col_types = cols_only(CatchRowID="i", ForkLength="d", LengthFrequency="d"))%>%
+  filter(ForkLength!=0)%>% # 0 fork length means not measured, so removing those from length table so those fish can be redistributed among measured lengths
+  group_by(CatchRowID, ForkLength)%>%
+  summarise(LengthFrequency=sum(LengthFrequency), .groups="drop")
 
 catchlength_fmwt <- length_fmwt%>%
   group_by(CatchRowID)%>%
@@ -91,8 +93,8 @@ FMWT<-sample_fmwt%>% # Start with sample to ensure samples without any catch (em
          Secchi_estimated=SecchiEstimated, Survey=SurveyNumber, Cable_length=CableOut,
          Wind_direction=WindDirection)%>%
   select(-ConductivityTop, -ConductivityBottom, -LengthFrequency, -TotalMeasured,
-         -SampleRowID, -Time, -Catch, -Dead)%>% # Remove extra variables
-  select(-Turbidity, -Microcystis, -Wind_direction, -Temp_bott, -Weather, -Waves, -Sal_bott)%>% # Remove extra environmental variables
+         -SampleRowID, -Time, -Catch, -Turbidity, -Microcystis,
+         -Wind_direction, -Temp_bott, -Weather, -Waves, -Sal_bott)%>% # Remove extra variables
   select(Source, Station, Latitude, Longitude, Date, Datetime, Survey, # Reorder variables for consistency
          Depth, SampleID, CatchRowID, Method, Tide, Sal_surf, Temp_surf, Secchi, Secchi_estimated,
          Tow_volume, Tow_direction, Cable_length, Taxa, Length, Count, Length_NA_flag)
@@ -104,10 +106,15 @@ FMWT_measured_lengths<-length_fmwt%>%
               select(CatchRowID, SampleID, Taxa)%>%
               distinct(),
             by="CatchRowID")%>%
-  select(SampleID, Taxa, Dead, Length=ForkLength, Count=LengthFrequency) # Reorder variables for consistency
+  select(-CatchRowID)%>%
+  group_by(across(-LengthFrequency))%>% # Add up any new multiples after removing lifestages
+  summarise(Count=sum(LengthFrequency), .groups="drop")%>%
+  select(SampleID, Taxa, Length=ForkLength, Count) # Reorder variables for consistency
 
 FMWT<-FMWT%>%
-  select(-CatchRowID) # Remove unneeded variable
+  select(-CatchRowID)%>% # Remove unneeded variable
+  group_by(across(-Count))%>% # Add up any new multiples after removing lifestages
+  summarise(Count=sum(Count), .groups="drop")
 
 rm(catchlength_fmwt, catch_fmwt, length_fmwt, sample_fmwt, stations_fmwt) # Clean up
 

@@ -78,8 +78,6 @@ DJFMP <-  bind_rows(
     Count=if_else(is.infinite(Count), Total, Count))%>%
   filter(Length!=0 | is.na(Length))%>%
   select(-Total, -TotalMeasured, -Group)%>%
-  group_by(across(-Count))%>% # Add up any new multiples after removing Group
-  summarise(Count=sum(Count), .groups="drop")%>%
   left_join(DJFMP_stations, by = "Station") %>%
   # Add species names
   left_join(Species %>%
@@ -88,6 +86,9 @@ DJFMP <-  bind_rows(
             by=c("OrganismCode"="USFWS_Code")) %>%
   mutate(SampleID=paste(Source, SampleID), # Add variable for unique (across all studies) sampleID
          Taxa=str_remove(Taxa, " \\((.*)"))%>% # Remove life stage info from Taxa names
+  select(-OrganismCode)%>%
+  group_by(across(-Count))%>% # Add up any new multiples after removing Group
+  summarise(Count=sum(Count), .groups="drop")%>%
   select(Source, Station, Latitude, Longitude, Date, Datetime, Depth, SampleID, Method, Sal_surf,
          Temp_surf, Secchi, Tow_volume, Tow_direction, Taxa, Length, Count, Length_NA_flag)
 

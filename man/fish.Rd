@@ -8,7 +8,7 @@ fish(
   sources,
   species = NULL,
   convert_lengths = TRUE,
-  remove_unconverted_lengths = TRUE,
+  remove_unconverted_lengths = FALSE,
   size_cutoff = NULL,
   zero_fill = TRUE,
   remove_unknown_lengths = TRUE,
@@ -23,7 +23,7 @@ fish(
 
 \item{convert_lengths}{Should all species with conversion equations have their lengths converted to fork length (or total length if no fork)?}
 
-\item{remove_unconverted_lengths}{Should all species without a conversion equation be removed? Ignored if \code{convert_lengths=FALSE}.}
+\item{remove_unconverted_lengths}{Should all species without a conversion equation be removed? Defaults to \code{FALSE}. Ignored if \code{convert_lengths=FALSE}.}
 
 \item{size_cutoff}{Minimum fish length (in mm) that should be retained in the data. Any fish below this length will be removed.
 It is advised to convert lengths before using this option. All \code{NA} lengths will be retained. Set \code{size_cutoff=NULL} to keep all sizes.}

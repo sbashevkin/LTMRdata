@@ -27,7 +27,8 @@ Suggests:
     covr,
     stringr,
     tibble,
-    spelling
+    spelling,
+    tidyselect
 RoxygenNote: 7.1.1
 Imports: 
     dplyr,

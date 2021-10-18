@@ -16,8 +16,7 @@ require(tidyr)
 depth_suisun <- read_csv(file.path("data-raw", "Suisun", "Depth.csv"),
                          col_types=cols_only(SampleRowID="c", Depth="d"))%>%
   group_by(SampleRowID)%>%
-  summarise(Depth=mean(Depth, na.rm=T))%>% # Sometimes there were multiple depths per sample
-  ungroup()
+  summarise(Depth=mean(Depth, na.rm=T), .groups="drop") # Sometimes there were multiple depths per sample
 
 
 # Station locations -------------------------------------------------------
@@ -177,8 +176,7 @@ Suisun1 <- catch_suisun2%>%
   left_join(catch_suisun2%>% # Join to data with total catch of fish. Using a full join
               select(SampleID, Taxa, Count, SizeGroup)%>%
               group_by(SampleID, Taxa, SizeGroup)%>%
-              summarise(TotalCatch=sum(Count, na.rm=T))%>% # Calculate total catch
-              ungroup(),
+              summarise(TotalCatch=sum(Count, na.rm=T), .groups="drop"), # Calculate total catch
             by=c("SampleID", "Taxa", "SizeGroup"))%>%
   mutate(ID=paste(SampleID, Taxa, SizeGroup))
 
@@ -192,10 +190,11 @@ Suisun <- Suisun1%>%
          Sal_surf=ec2pss(Conductivity/1000, t=25), # Calculate salinity from conductivity
          Taxa=stringr::str_remove(Taxa, " \\((.*)"))%>% # Remove life stage from Taxa
   select(Source, Station, Latitude, Longitude, Date, Datetime, Depth, SampleID, Method, Tide, # Re-order variables
-         Sal_surf, Temp_surf=Temperature, Secchi, DO_concentration=DO, DO_saturation=PctSaturation,
+         Sal_surf, Temp_surf=Temperature, Secchi,
          Tow_duration=TowDuration, Tow_area, Taxa,
          Length=StandardLength, Count, Length_NA_flag, Notes_catch=CatchComments, Notes_tow=TrawlComments)%>%
-  select(-DO_concentration, -DO_saturation) # Remove extra environmental variables
+  group_by(across(-Count))%>% # Add up any new multiples after removing lifestages
+  summarise(Count=sum(Count), .groups="drop")
 
 # Just measured lengths
 Suisun_measured_lengths <- catch_suisun2%>%

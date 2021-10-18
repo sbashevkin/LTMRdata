@@ -4,6 +4,7 @@
 #' @param sources Which data sources would you like included? Options include: "Baystudy", "Suisun", "FMWT", "SKT", "DJFMP", and "EDSM".
 #' @param zero_fill Should zeros be filled in for samples in which a species was not recorded as caught, using the \code{\link{zero_fill}} function. The \code{remove_unknown_lengths} and \code{univariate} parameters control the behavior of this functionality and these parameters are passed to the \code{\link{zero_fill}} function.
 #' @inherit LTMRpilot
+#' @param remove_unconverted_lengths Should all species without a conversion equation be removed? Defaults to \code{FALSE}. Ignored if \code{convert_lengths=FALSE}.
 #' @inherit zero_fill
 #' @importFrom magrittr %>%
 #' @importFrom rlang .data
@@ -18,14 +19,14 @@
 fish<-function(sources,
                species=NULL,
                convert_lengths=TRUE,
-               remove_unconverted_lengths=TRUE,
+               remove_unconverted_lengths=FALSE,
                size_cutoff=NULL,
                zero_fill=TRUE,
                remove_unknown_lengths=TRUE,
                univariate=TRUE,
                quiet=FALSE){
 
-  if(!all(sources%in%c("Baystudy", "Suisun", "FMWT", "SKT", "DJFMP", "EDSM"))){
+  if(is.null(sources) | !all(sources%in%c("Baystudy", "Suisun", "FMWT", "SKT", "DJFMP", "EDSM"))){
     stop("sources must contain some of the following options: 'Baystudy', 'Suisun', 'FMWT', 'SKT', 'DJFMP', 'EDSM'")
   }
 
@@ -62,7 +63,7 @@ fish<-function(sources,
     if(!convert_lengths & "Suisun"%in%sources){
       message("NOTE: Length data are not consistent across studies. Inspect the help files for Suisun, FMWT, and Baystudy before analysing lengths. Set quiet=TRUE to suppress this message.")
     } else{
-      if(!remove_unconverted_lengths & any(unique(data$Taxa %in% unique(LTMRdata::Length_conversions$Species))) & "Suisun"%in%sources){
+      if(convert_lengths & !remove_unconverted_lengths & any(unique(data$Taxa %in% unique(LTMRdata::Length_conversions$Species))) & "Suisun"%in%sources){
         message(paste("NOTE: Length data are not entirely consistent across studies. Lengths have only been converted to consistent units for:", paste(unique(LTMRdata::Length_conversions$Species), collapse = ", ")))
       }
     }

@@ -3,8 +3,10 @@
 sources<-c("Baystudy", "Suisun", "FMWT", "SKT", "DJFMP", "EDSM")
 
 test_that("fish produces warning messages", {
-  expect_message(unconverted <<- fish(sources=sources, convert_lengths=FALSE, zero_fill=FALSE), "NOTE: Length data are not consistent across studies")
-  expect_message(converted <<- fish(sources=sources, convert_lengths=TRUE, remove_unconverted_lengths=FALSE, zero_fill=FALSE), "NOTE: Length data are not entirely consistent across studies.")
+  expect_message(unconverted <<- fish(sources=sources, convert_lengths=FALSE, zero_fill=FALSE)%>%
+                   mutate(ID=paste(SampleID, Taxa, Length, Notes_catch)), "NOTE: Length data are not consistent across studies")
+  expect_message(converted <<- fish(sources=sources, convert_lengths=TRUE, remove_unconverted_lengths=FALSE, zero_fill=FALSE)%>%
+                   mutate(ID=paste(SampleID, Taxa, Length, Notes_catch)), "NOTE: Length data are not entirely consistent across studies.")
 })
 
 
@@ -39,7 +41,7 @@ zero_filled<-fish(sources=sources, species=species, convert_lengths=TRUE, remove
 
 test_that("fish simply binds together dataframes when convert_lengths=FALSE", {
   expect_equal(nrow(unconverted), nrow(LTMRdata::Baystudy)+nrow(LTMRdata::FMWT)+nrow(LTMRdata::Suisun)+nrow(LTMRdata::DJFMP)+nrow(LTMRdata::EDSM)+nrow(LTMRdata::SKT))
-  expect_setequal(names(unconverted), unique(c(names(LTMRdata::Baystudy), names(LTMRdata::FMWT), names(LTMRdata::Suisun), names(LTMRdata::DJFMP), names(LTMRdata::EDSM), names(LTMRdata::SKT))))
+  expect_setequal(names(select(unconverted, -ID)), unique(c(names(LTMRdata::Baystudy), names(LTMRdata::FMWT), names(LTMRdata::Suisun), names(LTMRdata::DJFMP), names(LTMRdata::EDSM), names(LTMRdata::SKT))))
 })
 
 test_that("No lengths are 0 or negative", {
@@ -72,6 +74,11 @@ test_that("Converting lengths does not change the number of rows or columns or t
 test_that("FMWT, Baystudy, SKT, DJFMP, and EDSM lengths are not altered by length conversion, but Suisun lengths are", {
   expect_equal(filter(converted, Source%in%c("Baystudy", "FMWT", "SKT", "DJFMP", "EDSM")), filter(unconverted, Source%in%c("Baystudy", "FMWT", "SKT", "DJFMP", "EDSM")))
   expect_false(isTRUE(all.equal(filter(converted, Source%in%c("Suisun")), filter(unconverted, Source%in%c("Suisun")))))
+})
+
+test_that("No duplicates are present in dataset", {
+  expect_equal(length(which(duplicated(converted$ID))), 0)
+  expect_equal(length(which(duplicated(unconverted$ID))), 0)
 })
 
 ## Length conversions ------------------------------------------------------

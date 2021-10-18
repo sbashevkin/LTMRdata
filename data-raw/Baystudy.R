@@ -163,8 +163,7 @@ Baystudy <- env_baystudy%>% # Start with sample-level data to retain samples wit
          Taxa=stringr::str_remove(Taxa, " \\((.*)"))%>% # Remove life stage info from Taxa
   select(-ECSurf, -ECAvg, -ECBott, -CatchCode, -SizeGroup, -StationComment)%>% # Remove unneeded variables
   group_by_at(vars(-Count))%>%
-  summarise(Count=sum(Count))%>% # Add up counts when the same species and length were recorded multiple times for a sample
-  ungroup()%>%
+  summarise(Count=sum(Count), .groups="drop")%>% # Add up counts when the same species and length were recorded multiple times for a sample
   rename(Notes_tow=TowComment, Tow_status=TowStatus,
          Weather=CloudCover, Temp_surf=TempSurf, Temp_avg=TempAvg,
          Temp_bott=TempBott, Tow_duration=Duration)%>%
