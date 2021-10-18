@@ -1,0 +1,87 @@
+"Zoo.Code","Common.Name","Phylum","Class","Order","Family","Genus","Species","Zoo.Order","Diet.Order","PodDietOrder"
+1,"Annelid worms","Annelida",NA,NA,NA,NA,NA,27,1,210
+2,"Other rotifer","Rotifera",NA,NA,NA,NA,NA,NA,NA,199
+3,"Chironomid larvae","Arthropoda","Insecta",NA,"Chironomidae",NA,NA,28,3,230
+4,"Other Insect larvae","Arthropoda","Insecta",NA,NA,NA,NA,29,4,239
+5,"Unid fish","Chordate",NA,NA,NA,NA,NA,42,43,800
+6,"fish eggs","Chordate",NA,NA,NA,NA,NA,43,44,801
+7,"Unid rotifer","Rotifera","Monogononta","Ploima",NA,NA,NA,NA,NA,100
+8,"Clams","Mollusca","Bivalvia",NA,NA,NA,NA,NA,NA,201
+9,"Terrestrial invertebrates",NA,NA,NA,NA,NA,NA,NA,NA,238
+10,"Ostracods","Arthropoda","Ostacoda",NA,NA,NA,NA,33,5,240
+11,"barnacle nauplii","Arthropoda","Cirripedia",NA,NA,NA,NA,34,6,250
+12,"copepod nauplii","Arthropoda","Copepoda",NA,NA,NA,NA,18,7,301
+13,"Acanthomysis aspera","Arthropoda","Malacostraca","Mysidacea",NA,"Acanthomysis","aspera",NA,NA,701
+14,"Acanthomysis bowmani","Arthropoda","Malacostraca","Mysidacea",NA,"Acanthomysis","bowmani",NA,NA,702
+15,"Acanthomysis hwanhaiensis","Arthropoda","Malacostraca","Mysidacea",NA,"Acanthomysis","hwanhaiensis",NA,NA,703
+16,"Acanthomysis macropsis","Arthropoda","Malacostraca","Mysidacea",NA,"Acanthomysis","macropsis",NA,NA,704
+17,"Deltamysis homquistae","Arthropoda","Malacostraca","Mysidacea",NA,"Deltamysis","homquistae",NA,NA,705
+18,"Neomysis kadiakensis","Arthropoda","Malacostraca","Mysidacea",NA,"Neomysis","kadiakensis",NA,NA,706
+19,"Neomysis mercedis","Arthropoda","Malacostraca","Mysidacea",NA,"Neomysis","mercedis",NA,NA,707
+20,"cyclopoid copepodid","Arthropoda","Copepoda","Cyclopoida",NA,NA,NA,19,8,302
+21,"Acanthocyclops","Arthropoda","Copepoda","Cyclopoida",NA,"Acanthocyclops","vernalis",1,9,303
+22,"Oithona similis","Arthropoda","Copepoda","Cyclopoida",NA,"Oithona","similis",2,10,304
+23,"Oithona davisae","Arthropoda","Copepoda","Cyclopoida",NA,"Oithona","davisae",3,11,305
+24,"Limnoithona spp.","Arthropoda","Copepoda","Cyclopoida",NA,"Limnothoina","spp.",4,12,307
+25,"Limnoithona sinensis","Arthropoda","Copepoda","Cyclopoida",NA,"Limnoithona","sinensis",NA,NA,309
+26,"Limnoithona tetraspina","Arthropoda","Copepoda","Cyclopoida",NA,"Limnoithona","tetraspina",NA,NA,310
+27,"Oithona spp.","Arthropoda","Copepoda","Cyclopoida",NA,"Oithona","spp",NA,NA,311
+28,"UnID cyclopoid","Arthropoda","Copepoda","Cyclopoida",NA,NA,NA,52,14,300
+29,"Other cyclopoid","Arthropoda","Copepoda","Cyclopoida",NA,NA,NA,5,13,399
+31,"Acartia spp.","Arthropoda","Copepoda","Calanoida",NA,"Acartia","spp.",6,16,402
+32,"Diaptomus spp.","Arthropoda","Copepoda","Calanoida",NA,"Diaptomus","spp.",7,17,404
+33,"Pseudodiaptomus spp.","Arthropoda","Copepoda","Calanoida",NA,"Pseudodiaptomus","spp.",10,18,406
+34,"Eurytemora spp.","Arthropoda","Copepoda","Calanoida",NA,"Eurytemora","affinis",8,19,412
+35,"Sinocalanus","Arthropoda","Copepoda","Calanoida",NA,"Sinocalanus","doerrii",9,20,415
+36,"Osphranticum","Arthropoda","Copepoda","Calanoida",NA,"Osphranticum","labronectum",11,21,418
+37,"Acartiella","Arthropoda","Copepoda","Calanoida",NA,"Acartiella","sinensis",12,22,419
+38,"Tortanus","Arthropoda","Copepoda","Calanoida",NA,"Tortanus","sp.",13,23,421
+39,"Acartia copepodid","Arthropoda","Copepoda","Calanoida",NA,"Acartia",NA,NA,NA,403
+40,"calanoid copepodid","Arthropoda","Copepoda","Calanoida",NA,NA,NA,20,15,401
+41,"Eurytemora copepodid","Arthropoda","Copepoda","Calanoida",NA,"Eurytemora","affinis",NA,NA,414
+42,"Pseudodiaptomus copepodid","Arthropoda","Copepoda","Calanoida",NA,"Pseudodiaptomus","spp.",NA,NA,408
+43,"Pseudodiaptomus euryhalinus","Arthropoda","Copepoda","Calanoida",NA,"Pseudodiaptomus","euryhalinus",NA,NA,409
+44,"Diaptomus copepodid","Arthropoda","Copepoda","Calanoida",NA,"Diaptomus",NA,NA,NA,405
+45,"Acartiella copepodid","Arthropoda","Copepoda","Calanoida",NA,"Acartiella",NA,NA,NA,420
+46,"Tortanus copepodid","Arthropoda","Copepoda","Calanoida",NA,"Tortanus",NA,NA,NA,422
+47,"Tortanus dextrilobatus","Arthropoda","Copepoda","Calanoida",NA,"Tortanus","dextrilobatus",NA,NA,423
+48,"UnID calanoid","Arthropoda","Copepoda","Calanoida",NA,NA,NA,50,25,400
+49,"Other calanoid","Arthropoda","Copepoda","Calanoida",NA,NA,NA,14,24,499
+50,"Tortanus discaudatus","Arthropoda","Copepoda","Calanoida",NA,"Tortanus","discaudatus",NA,NA,424
+59,"Harpacticoids","Arthropoda","Copepoda","Harpacticoida",NA,NA,NA,16,26,500
+61,"Bosmina","Arthropoda","Branchiopoda","Cladocera",NA,"Bosmina","longirostris",21,27,601
+62,"Daphnia","Arthropoda","Branchiopoda","Cladocera",NA,"Daphnia","spp.",22,28,602
+63,"Diaphanosoma","Arthropoda","Branchiopoda","Cladocera",NA,"Diaphanosoma","spp.",23,29,603
+64,"Ceriodaphnia","Arthropoda","Branchiopoda","Cladocera",NA,"Ceriodaphnia","spp.",24,30,604
+68,"UnID cladocera","Arthropoda","Branchiopoda","Cladocera",NA,NA,NA,51,32,600
+69,"Other cladocera","Arthropoda","Branchiopoda","Cladocera",NA,NA,NA,NA,NA,699
+71,"Unid Mysids","Arthropoda","Malacostraca","Mysidacea",NA,NA,NA,46,33,700
+72,"Cumaceans","Arthropoda","Malacostraca","Cumacea",NA,NA,NA,32,34,720
+73,"Isopods","Arthropoda","Malacostraca","Isopoda",NA,NA,NA,45,35,730
+74,"crab zoea","Arthropoda","Malacostraca","Decapoda",NA,NA,NA,31,36,740
+75,"Palaemon","Arthropoda","Malacostraca","Decapoda","Caridae","Palaemon","macrodactylus",49,37,742
+76,"Crangon","Arthropoda","Malacostraca","Decapoda","Caridae","Crangon","spp.",41,38,743
+77,"Gammarus","Arthropoda","Malacostraca","Amphipoda","Gammaridae","Gammarus","spp.",44,39,750
+78,"Corophium","Arthropoda","Malacostraca","Amphipoda","Corophiidae","Corophium","spp.",40,40,760
+79,"Other malacostraca","Arthropoda","Malacostraca",NA,NA,NA,NA,47,41,799
+80,"Eurytemora nauplii","Arthropoda","Copepoda","Calanoida",NA,"Eurytemora",NA,NA,NA,413
+81,"Sinocalanus nauplii","Arthropoda","Copepoda","Calanoida",NA,"Sinocalanus",NA,NA,NA,416
+82,"Pseudodiaptomus nauplii","Arthropoda","Copepoda","Calanoida",NA,"Pseudodiaptomus","spp.",NA,NA,407
+83,"Sinocalanus copepodid","Arthropoda","Copepoda","Calanoida",NA,"Sinocalanus",NA,NA,NA,417
+84,"Limnoithona juvenile","Arthropoda","Copepoda","Cyclopoida",NA,NA,NA,NA,NA,308
+85,"Oithona juvenile","Arthropoda","Copepoda","Cyclopoida",NA,NA,NA,NA,NA,306
+86,"Pseudodiaptomus forbesii","Arthropoda","Copepoda","Calanoida",NA,"Pseudodiaptomus","forbesii",NA,NA,410
+87,"Pseudodiaptomus marinus","Arthropoda","Copepoda","Calanoida",NA,"Pseudodiaptomus","marinus",NA,NA,411
+88,"Asplanchna","Rotifera","Monogononta","Ploima","Asplanchnidae","Asplanchna",NA,NA,NA,101
+89,"Synchaeta bicornis","Rotifera","Monogononta","Ploima","Synchaetidae","Synchaeta","bicornis",NA,NA,102
+90,"Keratella","Rotifera","Monogononta","Ploima","Brachionidae","Keratella",NA,NA,NA,103
+91,"Polyarthra","Rotifera","Monogononta","Ploima","Synchaetidae","Polyarthra",NA,NA,NA,104
+92,"Synchaeta","Rotifera","Monogononta","Ploima","Synchaetidae","Synchaeta",NA,NA,NA,105
+93,"Trichocerca","Rotifera","Monogononta","Ploima","Trichocercidae","Trichocerca",NA,NA,NA,106
+94,"Crab megalope","Arthropoda","Malacostraca","Decapoda",NA,NA,NA,NA,NA,741
+95,"Stomach/Gut Tissue",NA,NA,NA,NA,NA,NA,NA,NA,930
+96,"Debris (sand/silt/mud)",NA,NA,NA,NA,NA,NA,NA,NA,900
+97,"UnID plant material",NA,NA,NA,NA,NA,NA,NA,NA,910
+98,"UnID animal material",NA,NA,NA,NA,NA,NA,NA,NA,920
+99,"Other zooplankton",NA,NA,NA,NA,NA,NA,NA,NA,999
+100,"Empty stomach",NA,NA,NA,NA,NA,NA,NA,NA,940

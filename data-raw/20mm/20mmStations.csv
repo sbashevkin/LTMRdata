@@ -1,0 +1,68 @@
+"Station","LatD","LatM","LatS","LonD","LonM","LonS","RKI","Location","AreaCode","Notes"
+997,NA,NA,NA,NA,NA,NA,NA,"Old River near the CVP federal pumping facility",NA,"Discontinued Station.Sampled only once. Supp. Survey 12 6/1999"
+998,NA,NA,NA,NA,NA,NA,NA,"Old River near the CVP federal pumping facility",NA,"Discontinued Station.Sampled only once. Supp. Survey 12 6/1999"
+999,NA,NA,NA,NA,NA,NA,NA,"Old River near the CVP federal pumping facility",NA,"Discontinued Station.Sampled only once. Supp. Survey 12 6/1999"
+323,38,2,34.4000015258789,122,17,10.6999998092651,"LSPE10","San Pablo Bay. Rodeo flats west of Rodeo Marina and opposite to the end of the rock wall @ 10<U+0092> depth",1,NA
+328,38,3,37.0999984741211,122,21,0,"LSPD12","SP Bay-About 1900 yds NW of Ship Channel Light 11",1,"High Outflow Station only"
+329,38,3,49,122,18,14.3999996185303,"LSPD16","SP Bay 800 yds N of Ship Channel Light 13",1,"High Outflow Station only"
+334,38,4,35,122,20,16.7999992370605,"LSPC14","SP Bay-3000 yds N of Ship Channel Light 11",1,"High Outflow Station only"
+335,38,4,16,122,19,26.3999996185303,"LSPC16","SP Bay-2700 yds NW of rock wall on flats",1,"High Outflow Station only"
+336,38,3,39.9000015258789,122,16,40.7999992370605,"RSAC040","SP Bay along N side of channel E of Light 15",1,"High Outflow Station only"
+340,38,5,57.2000007629395,122,15,47.7999992370605,"RNAP005","Napa River. Along Vallejo seawall and park @ 10-12<U+0092> depth",2,NA
+341,38,7,38.0999984741211,122,16,43.5999984741211,"RNAP007","Napa R .6km N of Dutchman Slough",2,"Discontinued Station. Started sampling 1996 survey 2. Only sampled twice survey 2 & 3 1996."
+342,38,8,46.5,122,17,19.5,"RNAP009","Napa River. Tow across South Slough on west bank @ 22<U+0092> depth",2,"Started sampling 1996 survey 2"
+343,38,10,56.5,122,18,33.4000015258789,"RNAP015","Napa River. Tow between lights #9 and #11 @ 10<U+0092> depth",2,"Started sampling 1996 survey 2"
+344,38,12,45.7000007629395,122,18,31.2999992370605,"RNAP019","Napa River. Just past railroad bridge across Fagan Sl. @ 15<U+0092> depth",2,"Started sampling 1996 survey 2"
+345,38,13,25.7999992370605,122,18,32.2999992370605,"RNAP021","Napa River. Just past entrance to marina up to Cuttings Wharf @ 15 depth",2,"Started sampling 1996 survey 2"
+346,38,14,11,122,17,13.8000001907349,"RNAP023","Napa River. Just past last bend before Hwy 12 bridge @ 17<U+0092> depth",2,"Started sampling 1996 survey 2"
+405,38,2,23.7000007629395,122,8,48.2000007629395,"RSAC054","Carquinez Strait. Just west of Benicia Army dock @ 15<U+0092> depth",3,NA
+411,38,3,0.800000011920929,122,4,35.5,"RSAC059","Suisun Bay. Just west of Pt. Edith @ 10<U+0092> depth",3,NA
+418,38,4,3,122,5,44,"LSBB04","Suisun Bay near surplus ships at channel marker 4. Opposite Avon oil docks @ 35<U+0092> depth",3,NA
+501,38,4,24,122,1,34.7999992370605,"LSBA5","Suisun Bay between Roe and Ryer Is. Tow along Roe Is. @ 30' depth",6,NA
+504,38,3,7,121,59,9.89999961853027,"RSAC068","Suisun Bay south bank, just east of Middle Pt. @ 26<U+0092> depth",6,NA
+508,38,2,49.7999992370605,121,55,2,"RSAC075","Sacramento River at Chipps island in northern portion of the channel, across from the old ferry crossing @ 45<U+0092> depth",6,NA
+513,38,3,31.8999996185303,121,52,3.90000009536743,"RSAC079","Sacramento River between VanSickle and Winter Islands, in the southeast side of channel @ light #34",7,NA
+519,38,4,29.1000003814697,121,57,29.1000003814697,"LSBB23","Western end of Honker Bay. Start at the Dolphin @ 9<U+0092> depth",6,NA
+520,38,1,55.7999992370605,121,51,47.2000007629395,"SLNY1","New York Sl. East reach along Pittsburg docks between lights 5 and 7 in channel @ 38<U+0092> depth",7,"Previous description calls for west reach between lights 3 and 5, but station has not been conducted there.  Description modified in 2016"
+602,38,6,56,122,2,32.6100006103516,"LSBB11","Suisun Bay <U+0096> East of Suisun Sl. at the Dolphin @ 4<U+0092> depth",4,NA
+606,38,10,14.1000003814697,122,1,40.5,"SLMZU06","Montezuma Sl. off Joice island at P. G. & E. cable crossing @ 25<U+0092> depth",5,NA
+609,38,10,1.5,121,56,16.2000007629395,"SLMZU16","Montezuma Sl. at Nurse Sl. Start on south bank at West Winds Duck Club dock @ 33<U+0092> depth",5,NA
+610,38,7,19.8999996185303,121,53,20.7999992370605,"SLMZU25","Montezuma Sl. at road from Birds Landing and next to pump house. Tow along west bank @ 13<U+0092> depth",5,NA
+703,38,2,55,121,47,50.5999984741211,"LSHL1","Sherman Lake. Just inside mouth on Sacramento River side @ 10<U+0092> depth.  Surface tows only",8,NA
+704,38,3,59.7000007629395,121,47,25.1200008392334,"RSAC087","Sacramento River upstream of light 11 under downstream towers.  Just north of main channel @ 26<U+0092> depth",8,NA
+705,38,5,51.4000015258789,121,42,31.5,"LHSB2","Horse Shoe Bend. Inside Horse Shoe Bend by north entrance to Sacramento River @ 13<U+0092> depth",8,NA
+706,38,5,9.89999961853027,121,45,1.60000002384186,"RSAC092","Sacramento River - below south tip of Decker Is. under P. G. & E. towers. On north side of main channel @ 22<U+0092> depth",8,NA
+707,38,6,52.9000015258789,121,42,28.2999992370605,"RSAC096","Sacramento River at Three Mile Sl. Tow in channel from light #19 to #21 @ 24<U+0092> depth",8,NA
+711,38,10,38.7000007629395,121,39,44.0999984741211,"RSAC104","Sacramento River at the tip of Grand Is. Starting upstream of light 1 and towing upstream only @ 13<U+0092> depth",8,NA
+716,38,14,18.7999992370605,121,41,2.09999990463257,"SLCCH10","Cache Sl. by old ferry crossing above Prospect Sl. @ 30<U+0092> depth",13,NA
+801,38,2,37.2999992370605,121,50,38.4000015258789,"RSAN001","Middle of Broad Sl. in channel on west side @ 22<U+0092> depth",7,NA
+802,38,1,15,121,43,49.4000015258789,"LBGB0","Big Break",7,"Discontinued Station. Only sampled in 1995 & 1996."
+804,38,0,59.2000007629395,121,47,28.7000007629395,"RSAN007","San Joaquin River <U+0096> southwest tip of West Is. Tow in south channel @ 30<U+0092> depth",10,NA
+809,38,3,13.6000003814697,121,41,34.9000015258789,"RSAN018","San Joaquin River. North channel opposite Jersey Point. Under P. G. & E. tower along tule line, not out in channel @ 42<U+0092> depth",10,NA
+812,38,5,23.7000007629395,121,38,23.7000007629395,"RSAN026","San Joaquin River just west of Oulton Pt and north of Santa Clara shoals. Tow in front of tree @ 20<U+0092> depth                      ",10,NA
+815,38,5,13.6999998092651,121,34,16.1000003814697,"RSAN035","San Joaquin River at mouth of Potato Sl just downstream of light #51 outside of channel @ 15' depth",10,NA
+901,38,2,46.5,121,37,6.59999990463257,"LFKT1","Franks Track at end of False River. Only conduct surface tows, not oblique tows @ 7<U+0092> depth",10,NA
+902,38,1,13.3999996185303,121,34,57.5999984741211,"ROLD05","Old River. <U+00BD> mile south of Sand Mound Sl. Start tow at boat dock on Holland Tract levee @ 26<U+0092> depth",12,NA
+906,38,3,0.100000001490116,121,30,23.2999992370605,"RSAN042","San Joaquin River at Medford Is. Tow between lights #8 and #10 in middle of channel @ 38<U+0092> depth",12,NA
+910,38,0,18,121,27,10.8999996185303,"RSAN050","San Joaquin River between Hot & Turner Cut. Start at light #21. Middle of channel @ 38<U+0092> depth",12,NA
+912,37,57,59.0999984741211,121,22,6.80000019073486,"RSAN058","San Joaquin River across mouth of Calaveras River, after light #41. Middle of channel @ 38<U+0092> depth",12,NA
+914,37,58,17.3999996185303,121,31,12,"RMID12","Middle River & Empire Cut. Tow along east arm of river.  Middle of channel @ 30<U+0092> depth",12,NA
+915,37,56,39.4000015258789,121,34,4.40000009536743,"ROLD28","Old River <U+0096>  Western Arm before Railroad Bridge. Middle of channel @ 30<U+0092> depth",12,NA
+918,37,51,32.4000015258789,121,34,1.70000004768372,"ROLD39","Old River off northwest side of Coney Is. <U+00BC> mile south of Italian Sl. Middle of channel @ 23' depth",12,NA
+919,38,6,18.7000007629395,121,29,40.5,"SLLPT5","Little Potato Sl. <U+00BD> mile south of Terminous. Tow along south bank at last boat shed @ 17<U+0092> depth",11,NA
+330,38,3,49,122,18,14.3999996185303,NA,"Along rock wall, next to station 329",1,"Discontinued Station. Only sampled once survey 3 1995"
+347,38,15,13,122,17,4.90000009536743,"RNAP024","Napa River. Above Hwy 12 bridge across northern mouth of horseshoe bend. Tow in front of steel plant on east bank @ 12' depth",2,"Discontinued Station. Only sampled once survey 8 1996 and Additional station added for the ACOE (2001 & 2002)"
+348,38,16,27.7000007629395,122,17,0.699999988079071,"RNAP026","Napa River.  Start at channel marker 26 and tow across mouth of on the water housing development",2,"Discontinued Station. Additional station added for the ACOE (2001 & 2002)"
+349,38,17,10.8000001907349,122,17,3.70000004768372,"RNAP028","Napa River.  Start at channel marker and tow in front of Napa Valley Yacht club",2,"Discontinued Station. Additional station added for the ACOE (2001 & 2002)"
+718,38,15,27.2000007629395,121,43,44.5,"SLLIN05","Lindsey Slough: Above Hastings Island Bridge. Under 2nd set of power lines. Twin pipes N. side @ 15<U+0092> depth",13,"Started sampling 2008 Survey 1 (Old NBA Survey Station)"
+720,38,15,45.5,121,46,45.4000015258789,"SLLIN10","Barker slough at entrance to Lindsey slough @ 10<U+0092> depth",13,"Started sampling 2008 Survey 1 (Old NBA Survey Station)"
+723,38,14,14.1000003814697,121,40,23.1000003814697,"SHSAC03","Deepwater Channel @ Channel markers 51 & 52",13,"Started sampling 2008 Survey 1 (Old NBA Survey Station)"
+724,38,15,22.5,121,39,7.5,"SLMIN02","Miner Slough: Above the levee road and at second slough on West bank, just north of the pipe on the East bank @ 15<U+0092> depth",13,"Started sampling 2008 Survey 1 (Old NBA Survey Station)"
+794,NA,NA,NA,NA,NA,NA,NA,"Suplemental Station Location: SDWC turning basin. Towed along South Bank.",14,NA
+795,NA,NA,NA,NA,NA,NA,NA,"Suplemental Station Location: SDWC - b/w lights 75 & 76",14,NA
+796,NA,NA,NA,NA,NA,NA,NA,"Suplemental Station Location: SDWC - b/w lights 71 & 72",14,NA
+797,NA,NA,NA,NA,NA,NA,NA,"Suplemental Station Location: SDWC - b/w lights 65 & 66",14,NA
+798,NA,NA,NA,NA,NA,NA,NA,"Suplemental Station Location: SDWC - b/w lights 55 & 56",14,NA
+799,NA,NA,NA,NA,NA,NA,NA,"Suplemental Station Location: SDWC - b/w lights 63 & 64",14,NA
+726,38,16,59,121,38,37.7999992370605,"SLMIN08","Miner Slough: Above bend at pipe on west side, palm trees clearly visible to the north in front of Arrowhead Marina @ 15<U+0092> depth",13,"Started sampling 2008 Survey 1 (Old NBA Survey Station)"
+719,38,20,0.600000023841858,121,38,51,"SHSAC12","Sacramento Deepwater Channel @ channel markers 59 and 60",13,"Started sampling 2008 Survey 1 (SKT Survey Station)"
