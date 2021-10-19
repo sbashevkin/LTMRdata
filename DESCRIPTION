@@ -29,7 +29,7 @@ Suggests:
     tibble,
     spelling,
     tidyselect
-RoxygenNote: 7.1.1
+RoxygenNote: 7.1.2
 Imports: 
     dplyr,
     magrittr,

@@ -7,6 +7,7 @@
 #'   \item \code{\link{Suisun}}
 #'   \item \code{\link{FMWT}}
 #'   \item \code{\link{Baystudy}}
+#'   \item \code{\link{TMM}}
 #'   \item \code{\link{Species}}
 #' }
 #'
