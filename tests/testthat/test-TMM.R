@@ -5,9 +5,9 @@ library(LTMRdata)
 ## TMM
 
 test_that("Data dimensions are correct", {
-  expect_true(nrow(TMM) == 324218)
+  expect_true(nrow(TMM) == 324044)
   expect_true(ncol(TMM) == 22)
-	
+
 	name_check <- c("Source","Station","Latitude","Longitude","Date","Datetime",
 									"Survey","TowNum","Depth","SampleID","Method","Tide","Sal_surf",
 									"Temp_surf","Secchi","Tow_volume","Tow_direction","Cable_length",
@@ -44,7 +44,7 @@ test_that("Sample dates are formatted correctly", {
 test_that("Sample times are formatted correctly", {
 	expect_true(all(class(TMM$Datetime) %in% c("POSIXct","POSIXt")))
 	datetime_format <- "[0-9]{4}-[0-9]{2}-[0-9]{2} [0-9]{2}:[0-9]{2}:[0-9]{2}"
-	expect_true(all(grepl(datetime_format,as.character(TMM$Datetime)) | 
+	expect_true(all(grepl(datetime_format,as.character(TMM$Datetime)) |
 									is.na(TMM$Datetime)))
 })
 
@@ -69,7 +69,7 @@ test_that("Data are based on 20mm Net only and not mesozooplankton (CB) net", {
 })
 
 test_that("Tide has the expected value", {
-  expect_true(all(TMM$Tide %in% c("Low Slack","Ebb","High Slack","Flood") | 
+  expect_true(all(TMM$Tide %in% c("Low Slack","Ebb","High Slack","Flood") |
 							is.na(TMM$Tide)))
 })
 
@@ -86,7 +86,7 @@ test_that("Tow_volume values are in the expected range", {
 })
 
 test_that("Cable_length values are in the expected range", {
-  expect_true(all( (TMM$Cable_length > 0 & TMM$Cable_length < 230) | 
+  expect_true(all( (TMM$Cable_length > 0 & TMM$Cable_length < 230) |
 										is.na(TMM$Cable_length) ))
 })
 
@@ -101,26 +101,26 @@ test_that("Count values are in the expected range", {
 test_that("Combinations of Taxa, Count, and Length_NA_flag are as expected", {
 	len_flag_values <- c("No fish caught","No length measurement","Missing catch value")
   expect_true(all(TMM$Length_NA_flag %in% len_flag_values | is.na(TMM$Length_NA_flag)))
-	
+
 	## If Length_NA_flag is NA, Count and Taxa should be present:
 	sub_1 <- subset(TMM, is.na(Length_NA_flag))
   expect_true(sum(is.na(sub_1$Count)) == 0)
   expect_true(sum(is.na(sub_1$Taxa)) == 0)
-	
+
 	## If Count is present, Taxa should be present:
 	sub_2 <- subset(TMM, !is.na(Count))
-  expect_true(sum(is.na(sub_2$Taxa)) == 0)	
-	
+  expect_true(sum(is.na(sub_2$Taxa)) == 0)
+
 	## If Count is present, check Length_NA_flag:
 	sub_3 <- subset(TMM, !is.na(Count))
-  expect_true(all( (sub_3$Length_NA_flag %in% len_flag_values[1:2]) | 
+  expect_true(all( (sub_3$Length_NA_flag %in% len_flag_values[1:2]) |
 											is.na(sub_3$Length_NA_flag) ))
 
 	## If Length_NA_flag is not missing, it should have one of the three values:
 	sub_4 <- subset(TMM, !is.na(Length_NA_flag))
 	expect_true(all(sub_4$Length_NA_flag %in% len_flag_values))
-	expect_true(nrow(sub_4) == 3176)
-	
+	expect_true(nrow(sub_4) == 3002)
+
 	TMM_missing_catch <- subset(TMM, Length_NA_flag == "Missing catch value")
 	expect_true(nrow(TMM_missing_catch) == 1)
 	expect_true(all(TMM_missing_catch$Taxa == "Gasterosteus aculeatus"))
@@ -145,7 +145,7 @@ test_that("Some adjusted fish counts are as expected", {
 ## TMM_measured_lengths
 
 test_that("Lengths are in the expected range", {
-	expect_true(all( (TMM_measured_lengths$Length > 0 & TMM$Length < 900) | 
+	expect_true(all( (TMM_measured_lengths$Length > 0 & TMM$Length < 900) |
 										is.na(TMM_measured_lengths$Length) ))
 })
 

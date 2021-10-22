@@ -47,6 +47,7 @@ unlink(localDbFile)
 #########################################################################################
 ## Create and save compressed data files using raw tables.
 
+library(LTMRdata)
 library(dplyr)
 library(lubridate)
 library(wql)
@@ -115,13 +116,16 @@ sample20mm <- Survey %>%
 ## GearID 35766 has two entries for fish code 2 in FishSample
 ## Based on lengths, probably a matter of being ID'd in the field vs. in the lab.
 
+## Remove records without codes:
+FishCodes_valid <- subset(FishCodes, !is.na(Fish.Code))
+
 fish20mm_totalCatch <- FishSample %>%
-	dplyr::inner_join(FishCodes, by=c("FishCode"="Fish.Code")) %>%
+	dplyr::inner_join(FishCodes_valid, by=c("FishCode"="Fish.Code")) %>%
 	dplyr::rename(CommonName=Common.Name) %>%
 	dplyr::select(GearID, FishSampleID, FishCode, CommonName, Catch)
 
 fish20mm_individLength <- FishSample %>%
-	dplyr::inner_join(FishCodes, by=c("FishCode"="Fish.Code")) %>%
+	dplyr::inner_join(FishCodes_valid, by=c("FishCode"="Fish.Code")) %>%
 	dplyr::inner_join(FishLength, by="FishSampleID") %>%
 	dplyr::rename(CommonName=Common.Name) %>%
 	dplyr::select(GearID, FishSampleID, FishCode, CommonName, Length, Catch)
@@ -144,7 +148,7 @@ fish20mm_adjustedCount <- fish20mm_totalCatch %>%
 	## catch value in the FishSample table. In these cases, use the number measured.
 	dplyr::mutate(CatchNew=ifelse(TotalMeasured > Catch, TotalMeasured, Catch)) %>%
 	## Calculate length-frequency-adjusted counts:
-  dplyr::mutate(Count=(LengthFrequency/TotalMeasured)*CatchNew) %>%	
+  dplyr::mutate(Count=(LengthFrequency/TotalMeasured)*CatchNew) %>%
   dplyr::left_join(Species %>% ## Add species names
 										dplyr::select(TMM_Code, Taxa) %>%
 										filter(!is.na(TMM_Code)),
@@ -165,11 +169,11 @@ TMM <- sample20mm %>%
  dplyr::mutate(Length_NA_flag=if_else(is.na(Catch), "No fish caught", NA_character_))
 
 ## There are some cases where:
-##  -positive catch is indicated in FishSample, but there are no corresponding records 
+##  -positive catch is indicated in FishSample, but there are no corresponding records
 ##		in FishLength.
-##	-a species is indicated in FishSample, but catch is NA and there are no 
+##	-a species is indicated in FishSample, but catch is NA and there are no
 ##		corresponding records in FishLength.
-## In these cases, use the Catch value from FishSample as Count and change 
+## In these cases, use the Catch value from FishSample as Count and change
 ##	Length_NA_flag:
 index_1 <- which(!is.na(TMM$Catch) & is.na(TMM$Count))
 TMM[index_1, ]
