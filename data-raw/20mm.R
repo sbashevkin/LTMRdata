@@ -144,7 +144,7 @@ fish20mm_adjustedCount <- fish20mm_totalCatch %>%
 	## catch value in the FishSample table. In these cases, use the number measured.
 	dplyr::mutate(CatchNew=ifelse(TotalMeasured > Catch, TotalMeasured, Catch)) %>%
 	## Calculate length-frequency-adjusted counts:
-  dplyr::mutate(Count=(LengthFrequency/TotalMeasured)*CatchNew) %>%	
+  dplyr::mutate(Count=(LengthFrequency/TotalMeasured)*CatchNew) %>%
   dplyr::left_join(Species %>% ## Add species names
 										dplyr::select(TMM_Code, Taxa) %>%
 										filter(!is.na(TMM_Code)),
@@ -162,19 +162,20 @@ TMM <- sample20mm %>%
 																	LengthFrequency, Catch, CatchNew, Count),
 									 by="GearID") %>%
 	## Add reasoning for any NA lengths:
- dplyr::mutate(Length_NA_flag=if_else(is.na(Catch), "No fish caught", NA_character_))
+ dplyr::mutate(Length_NA_flag=if_else(is.na(Catch), "No fish caught", NA_character_),
+               Station=as.character(Station))
 
 ## There are some cases where:
-##  -positive catch is indicated in FishSample, but there are no corresponding records 
+##  -positive catch is indicated in FishSample, but there are no corresponding records
 ##		in FishLength.
-##	-a species is indicated in FishSample, but catch is NA and there are no 
+##	-a species is indicated in FishSample, but catch is NA and there are no
 ##		corresponding records in FishLength.
-## In these cases, use the Catch value from FishSample as Count and change 
+## In these cases, use the Catch value from FishSample as Count and change
 ##	Length_NA_flag:
 index_1 <- which(!is.na(TMM$Catch) & is.na(TMM$Count))
 TMM[index_1, ]
 TMM$Count[index_1] <- TMM$Catch[index_1]
-TMM$Length_NA_flag[index_1] <- "No length measurement"
+TMM$Length_NA_flag[index_1] <- "Unknown length"
 TMM[index_1, ]
 
 index_2 <- which(is.na(TMM$Catch) & !is.na(TMM$Taxa))
