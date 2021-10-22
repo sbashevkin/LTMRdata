@@ -36,6 +36,12 @@ effort_suisun <- read_csv(file.path("data-raw", "Suisun", "TrawlEffort.csv"),
   mutate(Tow_area = (TowDuration/60)*4*1000*4.3*0.7) # ((TowDuration minutes) / (60 minutes/hour)) * 4km/hour towing speed * 1000 m/km * 4.3 m net width * 0.7 for assumption of 70% open
 
 
+# Age by size info to help with decoding lengths (see below) --------------
+
+age_size_suisun<-read_csv(file.path("data-raw", "Suisun", "AgesBySizeMo.csv"),
+                          col_types = cols_only(Class="c", Month="d", Min="d", Max="d", OrganismCode="c"),
+                          na = "N/A")
+
 # Sample-level data -------------------------------------------------------
 
 
@@ -126,7 +132,23 @@ catch_fix<-catch_suisun%>%
 
 catch_comments_suisun <- read_excel(file.path("data-raw", "Suisun", "Suisun comments.xlsx"))%>% # Read in translated excel comments
   filter(is.na(Ignore))%>% #Remove "ignored" comments that have nothing to do with lenth.
-  select(SampleID, Taxa, Count, CatchComments, Min_length, Length, Max_length, Lifestage, Notes)%>%
+  mutate(Lifestage=recode(Lifestage, YOY="Age-0", Larval="Age-0", Yearling="Age-1"),
+         Lifestage=case_when(
+           Lifestage=="Adult" & Taxa%in%c("Ameiurus melas","Morone saxatilis") ~ "Age-2+",
+           Lifestage=="Adult" & Taxa%in%c("Tridentiger bifasciatus", "Acanthogobius flavimanus") ~ "Age-1+",
+           TRUE ~ Lifestage
+         ),
+         Month=month(ymd_hms(Date, tz="America/Los_Angeles")))%>%
+  left_join(Species%>% # Add species names
+              select(OrganismCode=SMF_Code, Taxa)%>%
+              filter(!is.na(OrganismCode) & !is.na(Taxa)),
+            by="Taxa")%>%
+  left_join(age_size_suisun%>%
+              filter(!is.na(Class)),
+            by=c("Lifestage"="Class", "Month", "OrganismCode"))%>%
+  mutate(Min_length=if_else(is.na(Min_length), Min, Min_length),
+         Max_length=if_else(is.na(Max_length), Max, Max_length))%>%
+    select(SampleID, Taxa, Count, CatchComments, Min_length, Length, Max_length, Lifestage, Notes)%>%
   mutate(NA_length = if_else(is.na(Min_length) & is.na(Max_length) & is.na(Length), TRUE, FALSE)) # Identify comments with no translatable length information (like "YOY")
 
 sizegroups_suisun <- catch_comments_suisun%>%
