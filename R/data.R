@@ -228,7 +228,7 @@
 #' UC Davis Suisun Marsh Fish Study data.
 #'
 #' @encoding UTF-8
-#' @format a tibble with 190,764 rows and 21 variables
+#' @format a tibble with 190,696 rows and 21 variables
 #' \describe{
 #'   \item{Source}{Name of source dataset.}
 #'   \item{Station}{Station where sample was collected.}
@@ -272,7 +272,7 @@
 #' California Department of Fish and Wildlife 20-mm Survey data.
 #'
 #' @encoding UTF-8
-#' @format a tibble with 324,218 rows and 22 variables
+#' @format a tibble with 324,048 rows and 22 variables
 #' \describe{
 #'   \item{Source}{Name of source dataset.}
 #'   \item{Station}{Station where sample was collected.}
@@ -303,7 +303,7 @@
 #' 20mm measured lengths
 #'
 #' Only measued lengths from the 20-mm Survey data
-#' @format a tibble with 324,218 rows and 4 variables
+#' @format a tibble with 324,048 rows and 4 variables
 #' \describe{
 #'   \item{SampleID}{Unique sample identifier.}
 #'   \item{Taxa}{Scientific name.}

@@ -50,6 +50,7 @@ unlink(localDbFile)
 library(dplyr)
 library(lubridate)
 library(wql)
+require(LTMRdata)
 
 raw_data <- file.path("data-raw","20mm")
 
@@ -62,7 +63,6 @@ MeterCorrections <- read.csv(file.path(raw_data,"MeterCorrections.csv"),
 														 stringsAsFactors=FALSE)
 TmmStations <- read.csv(file.path(raw_data,"20mmStations.csv"), stringsAsFactors=FALSE)
 FishSample <- read.csv(file.path(raw_data,"FishSample.csv"), stringsAsFactors=FALSE)
-FishCodes <- read.csv(file.path(raw_data,"FishCodes.csv"), stringsAsFactors=FALSE)
 FishLength <- read.csv(file.path(raw_data,"FishLength.csv"), stringsAsFactors=FALSE)
 
 
@@ -116,27 +116,23 @@ sample20mm <- Survey %>%
 ## Based on lengths, probably a matter of being ID'd in the field vs. in the lab.
 
 fish20mm_totalCatch <- FishSample %>%
-	dplyr::inner_join(FishCodes, by=c("FishCode"="Fish.Code")) %>%
-	dplyr::rename(CommonName=Common.Name) %>%
-	dplyr::select(GearID, FishSampleID, FishCode, CommonName, Catch)
+	dplyr::select(GearID, FishSampleID, FishCode, Catch)
 
 fish20mm_individLength <- FishSample %>%
-	dplyr::inner_join(FishCodes, by=c("FishCode"="Fish.Code")) %>%
 	dplyr::inner_join(FishLength, by="FishSampleID") %>%
-	dplyr::rename(CommonName=Common.Name) %>%
-	dplyr::select(GearID, FishSampleID, FishCode, CommonName, Length, Catch)
+	dplyr::select(GearID, FishSampleID, FishCode, Length, Catch)
 unique(fish20mm_individLength$Length)
 
 fish20mm_lengthFreq_measured <- fish20mm_individLength %>%
 	dplyr::filter(!is.na(Length)) %>%
-	dplyr::group_by(GearID, FishSampleID, FishCode, CommonName, Length) %>%
+	dplyr::group_by(GearID, FishSampleID, FishCode, Length) %>%
 	dplyr::summarize(LengthFrequency=n(), .groups="keep") %>%
 	dplyr::ungroup()
 
 fish20mm_adjustedCount <- fish20mm_totalCatch %>%
   dplyr::left_join(fish20mm_lengthFreq_measured,
-									 by=c("GearID","FishSampleID","FishCode","CommonName")) %>%
-  dplyr::group_by(GearID, FishSampleID, FishCode, CommonName) %>%
+									 by=c("GearID","FishSampleID","FishCode")) %>%
+  dplyr::group_by(GearID, FishSampleID, FishCode) %>%
   dplyr::mutate(TotalMeasured=sum(LengthFrequency, na.rm=T)) %>%
   dplyr::ungroup() %>%
 	## Add total catch numbers:
@@ -158,7 +154,7 @@ nrow(count_mismatch)
 ## Join sample and fish info:
 TMM <- sample20mm %>%
 	dplyr::left_join(fish20mm_adjustedCount %>%
-										dplyr::select(GearID, CommonName, FishCode, Taxa, Length,
+										dplyr::select(GearID, FishCode, Taxa, Length,
 																	LengthFrequency, Catch, CatchNew, Count),
 									 by="GearID") %>%
 	## Add reasoning for any NA lengths:
@@ -196,7 +192,7 @@ names(TMM_measured_lengths)
 ## Now remove extra fields:
 TMM <- TMM %>%
 	dplyr::select(-GearID, -Duration, -Turbidity, -Comments, -Comments.x,
-								-Comments.y, -CommonName, -FishCode, -Catch, -CatchNew,
+								-Comments.y, -FishCode, -Catch, -CatchNew,
 								-LengthFrequency)
 nrow(TMM)
 ncol(TMM)

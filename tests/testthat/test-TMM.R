@@ -5,7 +5,7 @@ library(LTMRdata)
 ## TMM
 
 test_that("Data dimensions are correct", {
-  expect_true(nrow(TMM) == 324218)
+  expect_true(nrow(TMM) == 324048)
   expect_true(ncol(TMM) == 22)
 
 	name_check <- c("Source","Station","Latitude","Longitude","Date","Datetime",
@@ -92,7 +92,6 @@ test_that("Combinations of Taxa, Count, and Length_NA_flag are as expected", {
 	## If Length_NA_flag is not missing, it should have one of the three values:
 	sub_4 <- subset(TMM, !is.na(Length_NA_flag))
 	expect_true(all(sub_4$Length_NA_flag %in% len_flag_values))
-	expect_true(nrow(sub_4) == 3176)
 
 	TMM_missing_catch <- subset(TMM, Length_NA_flag == "Missing catch value")
 	expect_true(nrow(TMM_missing_catch) == 1)
