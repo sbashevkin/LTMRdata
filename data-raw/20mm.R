@@ -87,9 +87,8 @@ sample20mm <- Survey %>%
 	dplyr::mutate(Source="20mm",
 				 SampleID=paste(Source, 1:nrow(.)),
 				 Tow_direction=NA,
-				 ## Per 20mmDataFileFormat_New_2020.pdf, but this appears to be different
-				 ## from past metadata files:
-				 Tide=recode(Tide, `1`="Low Slack", `2`="Ebb", `3`="High Slack", `4`="Flood"),
+				 ## Tide codes from 20mmDataFileFormat_New_102621.pdf on the CDFW ftp site:
+				 Tide=recode(Tide, `1`="High Slack", `2`="Ebb", `3`="Low Slack", `4`="Flood"),
 				 TowTime=substring(TowTime,12),
 				 Datetime=paste(SampleDate, TowTime),
 				 Date=parse_date_time(SampleDate, "%Y-%m-%d", tz="America/Los_Angeles"),
