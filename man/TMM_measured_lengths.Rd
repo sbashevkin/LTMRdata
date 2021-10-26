@@ -5,7 +5,7 @@
 \alias{TMM_measured_lengths}
 \title{20mm measured lengths}
 \format{
-a tibble with 324,218 rows and 4 variables
+a tibble with 324,021 rows and 4 variables
 \describe{
   \item{SampleID}{Unique sample identifier.}
   \item{Taxa}{Scientific name.}
@@ -17,6 +17,6 @@ a tibble with 324,218 rows and 4 variables
 TMM_measured_lengths
 }
 \description{
-Only measued lengths from the 20-mm Survey data
+Only measured lengths from the 20-mm Survey data
 }
 \keyword{datasets}

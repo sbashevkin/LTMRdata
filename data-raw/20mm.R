@@ -164,8 +164,6 @@ TMM <- sample20mm %>%
 ## There are some cases where:
 ##  -positive catch is indicated in FishSample, but there are no corresponding records
 ##		in FishLength.
-##	-a species is indicated in FishSample, but catch is NA and there are no
-##		corresponding records in FishLength.
 ## In these cases, use the Catch value from FishSample as Count and change
 ##	Length_NA_flag:
 index_1 <- which(!is.na(TMM$Catch) & is.na(TMM$Count))
@@ -174,9 +172,14 @@ TMM$Count[index_1] <- TMM$Catch[index_1]
 TMM$Length_NA_flag[index_1] <- "Unknown length"
 TMM[index_1, ]
 
-index_2 <- which(is.na(TMM$Catch) & !is.na(TMM$Taxa))
+## 2021-10-25: Adam Chorazyczewski of CDFW confirmed that catch for this
+## record is 1:
+index_2 <- which(as.character(TMM$Date) == "2021-03-23" & TMM$Station == 610 &
+                   TMM$TowNum == 1 & TMM$Taxa == "Gasterosteus aculeatus" &
+                   is.na(TMM$Catch))
 TMM[index_2, ]
-TMM$Length_NA_flag[index_2] <- "Missing catch value"
+TMM[index_2,c("Catch","Count")] <- 1
+TMM[index_2,"Length_NA_flag"] <- "Unknown length"
 TMM[index_2, ]
 
 
