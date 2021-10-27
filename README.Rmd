@@ -72,10 +72,15 @@ Spring Kodiak Trawl
 str(SKT)
 ```
 
+20mm Survey
+```{r}
+str(TMM)
+```
+
 ## To access the integrated dataset for a community-level analysis
 
 ```{r}
-Data <- fish(sources=c("Suisun", "FMWT", "Baystudy", "DJFMP", "EDSM", "SKT"),
+Data <- fish(sources=c("Suisun", "FMWT", "Baystudy", "DJFMP", "EDSM", "SKT", "TMM"),
              species=NULL,
              convert_lengths=TRUE,
              remove_unconverted_lengths=FALSE,
