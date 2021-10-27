@@ -2,7 +2,7 @@ require(LTMRdata)
 require(dplyr)
 
 species <- c("Clupea pallasii", "Morone saxatilis", "Parophrys vetulus", "Sardinops sagax")
-sources<-c("Baystudy", "Suisun", "FMWT", "SKT", "EDSM")
+sources<-c("Baystudy", "Suisun", "FMWT", "SKT", "EDSM", "TMM")
 
 Data <- fish(sources=sources, convert_lengths=TRUE, remove_unconverted_lengths=TRUE, zero_fill=FALSE)
 

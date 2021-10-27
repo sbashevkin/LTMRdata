@@ -1,6 +1,6 @@
 # Set up data -------------------------------------------------------------
 
-sources<-c("Baystudy", "Suisun", "FMWT", "SKT", "DJFMP", "EDSM")
+sources<-c("Baystudy", "Suisun", "FMWT", "SKT", "DJFMP", "EDSM", "TMM")
 
 test_that("fish produces warning messages", {
   expect_message(unconverted <<- fish(sources=sources, convert_lengths=FALSE, zero_fill=FALSE)%>%
@@ -40,8 +40,8 @@ zero_filled<-fish(sources=sources, species=species, convert_lengths=TRUE, remove
 # Run tests ---------------------------------------------------------------
 
 test_that("fish simply binds together dataframes when convert_lengths=FALSE", {
-  expect_equal(nrow(unconverted), nrow(LTMRdata::Baystudy)+nrow(LTMRdata::FMWT)+nrow(LTMRdata::Suisun)+nrow(LTMRdata::DJFMP)+nrow(LTMRdata::EDSM)+nrow(LTMRdata::SKT))
-  expect_setequal(names(select(unconverted, -ID)), unique(c(names(LTMRdata::Baystudy), names(LTMRdata::FMWT), names(LTMRdata::Suisun), names(LTMRdata::DJFMP), names(LTMRdata::EDSM), names(LTMRdata::SKT))))
+  expect_equal(nrow(unconverted), nrow(LTMRdata::Baystudy)+nrow(LTMRdata::FMWT)+nrow(LTMRdata::Suisun)+nrow(LTMRdata::DJFMP)+nrow(LTMRdata::EDSM)+nrow(LTMRdata::SKT)+nrow(LTMRdata::TMM))
+  expect_setequal(names(select(unconverted, -ID)), unique(c(names(LTMRdata::Baystudy), names(LTMRdata::FMWT), names(LTMRdata::Suisun), names(LTMRdata::DJFMP), names(LTMRdata::EDSM), names(LTMRdata::SKT), names(LTMRdata::TMM))))
 })
 
 test_that("No lengths are 0 or negative", {
@@ -71,8 +71,8 @@ test_that("Converting lengths does not change the number of rows or columns or t
 })
 
 
-test_that("FMWT, Baystudy, SKT, DJFMP, and EDSM lengths are not altered by length conversion, but Suisun lengths are", {
-  expect_equal(filter(converted, Source%in%c("Baystudy", "FMWT", "SKT", "DJFMP", "EDSM")), filter(unconverted, Source%in%c("Baystudy", "FMWT", "SKT", "DJFMP", "EDSM")))
+test_that("FMWT, Baystudy, SKT, DJFMP, EDSM, and TMM lengths are not altered by length conversion, but Suisun lengths are", {
+  expect_equal(filter(converted, Source%in%c("Baystudy", "FMWT", "SKT", "DJFMP", "EDSM", "TMM")), filter(unconverted, Source%in%c("Baystudy", "FMWT", "SKT", "DJFMP", "EDSM", "TMM")))
   expect_false(isTRUE(all.equal(filter(converted, Source%in%c("Suisun")), filter(unconverted, Source%in%c("Suisun")))))
 })
 

@@ -30,9 +30,8 @@ tables <- odbc::dbListTables(conn=con)
 tables
 
 ## Save select tables:
-keepTables <- c("Tow","FishSample","FishLength","Survey","FishCodes","Station",
-								"20mmStations","Gear","GearCodesLkp","MeterCorrections","SampleCode",
-								"ZooCodes","ZooCount","ZooSample")
+keepTables <- c("Tow","FishSample","FishLength","Survey","Station",
+								"20mmStations","Gear","GearCodesLkp","MeterCorrections","SampleCode")
 for(tab in keepTables) {
 	tmp <- DBI::dbReadTable(con, tab)
 	write.csv(tmp, file=file.path("data-raw","20mm",paste0(tab,".csv")), row.names=FALSE)
