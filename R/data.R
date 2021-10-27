@@ -109,7 +109,7 @@
 #' California Department of Fish and Wildlife Fall Midwater Trawl data.
 #'
 #' @encoding UTF-8
-#' @format a tibble with 231,112 rows and 22 variables
+#' @format a tibble with 254,540 rows and 22 variables
 #' \describe{
 #'   \item{Source}{Name of source dataset.}
 #'   \item{Station}{Station where sample was collected.}

@@ -68,12 +68,13 @@ length_fmwt<- read_csv(file.path("data-raw", "FMWT", "Length.csv"), na=c("NA", "
   group_by(CatchRowID, ForkLength)%>%
   summarise(LengthFrequency=sum(LengthFrequency), .groups="drop")
 
-catchlength_fmwt <- length_fmwt%>%
-  group_by(CatchRowID)%>%
-  mutate(TotalMeasured=sum(LengthFrequency, na.rm=T))%>% # Calculate total number of fish measured for each species in each sample
-  ungroup()%>%
-  left_join(catch_fmwt, by="CatchRowID")%>% # Add catch numbers and species names
-  mutate(Count = (LengthFrequency/TotalMeasured)*Catch) # Calculate adjusted count
+catchlength_fmwt <- catch_fmwt%>%
+  left_join(length_fmwt%>%
+              group_by(CatchRowID)%>%
+              mutate(TotalMeasured=sum(LengthFrequency, na.rm=T))%>% # Calculate total number of fish measured for each species in each sample
+              ungroup(),
+            by="CatchRowID")%>% # Add catch numbers and species names
+  mutate(Count = if_else(is.na(ForkLength), Catch, (LengthFrequency/TotalMeasured)*Catch)) # Calculate adjusted count
 
 
 # Create final datasets ---------------------------------------------------
@@ -87,7 +88,10 @@ FMWT<-sample_fmwt%>% # Start with sample to ensure samples without any catch (em
          Depth = Depth*0.3048, #Convert depth to m from feet
          Source="FMWT",
          SampleID=paste(Source, SampleID), # Add variable for unique (across all studies) sampleID
-         Length_NA_flag=if_else(is.na(ForkLength), "No fish caught", NA_character_), # Add reasoning for an NA lengths (all "No Fish Caught" for FMWT)
+         Length_NA_flag=case_when(
+           is.na(ForkLength) & is.na(Count)~ "No fish caught",
+           is.na(ForkLength) ~ "Unknown length",
+           TRUE ~ NA_character_), # Add reasoning for an NA lengths (all "No Fish Caught" for FMWT)
          Taxa=stringr::str_remove(Taxa, " \\((.*)"))%>% # Remove life stage info from Taxa names
   rename(Length=ForkLength, Temp_surf=WaterTemperature, Temp_bott=BottomTemperature,
          Secchi_estimated=SecchiEstimated, Survey=SurveyNumber, Cable_length=CableOut,
