@@ -1,4 +1,5 @@
 library(tidyverse)
+library(lubridate)
 
 pullSLS <- function(url = "https://filelib.wildlife.ca.gov/Public/Delta%20Smelt",
                     downloadFiles = F,
@@ -43,11 +44,11 @@ pullSLS <- function(url = "https://filelib.wildlife.ca.gov/Public/Delta%20Smelt"
     filesToRead <- list.files(path=file.path("data-raw", "SLS"), pattern = ".txt")
     SLSTables <- list()
 
-    SLSTables$Catch1 <- read_delim("Catch.txt", delim = ",",
+    SLSTables$Catch1 <- read_delim(file.path("data-raw", "SLS", "Catch.txt"), delim = ",",
                                    col_types =
                                      cols(
                                        # Can't exactly get this to be in the same POSIXct as Access
-                                       Date = col_date("%m/%d/%Y %H:%M:%S"),
+                                       Date = col_character(),
                                        Station = col_integer(),
                                        Tow = col_integer(),
                                        FishCode = col_integer(),
@@ -59,7 +60,8 @@ pullSLS <- function(url = "https://filelib.wildlife.ca.gov/Public/Delta%20Smelt"
     ) %>%
       # Need to rename 1/4 Subsampled and 1/2 Subsampled to the same format as the Access method
       rename(X1.4.Subsampled = `1/4 Subsampled`,
-             X1.2.Subsampled = `1/2 Subsampled`)
+             X1.2.Subsampled = `1/2 Subsampled`)%>%
+      mutate(Date=mdy_hms(Date))
     # # In order to make sure that all.equal is the same for the Access-derived and txt file derived tables,
     # # need to make sure that: change SLSTables$Catch to Catch1 above
     # attr(SLSTables$Catch1, "spec") <- NULL
@@ -72,10 +74,10 @@ pullSLS <- function(url = "https://filelib.wildlife.ca.gov/Public/Delta%20Smelt"
     #             arrange_all())
     # # TRUE, good to go
 
-    SLSTables$Lengths1 <- read_delim("Lengths.txt", delim = ",",
+    SLSTables$Lengths1 <- read_delim(file.path("data-raw", "SLS", "Lengths.txt"), delim = ",",
                                      col_types =
                                        cols(
-                                         Date = col_date("%m/%d/%Y %H:%M:%S"),
+                                         Date = col_character(),
                                          Station = col_integer(),
                                          Tow = col_integer(),
                                          FishCode = col_integer(),
@@ -83,7 +85,8 @@ pullSLS <- function(url = "https://filelib.wildlife.ca.gov/Public/Delta%20Smelt"
                                          entryorder = col_integer(),
                                          YolkSacorOilPresent = col_logical()
                                        )
-    )
+    )%>%
+      mutate(Date=mdy_hms(Date))
     # # As seen before, only the attributes should be not equal
     # attr(SLSTables$Lengths1, "spec") <- NULL
     # attr(SLSTables$Lengths1, "problems") <- NULL
@@ -95,16 +98,17 @@ pullSLS <- function(url = "https://filelib.wildlife.ca.gov/Public/Delta%20Smelt"
     #             arrange_all())
     # # TRUE, good to go
 
-    SLSTables$`Meter Corrections1` <- read_delim("Meter Corrections.txt", delim = ",",
+    SLSTables$`Meter Corrections1` <- read_delim(file.path("data-raw", "SLS", "Meter Corrections.txt"), delim = ",",
                                                  col_types =
                                                    cols(
                                                      StudyYear = col_double(),
                                                      MeterSerial = col_integer(),
-                                                     CalibrationDate = col_date("%m/%d/%Y %H:%M:%S"),
+                                                     CalibrationDate = col_character(),
                                                      kfactor = col_double(),
                                                      Notes = col_character()
                                                    )
-    )
+    )%>%
+      mutate(CalibrationDate=mdy_hms(CalibrationDate))
     # attr(SLSTables$`Meter Corrections1`, "spec") <- NULL
     # attr(SLSTables$`Meter Corrections1`, "problems") <- NULL
     # attributes(SLSTables$`Meter Corrections1`)$class <- "data.frame"
@@ -115,10 +119,10 @@ pullSLS <- function(url = "https://filelib.wildlife.ca.gov/Public/Delta%20Smelt"
     #             arrange_all())
     # # TRUE, good to go
 
-    SLSTables$`Tow Info1` <- read_delim("Tow Info.txt", delim = ",",
+    SLSTables$`Tow Info1` <- read_delim(file.path("data-raw", "SLS", "Tow Info.txt"), delim = ",",
                                         col_types =
                                           cols(
-                                            Date = col_date(format = "%m/%d/%Y %H:%M:%S"),
+                                            Date = col_character(),
                                             Station = col_integer(),
                                             Tow = col_integer(),
                                             Time = col_character(),
@@ -139,7 +143,7 @@ pullSLS <- function(url = "https://filelib.wildlife.ca.gov/Public/Delta%20Smelt"
     ) %>%
       # Just going to change this to UTC here b/c that's how the database from Access is read as
       # This gets changed later to America/Los_Angeles in creating the dataframes for the final table
-      mutate(Time = as.POSIXct(Time, format = "%m/%d/%Y %H:%M:%S", tz = "UTC"))
+      mutate(Time=mdy_hms(Time, tz="America/Los_Angeles"))
     # attr(SLSTables$`Tow Info1`, "spec") <- NULL
     # attr(SLSTables$`Tow Info1`, "problems") <- NULL
     # attributes(SLSTables$`Tow Info1`)$class <- "data.frame"
@@ -154,7 +158,7 @@ pullSLS <- function(url = "https://filelib.wildlife.ca.gov/Public/Delta%20Smelt"
                                           col_types =
                                             cols(
                                               Survey = col_integer(),
-                                              Date = col_date(format = "%m/%d/%Y %H:%M:%S"),
+                                              Date = col_character(),
                                               Station = col_integer(),
                                               Temp = col_double(),
                                               TopEC = col_integer(),
@@ -165,7 +169,8 @@ pullSLS <- function(url = "https://filelib.wildlife.ca.gov/Public/Delta%20Smelt"
                                               Long = col_character(),
                                               Comments = col_character()
                                             )
-    )
+    )%>%
+      mutate(Date=mdy_hms(Date))
     # attr(SLSTables$`Water Info1`, "spec") <- NULL
     # attr(SLSTables$`Water Info1`, "problems") <- NULL
     # attributes(SLSTables$`Water Info1`)$class <- "data.frame"
