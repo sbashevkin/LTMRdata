@@ -95,6 +95,21 @@ SLSTables$`Water Info` <- read_delim(file.path("data-raw", "SLS", "Water Info.tx
 )%>%
   mutate(Date=mdy_hms(Date))
 
+SLSTables$FishCodes <- read_csv(file.path("data-raw", "SLS", "FishCodes.txt"),
+                                col_types =
+                                  cols(
+                                    `Common Name` = col_character(),
+                                    Genus = col_character(),
+                                    Species = col_character(),
+                                    Family = col_character(),
+                                    `Fish Code` = col_integer(),
+                                    Symbol = col_character(),
+                                    `TNS Field` = col_character(),
+                                    `MWT Species Code` = col_double(),
+                                    `MWT Field` = col_character()
+                                  )
+)
+
 # Manipulating the data tables --------------------------------------------
 
 waterInfo <- SLSTables$`Water Info` %>%
@@ -157,6 +172,38 @@ lengths <- SLSTables$Lengths %>%
   add_count(name = "TotalLengthMeasured") %>%
   ungroup()
 
+# Adam will help me walk through some of these changes but I've tried to line up these with
+# what is already in the Species Code.csv file used in the LTMR package. For the most part,
+# SLS coding is similar to the 20 mm coding
+fishCode <- SLSTables$FishCodes %>%
+  # Keeping only data rows with fish code from SLS
+  filter(!is.na(`Fish Code`)) %>%
+  transmute(SLS_Code = `Fish Code`,
+            Taxa = case_when(`Fish Code` == 99 ~ "UnID",
+                             # Green sturgeon is named Acipenser medirostrus in SLS FishCode
+                             `Fish Code` == 23 ~ "Acipenser medirostris",
+                             `Fish Code` == 21 ~ "Acipenser",
+                             `Fish Code` == 32 ~ "Atheriniformes",
+                             `Fish Code` == 46 ~ "Hysterocarpus traskii",
+                             `Fish Code` == 52 ~ "Clupea pallasii",
+                             `Fish Code` == 60 ~ "Petromyzontiformes",
+                             `Fish Code` == 62 ~ "Lampetra ayresii",
+                             # In SLS, 72 is listed as Notropis lutrensis, which seems to be the older name
+                             `Fish Code` == 72 ~ "Cyprinella lutrensis",
+                             `Fish Code` == 75 ~ "Tridentiger",
+                             # Might need to change this once Adam updates the ftp database
+                             `Fish Code` == 76 ~ "Symphurus atricauda",
+                             `Fish Code` == 77 ~ "Micropterus punctulatus",
+                             `Fish Code` == 83 ~ "Parophrys vetulus",
+                             `Fish Code` == 2813 ~ "Stichaeidae",
+                             `Fish Code` == 3127 ~ "Pleuronectidae",
+                             # Some of the fish codes above have "Unid" in their name but
+                             # case_when will ignore those since priority is given to code appearing first
+                             str_detect(`Common Name`, "Unid") ~ Family,
+                             # # This is correct though...Change in the 20 mm?
+                             # `Fish Code` == 53 ~ "Menidia beryllina"
+                             TRUE ~ paste(Genus, Species)))
+
 # Now to combine the datasets together, following the relationship table in Access
 # The tables go waterInfo -> towInfo -> Catch -> lengths
 dfFin <- waterInfo %>%
@@ -166,8 +213,17 @@ dfFin <- waterInfo %>%
             by = c("Date", "Station", "Tow")) %>%
   full_join(lengths,
             by = c("Date", "Station", "Tow", "FishCode")) %>%
+  # using left_join here since the fish code table might contain additional codes that are never caught in SLS
+  left_join(fishCode,
+            by = c("FishCode" = "SLS_Code")) %>%
+  # Tax 76, 77, and 83 are not represented in the FishCode table and cannot be named, 3 entries
   # Merging the two comment columns together; they both have data in them
   unite("Comments", c(Comments.x, Comments.y), sep = "; ", remove = T, na.rm = T) %>%
+  arrange(Date, Datetime, Survey, Station, Tow, FishCode, Length) %>%
+  # Creating SampleID index
+  full_join(distinct(., Date, Datetime, Survey, Station, Tow) %>%
+              mutate(index = row_number()),
+            by = c("Station", "Date", "Datetime", "Survey", "Tow")) %>%
   # Dealing with plus counts
   mutate(
     # Each length input has its own entry/row here so no need to have a count of each length
@@ -185,7 +241,7 @@ dfFin <- waterInfo %>%
     # Creating SampleID as is asked by Sam
     Source = "SLS",
     # Filler column meant to hold position in select below
-    SampleID = NA) %>%
+    SampleID = paste(Source, index)) %>%
   # Removing CatchID and entryorder as they are not relevant to the dataset
   # Removing TopEC, BottomEC as they have been converted over the salinity already
   # Removing CBMeterSerial, CBMeterStart, CBMeterEnd, CBMeterCheck as CB not ran on the SLS
@@ -195,20 +251,8 @@ dfFin <- waterInfo %>%
          Depth, Tide, CableOut, Duration,
          NetMeterSerial, NetMeterStart,NetMeterEnd, NetMeterCheck,
          # CBMeterSerial, CBMeterStart, CBMeterEnd, CBMeterCheck, TopEC, BottomEC,
-         FishCode, QuarterSubsample, HalfSubsample, Catch, Length, Count,
+         FishCode, Taxa, QuarterSubsample, HalfSubsample, Catch, Length, Count,
          YolkSacorOilPresent, Length_NA_flag,
-         Comments, MeterNotes = Notes) %>%
-  arrange(Date, Datetime, Survey, Station, Tow, FishCode, Length) %>%
-  # Creating SampleID after arranging everything correctly
-  mutate(SampleID = paste(Source, row_number()))
-
-# This code has been checked to make sure that the ULTIMATE output from both methods, the Access
-# route AND the datatable route, yield the same results. There are differences in attributes that
-# I have yet to solve unfortunately but numerically/data wise, they are the same
-# dfFin = using Access method; dfFin1 = using flat files method
-# all.equal(dfFin, dfFin1)
-# # [1] "Attributes: < Component “class”: Lengths (1, 3) differ (string compare on first 1) >"
-# # [2] "Attributes: < Component “class”: 1 string mismatch >"
-# # [3] "Component “Datetime”: Attributes: < Component “problems”: Component “row”: Mean absolute difference: 865 >"
+         Comments, MeterNotes = Notes)
 
 write_csv(dfFin, paste0("SLS_", str_replace_all(Sys.Date(), "-", "_"), ".csv"))
