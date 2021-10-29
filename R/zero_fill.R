@@ -37,9 +37,6 @@
 
 zero_fill <- function(data, species=NULL, remove_unknown_lengths=TRUE, univariate=TRUE){
 
-  data<-data%>%
-    dplyr::select(tidyselect::any_of(c("SampleID", "Taxa", "Length", "Count", "Notes_catch", "Length_NA_flag")))
-
   data_env<-data%>%
     dplyr::select(-tidyselect::any_of(c("Taxa", "Length", "Count", "Notes_catch", "Length_NA_flag")))%>%
     dplyr::distinct()
@@ -47,6 +44,9 @@ zero_fill <- function(data, species=NULL, remove_unknown_lengths=TRUE, univariat
   if(any(duplicated(data_env$SampleID))){
     stop("Something went wrong and rows were duplicated")
   }
+
+  data<-data%>%
+    dplyr::select(tidyselect::any_of(c("SampleID", "Taxa", "Length", "Count", "Notes_catch", "Length_NA_flag")))
 
   if(!is.null(species)){
     if(!all(species%in%unique(data$Taxa))){
