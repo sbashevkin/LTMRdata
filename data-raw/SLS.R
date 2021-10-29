@@ -95,21 +95,6 @@ SLSTables$`Water Info` <- read_delim(file.path("data-raw", "SLS", "Water Info.tx
 )%>%
   mutate(Date=mdy_hms(Date))
 
-SLSTables$FishCodes <- read_csv(file.path("data-raw", "SLS", "FishCodes.txt"),
-                                col_types =
-                                  cols(
-                                    `Common Name` = col_character(),
-                                    Genus = col_character(),
-                                    Species = col_character(),
-                                    Family = col_character(),
-                                    `Fish Code` = col_integer(),
-                                    Symbol = col_character(),
-                                    `TNS Field` = col_character(),
-                                    `MWT Species Code` = col_double(),
-                                    `MWT Field` = col_character()
-                                  )
-)
-
 # Manipulating the data tables --------------------------------------------
 
 waterInfo <- SLSTables$`Water Info` %>%
@@ -172,38 +157,6 @@ lengths <- SLSTables$Lengths %>%
   add_count(name = "TotalLengthMeasured") %>%
   ungroup()
 
-# Adam will help me walk through some of these changes but I've tried to line up these with
-# what is already in the Species Code.csv file used in the LTMR package. For the most part,
-# SLS coding is similar to the 20 mm coding
-fishCode <- SLSTables$FishCodes %>%
-  # Keeping only data rows with fish code from SLS
-  filter(!is.na(`Fish Code`)) %>%
-  transmute(SLS_Code = `Fish Code`,
-            Taxa = case_when(`Fish Code` == 99 ~ "UnID",
-                             # Green sturgeon is named Acipenser medirostrus in SLS FishCode
-                             `Fish Code` == 23 ~ "Acipenser medirostris",
-                             `Fish Code` == 21 ~ "Acipenser",
-                             `Fish Code` == 32 ~ "Atheriniformes",
-                             `Fish Code` == 46 ~ "Hysterocarpus traskii",
-                             `Fish Code` == 52 ~ "Clupea pallasii",
-                             `Fish Code` == 60 ~ "Petromyzontiformes",
-                             `Fish Code` == 62 ~ "Lampetra ayresii",
-                             # In SLS, 72 is listed as Notropis lutrensis, which seems to be the older name
-                             `Fish Code` == 72 ~ "Cyprinella lutrensis",
-                             `Fish Code` == 75 ~ "Tridentiger",
-                             # Might need to change this once Adam updates the ftp database
-                             `Fish Code` == 76 ~ "Symphurus atricauda",
-                             `Fish Code` == 77 ~ "Micropterus punctulatus",
-                             `Fish Code` == 83 ~ "Parophrys vetulus",
-                             `Fish Code` == 2813 ~ "Stichaeidae",
-                             `Fish Code` == 3127 ~ "Pleuronectidae",
-                             # Some of the fish codes above have "Unid" in their name but
-                             # case_when will ignore those since priority is given to code appearing first
-                             str_detect(`Common Name`, "Unid") ~ Family,
-                             # # This is correct though...Change in the 20 mm?
-                             # `Fish Code` == 53 ~ "Menidia beryllina"
-                             TRUE ~ paste(Genus, Species)))
-
 # Now to combine the datasets together, following the relationship table in Access
 # The tables go waterInfo -> towInfo -> Catch -> lengths
 dfFin <- waterInfo %>%
@@ -213,10 +166,12 @@ dfFin <- waterInfo %>%
             by = c("Date", "Station", "Tow")) %>%
   full_join(lengths,
             by = c("Date", "Station", "Tow", "FishCode")) %>%
-  # using left_join here since the fish code table might contain additional codes that are never caught in SLS
-  left_join(fishCode,
-            by = c("FishCode" = "SLS_Code")) %>%
-  # Tax 76, 77, and 83 are not represented in the FishCode table and cannot be named, 3 entries
+  # Adding in taxa name based on Species Code.csv file
+  left_join(Species %>%
+              select(FishCode = SLS_Code,
+                     Taxa) %>%
+              filter(!is.na(FishCode)),
+            by = c("FishCode")) %>%
   # Merging the two comment columns together; they both have data in them
   unite("Comments", c(Comments.x, Comments.y), sep = "; ", remove = T, na.rm = T) %>%
   arrange(Date, Datetime, Survey, Station, Tow, FishCode, Length) %>%
@@ -254,5 +209,9 @@ dfFin <- waterInfo %>%
          FishCode, Taxa, QuarterSubsample, HalfSubsample, Catch, Length, Count,
          YolkSacorOilPresent, Length_NA_flag,
          Comments, MeterNotes = Notes)
+
+# # Just to make sure that no duplications occurred; lengths should be the same
+# all.equal(lengths$Length %>% sum(na.rm = T),
+#           dfFin$Length %>% sum(na.rm = T))
 
 write_csv(dfFin, paste0("SLS_", str_replace_all(Sys.Date(), "-", "_"), ".csv"))
