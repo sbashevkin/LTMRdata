@@ -4,7 +4,7 @@ require(dplyr)
 species <- c("Clupea pallasii", "Morone saxatilis", "Parophrys vetulus", "Sardinops sagax")
 sources<-c("Baystudy", "Suisun", "FMWT", "SKT", "EDSM", "TMM")
 
-Data <- fish(sources=sources, convert_lengths=TRUE, remove_unconverted_lengths=TRUE, zero_fill=FALSE)
+Data <- fish(sources=sources, convert_lengths=TRUE, zero_fill=FALSE)
 
 Data_species <- filter(Data, Taxa%in%species[1])
 
@@ -12,7 +12,7 @@ Data_species_correct <- filter(Data, Taxa%in%species[1] | is.na(Taxa))
 
 Data_multspecies <- filter(Data, Taxa%in%species)
 
-Data <- fish(sources=sources, convert_lengths=TRUE, remove_unconverted_lengths=TRUE, zero_fill=FALSE)
+Data <- fish(sources=sources, convert_lengths=TRUE, zero_fill=FALSE)
 
 Data_filled<- zero_fill(Data, remove_unknown_lengths=FALSE)
 
@@ -20,9 +20,17 @@ Data_filled_univariate <- zero_fill(Data, remove_unknown_lengths=TRUE, univariat
 
 Data_filled_univariate_species <- zero_fill(Data, species=species[1], remove_unknown_lengths=TRUE, univariate=TRUE)
 
+Data_filled_univariate_species_keeplengths <- zero_fill(Data, species=species[1], remove_unknown_lengths=FALSE, univariate=TRUE)
+
 Data_filled_univariate_multspecies <- zero_fill(Data, species=species, remove_unknown_lengths=TRUE, univariate=TRUE)
 
 Data_filled_multivariate <- zero_fill(Data, remove_unknown_lengths=TRUE, univariate=FALSE)
+
+data_samples<-bind_rows(LTMRdata::Baystudy, LTMRdata::Suisun, LTMRdata::FMWT, LTMRdata::EDSM, LTMRdata::TMM)%>%
+  group_by(SampleID)%>%
+  summarise(Species=list(unique(Taxa)), .groups="drop")%>%
+  rowwise()%>%
+  filter(!any(Species%in%species))
 
 test_that("zero_fill output has more rows and 0 counts than input data", {
   expect_gt(nrow(Data_filled), nrow(Data))
@@ -63,4 +71,9 @@ test_that("Error messages are functioning", {
                "There are no rows with NA Taxa")
   expect_message(test <- zero_fill(Data_species_correct, species=c("bla bla bla", species[1]), remove_unknown_lengths=TRUE, univariate=TRUE),
                  "These species were not present in your data: bla bla bla")
+})
+
+test_that("zero_fill is correctly filling in 0s with species filtering", {
+  expect_equal(length(setdiff(unique(data_samples$SampleID), unique(Data_filled_univariate_species_keeplengths$SampleID))), 0)
+  expect_true(all(filter(Data_filled_univariate_species_keeplengths, SampleID%in%unique(data_samples$SampleID))$Count==0))
 })

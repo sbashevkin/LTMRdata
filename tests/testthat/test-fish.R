@@ -5,15 +5,14 @@ sources<-c("Baystudy", "Suisun", "FMWT", "SKT", "DJFMP", "EDSM", "TMM")
 test_that("fish produces warning messages", {
   expect_message(unconverted <<- fish(sources=sources, convert_lengths=FALSE, zero_fill=FALSE)%>%
                    mutate(ID=paste(SampleID, Taxa, Length, Notes_catch)), "NOTE: Length data are not consistent across studies")
-  expect_message(converted <<- fish(sources=sources, convert_lengths=TRUE, remove_unconverted_lengths=FALSE, zero_fill=FALSE)%>%
+  expect_message(converted <<- fish(sources=sources, convert_lengths=TRUE, zero_fill=FALSE)%>%
                    mutate(ID=paste(SampleID, Taxa, Length, Notes_catch)), "NOTE: Length data are not entirely consistent across studies.")
 })
 
-
 ## Length conversions ------------------------------------------------------
 
-converted_suisun <- fish(sources="Suisun", convert_lengths=TRUE, remove_unconverted_lengths=TRUE)%>%
-  filter(!is.na(Length))%>%
+converted_suisun <- fish(sources="Suisun", convert_lengths=TRUE)%>%
+  filter(!is.na(Length) & Taxa%in%unique(Length_conversions$Species))%>%
   group_by(SampleID, Taxa)%>%
   filter(Length==min(Length))%>%
   ungroup()
@@ -29,14 +28,22 @@ unconverted_suisun <- unconverted%>%
 
 combined<-left_join(converted_suisun, unconverted_suisun)
 
-## Zero conversion and species filtering -----------------------------------
+
+# Test size cutoff --------------------------------------------------------
 
 cutoff=40
-converted_cutoff <- fish(sources=sources, convert_lengths=TRUE, remove_unconverted_lengths=FALSE, size_cutoff=cutoff, zero_fill=FALSE)
+converted_cutoff <- fish(sources=sources, convert_lengths=TRUE, size_cutoff=cutoff, zero_fill=FALSE)
+
+## Zero conversion and species filtering -----------------------------------
 
 species <- c("Clupea pallasii", "Morone saxatilis", "Parophrys vetulus", "Sardinops sagax")
-zero_filled<-fish(sources=sources, species=species, convert_lengths=TRUE, remove_unconverted_lengths=FALSE, zero_fill=FALSE)
+zero_filled<-fish(sources=sources, species=species, convert_lengths=TRUE, zero_fill=TRUE)
 
+Data<-bind_rows(LTMRdata::Baystudy, LTMRdata::Suisun, LTMRdata::FMWT, LTMRdata::DJFMP, LTMRdata::EDSM, LTMRdata::TMM)%>%
+  group_by(SampleID)%>%
+  summarise(Species=list(unique(Taxa)), .groups="drop")%>%
+  rowwise()%>%
+  filter(!any(Species%in%species))
 # Run tests ---------------------------------------------------------------
 
 test_that("fish simply binds together dataframes when convert_lengths=FALSE", {
@@ -89,7 +96,11 @@ test_that("Converted Suisun fork lengths are longer than standard length", {
 
 ## Species filtering and zero fill -----------------------------------------
 
-
 test_that("species filtering works correctly", {
   expect_setequal(unique(filter(zero_filled, !is.na(Taxa))$Taxa), species)
+})
+
+test_that("zero_fill is correctly filling in 0s", {
+  expect_equal(length(setdiff(unique(Data$SampleID), unique(zero_filled$SampleID))), 0)
+  expect_true(all(filter(zero_filled, SampleID%in%unique(Data$SampleID))$Count==0))
 })
