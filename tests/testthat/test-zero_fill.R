@@ -4,7 +4,8 @@ require(dplyr)
 species <- c("Clupea pallasii", "Morone saxatilis", "Parophrys vetulus", "Sardinops sagax")
 sources<-c("Baystudy", "Suisun", "FMWT", "SKT", "EDSM", "TMM")
 
-Data <- fish(sources=sources, convert_lengths=TRUE, zero_fill=FALSE)
+Data <- fish(sources=sources, convert_lengths=TRUE, zero_fill=FALSE)%>%
+  select(all_of(c("SampleID", "Taxa", "Length", "Count", "Notes_catch", "Length_NA_flag")))
 
 Data_species <- filter(Data, Taxa%in%species[1])
 
