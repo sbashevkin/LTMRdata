@@ -48,6 +48,8 @@ zero_fill <- function(data, species=NULL, remove_unknown_lengths=TRUE, univariat
   data<-data%>%
     dplyr::select(tidyselect::any_of(c("SampleID", "Taxa", "Length", "Count", "Notes_catch", "Length_NA_flag")))
 
+  gc()
+
   if(!is.null(species)){
     if(!all(species%in%unique(data$Taxa))){
       message(paste0("These species were not present in your data: ", paste(setdiff(species, unique(data$Taxa)), collapse=", ")))
@@ -79,13 +81,11 @@ zero_fill <- function(data, species=NULL, remove_unknown_lengths=TRUE, univariat
       dplyr::select(tidyselect::any_of(c("SampleID", "Taxa", "Length", "Count", "Notes_catch", "Length_NA_flag")))%>%
       dplyr::mutate(SampleID=factor(.data$SampleID, levels=samples))%>%
       tidyr::complete(.data$SampleID, .data$Taxa, fill=list(Count=0))%>%
-      dplyr::mutate(SampleID=as.character(.data$SampleID))%>%
-      dplyr::left_join(data_env, by="SampleID")
+      dplyr::mutate(SampleID=as.character(.data$SampleID))
   }else{
     data<-data%>%
       dplyr::select(tidyselect::any_of(c("SampleID", "Taxa", "Length", "Count", "Notes_catch", "Length_NA_flag")))%>%
-      tidyr::complete(.data$SampleID, .data$Taxa, fill=list(Count=0))%>%
-      dplyr::left_join(data_env, by="SampleID")
+      tidyr::complete(.data$SampleID, .data$Taxa, fill=list(Count=0))
   }
 
   gc()
@@ -105,7 +105,8 @@ zero_fill <- function(data, species=NULL, remove_unknown_lengths=TRUE, univariat
   }
 
   data<-data%>%
-    dplyr::filter(!is.na(.data$Taxa))
+    dplyr::filter(!is.na(.data$Taxa))%>%
+    dplyr::left_join(data_env, by="SampleID")
 
   return(data)
 }
