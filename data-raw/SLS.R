@@ -166,8 +166,19 @@ dfFin <- waterInfo %>%
             by = c("Date", "Station", "Tow")) %>%
   full_join(lengths,
             by = c("Date", "Station", "Tow", "FishCode")) %>%
+  # Adding in taxa name based on Species Code.csv file
+  left_join(Species %>%
+              select(FishCode = SLS_Code,
+                     Taxa) %>%
+              filter(!is.na(FishCode)),
+            by = c("FishCode")) %>%
   # Merging the two comment columns together; they both have data in them
   unite("Comments", c(Comments.x, Comments.y), sep = "; ", remove = T, na.rm = T) %>%
+  arrange(Date, Datetime, Survey, Station, Tow, FishCode, Length) %>%
+  # Creating SampleID index
+  full_join(distinct(., Date, Datetime, Survey, Station, Tow) %>%
+              mutate(index = row_number()),
+            by = c("Station", "Date", "Datetime", "Survey", "Tow")) %>%
   # Dealing with plus counts
   mutate(
     # Each length input has its own entry/row here so no need to have a count of each length
@@ -185,7 +196,7 @@ dfFin <- waterInfo %>%
     # Creating SampleID as is asked by Sam
     Source = "SLS",
     # Filler column meant to hold position in select below
-    SampleID = NA) %>%
+    SampleID = paste(Source, index)) %>%
   # Removing CatchID and entryorder as they are not relevant to the dataset
   # Removing TopEC, BottomEC as they have been converted over the salinity already
   # Removing CBMeterSerial, CBMeterStart, CBMeterEnd, CBMeterCheck as CB not ran on the SLS
@@ -195,20 +206,12 @@ dfFin <- waterInfo %>%
          Depth, Tide, CableOut, Duration,
          NetMeterSerial, NetMeterStart,NetMeterEnd, NetMeterCheck,
          # CBMeterSerial, CBMeterStart, CBMeterEnd, CBMeterCheck, TopEC, BottomEC,
-         FishCode, QuarterSubsample, HalfSubsample, Catch, Length, Count,
+         FishCode, Taxa, QuarterSubsample, HalfSubsample, Catch, Length, Count,
          YolkSacorOilPresent, Length_NA_flag,
-         Comments, MeterNotes = Notes) %>%
-  arrange(Date, Datetime, Survey, Station, Tow, FishCode, Length) %>%
-  # Creating SampleID after arranging everything correctly
-  mutate(SampleID = paste(Source, row_number()))
+         Comments, MeterNotes = Notes)
 
-# This code has been checked to make sure that the ULTIMATE output from both methods, the Access
-# route AND the datatable route, yield the same results. There are differences in attributes that
-# I have yet to solve unfortunately but numerically/data wise, they are the same
-# dfFin = using Access method; dfFin1 = using flat files method
-# all.equal(dfFin, dfFin1)
-# # [1] "Attributes: < Component “class”: Lengths (1, 3) differ (string compare on first 1) >"
-# # [2] "Attributes: < Component “class”: 1 string mismatch >"
-# # [3] "Component “Datetime”: Attributes: < Component “problems”: Component “row”: Mean absolute difference: 865 >"
+# # Just to make sure that no duplications occurred; lengths should be the same
+# all.equal(lengths$Length %>% sum(na.rm = T),
+#           dfFin$Length %>% sum(na.rm = T))
 
 write_csv(dfFin, paste0("SLS_", str_replace_all(Sys.Date(), "-", "_"), ".csv"))
