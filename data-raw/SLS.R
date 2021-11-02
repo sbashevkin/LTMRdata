@@ -1,3 +1,10 @@
+# Issues
+# 2) Add documentation to data.R
+# 3) Apply Count to the adjusted length frequency, that formula is not applied correctly currently.
+# 4) Correctly identify cases in which no fish were caught in a tow
+# 5) Clarify why 2 rows have NA Catch in catch table
+# 6) Clarify why 2 rows have NA Catch but non-NA Count (from lengths)
+
 # Reading the data --------------------------------------------------------
 
 library(tidyverse)
@@ -7,26 +14,20 @@ SLSTables <- list()
 
 SLSTables$Catch <- read_delim(file.path("data-raw", "SLS", "Catch.txt"), delim = ",",
                               col_types =
-                                cols(
-                                  # Can't exactly get this to be in the same POSIXct as Access
+                                cols_only(
                                   Date = col_character(),
                                   Station = col_integer(),
                                   Tow = col_integer(),
                                   FishCode = col_integer(),
                                   Catch = col_integer(),
-                                  `1/4 Subsampled` = col_integer(),
-                                  `1/2 Subsampled` = col_integer(),
                                   CatchID = col_integer()
                                 )
 ) %>%
-  # Need to rename 1/4 Subsampled and 1/2 Subsampled to the same format as the Access method
-  rename(X1.4.Subsampled = `1/4 Subsampled`,
-         X1.2.Subsampled = `1/2 Subsampled`)%>%
   mutate(Date=mdy_hms(Date))
 
 SLSTables$Lengths <- read_delim(file.path("data-raw", "SLS", "Lengths.txt"), delim = ",",
                                 col_types =
-                                  cols(
+                                  cols_only(
                                     Date = col_character(),
                                     Station = col_integer(),
                                     Tow = col_integer(),
@@ -40,7 +41,7 @@ SLSTables$Lengths <- read_delim(file.path("data-raw", "SLS", "Lengths.txt"), del
 
 SLSTables$`Meter Corrections` <- read_delim(file.path("data-raw", "SLS", "Meter Corrections.txt"), delim = ",",
                                             col_types =
-                                              cols(
+                                              cols_only(
                                                 StudyYear = col_double(),
                                                 MeterSerial = col_integer(),
                                                 CalibrationDate = col_character(),
@@ -52,7 +53,7 @@ SLSTables$`Meter Corrections` <- read_delim(file.path("data-raw", "SLS", "Meter 
 
 SLSTables$`Tow Info` <- read_delim(file.path("data-raw", "SLS", "Tow Info.txt"), delim = ",",
                                    col_types =
-                                     cols(
+                                     cols_only(
                                        Date = col_character(),
                                        Station = col_integer(),
                                        Tow = col_integer(),
@@ -75,11 +76,12 @@ SLSTables$`Tow Info` <- read_delim(file.path("data-raw", "SLS", "Tow Info.txt"),
   # Just going to change this to UTC here b/c that's how the database from Access is read as
   # This gets changed later to America/Los_Angeles in creating the dataframes for the final table
   mutate(Time=mdy_hms(Time, tz="America/Los_Angeles"),
-         Date=mdy_hms(Date, tz="America/Los_Angeles"))
+         Date=mdy_hms(Date, tz="America/Los_Angeles"))%>%
+  rename(Notes_tow=Comments)
 
 SLSTables$`Water Info` <- read_delim(file.path("data-raw", "SLS", "Water Info.txt"), delim = ",",
                                      col_types =
-                                       cols(
+                                       cols_only(
                                          Survey = col_integer(),
                                          Date = col_character(),
                                          Station = col_integer(),
@@ -93,7 +95,8 @@ SLSTables$`Water Info` <- read_delim(file.path("data-raw", "SLS", "Water Info.tx
                                          Comments = col_character()
                                        )
 )%>%
-  mutate(Date=mdy_hms(Date))
+  mutate(Date=mdy_hms(Date))%>%
+  rename(Notes_env=Comments)
 
 # Manipulating the data tables --------------------------------------------
 
@@ -144,22 +147,22 @@ towInfo <- SLSTables$`Tow Info` %>%
          Tow_volume = NetMeterCheck * kfactor * 0.37)
 
 catch <- SLSTables$Catch %>%
-  mutate(Date = as.Date(Date)) %>%
-  rename(QuarterSubsample = X1.4.Subsampled,
-         HalfSubsample = X1.2.Subsampled)
+  mutate(Date = as.Date(Date))
 
 lengths <- SLSTables$Lengths %>%
   mutate(Date = as.Date(Date)) %>%
   # Calculating total number of fish measured (across all lengths) and # of fish measured
   # per Date, Station, Tow, and FishCode
   # This is to calculate plus counts later in dfFin
+  group_by(Date, Station, Tow, FishCode, Length)%>%
+  summarise(LengthFrequency=n(), .groups="drop")%>%
   group_by(Date, Station, Tow, FishCode) %>%
-  add_count(name = "TotalLengthMeasured") %>%
+  mutate(TotalLengthMeasured=sum(LengthFrequency)) %>%
   ungroup()
 
 # Now to combine the datasets together, following the relationship table in Access
 # The tables go waterInfo -> towInfo -> Catch -> lengths
-dfFin <- waterInfo %>%
+SLS <- waterInfo %>%
   full_join(towInfo,
             by = c("Date", "Station")) %>%
   full_join(catch,
@@ -168,23 +171,20 @@ dfFin <- waterInfo %>%
             by = c("Date", "Station", "Tow", "FishCode")) %>%
   # Adding in taxa name based on Species Code.csv file
   left_join(Species %>%
-              select(FishCode = SLS_Code,
+              select(TMM_Code,
                      Taxa) %>%
-              filter(!is.na(FishCode)),
-            by = c("FishCode")) %>%
+              filter(!is.na(TMM_Code)),
+            by = c("FishCode"="TMM_Code")) %>%
   # Merging the two comment columns together; they both have data in them
-  unite("Comments", c(Comments.x, Comments.y), sep = "; ", remove = T, na.rm = T) %>%
-  arrange(Date, Datetime, Survey, Station, Tow, FishCode, Length) %>%
-  # Creating SampleID index
-  full_join(distinct(., Date, Datetime, Survey, Station, Tow) %>%
-              mutate(index = row_number()),
-            by = c("Station", "Date", "Datetime", "Survey", "Tow")) %>%
+  unite(Notes_tow, c(Notes_tow, Notes_env), sep = "; ", remove = T, na.rm = T) %>%
+  arrange(Date, Datetime, Survey, Station, Tow, Taxa, Length) %>%
   # Dealing with plus counts
   mutate(
+    SampleID=paste(Date, Station, Tow), # Creating SampleID index
     # Each length input has its own entry/row here so no need to have a count of each length
-    Count = (Catch/TotalLengthMeasured),
+    Count = if_else(is.na(Length), Catch, (LengthFrequency/TotalLengthMeasured) * Catch),
     # Creating Length_NA_flag to parallel the other survey datasets in LTMR
-    Length_NA_flag = if_else(Catch == 0, "No fish caught", NA_character_),
+    Length_NA_flag = if_else(is.na(Count), "No fish caught", NA_character_),
     # Creating Method column; Adam described this as an "Olbique tow", significantly diff from WMT
     Method = "Oblique tow",
     # For YolkSacorOilPresent, ONLY Osmerids should have this data
@@ -201,12 +201,10 @@ dfFin <- waterInfo %>%
   # Removing TopEC, BottomEC as they have been converted over the salinity already
   # Removing CBMeterSerial, CBMeterStart, CBMeterEnd, CBMeterCheck as CB not ran on the SLS
   select(Source, Station, Latitude = Lat, Longitude = Long,
-         Date, Datetime, Survey, SampleID, Method, Tow, Tow_volume,
+         Date, Datetime, Survey, SampleID, Method, Tow_volume,
          Temp_surf, Sal_surf, Sal_bot, Secchi, Turbidity,
-         Depth, Tide, CableOut, Duration,
-         NetMeterSerial, NetMeterStart,NetMeterEnd, NetMeterCheck,
-         # CBMeterSerial, CBMeterStart, CBMeterEnd, CBMeterCheck, TopEC, BottomEC,
-         FishCode, Taxa, QuarterSubsample, HalfSubsample, Catch, Length, Count,
+         Depth, Tide, Cable_length=CableOut, Tow_duration=Duration,
+         Taxa, Length, Count,
          YolkSacorOilPresent, Length_NA_flag,
          Comments, MeterNotes = Notes)
 
@@ -214,4 +212,4 @@ dfFin <- waterInfo %>%
 # all.equal(lengths$Length %>% sum(na.rm = T),
 #           dfFin$Length %>% sum(na.rm = T))
 
-write_csv(dfFin, paste0("SLS_", str_replace_all(Sys.Date(), "-", "_"), ".csv"))
+usethis::use_data(SLS, overwrite=TRUE)

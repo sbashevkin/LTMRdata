@@ -6,7 +6,7 @@ require(tidyr)
 
 Species <- read_csv(file.path("data-raw", "Species codes.csv"),
                     col_types = cols_only(Baystudy_Code = "c", CommonName = "c", SMF_Code = "c", SKT_Code = "c",
-                                          FMWT_Code = "i", TMM_Code = "i", SLS_Code = "i",
+                                          FMWT_Code = "i", TMM_Code = "i",
                                           ScientificName = "c", Lifestage = "c", USFWS_Code = "c"))%>%
   mutate(Taxa = if_else(!is.na(Lifestage), paste0(ScientificName, " (", Lifestage, ")"), ScientificName))
 

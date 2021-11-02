@@ -1,6 +1,4 @@
 "Date","Station","Tow","Time","Tide","BottomDepth","CableOut","Duration","NetMeterSerial","NetMeterStart","NetMeterEnd","NetMeterCheck","CBMeterSerial","CBMeterStart","CBMeterEnd","CBMeterCheck","Comments"
-1/5/2009 0:00:00,809,1,12/30/1899 9:23:00,"4",47,155,10.00,21920,60499,82939,22440,,,,,"crew: K. Erly, L. Damon, K. Flowers, V. Afentoulis"
-1/5/2009 0:00:00,901,1,12/30/1899 9:50:00,"4",10,45,10.00,21920,83559,103451,19892,,,,,"crew: KE, KF, LD, VA"
 1/5/2009 0:00:00,902,1,12/30/1899 10:12:00,"4",26,110,10.00,21920,103454,124337,20883,,,,,"crew: KE, KF, LD, VA"
 1/5/2009 0:00:00,906,1,12/30/1899 14:23:00,"2",39,140,10.00,21920,247554,267406,19852,,,,,"crew: KE, KF, LD, VA"
 1/5/2009 0:00:00,910,1,12/30/1899 12:49:00,"4",40,155,10.00,21920,188797,211813,23016,,,,,"crew: KE, KF, LD, VA.  Sample splashed when pouring into formalin jar. Less than 5% of sample."
