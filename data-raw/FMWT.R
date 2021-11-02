@@ -86,6 +86,7 @@ FMWT<-sample_fmwt%>% # Start with sample to ensure samples without any catch (em
          Sal_bott=ec2pss(ConductivityBottom/1000, t=25),
          Secchi=Secchi*100, # Convert Secchi to cm from m
          Depth = Depth*0.3048, #Convert depth to m from feet
+         CableOut = CableOut*0.3048, # Convert to m from feet
          Source="FMWT",
          SampleID=paste(Source, SampleID), # Add variable for unique (across all studies) sampleID
          Length_NA_flag=case_when(

@@ -2,11 +2,11 @@
 % Please edit documentation in R/data.R
 \docType{data}
 \encoding{UTF-8}
-\name{TMM}
-\alias{TMM}
-\title{20mm dataset}
+\name{SLS}
+\alias{SLS}
+\title{FMWT dataset}
 \format{
-a tibble with 324,021 rows and 22 variables
+a tibble with 254,540 rows and 22 variables
 \describe{
   \item{Source}{Name of source dataset.}
   \item{Station}{Station where sample was collected.}
@@ -15,30 +15,33 @@ a tibble with 324,021 rows and 22 variables
   \item{Date}{Date sample was collected.}
   \item{Datetime}{Date and time sample was collected.}
   \item{Survey}{Survey number, roughly corresponding to month.}
-  \item{TowNum}{Tow number, unique to a given site (typically 3 tows per site).}
   \item{Depth}{Bottom depth (m).}
   \item{SampleID}{Unique sample identifier.}
-  \item{Method}{Sampling method (20mm Net).}
+  \item{Method}{Sampling method.}
   \item{Tide}{Tidal stage.}
   \item{Sal_surf}{Surface salinity.}
+  \item{Sal_bot}{Bottom salinity.}
   \item{Temp_surf}{Surface temperature in °C.}
   \item{Secchi}{Secchi depth (cm).}
+  \item{Turbidity}{Turbidity (units).}
   \item{Tow_volume}{Volume towed (\ifelse{html}{\out{m<sup>3</sup>}}{\eqn{m^{3}}}).}
-  \item{Tow_direction}{Tow direction relative to current. Not recorded but field is included here for consistency.}
   \item{Cable_length}{Length of cable released when net deployed (m).}
+  \item{Tow_duration}{Duration of tow (minutes).}
   \item{Taxa}{Scientific name.}
-  \item{Length}{Fork length from tip of the snout to a point at the fork of the caudal fin (mm).}
+  \item{Length}{Fork length (mm).}
   \item{Count}{Estimated count for each sample, taxa, and length.}
   \item{Length_NA_flag}{Why is the length NA?}
+  \item{Notes_tow}{Notes or comments on the trawl.}
+  \item{Notes_flowmeter}{Notes or comments on the flowmeter reading.}
   }
 }
 \usage{
-TMM
+SLS
 }
 \description{
-California Department of Fish and Wildlife 20-mm Survey data.
+California Department of Fish and Wildlife Fall Midwater Trawl data.
 }
 \details{
-More metadata and information on methods are available \href{https://wildlife.ca.gov/Conservation/Delta/20mm-Survey}{here}.
+More metadata and information on methods are available \href{https://www.dfg.ca.gov/delta/projects.asp?ProjectID=FMWT}{here}.
 }
 \keyword{datasets}

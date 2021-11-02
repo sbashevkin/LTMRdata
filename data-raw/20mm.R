@@ -94,6 +94,7 @@ sample20mm <- Survey %>%
 				 Datetime=parse_date_time(if_else(is.na(TowTime), NA_character_, Datetime),
 																	"%Y-%m-%d %%H:%M:%S", tz="America/Los_Angeles"),
 				 Depth=BottomDepth*0.3048, # Convert depth to m from feet
+				 Cable_length=Cable_length*0.3048, # Convert to m from feet
 				 Method=GearDescription,
 				 Cable_length=CableOut, # in feet, based on past communications with CDFW
 				 Temp_surf=Temp,

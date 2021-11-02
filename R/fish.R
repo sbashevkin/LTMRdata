@@ -1,7 +1,7 @@
 #' Integrate fish datasets
 #'
 #' Integrates your desired fish datasets according to a number of user-specified parameters
-#' @param sources Which data sources would you like included? Options include: "Baystudy", "Suisun", "FMWT", "SKT", "DJFMP", "EDSM", and "TMM".
+#' @param sources Which data sources would you like included? Options include: "Baystudy", "Suisun", "FMWT", "SKT", "DJFMP", "EDSM", "TMM", and "SLS".
 #' @param zero_fill Should zeros be filled in for samples in which a species was not recorded as caught, using the \code{\link{zero_fill}} function. The \code{remove_unknown_lengths} and \code{univariate} parameters control the behavior of this functionality and these parameters are passed to the \code{\link{zero_fill}} function.
 #' @inherit LTMRpilot
 #' @param remove_unconverted_lengths Should all species without a conversion equation be removed? Defaults to \code{FALSE}. Ignored if \code{convert_lengths=FALSE}.
@@ -26,8 +26,8 @@ fish<-function(sources,
                univariate=TRUE,
                quiet=FALSE){
 
-  if(is.null(sources) | !all(sources%in%c("Baystudy", "Suisun", "FMWT", "SKT", "DJFMP", "EDSM", "TMM"))){
-    stop("sources must contain some of the following options: 'Baystudy', 'Suisun', 'FMWT', 'SKT', 'DJFMP', 'EDSM', 'TMM'")
+  if(is.null(sources) | !all(sources%in%c("Baystudy", "Suisun", "FMWT", "SKT", "DJFMP", "EDSM", "TMM", "SLS"))){
+    stop("sources must contain some of the following options: 'Baystudy', 'Suisun', 'FMWT', 'SKT', 'DJFMP', 'EDSM', 'TMM', 'SLS'")
   }
 
   data(list=sources, envir=environment())

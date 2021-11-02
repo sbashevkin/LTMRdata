@@ -1,9 +1,5 @@
 # Issues
 # 2) Add documentation to data.R
-# 3) Apply Count to the adjusted length frequency, that formula is not applied correctly currently.
-# 4) Correctly identify cases in which no fish were caught in a tow
-# 5) Clarify why 2 rows have NA Catch in catch table
-# 6) Clarify why 2 rows have NA Catch but non-NA Count (from lengths)
 
 # Reading the data --------------------------------------------------------
 
@@ -33,8 +29,7 @@ SLSTables$Lengths <- read_delim(file.path("data-raw", "SLS", "Lengths.txt"), del
                                     Tow = col_integer(),
                                     FishCode = col_integer(),
                                     Length = col_integer(),
-                                    entryorder = col_integer(),
-                                    YolkSacorOilPresent = col_logical()
+                                    entryorder = col_integer()
                                   )
 )%>%
   mutate(Date=mdy_hms(Date))
@@ -76,7 +71,8 @@ SLSTables$`Tow Info` <- read_delim(file.path("data-raw", "SLS", "Tow Info.txt"),
   # Just going to change this to UTC here b/c that's how the database from Access is read as
   # This gets changed later to America/Los_Angeles in creating the dataframes for the final table
   mutate(Time=mdy_hms(Time, tz="America/Los_Angeles"),
-         Date=mdy_hms(Date, tz="America/Los_Angeles"))%>%
+         Date=mdy_hms(Date, tz="America/Los_Angeles"),
+         CableOut=CableOut * 0.3048)%>% # Convert feet to meters
   rename(Notes_tow=Comments)
 
 SLSTables$`Water Info` <- read_delim(file.path("data-raw", "SLS", "Water Info.txt"), delim = ",",
@@ -179,34 +175,23 @@ SLS <- waterInfo %>%
   unite(Notes_tow, c(Notes_tow, Notes_env), sep = "; ", remove = T, na.rm = T) %>%
   arrange(Date, Datetime, Survey, Station, Tow, Taxa, Length) %>%
   # Dealing with plus counts
-  mutate(
-    SampleID=paste(Date, Station, Tow), # Creating SampleID index
-    # Each length input has its own entry/row here so no need to have a count of each length
-    Count = if_else(is.na(Length), Catch, (LengthFrequency/TotalLengthMeasured) * Catch),
-    # Creating Length_NA_flag to parallel the other survey datasets in LTMR
-    Length_NA_flag = if_else(is.na(Count), "No fish caught", NA_character_),
-    # Creating Method column; Adam described this as an "Olbique tow", significantly diff from WMT
-    Method = "Oblique tow",
-    # For YolkSacorOilPresent, ONLY Osmerids should have this data
-    # There is one entry for prickly sculpin, so will simply remove data
-    # for any species that is not an osmerid
-    # Fish code 1, 2, 3, 67 are: unID smelt, LFS, DS, and wakasagi
-    YolkSacorOilPresent = if_else(!FishCode %in% c(1, 2, 3, 67),
-                                  F, YolkSacorOilPresent),
-    # Creating SampleID as is asked by Sam
-    Source = "SLS",
-    # Filler column meant to hold position in select below
-    SampleID = paste(Source, index)) %>%
+  mutate(Source = "SLS",
+         SampleID=paste(Source, Date, Station, Tow), # Creating SampleID index
+         # Each length input has its own entry/row here so no need to have a count of each length
+         Count = if_else(is.na(Length), as.numeric(Catch), (LengthFrequency/TotalLengthMeasured) * Catch),
+         # Creating Length_NA_flag to parallel the other survey datasets in LTMR
+         Length_NA_flag = if_else(is.na(Count), "No fish caught", NA_character_),
+         # Creating Method column; Adam described this as an "Olbique tow", significantly diff from WMT
+         Method = "Oblique tow")%>%
   # Removing CatchID and entryorder as they are not relevant to the dataset
   # Removing TopEC, BottomEC as they have been converted over the salinity already
   # Removing CBMeterSerial, CBMeterStart, CBMeterEnd, CBMeterCheck as CB not ran on the SLS
   select(Source, Station, Latitude = Lat, Longitude = Long,
-         Date, Datetime, Survey, SampleID, Method, Tow_volume,
-         Temp_surf, Sal_surf, Sal_bot, Secchi, Turbidity,
-         Depth, Tide, Cable_length=CableOut, Tow_duration=Duration,
-         Taxa, Length, Count,
-         YolkSacorOilPresent, Length_NA_flag,
-         Comments, MeterNotes = Notes)
+         Date, Datetime, Survey, Depth, SampleID, Method,
+         Tide, Sal_surf, Sal_bot, Temp_surf, Secchi, Turbidity, Tow_volume,
+         Cable_length=CableOut, Tow_duration=Duration,
+         Taxa, Length, Count, Length_NA_flag,
+         Notes_tow, Notes_flowmeter = Notes)
 
 # # Just to make sure that no duplications occurred; lengths should be the same
 # all.equal(lengths$Length %>% sum(na.rm = T),
