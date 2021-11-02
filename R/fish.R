@@ -28,7 +28,7 @@ fish<-function(sources,
     stop("sources must contain some of the following options: 'Baystudy', 'Suisun', 'FMWT', 'SKT', 'DJFMP', 'EDSM', 'TMM'")
   }
 
-  data(list=sources, envir=environment())
+  data(list=sources, envir=environment(), package="LTMRdata")
   data<-dplyr::bind_rows(mget(sources))
   rm(list=sources, envir = environment())
   gc()
