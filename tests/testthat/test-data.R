@@ -1,4 +1,4 @@
-data<-bind_rows(LTMRdata::Baystudy, LTMRdata::Suisun, LTMRdata::FMWT, LTMRdata::DJFMP, LTMRdata::EDSM, LTMRdata::TMM)
+data<-bind_rows(LTMRdata::Baystudy, LTMRdata::Suisun, LTMRdata::FMWT, LTMRdata::DJFMP, LTMRdata::EDSM, LTMRdata::TMM, LTMRdata::SLS)
 
 test_that("All Lats are between 37 and 39 and all Longs are between -123 and -121", {
   expect_true(all((data$Latitude<39.3 & data$Latitude>37) | is.na(data$Latitude)))

@@ -128,7 +128,7 @@
 #'   \item{Secchi_estimated}{Was Secchi depth estimated?}
 #'   \item{Tow_volume}{Volume towed (\ifelse{html}{\out{m<sup>3</sup>}}{\eqn{m^{3}}}).}
 #'   \item{Tow_direction}{Tow direction relative to current.}
-#'   \item{Cable_length}{Length of cable released when net deployed (feet?).}
+#'   \item{Cable_length}{Length of cable released when net deployed (m).}
 #'   \item{Taxa}{Scientific name.}
 #'   \item{Length}{Fork length from tip of the snout to a point at the fork of the caudal fin (mm).}
 #'   \item{Count}{Estimated count for each sample, taxa, and length.}
@@ -204,6 +204,42 @@
 #'   \item{Count}{Estimated count for each sample, taxa, and length.}
 #'   }
 "SKT_measured_lengths"
+
+#' FMWT dataset
+#'
+#' California Department of Fish and Wildlife Fall Midwater Trawl data.
+#'
+#' @encoding UTF-8
+#' @format a tibble with 254,540 rows and 22 variables
+#' \describe{
+#'   \item{Source}{Name of source dataset.}
+#'   \item{Station}{Station where sample was collected.}
+#'   \item{Latitude}{Latitude (decimal degrees).}
+#'   \item{Longitude}{Longitude (decimal degrees).}
+#'   \item{Date}{Date sample was collected.}
+#'   \item{Datetime}{Date and time sample was collected.}
+#'   \item{Survey}{Survey number, roughly corresponding to month.}
+#'   \item{Depth}{Bottom depth (m).}
+#'   \item{SampleID}{Unique sample identifier.}
+#'   \item{Method}{Sampling method.}
+#'   \item{Tide}{Tidal stage.}
+#'   \item{Sal_surf}{Surface salinity.}
+#'   \item{Sal_bot}{Bottom salinity.}
+#'   \item{Temp_surf}{Surface temperature in °C.}
+#'   \item{Secchi}{Secchi depth (cm).}
+#'   \item{Turbidity}{Turbidity (units).}
+#'   \item{Tow_volume}{Volume towed (\ifelse{html}{\out{m<sup>3</sup>}}{\eqn{m^{3}}}).}
+#'   \item{Cable_length}{Length of cable released when net deployed (m).}
+#'   \item{Tow_duration}{Duration of tow (minutes).}
+#'   \item{Taxa}{Scientific name.}
+#'   \item{Length}{Fork length (mm).}
+#'   \item{Count}{Estimated count for each sample, taxa, and length.}
+#'   \item{Length_NA_flag}{Why is the length NA?}
+#'   \item{Notes_tow}{Notes or comments on the trawl.}
+#'   \item{Notes_flowmeter}{Notes or comments on the flowmeter reading.}
+#'   }
+#' @details More metadata and information on methods are available \href{https://www.dfg.ca.gov/delta/projects.asp?ProjectID=FMWT}{here}.
+"SLS"
 
 #' Species codes
 #'
@@ -338,7 +374,7 @@
 #'   \item{Secchi}{Secchi depth (cm).}
 #'   \item{Tow_volume}{Volume towed (\ifelse{html}{\out{m<sup>3</sup>}}{\eqn{m^{3}}}).}
 #'   \item{Tow_direction}{Tow direction relative to current. Not recorded but field is included here for consistency.}
-#'   \item{Cable_length}{Length of cable released when net deployed (feet).}
+#'   \item{Cable_length}{Length of cable released when net deployed (m).}
 #'   \item{Taxa}{Scientific name.}
 #'   \item{Length}{Fork length from tip of the snout to a point at the fork of the caudal fin (mm).}
 #'   \item{Count}{Estimated count for each sample, taxa, and length.}

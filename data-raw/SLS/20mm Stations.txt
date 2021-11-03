@@ -1,0 +1,62 @@
+"Station","LatD","LatM","LatS","LonD","LonM","LonS","RKI","Location","AreaCode","Notes"
+997,,,,,,,,"Old River near the CVP federal pumping facility",,"Discontinued Station.Sampled only once. Supp. Survey 12 6/1999"
+998,,,,,,,,"Old River near the CVP federal pumping facility",,"Discontinued Station.Sampled only once. Supp. Survey 12 6/1999"
+999,,,,,,,,"Old River near the CVP federal pumping facility",,"Discontinued Station.Sampled only once. Supp. Survey 12 6/1999"
+323,38,2,53.90,122,16,58.10,"LSPE10","San Pablo Bay Rodeo Flats Opp. end of  rock wall",1,
+328,38,3,37.10,122,21,0.00,"LSPD12","SP Bay-About 1900 yds NW of Ship Channel Light 11",1,"High Outflow Station only"
+329,38,3,49.00,122,18,14.40,"LSPD16","SP Bay 800 yds N of Ship Channel Light 13",1,"High Outflow Station only"
+334,38,4,35.00,122,20,16.80,"LSPC14","SP Bay-3000 yds N of Ship Channel Light 11",1,"High Outflow Station only"
+335,38,4,16.00,122,19,26.40,"LSPC16","SP Bay-2700 yds NW of rock wall on flats",1,"High Outflow Station only"
+336,38,3,39.90,122,16,40.80,"RSAC040","SP Bay along N side of channel E of Light 15",1,"High Outflow Station only"
+340,38,5,57.40,122,15,48.40,"RNAP005","Napa River along Vallejo seawall and park",2,
+341,38,7,38.10,122,16,43.60,"RNAP007","Napa R .6km N of Dutchman Slough",2,"Discontinued Station. Started sampling 1996 survey 2. Only sampled twice survey 2 & 3 1996."
+342,38,8,45.10,122,17,6.30,"RNAP009","Napa River at South Slough",2,"Started sampling 1996 survey 2"
+343,38,11,8.90,122,18,39.50,"RNAP015","Napa River at Napa Slough",2,"Started sampling 1996 survey 2"
+344,38,12,44.90,122,18,25.80,"RNAP019","Napa R at Fagan Slough",2,"Started sampling 1996 survey 2"
+345,38,13,54.40,122,17,33.90,"RNAP021","Napa River 1km upstrm  North confl Steamboat Sl.",2,"Started sampling 1996 survey 2"
+346,38,14,27.30,122,17,7.30,"RNAP023","Napa River .7 km South of Horseshoe Bend",2,"Started sampling 1996 survey 2"
+405,38,2,22.90,122,9,1.80,"RSAC054","Carquinez Strait just W of Benecia army dock",3,
+411,38,3,4.70,122,4,59.90,"RSAC059","Suisun Bay just W of Point Edith",3,
+418,38,3,53.30,122,5,52.10,"LSBB04","Suisun Bay near surplus ships, opposite Avon oil docks",3,
+501,38,5,17.60,122,0,12.90,"LSBA5","Suisun Bay between Roe and Ryer Islands",6,
+504,38,3,39.80,122,0,49.40,"RSAC068","Suisun Bay just E of Middle Point",6,
+508,38,2,43.80,121,55,7.70,"RSAC075","Suisun Bay off Chipps Island, opposite Sacramento N Ferry Slip",6,
+513,38,3,29.90,121,52,4.80,"RSAC079","Sacramento River between vanSickle & Winter Island at Light 34",7,
+519,38,4,20.30,121,57,34.90,"LSBB23","Honker Bay,W end at Dolphin",6,
+520,38,1,58.10,121,52,9.50,"SLNY1","New York Slough,W end along Pittsburg dock",7,
+602,38,6,50.40,122,2,46.30,"LSBB11","Grizzly Bay NE of Suisun Slough at Dolphin",4,
+606,38,10,10.10,122,1,32.40,"SLMZU06","Montezuma Slough off Joice Island at PG&E cable crossing",5,
+609,38,10,1.90,121,56,16.80,"SLMZU16","Montezuma Slough at Nurse Slough",5,
+610,38,7,7.70,121,53,21.10,"SLMZU25","Montezuma Slough at road from Bird's Landing",5,
+703,38,2,31.90,121,47,42.80,"LSHL1","Sherman Lake Loop at marker",8,
+704,38,4,9.00,121,46,31.00,"RSAC087","Sacramento River N side across from Sherman Lake",8,
+705,38,5,13.60,121,42,33.00,"LHSB2","Horseshoe Bend at Decker Lodge",8,
+706,38,5,6.70,121,45,2.50,"RSAC092","Sacramento River below S tip of Decker Island",8,
+707,38,6,48.60,121,42,27.00,"RSAC096","Sacramento River at Three Mile Slough in channel from Light 19-21",8,
+711,38,10,43.70,121,39,55.10,"RSAC104","Sacramento River at tip of Grand Island",8,
+716,38,15,29.80,121,41,29.90,"SLCCH10","Cache Slough at Shag Slough",8,
+801,38,2,37.30,121,50,38.40,"RSAN001","San Joaquin River -1km upstream of the mouth",7,
+802,38,1,15.00,121,43,49.40,"LBGB0","Big Break",7,"Discontinued Station. Only sampled in 1995 & 1996."
+804,38,1,5.50,121,47,49.20,"RSAN007","San Joaquin River SW tip of West lsland in S channel",10,
+809,38,3,9.00,121,41,21.10,"RSAN018","San Joaquin River N channel opposite Jersey Point",10,
+812,38,5,25.10,121,38,25.80,"RSAN026","San Joaquin River just west of Oulton Point",10,
+815,38,4,48.00,121,34,11.30,"RSAN035","San Joaquin River at mouth of Potato Slough between Lights 49&51",10,
+901,38,2,53.80,121,35,42.90,"LFKT1","Frank's Tract",10,
+902,38,1,9.10,121,34,55.90,"ROLD05","Old River at mouth of Holland Cut",12,
+906,38,3,6.10,121,30,32.40,"RSAN042","San Joaquin River at Medford Island between Lights 8 & 10.",12,
+910,38,0,6.50,121,26,55.30,"RSAN050","San Joaquin River between Hog and Turner Cut at Light 21",12,
+912,37,57,57.60,121,22,2.30,"RSAN058","San Joaquin River at mouth of Calaveras River, Light 41",12,
+914,37,58,17.40,121,31,12.00,"RMID12","Middle River at Empire Cut, along E arm of river",12,
+915,37,56,33.00,121,33,48.60,"ROLD28","Old River W arm at railroad bridge",12,
+918,37,51,33.50,121,34,7.70,"ROLD39","Old River NW of Coney Island",12,
+919,38,6,17.30,121,29,31.20,"SLLPT5","Little Potato Slough, 1 km E of Terminous",11,
+330,38,3,49.00,122,18,14.40,,"Along rock wall, next to station 329",1,"Discontinued Station. Only sampled once survey 3 1995"
+347,38,15,17.70,122,17,0.30,"RNAP024","Napa River next to Horseshoe Bend",2,"Discontinued Station. Only sampled once survey 8 1996 and Additional station added for the ACOE (2001 & 2002)"
+348,38,16,23.10,122,17,4.70,"RNAP026","Napa River 1 km upstrm of JFK Memorial Park boat ramp",2,"Discontinued Station. Additional station added for the ACOE (2001 & 2002)"
+349,38,17,10.10,122,17,0.20,"RNAP028","Napa River at Jacks Bend (Tulucay Creek)",2,"Discontinued Station. Additional station added for the ACOE (2001 & 2002)"
+718,38,15,29.90,121,43,28.20,"SLLIN05","Lindsey Slough: above Hastings Island Bridge, under power lines, twin pipes north side.",8,"Started sampling 2008 Survey 1 (Old NBA Survey Station)"
+720,38,15,38.50,121,46,27.10,"SLLIN10","Lindsey Slough: just past turn, small inlet on one side",8,"Started sampling 2008 Survey 1 (Old NBA Survey Station)"
+723,38,14,33.00,121,40,11.00,"SHSAC03","Sac Deepwater Channel: channel markers green #51 and red #52.",8,"Started sampling 2008 Survey 1 (Old NBA Survey Station)"
+724,38,14,33.00,121,39,34.00,"SLMIN02","Miner Slough: pipe on west side, palm trees above levee straight ahead.",8,"Started sampling 2008 Survey 1 (Old NBA Survey Station)"
+726,38,16,9.00,121,38,24.00,"SLMIN08","Miner Slough: pipe on east side with a cement footing",8,"Started sampling 2008 Survey 1 (Old NBA Survey Station)"
+719,38,19,98.50,121,39,87.70,"SHSAC12","Sac Deepwater Channel: channel markers green #59 and red #60",8,"Started sampling 2008 Survey 1 (SKT Survey Station)"

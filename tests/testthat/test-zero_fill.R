@@ -2,7 +2,7 @@ require(LTMRdata)
 require(dplyr)
 
 species <- c("Clupea pallasii", "Morone saxatilis", "Parophrys vetulus", "Sardinops sagax")
-sources<-c("Suisun", "FMWT", "SKT", "EDSM", "TMM")
+sources<-c("Suisun", "FMWT", "SKT", "EDSM", "TMM", "SLS")
 
 Data <- fish(sources=sources, convert_lengths=TRUE, zero_fill=FALSE)%>%
   select(all_of(c("SampleID", "Taxa", "Length", "Count", "Notes_catch", "Length_NA_flag")))
@@ -27,7 +27,7 @@ Data_filled_univariate_multspecies <- zero_fill(Data, species=species, remove_un
 
 Data_filled_multivariate <- zero_fill(Data, remove_unknown_lengths=TRUE, univariate=FALSE)
 
-data_samples<-bind_rows(LTMRdata::Suisun, LTMRdata::FMWT, LTMRdata::EDSM, LTMRdata::TMM)%>%
+data_samples<-bind_rows(LTMRdata::Suisun, LTMRdata::FMWT, LTMRdata::EDSM, LTMRdata::TMM, LTMRdata::SLS)%>%
   group_by(SampleID)%>%
   summarise(Species=list(unique(Taxa)), .groups="drop")%>%
   rowwise()%>%

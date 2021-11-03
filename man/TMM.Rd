@@ -25,7 +25,7 @@ a tibble with 324,021 rows and 22 variables
   \item{Secchi}{Secchi depth (cm).}
   \item{Tow_volume}{Volume towed (\ifelse{html}{\out{m<sup>3</sup>}}{\eqn{m^{3}}}).}
   \item{Tow_direction}{Tow direction relative to current. Not recorded but field is included here for consistency.}
-  \item{Cable_length}{Length of cable released when net deployed (feet).}
+  \item{Cable_length}{Length of cable released when net deployed (m).}
   \item{Taxa}{Scientific name.}
   \item{Length}{Fork length from tip of the snout to a point at the fork of the caudal fin (mm).}
   \item{Count}{Estimated count for each sample, taxa, and length.}
