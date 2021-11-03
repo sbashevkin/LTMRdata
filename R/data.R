@@ -225,6 +225,51 @@
 #'   }
 "Species"
 
+#' STN dataset
+#'
+#' California Department of Fish and Wildlife Summer Townet Survey (STN) data.
+#'
+#' @encoding UTF-8
+#' @format a tibble with 182,431 rows and 22 variables
+#' \describe{
+#'   \item{Source}{Name of source dataset.}
+#'   \item{Station}{Station where sample was collected.}
+#'   \item{Latitude}{Latitude (decimal degrees).}
+#'   \item{Longitude}{Longitude (decimal degrees).}
+#'   \item{Date}{Date sample was collected.}
+#'   \item{Datetime}{Date and time sample was collected.}
+#'   \item{Survey}{Survey number, roughly corresponding to month.}
+#'   \item{TowNum}{Tow number, unique to a given station visit.}
+#'   \item{Depth}{Bottom depth (m).}
+#'   \item{SampleID}{Unique sample identifier.}
+#'   \item{Method}{Sampling method (STN trawl).}
+#'   \item{Tide}{Tidal stage.}
+#'   \item{Sal_surf}{Surface salinity.}
+#'   \item{Temp_surf}{Surface temperature in °C.}
+#'   \item{Secchi}{Secchi depth (cm).}
+#'   \item{Tow_volume}{Volume towed (\ifelse{html}{\out{m<sup>3</sup>}}{\eqn{m^{3}}}).}
+#'   \item{Tow_direction}{Tow direction relative to current.}
+#'   \item{Cable_length}{Length of cable released when net deployed (feet).}
+#'   \item{Taxa}{Scientific name.}
+#'   \item{Length}{Fork length from the most anterior part of the fish to the median caudal fin rays (mm).}
+#'   \item{Count}{Estimated count for each sample, taxa, and length.}
+#'   \item{Length_NA_flag}{Why is the length NA?}
+#'   }
+#' @details More metadata and information on methods are available \href{https://wildlife.ca.gov/Conservation/Delta/Townet-Survey}{here}.
+"STN"
+
+#' STN measured lengths
+#'
+#' Only measured lengths from the STN data
+#' @format a tibble with 182,431 rows and 4 variables
+#' \describe{
+#'   \item{SampleID}{Unique sample identifier.}
+#'   \item{Taxa}{Scientific name.}
+#'   \item{Length}{Fork length from the most anterior part of the fish to the median caudal fin rays (mm).}
+#'   \item{Count}{Number of fish measured to this length.}
+#'   }
+"STN_measured_lengths"
+
 #' Suisun Marsh dataset
 #'
 #' UC Davis Suisun Marsh Fish Study data.
