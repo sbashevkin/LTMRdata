@@ -5,13 +5,15 @@
 \alias{Species}
 \title{Species codes}
 \format{
-a tibble with 254 rows and 9 variables
+a tibble with 254 rows and 11 variables
 \describe{
   \item{Baystudy_Code}{Bay Study code.}
   \item{CommonName}{Common name.}
   \item{SMF_Code}{Suisun Marsh Fish Study code.}
   \item{SKT_Code}{Spring Kodiak Trawl code.}
   \item{FMWT_Code}{Fall Midwater Trawl code.}
+  \item{TMM_Code}{20-mm Survey code.}
+  \item{STN_Code}{Summer Townet Survey code.}
   \item{ScientificName}{Scientific name.}
   \item{Taxa}{Scientific name and life stage.}
   \item{Lifestage}{Lifestage if specified.}

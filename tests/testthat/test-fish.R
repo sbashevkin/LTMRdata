@@ -1,19 +1,18 @@
 # Set up data -------------------------------------------------------------
 
-sources<-c("Baystudy", "Suisun", "FMWT", "SKT", "DJFMP", "EDSM", "TMM")
+sources<-c("Baystudy", "Suisun", "FMWT", "SKT", "DJFMP", "EDSM", "TMM", "SLS")
 
 test_that("fish produces warning messages", {
   expect_message(unconverted <<- fish(sources=sources, convert_lengths=FALSE, zero_fill=FALSE)%>%
                    mutate(ID=paste(SampleID, Taxa, Length, Notes_catch)), "NOTE: Length data are not consistent across studies")
-  expect_message(converted <<- fish(sources=sources, convert_lengths=TRUE, remove_unconverted_lengths=FALSE, zero_fill=FALSE)%>%
+  expect_message(converted <<- fish(sources=sources, convert_lengths=TRUE, zero_fill=FALSE)%>%
                    mutate(ID=paste(SampleID, Taxa, Length, Notes_catch)), "NOTE: Length data are not entirely consistent across studies.")
 })
 
-
 ## Length conversions ------------------------------------------------------
 
-converted_suisun <- fish(sources="Suisun", convert_lengths=TRUE, remove_unconverted_lengths=TRUE)%>%
-  filter(!is.na(Length))%>%
+converted_suisun <- fish(sources="Suisun", convert_lengths=TRUE)%>%
+  filter(!is.na(Length) & Taxa%in%unique(Length_conversions$Species))%>%
   group_by(SampleID, Taxa)%>%
   filter(Length==min(Length))%>%
   ungroup()
@@ -29,19 +28,27 @@ unconverted_suisun <- unconverted%>%
 
 combined<-left_join(converted_suisun, unconverted_suisun)
 
-## Zero conversion and species filtering -----------------------------------
+
+# Test size cutoff --------------------------------------------------------
 
 cutoff=40
-converted_cutoff <- fish(sources=sources, convert_lengths=TRUE, remove_unconverted_lengths=FALSE, size_cutoff=cutoff, zero_fill=FALSE)
+converted_cutoff <- fish(sources=sources, convert_lengths=TRUE, size_cutoff=cutoff, zero_fill=FALSE)
+
+## Zero conversion and species filtering -----------------------------------
 
 species <- c("Clupea pallasii", "Morone saxatilis", "Parophrys vetulus", "Sardinops sagax")
-zero_filled<-fish(sources=sources, species=species, convert_lengths=TRUE, remove_unconverted_lengths=FALSE, zero_fill=FALSE)
+zero_filled<-fish(sources=sources, species=species, convert_lengths=TRUE, zero_fill=TRUE)
 
+Data<-bind_rows(LTMRdata::Baystudy, LTMRdata::Suisun, LTMRdata::FMWT, LTMRdata::DJFMP, LTMRdata::EDSM, LTMRdata::TMM, LTMRdata::SLS)%>%
+  group_by(SampleID)%>%
+  summarise(Species=list(unique(Taxa)), .groups="drop")%>%
+  rowwise()%>%
+  filter(!any(Species%in%species))
 # Run tests ---------------------------------------------------------------
 
 test_that("fish simply binds together dataframes when convert_lengths=FALSE", {
-  expect_equal(nrow(unconverted), nrow(LTMRdata::Baystudy)+nrow(LTMRdata::FMWT)+nrow(LTMRdata::Suisun)+nrow(LTMRdata::DJFMP)+nrow(LTMRdata::EDSM)+nrow(LTMRdata::SKT)+nrow(LTMRdata::TMM))
-  expect_setequal(names(select(unconverted, -ID)), unique(c(names(LTMRdata::Baystudy), names(LTMRdata::FMWT), names(LTMRdata::Suisun), names(LTMRdata::DJFMP), names(LTMRdata::EDSM), names(LTMRdata::SKT), names(LTMRdata::TMM))))
+  expect_equal(nrow(unconverted), nrow(LTMRdata::Baystudy)+nrow(LTMRdata::FMWT)+nrow(LTMRdata::Suisun)+nrow(LTMRdata::DJFMP)+nrow(LTMRdata::EDSM)+nrow(LTMRdata::SKT)+nrow(LTMRdata::TMM)+nrow(LTMRdata::SLS))
+  expect_setequal(names(select(unconverted, -ID)), unique(c(names(LTMRdata::Baystudy), names(LTMRdata::FMWT), names(LTMRdata::Suisun), names(LTMRdata::DJFMP), names(LTMRdata::EDSM), names(LTMRdata::SKT), names(LTMRdata::TMM), names(LTMRdata::SLS))))
 })
 
 test_that("No lengths are 0 or negative", {
@@ -72,7 +79,7 @@ test_that("Converting lengths does not change the number of rows or columns or t
 
 
 test_that("FMWT, Baystudy, SKT, DJFMP, EDSM, and TMM lengths are not altered by length conversion, but Suisun lengths are", {
-  expect_equal(filter(converted, Source%in%c("Baystudy", "FMWT", "SKT", "DJFMP", "EDSM", "TMM")), filter(unconverted, Source%in%c("Baystudy", "FMWT", "SKT", "DJFMP", "EDSM", "TMM")))
+  expect_equal(filter(converted, Source%in%c("Baystudy", "FMWT", "SKT", "DJFMP", "EDSM", "TMM", "SLS")), filter(unconverted, Source%in%c("Baystudy", "FMWT", "SKT", "DJFMP", "EDSM", "TMM", "SLS")))
   expect_false(isTRUE(all.equal(filter(converted, Source%in%c("Suisun")), filter(unconverted, Source%in%c("Suisun")))))
 })
 
@@ -89,7 +96,11 @@ test_that("Converted Suisun fork lengths are longer than standard length", {
 
 ## Species filtering and zero fill -----------------------------------------
 
-
 test_that("species filtering works correctly", {
   expect_setequal(unique(filter(zero_filled, !is.na(Taxa))$Taxa), species)
+})
+
+test_that("zero_fill is correctly filling in 0s", {
+  expect_equal(length(setdiff(unique(Data$SampleID), unique(zero_filled$SampleID))), 0)
+  expect_true(all(filter(zero_filled, SampleID%in%unique(Data$SampleID))$Count==0))
 })

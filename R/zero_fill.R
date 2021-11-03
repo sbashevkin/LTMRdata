@@ -37,10 +37,24 @@
 
 zero_fill <- function(data, species=NULL, remove_unknown_lengths=TRUE, univariate=TRUE){
 
+  data_env<-data%>%
+    dplyr::select(-tidyselect::any_of(c("Taxa", "Length", "Count", "Notes_catch", "Length_NA_flag")))%>%
+    dplyr::distinct()
+
+  if(any(duplicated(data_env$SampleID))){
+    stop("Something went wrong and rows were duplicated")
+  }
+
+  data<-data%>%
+    dplyr::select(tidyselect::any_of(c("SampleID", "Taxa", "Length", "Count", "Notes_catch", "Length_NA_flag")))
+
+  gc()
+
   if(!is.null(species)){
     if(!all(species%in%unique(data$Taxa))){
       message(paste0("These species were not present in your data: ", paste(setdiff(species, unique(data$Taxa)), collapse=", ")))
     }
+    samples<-unique(data$SampleID)
     data <- dplyr::filter(data, .data$Taxa%in%species | is.na(.data$Taxa))
   }
 
@@ -61,18 +75,18 @@ zero_fill <- function(data, species=NULL, remove_unknown_lengths=TRUE, univariat
       dplyr::filter(!.data$SampleID%in%remove)
   }
 
-  data_env<-data%>%
-    dplyr::select(-tidyselect::any_of(c("Taxa", "Length", "Count", "Notes_catch", "Length_NA_flag")))%>%
-    dplyr::distinct()
-
-  if(any(duplicated(data_env$SampleID))){
-    stop("Something went wrong and rows were duplicated")
+  if(!is.null(species)){
+    # For species filtering, make sure all sample are included, even if the study species was not caught
+    data<-data%>%
+      dplyr::select(tidyselect::any_of(c("SampleID", "Taxa", "Length", "Count", "Notes_catch", "Length_NA_flag")))%>%
+      dplyr::mutate(SampleID=factor(.data$SampleID, levels=samples))%>%
+      tidyr::complete(.data$SampleID, .data$Taxa, fill=list(Count=0))%>%
+      dplyr::mutate(SampleID=as.character(.data$SampleID))
+  }else{
+    data<-data%>%
+      dplyr::select(tidyselect::any_of(c("SampleID", "Taxa", "Length", "Count", "Notes_catch", "Length_NA_flag")))%>%
+      tidyr::complete(.data$SampleID, .data$Taxa, fill=list(Count=0))
   }
-
-  data<-data%>%
-    dplyr::select(tidyselect::any_of(c("SampleID", "Taxa", "Length", "Count", "Notes_catch", "Length_NA_flag")))%>%
-    tidyr::complete(.data$SampleID, .data$Taxa, fill=list(Count=0))%>%
-    dplyr::left_join(data_env, by="SampleID")
 
   gc()
 
@@ -91,7 +105,8 @@ zero_fill <- function(data, species=NULL, remove_unknown_lengths=TRUE, univariat
   }
 
   data<-data%>%
-    dplyr::filter(!is.na(.data$Taxa))
+    dplyr::filter(!is.na(.data$Taxa))%>%
+    dplyr::left_join(data_env, by="SampleID")
 
   return(data)
 }

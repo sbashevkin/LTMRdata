@@ -8,7 +8,6 @@ fish(
   sources,
   species = NULL,
   convert_lengths = TRUE,
-  remove_unconverted_lengths = FALSE,
   size_cutoff = NULL,
   zero_fill = TRUE,
   remove_unknown_lengths = TRUE,
@@ -17,13 +16,11 @@ fish(
 )
 }
 \arguments{
-\item{sources}{Which data sources would you like included? Options include: "Baystudy", "Suisun", "FMWT", "SKT", "DJFMP", "EDSM", and "TMM".}
+\item{sources}{Which data sources would you like included? Options include: "Baystudy", "Suisun", "FMWT", "SKT", "DJFMP", "EDSM", "TMM", and "SLS".}
 
 \item{species}{Character vector of species to include. Set \code{species=NULL} (the default) to include all species. It is recommended to filter to species of interest using this option.}
 
 \item{convert_lengths}{Should all species with conversion equations have their lengths converted to fork length (or total length if no fork)?}
-
-\item{remove_unconverted_lengths}{Should all species without a conversion equation be removed? Defaults to \code{FALSE}. Ignored if \code{convert_lengths=FALSE}.}
 
 \item{size_cutoff}{Minimum fish length (in mm) that should be retained in the data. Any fish below this length will be removed.
 It is advised to convert lengths before using this option. All \code{NA} lengths will be retained. Set \code{size_cutoff=NULL} to keep all sizes.}
@@ -53,7 +50,7 @@ You can fill in 0s for multiple univariate analyses simultaneously by passing th
 \examples{
 \dontrun{
 data<-fish(c("Baystudy", "Suisun", "FMWT", "SKT", "DJFMP", "EDSM"),
-remove_unconverted_lengths=FALSE, size_cutoff=40)
+size_cutoff=40)
 }
 }
 \seealso{

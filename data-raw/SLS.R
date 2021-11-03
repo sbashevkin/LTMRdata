@@ -1,10 +1,8 @@
-# Issues
-# 2) Add documentation to data.R
-
 # Reading the data --------------------------------------------------------
 
 library(tidyverse)
 library(lubridate)
+require(LTMRdata)
 filesToRead <- list.files(path=file.path("data-raw", "SLS"), pattern = ".txt")
 SLSTables <- list()
 
@@ -12,7 +10,7 @@ SLSTables$Catch <- read_delim(file.path("data-raw", "SLS", "Catch.txt"), delim =
                               col_types =
                                 cols_only(
                                   Date = col_character(),
-                                  Station = col_integer(),
+                                  Station = col_character(),
                                   Tow = col_integer(),
                                   FishCode = col_integer(),
                                   Catch = col_integer(),
@@ -25,7 +23,7 @@ SLSTables$Lengths <- read_delim(file.path("data-raw", "SLS", "Lengths.txt"), del
                                 col_types =
                                   cols_only(
                                     Date = col_character(),
-                                    Station = col_integer(),
+                                    Station = col_character(),
                                     Tow = col_integer(),
                                     FishCode = col_integer(),
                                     Length = col_integer(),
@@ -50,7 +48,7 @@ SLSTables$`Tow Info` <- read_delim(file.path("data-raw", "SLS", "Tow Info.txt"),
                                    col_types =
                                      cols_only(
                                        Date = col_character(),
-                                       Station = col_integer(),
+                                       Station = col_character(),
                                        Tow = col_integer(),
                                        Time = col_character(),
                                        Tide = col_character(),
@@ -80,29 +78,36 @@ SLSTables$`Water Info` <- read_delim(file.path("data-raw", "SLS", "Water Info.tx
                                        cols_only(
                                          Survey = col_integer(),
                                          Date = col_character(),
-                                         Station = col_integer(),
+                                         Station = col_character(),
                                          Temp = col_double(),
                                          TopEC = col_integer(),
                                          BottomEC = col_integer(),
                                          Secchi = col_integer(),
                                          Turbidity = col_integer(),
-                                         Lat = col_character(),
-                                         Long = col_character(),
                                          Comments = col_character()
                                        )
 )%>%
   mutate(Date=mdy_hms(Date))%>%
   rename(Notes_env=Comments)
 
+SLSTables$`20mm Stations`<-read_delim(file.path("data-raw", "SLS", "20mm Stations.txt"), delim = ",",
+                                      col_types =
+                                        cols_only(
+                                          Station = col_character(),
+                                          LatD = col_double(),
+                                          LatM = col_double(),
+                                          LatS = col_double(),
+                                          LonD = col_double(),
+                                          LonM = col_double(),
+                                          LonS = col_double()
+                                        ))%>%
+mutate(Latitude=(LatD + LatM/60 + LatS/3600),
+       Longitude= -(LonD + LonM/60 + LonS/3600))
+
 # Manipulating the data tables --------------------------------------------
 
 waterInfo <- SLSTables$`Water Info` %>%
-  # Formatting the lat/lon into decimal degrees.
-  mutate(across(c(Lat, Long), ~str_remove_all(.x, "-|\\.")),
-         # After removing the "." that is occassionally in the DegSec, can now just add periods back correctly for Lat/Lon
-         Lat = gsub('(?<=^.{2})', '.', Lat, perl = TRUE),
-         Long = gsub('(?<=^.{3})', '.', Long, perl = TRUE),
-         # Converting secchi from cm to m
+  mutate(# Converting secchi from cm to m
          Secchi = Secchi/100,
          # Converting EC to salinity
          # Per SOP normalized at temp = 25C; units are in millisiemens
@@ -171,22 +176,23 @@ SLS <- waterInfo %>%
                      Taxa) %>%
               filter(!is.na(TMM_Code)),
             by = c("FishCode"="TMM_Code")) %>%
+  left_join(SLSTables$`20mm Stations`,
+            by="Station")%>%
   # Merging the two comment columns together; they both have data in them
-  unite(Notes_tow, c(Notes_tow, Notes_env), sep = "; ", remove = T, na.rm = T) %>%
+  mutate(Notes_tow=paste(Notes_tow, Notes_env, sep = "; ")) %>%
   arrange(Date, Datetime, Survey, Station, Tow, Taxa, Length) %>%
-  # Dealing with plus counts
   mutate(Source = "SLS",
          SampleID=paste(Source, Date, Station, Tow), # Creating SampleID index
-         # Each length input has its own entry/row here so no need to have a count of each length
          Count = if_else(is.na(Length), as.numeric(Catch), (LengthFrequency/TotalLengthMeasured) * Catch),
          # Creating Length_NA_flag to parallel the other survey datasets in LTMR
          Length_NA_flag = if_else(is.na(Count), "No fish caught", NA_character_),
          # Creating Method column; Adam described this as an "Olbique tow", significantly diff from WMT
-         Method = "Oblique tow")%>%
+         Method = "Oblique tow",
+         Station=as.character(Station))%>%
   # Removing CatchID and entryorder as they are not relevant to the dataset
   # Removing TopEC, BottomEC as they have been converted over the salinity already
   # Removing CBMeterSerial, CBMeterStart, CBMeterEnd, CBMeterCheck as CB not ran on the SLS
-  select(Source, Station, Latitude = Lat, Longitude = Long,
+  select(Source, Station, Latitude, Longitude,
          Date, Datetime, Survey, Depth, SampleID, Method,
          Tide, Sal_surf, Sal_bot, Temp_surf, Secchi, Turbidity, Tow_volume,
          Cable_length=CableOut, Tow_duration=Duration,
