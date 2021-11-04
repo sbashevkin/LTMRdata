@@ -87,7 +87,8 @@ sampleSTN <- Sample %>%
 								                TowVolm3)) %>%
   dplyr::arrange(SampleDate, Survey, StationCode, TowNumber) %>%
   dplyr::mutate(Source="STN",
-                SampleID=paste(Source, 1:nrow(.)),
+                TowNumber=if_else(SampleRowID==7078 & TowNumber==1 & TowRowID==12153, as.integer(2), TowNumber),
+                SampleID=paste(Source, SampleDate, Survey, StationCode, TowNumber),
                 Method="STN Net",
                 TowTime=substring(TimeStart,12),
                 Datetime=paste(SampleDate, TowTime),
@@ -98,7 +99,7 @@ sampleSTN <- Sample %>%
                                          "%Y-%m-%d %%H:%M:%S",
                                          tz="America/Los_Angeles"),
                 Depth=DepthBottom*0.3048, # Convert depth from feet to m
-                Cable_length=CableOut,    # in feet, based on CDFW's metadata
+                Cable_length=CableOut*0.3048, # Convert to m from feet
                 Temp_surf=TemperatureTop, # degrees Celsius
                 ## Secchi is already in cm.
 
@@ -106,13 +107,12 @@ sampleSTN <- Sample %>%
                 ## ConductivityTop is in micro-S/cm at 25 degrees Celsius.
                 ## Input for ec2pss should be in milli-S/cm.
                 Sal_surf=wql::ec2pss(ConductivityTop/1000, t=25),
-
                 Latitude=(LatD + LatM/60 + LatS/3600),
                 Longitude= -(LonD + LonM/60 + LonS/3600)) %>%
   dplyr::left_join(luMicrocystis, by=c("Microcystis"="MicrocystisID")) %>%
   dplyr::left_join(luTide, by=c("TideCode"="TideRowID")) %>%
   dplyr::left_join(luTowDirection, by=c("TowDirection"="TowDirectionID")) %>%
-  dplyr::mutate(Tide=TideDesc,
+  dplyr::rename(Tide=TideDesc,
                 Tow_direction=TowDirection.y,
                 TowNum=TowNumber,
                 Tow_volume=TowVolm3,
@@ -123,15 +123,16 @@ sampleSTN <- Sample %>%
 
 
 fish_totalCatch <- Catch %>%
-  dplyr::filter(!is.na(Catch) & Catch > 0) %>%
-	dplyr::left_join(luOrganism, by=c("OrganismCode"="OrganismCodeSTN"))
+  dplyr::filter(!is.na(Catch) & Catch > 0)
 
-fish_lengthFreq_measured <- Length
-unique(fish_lengthFreq_measured$ForkLength)
+Length_measured<-Length%>%
+  filter(ForkLength!=0)%>%
+  group_by(CatchRowID, ForkLength)%>%
+  summarise(LengthFrequency=sum(LengthFrequency), .groups="drop")
 
 
 fish_adjustedCount <- fish_totalCatch %>%
-  dplyr::left_join(fish_lengthFreq_measured,
+  dplyr::left_join(Length_measured,
 									 by="CatchRowID") %>%
   dplyr::group_by(TowRowID, CatchRowID, OrganismCode) %>%
   dplyr::mutate(TotalMeasured=sum(LengthFrequency, na.rm=TRUE)) %>%
@@ -167,16 +168,8 @@ STN <- sampleSTN %>%
 	## Add reasoning for any NA lengths:
   dplyr::mutate(Length_NA_flag=if_else(is.na(Catch), "No fish caught",
                                       NA_character_),
-                Station=as.character(Station))
-
-
-## 0 lengths:
-index_0 <- which(STN$ForkLength == 0 & !is.na(STN$Taxa))
-STN[index_0, ]
-STN$ForkLength[index_0] <- NA
-STN$Length_NA_flag[index_0] <- "Unknown length"
-STN[index_0, ]
-
+                Station=as.character(Station),
+                Taxa=stringr::str_remove(Taxa, " \\((.*)"))  # Remove life stage info from Taxa names)
 
 ## no lengths for calculating adjusted length frequencies (Count):
 ## use the Catch value from Catch as Count and change Length_NA_flag.
@@ -190,6 +183,10 @@ STN[index_1, ]
 ## Check that all organism code values are represented in Species:
 all(STN$OrganismCode %in% Species$STN_Code)
 
+STN<-STN%>%
+  select(-CatchNew, Catch, LengthFrequency)%>%
+  group_by(across(-Count))%>% # Add up any new multiples after removing lifestages
+  summarise(Count=sum(Count), .groups="drop")
 
 ## Create final measured lengths data frame:
 STN_measured_lengths <- STN %>%
@@ -205,7 +202,7 @@ names(STN_measured_lengths)
 ## Create final catch data frame:
 STN <- STN %>%
   dplyr::rename(Length=ForkLength) %>%
-  dplyr::select(-TowRowID, -OrganismCode, -LengthFrequency, -Catch, -CatchNew)
+  dplyr::select(-TowRowID, -OrganismCode, -LengthFrequency, -Catch)
 
 nrow(STN)
 ncol(STN)

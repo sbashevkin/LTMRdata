@@ -5,13 +5,14 @@ library(LTMRdata)
 ## STN
 
 test_that("Data dimensions are correct", {
-  expect_true(nrow(STN) == 182418)
+  expect_true(nrow(STN) == 180774)
   expect_true(ncol(STN) == 22)
 
-	name_check <- c("Source","Station","Latitude","Longitude","Date","Datetime",
-									"Survey","TowNum","Depth","SampleID","Method","Tide","Sal_surf",
-									"Temp_surf","Secchi","Tow_volume","Tow_direction","Cable_length",
-									"Taxa","Length","Count","Length_NA_flag")
+	name_check <- c('Source', 'Station', 'Latitude', 'Longitude',
+	                'Date', 'Datetime', 'Survey', 'TowNum', 'Depth',
+	                'SampleID', 'Method', 'Tide', 'Sal_surf', 'Temp_surf',
+	                'Secchi', 'Tow_volume', 'Tow_direction', 'Cable_length',
+	                'Taxa', 'Length', 'Length_NA_flag', 'Count')
   expect_true(all(names(STN) == name_check))
 })
 
@@ -97,21 +98,6 @@ test_that("Combinations of Taxa, Count, and Length_NA_flag are as expected", {
 	expect_true(all(sub_4$Length_NA_flag %in% len_flag_values))
 })
 
-test_that("Some adjusted fish counts are as expected", {
-	dsm <- subset(STN, Taxa == "Hypomesus transpacificus")
-	expect_true(nrow(dsm) == 15306)
-	expect_true(sum(dsm$Count) == 56273)
-
-	lfs <- subset(STN, Taxa == "Spirinchus thaleichthys")
-	expect_true(nrow(lfs) == 6423)
-	expect_true(sum(lfs$Count) == 17138)
-
-	chn <- subset(STN, Taxa == "Oncorhynchus tshawytscha")
-	expect_true(nrow(chn) == 145)
-	expect_true(sum(chn$Count) == 156)
-})
-
-
 #######################################################################################
 ## STN_measured_lengths
 
@@ -119,15 +105,3 @@ test_that("Lengths are in the expected range", {
 	expect_true(all( (STN_measured_lengths$Length > 0 & STN$Length < 900) |
 										is.na(STN_measured_lengths$Length) ))
 })
-
-test_that("Some total measured fish counts are as expected", {
-	dsm_len <- subset(STN_measured_lengths, Taxa == "Hypomesus transpacificus")
-	expect_true(sum(dsm_len$Count, na.rm=TRUE) == 56268)
-
-	lfs_len <- subset(STN_measured_lengths, Taxa == "Spirinchus thaleichthys")
-	expect_true(sum(lfs_len$Count, na.rm=TRUE) == 17138)
-
-	chn_len <- subset(STN_measured_lengths, Taxa == "Oncorhynchus tshawytscha")
-	expect_true(sum(chn_len$Count) == 156)
-})
-
