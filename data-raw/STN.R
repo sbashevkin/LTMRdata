@@ -174,10 +174,8 @@ STN <- sampleSTN %>%
 ## no lengths for calculating adjusted length frequencies (Count):
 ## use the Catch value from Catch as Count and change Length_NA_flag.
 index_1 <- which(!is.na(STN$Catch) & is.na(STN$Count))
-STN[index_1, ]
 STN$Count[index_1] <- STN$Catch[index_1]
 STN$Length_NA_flag[index_1] <- "Unknown length"
-STN[index_1, ]
 
 
 ## Check that all organism code values are represented in Species:
@@ -186,7 +184,8 @@ all(STN$OrganismCode %in% Species$STN_Code)
 STN<-STN%>%
   select(-CatchNew, Catch, LengthFrequency)%>%
   group_by(across(-Count))%>% # Add up any new multiples after removing lifestages
-  summarise(Count=sum(Count), .groups="drop")
+  summarise(Count=sum(Count), .groups="drop")%>%
+  mutate(ForkLength=as.numeric(ForkLength))
 
 ## Create final measured lengths data frame:
 STN_measured_lengths <- STN %>%
