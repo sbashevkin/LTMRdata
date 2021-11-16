@@ -163,10 +163,6 @@ YBFMP_measured_lengths <- length_yolo%>%
   summarise(Count=sum(LengthFrequency), .groups="drop")%>%
   select(SampleID, Taxa, Length=ForkLength, Count)  # Reorder variables for consistency
 
-
-## Effort
-YBFMP_trap_effort <- read_csv("https://portal.edirepository.org/nis/dataviewer?packageid=edi.233.2&entityid=ace1ef25f940866865d24109b7250955")
-
 # Clean up files -----------------------------------------------------------------
 rm(taxa_yolo, stations_yolo, sample_yolo, length_yolo, catch_yolo, catch_yolo_total, catchlength_yolo, yolodata, trapeffort, sample_effort, sample_yolo_numbers, sample_yolo_clean)
 
