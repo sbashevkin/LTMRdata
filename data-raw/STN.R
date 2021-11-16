@@ -46,22 +46,33 @@ unlink(tmpFile)
 library(dplyr)
 library(lubridate)
 library(wql)
+require(readr)
+require(stringr)
 require(LTMRdata)
 
 raw_data <- file.path("data-raw","STN")
 
-Catch <- read.csv(file.path(raw_data,"Catch.csv"), stringsAsFactors=FALSE)
-Length <- read.csv(file.path(raw_data,"Length.csv"), stringsAsFactors=FALSE)
-luMicrocystis <- read.csv(file.path(raw_data,"luMicrocystis.csv"), stringsAsFactors=FALSE)
-luOrganism <- read.csv(file.path(raw_data,"luOrganism.csv"), stringsAsFactors=FALSE)
-luStation <- read.csv(file.path(raw_data,"luStation.csv"), stringsAsFactors=FALSE)
-luTide <- read.csv(file.path(raw_data,"luTide.csv"), stringsAsFactors=FALSE)
-luTowDirection <- read.csv(file.path(raw_data,"luTowDirection.csv"), stringsAsFactors=FALSE)
-Sample <- read.csv(file.path(raw_data,"Sample.csv"), stringsAsFactors=FALSE)
-TowEffort <- read.csv(file.path(raw_data,"TowEffort.csv"), stringsAsFactors=FALSE)
-Web_Local_Meter_Corrections <- read.csv(file.path(raw_data,
+Catch <- read_csv(file.path(raw_data,"Catch.csv"),
+                  col_types=cols_only(CatchRowID="d", TowRowID="d", OrganismCode="d", Catch="d"))
+Length <- read_csv(file.path(raw_data,"Length.csv"),
+                   col_types=cols_only(LengthRowID="d", CatchRowID="d", ForkLength="d", LengthFrequency="d"))
+luStation <- read_csv(file.path(raw_data,"luStation.csv"),
+                      col_types=cols_only(StationCodeSTN="c", LatD="d", LatM="d", LatS="d", LonD="d", LonM="d", LonS="d"))
+luTide <- read_csv(file.path(raw_data,"luTide.csv"),
+                   col_types=cols_only(TideDesc="c", TideRowID="d"))
+luTowDirection <- read_csv(file.path(raw_data,"luTowDirection.csv"),
+                           col_types=cols_only(TowDirection="c", TowDirectionID="d"))
+Sample <- read_csv(file.path(raw_data,"Sample.csv"),
+                   col_types=cols_only(SampleRowID="d", SampleDate="c", StationCode="c", Survey="d",
+                                       TemperatureTop="d", Secchi="d", ConductivityTop="d",
+                                       TideCode="d", DepthBottom="d", CableOut="d", TowDirection="d"))
+TowEffort <- read_csv(file.path(raw_data,"TowEffort.csv"),
+                      col_types=cols_only(TimeStart="c", TowRowID="d", SampleRowID="d", TowNumber="d",
+                                          MeterSerial="d", MeterIn="d", MeterOut="d",
+                                          MeterDifference="d", MeterEstimate="d"))
+Web_Local_Meter_Corrections <- read_csv(file.path(raw_data,
                                                   "Web_Local_Meter_Corrections.csv"),
-                                        stringsAsFactors=FALSE)
+                                        col_types=cols_only(`Study Year`="d", `Meter Serial`="d", `k factor`="d"))
 
 
 suspect_fm_TowRowID <- c(6612,12815,2551,12786,8031,1857)
@@ -71,32 +82,31 @@ suspect_fm_TowRowID <- c(6612,12815,2551,12786,8031,1857)
 sampleSTN <- Sample %>%
 	dplyr::inner_join(TowEffort, by="SampleRowID") %>%
 	dplyr::left_join(luStation, by=c("StationCode"="StationCodeSTN")) %>%
-  dplyr::mutate(SampleDate=as.Date(SampleDate),
-                Year=lubridate::year(SampleDate)) %>%
+  dplyr::mutate(Date=parse_date_time(SampleDate, "%m/%d/%Y %H:%M:%S",
+                                           tz="America/Los_Angeles"),
+                Year=lubridate::year(Date)) %>%
 	dplyr::left_join(Web_Local_Meter_Corrections,
-	                 by=c("Year"="Study.Year","MeterSerial"="Meter.Serial")) %>%
+	                 by=c("Year"="Study Year","MeterSerial"="Meter Serial")) %>%
 	dplyr::mutate(MeterTotal=ifelse((MeterOut - MeterIn) < 0,
 																	(MeterOut + 1000000 - MeterIn),
 																	(MeterOut - MeterIn)),
-								TowVolm3=ifelse(is.na(MeterIn), 735, k.factor*MeterTotal*1.49),
+								TowVolm3=ifelse(is.na(MeterIn), 735, `k factor`*MeterTotal*1.49),
 								TowVolm3=ifelse(is.na(TowVolm3), 735, TowVolm3),
 								## Use CDFW default tow volume when comments indicate
 								## something went wrong with the flow meter or resulting
 								## volume is unusually small or large:
 								TowVolm3=ifelse(TowRowID %in% suspect_fm_TowRowID, 735,
 								                TowVolm3)) %>%
-  dplyr::arrange(SampleDate, Survey, StationCode, TowNumber) %>%
+  dplyr::arrange(Date, Survey, StationCode, TowNumber) %>%
   dplyr::mutate(Source="STN",
-                TowNumber=if_else(SampleRowID==7078 & TowNumber==1 & TowRowID==12153, as.integer(2), TowNumber),
-                SampleID=paste(Source, SampleDate, Survey, StationCode, TowNumber),
+                TowNumber=if_else(SampleRowID==7078 & TowNumber==1 & TowRowID==12153, 2, TowNumber),
+                SampleID=paste(Source, Date, Survey, StationCode, TowNumber),
                 Method="STN Net",
-                TowTime=substring(TimeStart,12),
-                Datetime=paste(SampleDate, TowTime),
-                Date=parse_date_time(SampleDate, "%Y-%m-%d",
-                                     tz="America/Los_Angeles"),
+                TowTime=str_split(TimeStart, " ")[[1]][2], #Select time which always follows a space
+                Datetime=paste(Date, TowTime),
                 Datetime=parse_date_time(if_else(is.na(TowTime), NA_character_,
                                                  Datetime),
-                                         "%Y-%m-%d %%H:%M:%S",
+                                         "%Y-%m-%d %H:%M:%S",
                                          tz="America/Los_Angeles"),
                 Depth=DepthBottom*0.3048, # Convert depth from feet to m
                 Cable_length=CableOut*0.3048, # Convert to m from feet
@@ -109,7 +119,6 @@ sampleSTN <- Sample %>%
                 Sal_surf=wql::ec2pss(ConductivityTop/1000, t=25),
                 Latitude=(LatD + LatM/60 + LatS/3600),
                 Longitude= -(LonD + LonM/60 + LonS/3600)) %>%
-  dplyr::left_join(luMicrocystis, by=c("Microcystis"="MicrocystisID")) %>%
   dplyr::left_join(luTide, by=c("TideCode"="TideRowID")) %>%
   dplyr::left_join(luTowDirection, by=c("TowDirection"="TowDirectionID")) %>%
   dplyr::rename(Tide=TideDesc,

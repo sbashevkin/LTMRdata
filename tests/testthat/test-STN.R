@@ -5,7 +5,7 @@ library(LTMRdata)
 ## STN
 
 test_that("Data dimensions are correct", {
-  expect_true(nrow(STN) == 180774)
+  expect_true(nrow(STN) == 183718)
   expect_true(ncol(STN) == 22)
 
 	name_check <- c('Source', 'Station', 'Latitude', 'Longitude',
@@ -23,9 +23,9 @@ test_that("Source value is correct", {
 test_that("Station values are in the expected range", {
 	stations <- c(9,20,21,22,23,24,32,35,36,301,302,312,315,320,322,323,326,
 	              328,329,334,335,336,340,342,405,411,418,501,504,508,513,519,
-	              520,602,606,609,610,704,706,707,711,713,716,719,721,723,795,
+	              520,602,606,609,610,704,706,707,711,713,716,719,721,722,723,795,
 	              796,797,801,804,809,812,815,902,906,910,912,914,915,918,919)
-  expect_true(all(STN$Station %in% as.character(stations)))
+  expect_setequal(STN$Station, as.character(stations))
 })
 
 test_that("Survey numbers are in the expected range", {
