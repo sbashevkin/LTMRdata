@@ -6,6 +6,7 @@
 # - Effort for beach seines to be calculated with Seine_volume
 # - Effort for traps to be calculated with Trap_effort_hrs starting 2010
 # - YBFMP_trap_effort provides monthly effort for data prior to 2010
+# - Filtered to 2010 on for simplicity
 
 # Load packages ----------------------------------------------------------
 
@@ -126,7 +127,8 @@ length_yolo <- catch_yolo %>%
   filter(!(is.na(ForkLength)),
          !(is.na(Datetime))) %>% # only want measured for this part
   group_by(Datetime, Station, Taxa, ForkLength) %>%
-  summarise(LengthFrequency = sum(Count))
+  summarise(LengthFrequency = sum(Count)) %>%
+  filter(Datetime > "2009-12-31")
 
 catchlength_yolo <- length_yolo %>%
   group_by(Datetime, Station, Taxa) %>%
@@ -147,17 +149,20 @@ YBFMP <- left_join(sample_effort, catchlength_yolo, by = c("Datetime", "Station"
          SampleID = paste(Source, SampleID)) %>%
   rename(Length = ForkLength,
          Temp_surf = WaterTemperature) %>%
-select(Source, Station, Latitude, Longitude, Date, Datetime, SampleID, Method, Tide, Sal_surf, Temp_surf, DO_surf, pH_surf, Turb_surf, Secchi, Taxa, Length, Count, Trap_effort_hrs, Seine_volume, Notes_tow)
+select(Source, Station, Latitude, Longitude, Date, Datetime, SampleID, Method, Tide, Sal_surf, Temp_surf, DO_surf, pH_surf, Turb_surf, Secchi, Taxa, Length, Count, Trap_effort_hrs, Seine_volume, Notes_tow) %>%
+  filter(lubridate::year(Datetime) > 2009)
 
 ## Just measured lengths
-YBFMP_measured_lengths<-length_yolo%>%
+YBFMP_measured_lengths <- length_yolo%>%
   left_join(YBFMP %>% # Join species names and sampleID
               select(Datetime, Station, SampleID, Taxa)%>%
               distinct(),
             by=c("Datetime", "Station", "Taxa"))%>%
+  filter(!(is.na(SampleID))) %>%
   group_by(across(-LengthFrequency))%>% # Add up any new multiples after removing lifestages
   summarise(Count=sum(LengthFrequency), .groups="drop")%>%
-  select(SampleID, Taxa, Length=ForkLength, Count) # Reorder variables for consistency
+  select(SampleID, Taxa, Length=ForkLength, Count)  # Reorder variables for consistency
+
 
 ## Effort
 YBFMP_trap_effort <- read_csv("https://portal.edirepository.org/nis/dataviewer?packageid=edi.233.2&entityid=ace1ef25f940866865d24109b7250955")
@@ -166,4 +171,4 @@ YBFMP_trap_effort <- read_csv("https://portal.edirepository.org/nis/dataviewer?p
 rm(taxa_yolo, stations_yolo, sample_yolo, length_yolo, catch_yolo, catch_yolo_total, catchlength_yolo, yolodata, trapeffort, sample_effort, sample_yolo_numbers, sample_yolo_clean)
 
 # Compress data -------------------------------------------------------------------
-usethis::use_data(YBFMP, YBFMP_measured_lengths, YBFMP_trap_effort, overwrite=TRUE, compress="xz") # Save compressed data to /data
+usethis::use_data(YBFMP, YBFMP_measured_lengths, overwrite=TRUE, compress="xz") # Save compressed data to /data
