@@ -245,7 +245,7 @@
 #'
 #' Crosswalk table of species codes to common and scientific names
 #'
-#' @format a tibble with 263 rows and 11 variables
+#' @format a tibble with 262 rows and 11 variables
 #' \describe{
 #'   \item{Baystudy_Code}{Bay Study code.}
 #'   \item{CommonName}{Common name.}
