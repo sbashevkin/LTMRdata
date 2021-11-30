@@ -80,14 +80,14 @@ suspect_fm_TowRowID <- c(6612,12815,2551,12786,8031,1857)
 
 
 sampleSTN <- Sample %>%
-	dplyr::inner_join(TowEffort, by="SampleRowID") %>%
-	dplyr::left_join(luStation, by=c("StationCode"="StationCodeSTN")) %>%
-  dplyr::mutate(Date=parse_date_time(SampleDate, "%m/%d/%Y %H:%M:%S",
+	inner_join(TowEffort, by="SampleRowID") %>%
+	left_join(luStation, by=c("StationCode"="StationCodeSTN")) %>%
+  mutate(Date=parse_date_time(SampleDate, "%m/%d/%Y %H:%M:%S",
                                            tz="America/Los_Angeles"),
-                Year=lubridate::year(Date)) %>%
-	dplyr::left_join(Web_Local_Meter_Corrections,
+                Year=year(Date)) %>%
+	left_join(Web_Local_Meter_Corrections,
 	                 by=c("Year"="Study Year","MeterSerial"="Meter Serial")) %>%
-	dplyr::mutate(MeterTotal=ifelse((MeterOut - MeterIn) < 0,
+	mutate(MeterTotal=ifelse((MeterOut - MeterIn) < 0,
 																	(MeterOut + 1000000 - MeterIn),
 																	(MeterOut - MeterIn)),
 								TowVolm3=ifelse(is.na(MeterIn), 735, `k factor`*MeterTotal*1.49),
@@ -97,8 +97,8 @@ sampleSTN <- Sample %>%
 								## volume is unusually small or large:
 								TowVolm3=ifelse(TowRowID %in% suspect_fm_TowRowID, 735,
 								                TowVolm3)) %>%
-  dplyr::arrange(Date, Survey, StationCode, TowNumber) %>%
-  dplyr::mutate(Source="STN",
+  arrange(Date, Survey, StationCode, TowNumber) %>%
+  mutate(Source="STN",
                 TowNumber=if_else(SampleRowID==7078 & TowNumber==1 & TowRowID==12153, 2, TowNumber),
                 SampleID=paste(Source, Date, Survey, StationCode, TowNumber),
                 Method="STN Net",
@@ -119,20 +119,21 @@ sampleSTN <- Sample %>%
                 Sal_surf=wql::ec2pss(ConductivityTop/1000, t=25),
                 Latitude=(LatD + LatM/60 + LatS/3600),
                 Longitude= -(LonD + LonM/60 + LonS/3600)) %>%
-  dplyr::left_join(luTide, by=c("TideCode"="TideRowID")) %>%
-  dplyr::left_join(luTowDirection, by=c("TowDirection"="TowDirectionID")) %>%
-  dplyr::rename(Tide=TideDesc,
+  left_join(luTide, by=c("TideCode"="TideRowID")) %>%
+  mutate(TideDesc=recode(TideDesc, `High Tide`="High Slack", `Low Tide`="Low Slack"))%>%
+  left_join(luTowDirection, by=c("TowDirection"="TowDirectionID")) %>%
+  rename(Tide=TideDesc,
                 Tow_direction=TowDirection.y,
                 TowNum=TowNumber,
                 Tow_volume=TowVolm3,
                 Station=StationCode) %>%
-  dplyr::select(TowRowID, Source, Station, Latitude, Longitude, Date, Datetime,
+  select(TowRowID, Source, Station, Latitude, Longitude, Date, Datetime,
                 Survey, TowNum, Depth, SampleID, Method, Tide, Sal_surf,
                 Temp_surf, Secchi, Tow_volume, Tow_direction, Cable_length)
 
 
 fish_totalCatch <- Catch %>%
-  dplyr::filter(!is.na(Catch) & Catch > 0)
+  filter(!is.na(Catch) & Catch > 0)
 
 Length_measured<-Length%>%
   filter(ForkLength!=0)%>%
@@ -141,19 +142,19 @@ Length_measured<-Length%>%
 
 
 fish_adjustedCount <- fish_totalCatch %>%
-  dplyr::left_join(Length_measured,
+  left_join(Length_measured,
 									 by="CatchRowID") %>%
-  dplyr::group_by(TowRowID, CatchRowID, OrganismCode) %>%
-  dplyr::mutate(TotalMeasured=sum(LengthFrequency, na.rm=TRUE)) %>%
-  dplyr::ungroup() %>%
+  group_by(TowRowID, CatchRowID, OrganismCode) %>%
+  mutate(TotalMeasured=sum(LengthFrequency, na.rm=TRUE)) %>%
+  ungroup() %>%
 	## Add total catch numbers:
 	## There are some cases where the number of fish measured is greater than the
 	## catch value in the Catch table. In these cases, use the number measured.
-	dplyr::mutate(CatchNew=ifelse(TotalMeasured > Catch, TotalMeasured, Catch)) %>%
+	mutate(CatchNew=ifelse(TotalMeasured > Catch, TotalMeasured, Catch)) %>%
 	## Calculate length-frequency-adjusted counts:
-  dplyr::mutate(Count=(LengthFrequency/TotalMeasured)*CatchNew) %>%
-  dplyr::left_join(Species %>% ## Add species names
-										dplyr::select(STN_Code, Taxa) %>%
+  mutate(Count=(LengthFrequency/TotalMeasured)*CatchNew) %>%
+  left_join(Species %>% ## Add species names
+										select(STN_Code, Taxa) %>%
 										filter(!is.na(STN_Code)),
 									 by=c("OrganismCode"="STN_Code"))
 
@@ -169,13 +170,13 @@ names(fish_adjustedCount)
 intersect(names(sampleSTN), names(fish_adjustedCount))
 
 STN <- sampleSTN %>%
-	dplyr::left_join(fish_adjustedCount %>%
-										dplyr::select(TowRowID, OrganismCode, Taxa,
+	left_join(fish_adjustedCount %>%
+										select(TowRowID, OrganismCode, Taxa,
 										              ForkLength, LengthFrequency,
 										              Catch, CatchNew, Count),
 									 by="TowRowID") %>%
 	## Add reasoning for any NA lengths:
-  dplyr::mutate(Length_NA_flag=if_else(is.na(Catch), "No fish caught",
+  mutate(Length_NA_flag=if_else(is.na(Catch), "No fish caught",
                                       NA_character_),
                 Station=as.character(Station),
                 Taxa=stringr::str_remove(Taxa, " \\((.*)"))  # Remove life stage info from Taxa names)
@@ -198,8 +199,8 @@ STN<-STN%>%
 
 ## Create final measured lengths data frame:
 STN_measured_lengths <- STN %>%
-	dplyr::select(SampleID, Taxa, ForkLength, LengthFrequency) %>%
-  dplyr::rename(Length=ForkLength,
+	select(SampleID, Taxa, ForkLength, LengthFrequency) %>%
+  rename(Length=ForkLength,
                 Count=LengthFrequency)
 
 nrow(STN_measured_lengths)
@@ -209,8 +210,8 @@ names(STN_measured_lengths)
 
 ## Create final catch data frame:
 STN <- STN %>%
-  dplyr::rename(Length=ForkLength) %>%
-  dplyr::select(-TowRowID, -OrganismCode, -LengthFrequency, -Catch)
+  rename(Length=ForkLength) %>%
+  select(-TowRowID, -OrganismCode, -LengthFrequency, -Catch)
 
 nrow(STN)
 ncol(STN)

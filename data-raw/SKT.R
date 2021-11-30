@@ -35,10 +35,11 @@ sample_skt <- read_csv(file.path("data-raw", "SKT", "tblSample.csv"),
                                              WaterTemperature = "d", TideCode = "i", DepthBottom = "d",
                                              Secchi = "d", ConductivityTop = "d",
                                              TowDirectionCode = "i", MeterStart = "d", MeterEnd = "d")) %>%
-  rename(Station = StationCode, Depth = DepthBottom, Temp_surf = WaterTemperature, Survey = SurveyNumber, Date=SampleDate) %>%
-  mutate(Date = parse_date_time(Date, "%m/%d/%Y", tz="America/Los_Angeles"),          # read formatted date
+  rename(Station = StationCode, Depth = DepthBottom, Temp_surf = WaterTemperature, Survey = SurveyNumber, Date=SampleDate, Time=SampleTimeStart) %>%
+  mutate(Date = parse_date_time(Date, "%m/%d/%Y %H:%M:%S", tz="America/Los_Angeles"),          # read formatted date
+         Time = parse_date_time(Time, "%m/%d/%Y %H:%M:%S", tz="America/Los_Angeles"),
          # Create a new field which is a Date-Time composite
-         Datetime = parse_date_time(if_else(is.na(SampleTimeStart), NA_character_, paste(Date, SampleTimeStart)),
+         Datetime = parse_date_time(if_else(is.na(Time), NA_character_, paste(Date, paste(hour(Time), minute(Time), sep=":"))),
                                     "%Y-%m-%d %H:%M", tz="America/Los_Angeles"),
          # Convert tide codes to values
          Tide = recode(TideCode, `1` = "High Slack", `2` = "Ebb", `3` = "Low Slack", `4` = "Flood", .default = NA_character_),
@@ -52,7 +53,7 @@ sample_skt <- read_csv(file.path("data-raw", "SKT", "tblSample.csv"),
          Tow_direction = recode(TowDirectionCode, `1` = "With current", `2` = "Against current",
                                 `3` = "Unknown", .default = NA_character_)) %>%
   # Remove unneeded variables
-  select(-Meter_total, -TideCode, -TowDirectionCode, -MeterStart, -MeterEnd, -SampleTimeStart) %>%
+  select(-Meter_total, -TideCode, -TowDirectionCode, -MeterStart, -MeterEnd, -Time) %>%
   # Add station coordinates
   left_join(stations_skt, by = "Station")
 
