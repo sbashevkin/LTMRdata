@@ -2,7 +2,7 @@ library(dplyr)
 library(tidyr)
 library(tidyselect)
 
-sources <- c("Baystudy", "Suisun", "FMWT", "SKT", "DJFMP", "EDSM")
+sources <- c("Baystudy", "Suisun", "FMWT", "SKT", "DJFMP", "EDSM", "TMM", "SLS", "STN")
 
 for (i in seq_along(sources)){
   load(paste0("data/", sources[i],".rda"))
