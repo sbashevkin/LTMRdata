@@ -1,3 +1,4 @@
+require(dplyr)
 data<-bind_rows(LTMRdata::Baystudy, LTMRdata::Suisun, LTMRdata::FMWT, LTMRdata::DJFMP, LTMRdata::EDSM, LTMRdata::TMM, LTMRdata::SLS, LTMRdata::STN, LTMRdata::SKT)
 
 test_that("All Lats are between 37 and 39 and all Longs are between -123 and -121", {
@@ -20,4 +21,10 @@ test_that("Sample times are formatted correctly", {
 test_that("Tide has the expected value", {
   expect_true(all(data$Tide %in% c("Low Slack","Ebb","High Slack","Flood") |
                     is.na(data$Tide)))
+})
+
+test_that("Length_NA_flag is applied correctly", {
+  expect_setequal(unique(data$Length_NA_flag), c(NA_character_, "Unknown length", "No fish caught"))
+  expect_setequal(filter(data, is.na(Length) & Count>0)$Length_NA_flag, "Unknown length")
+  expect_setequal(filter(data, is.na(Length) & is.na(Count))$Length_NA_flag, "No fish caught")
 })

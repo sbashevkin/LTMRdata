@@ -218,15 +218,26 @@ Suisun <- Suisun1%>%
               filter(!ID%in%unique(Suisun1$ID))%>% # Avoiding data duplication, this is the reason Suisun1 had to be created in a prior step
               mutate(StandardLength=NA_real_, # Converting these 0 lengths to NAs
                      Length_NA_flag = "Unknown length"))%>% # Flagging these as unknown lengths
-  mutate(Count = if_else(is.na(TotalMeasured), NA_real_, (Count/TotalMeasured)*TotalCatch), # Calculate adjusted frequency, if no fish were measured, keep Count as-is
+  mutate(Count = if_else(is.na(TotalMeasured) | TotalMeasured==0, Count, (Count/TotalMeasured)*TotalCatch), # Calculate adjusted frequency, if no fish were measured, leave as Count
+         Count = if_else(Count==0 | is.na(Taxa), NA_real_, Count), # Transform all 0 counts, or counts with NA taxa to NA
          Sal_surf=ec2pss(Conductivity/1000, t=25), # Calculate salinity from conductivity
-         Taxa=stringr::str_remove(Taxa, " \\((.*)"))%>% # Remove life stage from Taxa
+         Taxa=stringr::str_remove(Taxa, " \\((.*)"), # Remove life stage from Taxa
+         Taxa=if_else(is.na(Count),  NA_character_, Taxa), # Set Taxa to NA if Length and Count are NA
+         StandardLength=if_else(is.na(Count), NA_real_, StandardLength),
+         CatchComments=if_else(is.na(Count), NA_character_, CatchComments))%>%
   select(Source, Station, Latitude, Longitude, Date, Datetime, Depth, SampleID, Method, Tide, # Re-order variables
          Sal_surf, Temp_surf=Temperature, Secchi,
          Tow_duration=TowDuration, Tow_area, Taxa,
          Length=StandardLength, Count, Length_NA_flag, Notes_catch=CatchComments, Notes_tow=TrawlComments)%>%
   group_by(across(-Count))%>% # Add up any new multiples after removing lifestages
-  summarise(Count=sum(Count), .groups="drop")
+  summarise(Count=sum(Count), .groups="drop")%>%
+  group_by(SampleID)%>%
+  mutate(Valid=sum(Count, na.rm=T))%>% # Identify cases where there are actually fish catches
+  ungroup()%>%
+  mutate(Length_NA_flag=if_else(Valid>0, Length_NA_flag, "No fish caught"))%>% # Where there are no fish catches in the whole sample, set to "No fish caught"
+  distinct()%>%
+  filter(!(Valid>0 & is.na(Count)))%>% # Remove rows corresponding to NA catch in samples where there are other fish catches
+  select(-Valid)
 
 # Just measured lengths
 Suisun_measured_lengths <- catch_suisun2%>%

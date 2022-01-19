@@ -11,6 +11,11 @@ require(lubridate)
 require(LTMRdata)
 require(stringr)
 
+# TODO
+# 1) make Length NA flag apply to all NA lengths
+#    a) It looks like there are NA lengths when rows in the catch table have no corresponding entries in the length table
+#    b) Add a test to make sure Length NA flag is correctly applied to each dataset
+
 # shows the relationshiph between tables and which field is the connecting field
 # tblSample <= (SampleRowID) => tblCatch <= (CatchRowID) => tblFishInfo
 # tblCatch <= (OrganismCode) => tblOrganismCodes
@@ -110,14 +115,15 @@ SKT <- sample_skt %>%
          # Add variable for unique (across all studies) sampleID
          SampleID = paste(Source, SampleRowID),
          # Add reasoning for an NA lengths (all "No Fish Caught" for FMWT)
-         Length_NA_flag = if_else(Catch == 0, "No fish caught", NA_character_),
+         Length_NA_flag = case_when(Catch == 0 ~ "No fish caught",
+                                    is.na(ForkLength) & Catch > 0 ~ "Unknown length",
+                                    TRUE ~ NA_character_),
          # Remove life stage info from Taxa names
          Taxa = stringr::str_remove(Taxa, " \\((.*)")) %>%
-  rename(Length = ForkLength) %>%
   # Reorder variables for consistency
   select(Source, Station, Latitude, Longitude, Date, Datetime, Survey,
          Depth, SampleID, CatchRowID, Method, Tide, Sal_surf, Temp_surf, Secchi,
-         Tow_volume, Tow_direction, Taxa, Length, Count, Length_NA_flag)
+         Tow_volume, Tow_direction, Taxa, Length = ForkLength, Count, Length_NA_flag)
 
 # Just measured lengths
 
