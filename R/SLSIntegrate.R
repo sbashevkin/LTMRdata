@@ -207,7 +207,9 @@ SLSIntegrate <- function(filePath = NULL) {
            SampleID=paste(Source, Date, Station, Tow), # Creating SampleID index
            Count = dplyr::if_else(is.na(Length), as.numeric(Catch), (LengthFrequency/TotalLengthMeasured) * Catch),
            # Creating Length_NA_flag to parallel the other survey datasets in LTMR
-           Length_NA_flag = dplyr::if_else(is.na(Count), "No fish caught", NA_character_),
+           Length_NA_flag = dplyr::case_when(is.na(Count) ~ "No fish caught",
+                                             is.na(Length) & Count > 0 ~ "Unknown length",
+                                             TRUE ~ NA_character_),
            # Creating Method column; Adam described this as an "Olbique tow", significantly diff from WMT
            Method = "Oblique tow",
            Station=as.character(Station))%>%
