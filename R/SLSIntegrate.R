@@ -10,8 +10,6 @@
 #' @importFrom magrittr %>%
 #' @return An integrated fish dataset of the CDFW SLS Survey.
 #' @export SLSIntegrate
-#'
-
 
 SLSIntegrate <- function(filePath = NULL) {
   # Reading the data --------------------------------------------------------
@@ -107,19 +105,22 @@ SLSIntegrate <- function(filePath = NULL) {
     dplyr::mutate(Date=lubridate::mdy_hms(Date))%>%
     dplyr::rename(Notes_env=Comments)
 
-  SLSTables$`20mm Stations`<-readr::read_delim(file.path("data-raw", "SLS", "20mm Stations.txt"), delim = ",",
-                                        col_types =
-                                          readr::cols_only(
-                                            Station = readr::col_character(),
-                                            LatD = readr::col_double(),
-                                            LatM = readr::col_double(),
-                                            LatS = readr::col_double(),
-                                            LonD = readr::col_double(),
-                                            LonM = readr::col_double(),
-                                            LonS = readr::col_double()
-                                          ))%>%
-    dplyr::mutate(Latitude=(LatD + LatM/60 + LatS/3600),
-           Longitude= -(LonD + LonM/60 + LonS/3600))
+  SLSTables$SLSStations<-readr::read_delim(file.path("data-raw", "SLS", "Station_Lookup.txt"), delim = ",",
+                                           col_types =
+                                             readr::cols_only(
+                                               Station = readr::col_character(),
+                                               Lat = readr::col_character(),
+                                               Long = readr::col_character())
+  ) %>%
+    dplyr::mutate(LatD = sapply(strsplit(.$Lat, "\\s"), "[", 1),
+                  LatM = sapply(strsplit(.$Lat, "\\s"), "[", 2),
+                  LatS = sapply(strsplit(.$Lat, "\\s"), "[", 3),
+                  LonD = sapply(strsplit(.$Long, "\\s"), "[", 1),
+                  LonM = sapply(strsplit(.$Long, "\\s"), "[", 2),
+                  LonS = sapply(strsplit(.$Long, "\\s"), "[", 3),
+                  dplyr::across(c(LatD, LatM, LatS, LonD, LonM, LonS), as.numeric)) %>%
+    dplyr::mutate(Latitude = LatD + LatM/60 + LatS/3600,
+                  Longitude = -(LonD + LonM/60 + LonS/3600))
 
   # Manipulating the data tables --------------------------------------------
 
@@ -197,7 +198,7 @@ SLSIntegrate <- function(filePath = NULL) {
                        Taxa) %>%
                 dplyr::filter(!is.na(TMM_Code)),
               by = c("FishCode"="TMM_Code")) %>%
-    dplyr::left_join(SLSTables$`20mm Stations`,
+    dplyr::left_join(SLSTables$SLSStations,
               by="Station")%>%
     # Merging the two comment columns together; they both have data in them
     dplyr::mutate(Notes_tow=paste(Notes_tow, Notes_env, sep = "; ")) %>%
