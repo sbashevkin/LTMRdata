@@ -11,11 +11,6 @@ require(lubridate)
 require(LTMRdata)
 require(stringr)
 
-# TODO
-# 1) make Length NA flag apply to all NA lengths
-#    a) It looks like there are NA lengths when rows in the catch table have no corresponding entries in the length table
-#    b) Add a test to make sure Length NA flag is correctly applied to each dataset
-
 # shows the relationshiph between tables and which field is the connecting field
 # tblSample <= (SampleRowID) => tblCatch <= (CatchRowID) => tblFishInfo
 # tblCatch <= (OrganismCode) => tblOrganismCodes
@@ -105,9 +100,9 @@ catchlength_skt <- catch_skt%>%
 # Start with sample to ensure samples without any catch (empty nets) are included
 SKT <- sample_skt %>%
   # Join to catch/length data
-  left_join(catchlength_skt, by="SampleRowID") %>%
-  # there should not be any row with Catch = NA hence filter those
-  filter(!is.na(Catch)) %>%
+  left_join(catchlength_skt%>%
+              filter(!(is.na(Count) & OrganismCode!=0)), # Remove any cases other than nocatch where Count is NA
+            by="SampleRowID")  %>%
   # Convert conductivity to salinity
   mutate(Sal_surf = ec2pss(ConductivityTop/1000, t=25),
          # add identifier for survey
@@ -115,10 +110,10 @@ SKT <- sample_skt %>%
          # Add variable for unique (across all studies) sampleID
          SampleID = paste(Source, SampleRowID),
          # Add reasoning for an NA lengths (all "No Fish Caught" for FMWT)
-         Length_NA_flag = case_when(Catch == 0 ~ "No fish caught",
-                                    is.na(ForkLength) & Catch > 0 ~ "Unknown length",
+         Length_NA_flag = case_when(OrganismCode == 0 ~ "No fish caught",
+                                    is.na(ForkLength) & Count > 0 ~ "Unknown length",
                                     TRUE ~ NA_character_),
-         Count=if_else(Count==0 & Length_NA_flag=="No fish caught", NA_real_, Count), # Setting Count to NA for no fish caught, just like the other surveys
+         Count=if_else(Length_NA_flag=="No fish caught", 0, Count, missing=Count), # Setting Count to 0 for no fish caught, just like the other surveys
          # Remove life stage info from Taxa names
          Taxa = stringr::str_remove(Taxa, " \\((.*)")) %>%
   # Reorder variables for consistency
@@ -139,7 +134,8 @@ SKT_measured_lengths<-length_skt %>%
 
 # Remove unneeded variable
 SKT<-SKT %>%
-  select(-CatchRowID)
+  select(-CatchRowID)%>%
+  distinct()
 
 # Clean up; remove temporary files
 rm(catchlength_skt, catch_skt, length_skt, sample_skt, stations_skt)

@@ -4,7 +4,7 @@
 \encoding{UTF-8}
 \name{SKT_measured_lengths}
 \alias{SKT_measured_lengths}
-\title{SKT dataset}
+\title{SKT measured lengths}
 \format{
 a tibble with 38,448 rows and 4 variables
 \describe{
@@ -18,6 +18,6 @@ a tibble with 38,448 rows and 4 variables
 SKT_measured_lengths
 }
 \description{
-California Department of Fish and Wildlife Spring Kodiac Trawl (SKT) data.
+Only measured lengths from the SKT data
 }
 \keyword{datasets}

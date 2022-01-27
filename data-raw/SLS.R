@@ -190,7 +190,8 @@ SLS <- waterInfo %>%
                                     TRUE ~ NA_character_),
          # Creating Method column; Adam described this as an "Olbique tow", significantly diff from WMT
          Method = "Oblique tow",
-         Station=as.character(Station))%>%
+         Station=as.character(Station),
+         Count=if_else(Length_NA_flag=="No fish caught", 0, Count, missing=Count))%>% # Transform all counts for 'No fish caught' to 0.
   # Removing CatchID and entryorder as they are not relevant to the dataset
   # Removing TopEC, BottomEC as they have been converted over the salinity already
   # Removing CBMeterSerial, CBMeterStart, CBMeterEnd, CBMeterCheck as CB not ran on the SLS

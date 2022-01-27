@@ -93,7 +93,8 @@ FMWT<-sample_fmwt%>% # Start with sample to ensure samples without any catch (em
            is.na(ForkLength) & is.na(Count)~ "No fish caught",
            is.na(ForkLength) ~ "Unknown length",
            TRUE ~ NA_character_), # Add reasoning for an NA lengths (all "No Fish Caught" for FMWT)
-         Taxa=stringr::str_remove(Taxa, " \\((.*)"))%>% # Remove life stage info from Taxa names
+         Taxa=stringr::str_remove(Taxa, " \\((.*)"), # Remove life stage info from Taxa names
+         Count=if_else(Length_NA_flag=="No fish caught", 0, Count, missing=Count))%>% # Transform all counts for 'No fish caught' to 0.
   rename(Length=ForkLength, Temp_surf=WaterTemperature, Temp_bott=BottomTemperature,
          Secchi_estimated=SecchiEstimated, Survey=SurveyNumber, Cable_length=CableOut,
          Wind_direction=WindDirection)%>%

@@ -5,7 +5,7 @@
 \alias{STN_measured_lengths}
 \title{STN measured lengths}
 \format{
-a tibble with 182,431 rows and 4 variables
+a tibble with 167,419 rows and 4 variables
 \describe{
   \item{SampleID}{Unique sample identifier.}
   \item{Taxa}{Scientific name.}

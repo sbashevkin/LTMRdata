@@ -4,9 +4,9 @@
 \encoding{UTF-8}
 \name{SLS}
 \alias{SLS}
-\title{FMWT dataset}
+\title{SLS dataset}
 \format{
-a tibble with 254,540 rows and 22 variables
+a tibble with 19,447 rows and 25 variables
 \describe{
   \item{Source}{Name of source dataset.}
   \item{Station}{Station where sample was collected.}
@@ -39,9 +39,9 @@ a tibble with 254,540 rows and 22 variables
 SLS
 }
 \description{
-California Department of Fish and Wildlife Fall Midwater Trawl data.
+California Department of Fish and Wildlife Smelt Larva Survey data.
 }
 \details{
-More metadata and information on methods are available \href{https://www.dfg.ca.gov/delta/projects.asp?ProjectID=FMWT}{here}.
+More metadata and information on methods are available \href{https://wildlife.ca.gov/Conservation/Delta/Smelt-Larva-Survey}{here}.
 }
 \keyword{datasets}

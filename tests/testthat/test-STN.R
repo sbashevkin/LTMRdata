@@ -84,8 +84,8 @@ test_that("Combinations of Taxa, Count, and Length_NA_flag are as expected", {
   expect_true(sum(is.na(sub_1$Count)) == 0)
   expect_true(sum(is.na(sub_1$Taxa)) == 0)
 
-	## If Count is present, Taxa should be present:
-	sub_2 <- subset(STN, !is.na(Count))
+	## If Count is over 0, Taxa should be present:
+	sub_2 <- subset(STN, Count>0)
   expect_true(sum(is.na(sub_2$Taxa)) == 0)
 
 	## If Count is present, check Length_NA_flag:
@@ -102,6 +102,6 @@ test_that("Combinations of Taxa, Count, and Length_NA_flag are as expected", {
 ## STN_measured_lengths
 
 test_that("Lengths are in the expected range", {
-	expect_true(all( (STN_measured_lengths$Length > 0 & STN$Length < 900) |
+	expect_true(all( (STN_measured_lengths$Length > 0 & STN_measured_lengths$Length < 900) |
 										is.na(STN_measured_lengths$Length) ))
 })

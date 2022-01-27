@@ -195,11 +195,13 @@ STN<-STN%>%
   select(-CatchNew, Catch, LengthFrequency)%>%
   group_by(across(-Count))%>% # Add up any new multiples after removing lifestages
   summarise(Count=sum(Count), .groups="drop")%>%
-  mutate(ForkLength=as.numeric(ForkLength))
+  mutate(ForkLength=as.numeric(ForkLength),
+         Count=if_else(Length_NA_flag=="No fish caught", 0, Count, missing=Count)) # Transform all counts for 'No fish caught' to 0.
 
 ## Create final measured lengths data frame:
 STN_measured_lengths <- STN %>%
 	select(SampleID, Taxa, ForkLength, LengthFrequency) %>%
+  filter(!is.na(LengthFrequency))%>% # Remove fish that weren't measured
   rename(Length=ForkLength,
                 Count=LengthFrequency)
 

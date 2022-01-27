@@ -11,12 +11,6 @@ require(lubridate)
 require(tidyr)
 require(stringr)
 
-# TODO:
-# 1) Issue with NOFISH records corresponding to same samples with fish records, or duplicate NOFISH records
-#    This is mostly due to separate recordings of data in the lab vs field in 20mm
-#    Need to count number of valid fish counts and remove any NOFISH records when there is a valid count from the same sample
-#    and remove duplicate NOFISH records from lab/field.
-
 # downloading data because the dataset is too huge to keep on file
 
 download.file("https://pasta.lternet.edu/package/data/eml/edi/415/5/d468c513fa69c4fc6ddc02e443785f28", file.path(tempdir(), "EDSM_20mm.csv"), mode="wb",method="libcurl")
@@ -88,7 +82,8 @@ EDSM <- bind_rows(
               filter(!is.na(USFWS_Code)),
             by=c("OrganismCode"="USFWS_Code")) %>%
   mutate(SampleID=paste(Source, SampleID), # Add variable for unique (across all studies) sampleID
-         Taxa=str_remove(Taxa, " \\((.*)"))%>% # Remove life stage info from Taxa names
+         Taxa=str_remove(Taxa, " \\((.*)"), # Remove life stage info from Taxa names
+         Count=if_else(Length_NA_flag=="No fish caught", 0, Count, missing=Count))%>% # Transform all counts for 'No fish caught' to 0.
   select(Source, Station, Latitude, Longitude, Date, Datetime, Depth, SampleID, Method, Tide, Sal_surf,
          Temp_surf, Secchi, Tow_volume, Tow_direction, Taxa, Length, Count, Length_NA_flag)
 

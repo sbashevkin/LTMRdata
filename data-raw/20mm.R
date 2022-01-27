@@ -180,10 +180,14 @@ TMM[index_2,c("Catch","Count")] <- 1
 TMM[index_2,"Length_NA_flag"] <- "Unknown length"
 TMM[index_2, ]
 
+## set Count for all
+TMM<-TMM%>%
+  mutate(Count=if_else(Length_NA_flag=="No fish caught", 0, Count, missing=Count))
 
 ## Create final measured lengths data frame:
 TMM_measured_lengths <- TMM %>%
 	dplyr::select(SampleID, Taxa, Length, LengthFrequency) %>%
+  filter(!is.na(LengthFrequency))%>% # Remove fish that weren't measured
 	dplyr::rename(Count=LengthFrequency)
 nrow(TMM_measured_lengths)
 ncol(TMM_measured_lengths)

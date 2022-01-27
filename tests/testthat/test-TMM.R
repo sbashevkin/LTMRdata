@@ -68,7 +68,7 @@ test_that("Length values are in the expected range", {
 })
 
 test_that("Count values are in the expected range", {
-  expect_true(all( (TMM$Count > 0 & TMM$Count < 4600) | is.na(TMM$Count) ))
+  expect_true(all( (TMM$Count >= 0 & TMM$Count < 4600) | is.na(TMM$Count) ))
 })
 
 test_that("Combinations of Taxa, Count, and Length_NA_flag are as expected", {
@@ -80,8 +80,8 @@ test_that("Combinations of Taxa, Count, and Length_NA_flag are as expected", {
   expect_true(sum(is.na(sub_1$Count)) == 0)
   expect_true(sum(is.na(sub_1$Taxa)) == 0)
 
-	## If Count is present, Taxa should be present:
-	sub_2 <- subset(TMM, !is.na(Count))
+	## If Count is greater than 0, Taxa should be present:
+	sub_2 <- subset(TMM, Count>0)
   expect_true(sum(is.na(sub_2$Taxa)) == 0)
 
 	## If Count is present, check Length_NA_flag:
@@ -113,7 +113,7 @@ test_that("Some adjusted fish counts are as expected", {
 ## TMM_measured_lengths
 
 test_that("Lengths are in the expected range", {
-	expect_true(all( (TMM_measured_lengths$Length > 0 & TMM$Length < 900) |
+	expect_true(all( (TMM_measured_lengths$Length > 0 & TMM_measured_lengths$Length < 900) |
 										is.na(TMM_measured_lengths$Length) ))
 })
 

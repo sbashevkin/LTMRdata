@@ -79,7 +79,7 @@
 #' US Fish and Wildlife Service Enhanced Delta Smelt Monitoring (EDSM) data.
 #'
 #' @encoding UTF-8
-#' @format a tibble with 132,196 rows and 19 number of variables
+#' @format a tibble with 130,986 rows and 19 number of variables
 #' \describe{
 #'   \item{Source}{Name of source dataset.}
 #'   \item{Station}{Station where sample was collected.}
@@ -109,7 +109,7 @@
 #' California Department of Fish and Wildlife Fall Midwater Trawl data.
 #'
 #' @encoding UTF-8
-#' @format a tibble with 254,540 rows and 22 variables
+#' @format a tibble with 254,537 rows and 22 variables
 #' \describe{
 #'   \item{Source}{Name of source dataset.}
 #'   \item{Station}{Station where sample was collected.}
@@ -166,7 +166,7 @@
 #' California Department of Fish and Wildlife Spring Kodiac Trawl (SKT) data.
 #'
 #' @encoding UTF-8
-#' @format a tibble with 39,355 rows and 20 variables
+#' @format a tibble with 39,881 rows and 20 variables
 #' \describe{
 #'   \item{Source}{Name of source dataset.}
 #'   \item{Station}{Station where sample was collected.}
@@ -189,11 +189,12 @@
 #'   \item{Count}{Estimated count for each sample, taxa, and length.}
 #'   \item{Length_NA_flag}{Why is the length NA?}
 #'   }
+#' @details More metadata and information on methods are available \href{https://wildlife.ca.gov/Conservation/Delta/Spring-Kodiak-Trawl}{here}.
 "SKT"
 
-#' SKT dataset
+#' SKT measured lengths
 #'
-#' California Department of Fish and Wildlife Spring Kodiac Trawl (SKT) data.
+#' Only measured lengths from the SKT data
 #'
 #' @encoding UTF-8
 #' @format a tibble with 38,448 rows and 4 variables
@@ -205,12 +206,12 @@
 #'   }
 "SKT_measured_lengths"
 
-#' FMWT dataset
+#' SLS dataset
 #'
-#' California Department of Fish and Wildlife Fall Midwater Trawl data.
+#' California Department of Fish and Wildlife Smelt Larva Survey data.
 #'
 #' @encoding UTF-8
-#' @format a tibble with 254,540 rows and 22 variables
+#' @format a tibble with 19,447 rows and 25 variables
 #' \describe{
 #'   \item{Source}{Name of source dataset.}
 #'   \item{Station}{Station where sample was collected.}
@@ -238,7 +239,7 @@
 #'   \item{Notes_tow}{Notes or comments on the trawl.}
 #'   \item{Notes_flowmeter}{Notes or comments on the flowmeter reading.}
 #'   }
-#' @details More metadata and information on methods are available \href{https://www.dfg.ca.gov/delta/projects.asp?ProjectID=FMWT}{here}.
+#' @details More metadata and information on methods are available \href{https://wildlife.ca.gov/Conservation/Delta/Smelt-Larva-Survey}{here}.
 "SLS"
 
 #' Species codes
@@ -266,7 +267,7 @@
 #' California Department of Fish and Wildlife Summer Townet Survey (STN) data.
 #'
 #' @encoding UTF-8
-#' @format a tibble with 182,431 rows and 22 variables
+#' @format a tibble with 183,718 rows and 22 variables
 #' \describe{
 #'   \item{Source}{Name of source dataset.}
 #'   \item{Station}{Station where sample was collected.}
@@ -297,7 +298,7 @@
 #' STN measured lengths
 #'
 #' Only measured lengths from the STN data
-#' @format a tibble with 182,431 rows and 4 variables
+#' @format a tibble with 167,419 rows and 4 variables
 #' \describe{
 #'   \item{SampleID}{Unique sample identifier.}
 #'   \item{Taxa}{Scientific name.}
@@ -311,7 +312,7 @@
 #' UC Davis Suisun Marsh Fish Study data.
 #'
 #' @encoding UTF-8
-#' @format a tibble with 190,696 rows and 21 variables
+#' @format a tibble with 188,714 rows and 21 variables
 #' \describe{
 #'   \item{Source}{Name of source dataset.}
 #'   \item{Station}{Station where sample was collected.}
@@ -386,7 +387,7 @@
 #' 20mm measured lengths
 #'
 #' Only measured lengths from the 20-mm Survey data
-#' @format a tibble with 324,021 rows and 4 variables
+#' @format a tibble with 321,019 rows and 4 variables
 #' \describe{
 #'   \item{SampleID}{Unique sample identifier.}
 #'   \item{Taxa}{Scientific name.}

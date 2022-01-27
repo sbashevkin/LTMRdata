@@ -6,7 +6,7 @@
 \alias{SKT}
 \title{SKT dataset}
 \format{
-a tibble with 39,355 rows and 20 variables
+a tibble with 39,881 rows and 20 variables
 \describe{
   \item{Source}{Name of source dataset.}
   \item{Station}{Station where sample was collected.}
@@ -35,5 +35,8 @@ SKT
 }
 \description{
 California Department of Fish and Wildlife Spring Kodiac Trawl (SKT) data.
+}
+\details{
+More metadata and information on methods are available \href{https://wildlife.ca.gov/Conservation/Delta/Spring-Kodiak-Trawl}{here}.
 }
 \keyword{datasets}

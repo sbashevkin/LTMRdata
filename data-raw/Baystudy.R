@@ -169,6 +169,7 @@ Baystudy <- env_baystudy%>% # Start with sample-level data to retain samples wit
          Temp_bott=TempBott, Tow_duration=Duration)%>%
   select(-Bearing, -Waves, -Weather, -Temp_avg, -Temp_bott, -Sal_avg, -Sal_bott)%>% # Remove extra environmental variables
   filter(Tow_status=="Valid")%>% # Remove invalid tows
+  mutate(Count=if_else(Length_NA_flag=="No fish caught", 0, Count, missing=Count))%>% # Transform all counts for 'No fish caught' to 0.
   select(Source, Station, Latitude, Longitude, Date, Datetime, Year, Survey, # Reorder variables for consistency
          Depth, SampleID, Method, Tide, Sal_surf, Temp_surf, Secchi,
          Tow_duration, Tow_area, Tow_volume, Tow_direction, Taxa, Length, Count, Length_NA_flag, Notes_tow)

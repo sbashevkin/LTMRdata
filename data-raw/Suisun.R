@@ -237,7 +237,8 @@ Suisun <- Suisun1%>%
   mutate(Length_NA_flag=if_else(Valid>0, Length_NA_flag, "No fish caught"))%>% # Where there are no fish catches in the whole sample, set to "No fish caught"
   distinct()%>%
   filter(!(Valid>0 & is.na(Count)))%>% # Remove rows corresponding to NA catch in samples where there are other fish catches
-  select(-Valid)
+  select(-Valid)%>%
+  mutate(Count=if_else(Length_NA_flag=="No fish caught", 0, Count, missing=Count)) # Transform all counts for 'No fish caught' to 0.
 
 # Just measured lengths
 Suisun_measured_lengths <- catch_suisun2%>%
