@@ -74,8 +74,8 @@ catchlength_fmwt <- catch_fmwt%>%
               mutate(TotalMeasured=sum(LengthFrequency, na.rm=T))%>% # Calculate total number of fish measured for each species in each sample
               ungroup(),
             by="CatchRowID")%>% # Add catch numbers and species names
-  mutate(Count = if_else(is.na(ForkLength), Catch, (LengthFrequency/TotalMeasured)*Catch)) # Calculate adjusted count
-
+  mutate(Count = if_else(is.na(ForkLength), Catch, (LengthFrequency/TotalMeasured)*Catch))%>% # Calculate adjusted count
+  filter(!is.na(Count))
 
 # Create final datasets ---------------------------------------------------
 

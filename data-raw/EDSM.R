@@ -11,6 +11,12 @@ require(lubridate)
 require(tidyr)
 require(stringr)
 
+# TODO:
+# 1) Issue with NOFISH records corresponding to same samples with fish records, or duplicate NOFISH records
+#    This is mostly due to separate recordings of data in the lab vs field in 20mm
+#    Need to count number of valid fish counts and remove any NOFISH records when there is a valid count from the same sample
+#    and remove duplicate NOFISH records from lab/field.
+
 # downloading data because the dataset is too huge to keep on file
 
 download.file("https://pasta.lternet.edu/package/data/eml/edi/415/5/d468c513fa69c4fc6ddc02e443785f28", file.path(tempdir(), "EDSM_20mm.csv"), mode="wb",method="libcurl")
@@ -52,7 +58,8 @@ EDSM <- bind_rows(
          MarkCode=replace_na(MarkCode, "None"),
          Group=case_when(MarkCode=="None" & OrganismCode=="CHN" ~ RaceByLength,
                          MarkCode!="None" ~ paste("Tag", 1:nrow(.)),
-                         TRUE ~ NA_character_))%>%
+                         TRUE ~ NA_character_),
+         Count=if_else(OrganismCode=="NOFISH", NA_real_, Count))%>%
   select(-Time, -MarkCode, -RaceByLength) %>%
   group_by(across(-Count))%>% # Some species are recorded with the same length multiple times
   summarise(Count=sum(Count), .groups="drop")%>%
@@ -61,16 +68,21 @@ EDSM <- bind_rows(
          Total=sum(Count), # Calculate total number of fish of each species caught
          Count=(Count/TotalMeasured)*Total)%>% # Calculate the adjusted length frequency
   ungroup()%>%
-  mutate(Length=if_else(is.infinite(Count) & Length==0, NA_real_, Length), # Some Chinook were not measured, so these lines fix some after-effects of that
+  mutate(Length=if_else((is.infinite(Count) & Length==0) | OrganismCode=="NOFISH", NA_real_, Length), # Some Chinook were not measured, so these lines fix some after-effects of that
          Length_NA_flag=case_when(
            is.infinite(Count) ~ "Unknown length",
            is.na(Length)~ "No fish caught",
-           TRUE ~ NA_character_), # Add reasoning for an NA lengths (all "No Fish Caught" for FMWT)
-         Count=if_else(is.infinite(Count), Total, Count))%>%
+           TRUE ~ NA_character_), # Add reasoning for NA lengths
+         Count=if_else(is.infinite(Count), Total, Count))%>% # These cases all represent the only row of that SamppleID, OrganismCode, and Group, so this doesn't result in over-counting, it just returns the value to the prior count
   filter(Length!=0 | is.na(Length))%>%
+  filter(Count!=0 | is.na(Count))%>% # Remove 1 case of a 0 count of a striped bass, *****NEED TO CHECK IN UPDATES*****
   select(-Total, -TotalMeasured, -Group)%>%
   group_by(across(-Count))%>% # Add up any new multiples after removing Group
   summarise(Count=sum(Count), .groups="drop")%>%
+  group_by(SampleID)%>% # Now we need to remove any NOFISH records when there are actually fish counts in that sample (including next 3 lines)
+  mutate(Valid=sum(Count, na.rm=T))%>%
+  ungroup()%>%
+  filter(!(Valid>0 & OrganismCode=="NOFISH"))%>%
   left_join(Species %>%
               select(USFWS_Code, Taxa) %>%
               filter(!is.na(USFWS_Code)),

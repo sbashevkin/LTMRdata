@@ -118,6 +118,7 @@ SKT <- sample_skt %>%
          Length_NA_flag = case_when(Catch == 0 ~ "No fish caught",
                                     is.na(ForkLength) & Catch > 0 ~ "Unknown length",
                                     TRUE ~ NA_character_),
+         Count=if_else(Count==0 & Length_NA_flag=="No fish caught", NA_real_, Count), # Setting Count to NA for no fish caught, just like the other surveys
          # Remove life stage info from Taxa names
          Taxa = stringr::str_remove(Taxa, " \\((.*)")) %>%
   # Reorder variables for consistency

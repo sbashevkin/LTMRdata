@@ -1,0 +1,19 @@
+attributeName	attributeDefinition	class	unit	dateTimeFormatString	missingValueCode	missingValueCodeExplanation
+Source		categorical				
+Station		categorical				
+Latitude		numeric	!Add units here!			
+Longitude		numeric	!Add units here!			
+Date		Date		!Add datetime specifier here!		
+Datetime		Date		!Add datetime specifier here!		
+Survey		numeric	!Add units here!			
+Depth		numeric	!Add units here!			
+SampleID		character				
+Method		categorical				
+Tide		categorical				
+Sal_surf		numeric	!Add units here!			
+Temp_surf		numeric	!Add units here!			
+Secchi		numeric	!Add units here!			
+Tow_duration		numeric	!Add units here!			
+Tow_area		numeric	!Add units here!			
+Tow_volume		numeric	!Add units here!			
+Tow_direction		categorical				

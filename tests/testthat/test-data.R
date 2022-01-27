@@ -23,8 +23,22 @@ test_that("Tide has the expected value", {
                     is.na(data$Tide)))
 })
 
-test_that("Length_NA_flag is applied correctly", {
+test_that("Length_NA_flag has correct unique values", {
   expect_setequal(unique(data$Length_NA_flag), c(NA_character_, "Unknown length", "No fish caught"))
-  expect_setequal(filter(data, is.na(Length) & Count>0)$Length_NA_flag, "Unknown length")
-  expect_setequal(filter(data, is.na(Length) & is.na(Count))$Length_NA_flag, "No fish caught")
+})
+
+test_that("Length_NA_flag 'No fish caught' is applied correctly", {
+  expect_setequal(filter(data, is.na(Length) & is.na(Count))$Length_NA_flag, "No fish caught") # 'No fish caught' should only be applied to cases where Length and Count are both NA
+  expect_equal(nrow(filter(data, !(is.na(Length) & is.na(Count)) & Length_NA_flag=="No fish caught")), 0) # 'No fish caught' should only be applied to cases where Length and Count are both NA
+  expect_equal(nrow(filter(data, !is.na(Taxa) & Length_NA_flag=="No fish caught")), 0) # Taxa should be NA for all 'No fish caught'
+})
+
+test_that("Length_NA_flag 'Unknown length' is applied correctly", {
+  expect_setequal(filter(data, is.na(Length) & Count>0)$Length_NA_flag, "Unknown length") # 'Unknown length' should only be applied when length is NA and Count>0
+  expect_equal(nrow(filter(data, !(is.na(Length) & Count>0) & Length_NA_flag=="Unknown length")), 0) # 'Unknown length' should only be applied when length is NA and Count>0
+
+})
+
+test_that("No zero counts exist in the dataset", {
+  expect_equal(nrow(filter(data, Count==0)), 0)
 })

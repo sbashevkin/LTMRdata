@@ -2,6 +2,8 @@ library(dplyr)
 library(tidyr)
 library(tidyselect)
 
+data_divide<-function(data_path){
+
 sources <- c("Baystudy", "Suisun", "FMWT", "SKT", "DJFMP", "EDSM", "TMM", "SLS", "STN")
 
 for (i in seq_along(sources)){
@@ -68,5 +70,7 @@ res_fish <- res_fish %>%
 res_fish <- res_fish %>%
   dplyr::filter(!is.na(.data$Taxa))
 
-write.csv(res_survey, "data/merge_split/survey_info.csv", row.names = F)
-write.csv(res_fish, "data/merge_split/fish_info.csv", row.names = F)
+write.csv(res_survey, file.path(data_path, "survey.csv"), row.names = F)
+write.csv(res_fish, file.path(data_path, "fish.csv"), row.names = F)
+
+}

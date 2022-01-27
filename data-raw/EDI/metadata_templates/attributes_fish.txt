@@ -1,0 +1,7 @@
+attributeName	attributeDefinition	class	unit	dateTimeFormatString	missingValueCode	missingValueCodeExplanation
+Source	Name of the source survey	categorical				
+SampleID	Unique identifier for each sample (i.e. tow)	character				
+Taxa	Scientific name for the sampled taxa	categorical			NA	
+Length		numeric	!Add units here!			
+Count		numeric	!Add units here!			
+Length_NA_flag		categorical				
