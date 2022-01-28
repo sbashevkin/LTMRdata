@@ -31,6 +31,7 @@ test_that("Length_NA_flag 'No fish caught' is applied correctly", {
   expect_setequal(filter(data, is.na(Length) & Count==0)$Length_NA_flag, "No fish caught") # 'No fish caught' should only be applied to cases where Length and Count are both NA
   expect_equal(nrow(filter(data, !(is.na(Length) & Count==0) & Length_NA_flag=="No fish caught")), 0) # 'No fish caught' should only be applied to cases where Length and Count are both NA
   expect_equal(nrow(filter(data, !is.na(Taxa) & Length_NA_flag=="No fish caught")), 0) # Taxa should be NA for all 'No fish caught'
+  expect_equal(nrow(filter(data, is.na(Taxa) & Length_NA_flag!="No fish caught")), 0) # NA taxa rows should only exist when 'No fish caught'
 })
 
 test_that("Length_NA_flag 'Unknown length' is applied correctly", {
