@@ -43,9 +43,9 @@ EDSM <- bind_rows(
          # Removing conductivity data from dates before it was standardized
          Conductivity = if_else(Date<parse_date_time("2019-06-01", "%Y-%m-%d", tz="America/Los_Angeles"), NA_real_, Conductivity),
          Sal_surf = ec2pss(Conductivity/1000, t=25),
-         Method = recode(Method, KDTR="Kodiak trawl"),
+         Method = recode(Method, KDTR="Kodiak trawl", `20mm`="20mm net"),
          Tow_direction = recode(Tow_direction, U="Upstream", D="Downstream"),
-         Depth = if_else(Method=="20mm", Depth*0.3048, Depth), # Convert feet to meters for 20mm (KDTR already in meters)
+         Depth = if_else(Method=="20mm net", Depth*0.3048, Depth), # Convert feet to meters for 20mm (KDTR already in meters)
          Secchi = Secchi*100, # convert Secchi to cm
          Tide=recode(Tide, HS="High Slack", LS = "Low Slack"), #Standardize tide codes
          SampleID=paste(Datetime, Station, Tow, Method, Latitude, Longitude),

@@ -45,7 +45,7 @@ test_that("Custom SampleID values are formatted as expected", {
 })
 
 test_that("Data are based on STN Net", {
-  expect_true(all(STN$Method == "STN Net"))
+  expect_true(all(STN$Method == "STN net"))
 })
 
 test_that("Temp_surf values are in the expected range", {

@@ -101,7 +101,7 @@ sampleSTN <- Sample %>%
   mutate(Source="STN",
                 TowNumber=if_else(SampleRowID==7078 & TowNumber==1 & TowRowID==12153, 2, TowNumber),
                 SampleID=paste(Source, Date, Survey, StationCode, TowNumber),
-                Method="STN Net",
+                Method="STN net",
                 TowTime=str_split(TimeStart, " ")[[1]][2], #Select time which always follows a space
                 Datetime=paste(Date, TowTime),
                 Datetime=parse_date_time(if_else(is.na(TowTime), NA_character_,

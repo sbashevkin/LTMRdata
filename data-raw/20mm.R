@@ -95,7 +95,7 @@ sample20mm <- Survey %>%
 																	"%Y-%m-%d %%H:%M:%S", tz="America/Los_Angeles"),
 				 Depth=BottomDepth*0.3048, # Convert depth to m from feet
 				 Cable_length=CableOut*0.3048, # Convert to m from feet
-				 Method=GearDescription,
+				 Method="20mm net",
 				 Temp_surf=Temp,
 				 ## Convert conductivity to salinity; TopEC is in micro-S/cm; input should
 				 ##		be in milli-S/cm:

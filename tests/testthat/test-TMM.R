@@ -43,7 +43,7 @@ test_that("Custom SampleID values are formatted as expected", {
 })
 
 test_that("Data are based on 20mm Net only and not mesozooplankton (CB) net", {
-  expect_true(all(TMM$Method == "20mm Net"))
+  expect_true(all(TMM$Method == "20mm net"))
 })
 
 test_that("Temp_surf values are in the expected range", {
