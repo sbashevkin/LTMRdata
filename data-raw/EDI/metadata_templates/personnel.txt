@@ -1,1 +1,7 @@
 givenName	middleInitial	surName	organizationName	electronicMailAddress	userId	role	projectTitle	fundingAgency	fundingNumber
+Samuel	M	Bashevkin	"Delta Science Program, Delta Stewardship Council"	sam.bashevkin@deltacouncil.ca.gov	0000-0001-7406-7089	creator			
+Samuel	M	Bashevkin	"Delta Science Program, Delta Stewardship Council"	sam.bashevkin@deltacouncil.ca.gov	0000-0001-7406-7089	contact			
+Jereme	W	Gaeta	California Department of Fish and Wildlife and the Interagency Ecological Program	Jereme.Gaeta@Wildlife.ca.gov	0000-0002-6925-6907	creator			
+Trinh	X	Nguyen	California Department of Fish and Wildlife and the Interagency Ecological Program	Trinh.Nguyen@Wildlife.ca.gov	0000-0001-9523-1466	creator			
+				lara_mitchell@fws.gov		creator			
+Shruti		Khanna	California Department of Fish and Wildlife and the Interagency Ecological Program	Shruti.Khanna@Wildlife.ca.gov	0000-0003-1724-248X	creator			

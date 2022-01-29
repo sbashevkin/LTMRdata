@@ -1,19 +1,19 @@
 attributeName	attributeDefinition	class	unit	dateTimeFormatString	missingValueCode	missingValueCodeExplanation
-Source		categorical				
-Station		categorical				
-Latitude		numeric	!Add units here!			
-Longitude		numeric	!Add units here!			
-Date		Date		!Add datetime specifier here!		
-Datetime		Date		!Add datetime specifier here!		
-Survey		numeric	!Add units here!			
-Depth		numeric	!Add units here!			
-SampleID		character				
-Method		categorical				
-Tide		categorical				
-Sal_surf		numeric	!Add units here!			
-Temp_surf		numeric	!Add units here!			
-Secchi		numeric	!Add units here!			
-Tow_duration		numeric	!Add units here!			
-Tow_area		numeric	!Add units here!			
-Tow_volume		numeric	!Add units here!			
-Tow_direction		categorical				
+Source	Name of the source survey	categorical				
+Station	Unique name of each sampling location	character				
+Latitude	Latitude of the sampling location	numeric	degree		NA	No coordinates available
+Longitude	Longitude of the sampling location	numeric	degree		NA	No coordinates available
+Date	Date sample was collected	Date		YYYY-MM-DD		
+Datetime	Date and time sample was collected	Date		YYYY-MM-DD hh:mm:ss	NA	Not recorded
+Survey	Cumulative survey number in the source dataset	numeric	dimensionless		NA	The source dataset does not record survey numbers
+Depth	"Bottom depth. Sometimes this is recorded at the time of the tow, and sometimes it's an average depth for the sampling location. "	numeric	meter		NA	Not recorded
+SampleID	Unique identifier for the sample (tow)	character				
+Method	Gear type	categorical				
+Tide	Tidal stage	categorical			NA	Not recorded
+Sal_surf	Surface salinity	numeric	dimensionless		NA	Not recorded
+Temp_surf	Surface temperature	numeric	celsius		NA	Not recorded
+Secchi	Secchi depth	numeric	centimeter		NA	Not recorded
+Tow_duration	Duration of tow	numeric	minute		NA	Not recorded
+Tow_area	Area sampled by tow	numeric	squareMeter		NA	Not recorded or this effort metric not used for this gear type
+Tow_volume	Volume sampled by tow	numeric	meterCubed		NA	Not recorded or this effort metric not used for this gear type
+Tow_direction	Direction of tow	categorical			NA	Not recorded

@@ -1,0 +1,4 @@
+attributeName	attributeDefinition	class	unit	dateTimeFormatString	missingValueCode	missingValueCodeExplanation
+Species	Species name	character				
+Intercept	Intercept of the equation: fork or total length = intercept + slope * standard length	numeric	millimeter			
+Slope	Intercept of the equation: fork or total length = intercept + slope * standard length	numeric	dimensionless			

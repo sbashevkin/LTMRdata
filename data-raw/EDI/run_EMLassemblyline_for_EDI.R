@@ -4,7 +4,7 @@
 
 # Update EMLassemblyline and load
 
-remotes::install_github("EDIorg/EMLassemblyline")
+#remotes::install_github("EDIorg/EMLassemblyline")
 library(EMLassemblyline)
 source("data-raw/data_divide.R")
 
@@ -42,7 +42,7 @@ template_provenance(
 template_table_attributes(
   path = path_templates,
   data.path = path_data,
-  data.table = c("survey.csv", "fish.csv"))
+  data.table = c("survey.csv", "fish.csv", "Length_conversions.csv"))
 
 # Create categorical variables template (required when attributes templates
 # contains variables with a "categorical" class)
