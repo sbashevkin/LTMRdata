@@ -1,0 +1,229 @@
+name	name_type	name_resolved	authority_system	authority_id
+Acanthogobius flavimanus	scientific	Acanthogobius flavimanus	ITIS	171882
+Acipenser	scientific	Acipenser	ITIS	161065
+Acipenser transmontanus	scientific	Acipenser transmontanus	ITIS	161068
+Alosa sapidissima	scientific	Alosa sapidissima	ITIS	161702
+Ameiurus catus	scientific	Ameiurus catus	ITIS	164037
+Ameiurus melas	scientific	Ameiurus melas	ITIS	164039
+Ameiurus nebulosus	scientific	Ameiurus nebulosus	ITIS	164043
+Atheriniformes	scientific	Atheriniformes	ITIS	165429
+Atherinops affinis	scientific	Atherinops affinis	ITIS	165986
+Atherinopsis californiensis	scientific	Atherinopsis californiensis	ITIS	166012
+Carassius auratus	scientific	Carassius auratus	ITIS	163350
+Catostomus occidentalis	scientific	Catostomus occidentalis	ITIS	163908
+Centrarchidae	scientific	Centrarchidae	ITIS	168093
+Citharichthys stigmaeus	scientific	Citharichthys stigmaeus	ITIS	172717
+Clevelandia ios	scientific	Clevelandia ios	ITIS	171748
+Clupea pallasii	scientific	Clupea pallasii	ITIS	551209
+Cottidae	scientific	Cottidae	ITIS	167196
+Cottus asper	scientific	Cottus asper	ITIS	167233
+Cymatogaster aggregata	scientific	Cymatogaster aggregata	ITIS	169739
+Cyprinidae	scientific	Cyprinidae	ITIS	163342
+Cyprinus carpio	scientific	Cyprinus carpio	ITIS	163344
+Dorosoma petenense	scientific	Dorosoma petenense	ITIS	161738
+Engraulis mordax	scientific	Engraulis mordax	ITIS	161828
+Gambusia affinis	scientific	Gambusia affinis	ITIS	165878
+Gasterosteus aculeatus	scientific	Gasterosteus aculeatus	ITIS	166365
+Genyonemus lineatus	scientific	Genyonemus lineatus	ITIS	169257
+Gillichthys mirabilis	scientific	Gillichthys mirabilis	ITIS	171967
+Gobiidae	scientific	Gobiidae	ITIS	171746
+Hypomesus nipponensis	scientific	Hypomesus nipponensis	ITIS	162033
+Hypomesus transpacificus	scientific	Hypomesus transpacificus	ITIS	162032
+Hysterocarpus traskii	scientific	Hysterocarpus traskii	ITIS	553322
+Ictaluridae	scientific	Ictaluridae	ITIS	163995
+Ictalurus punctatus	scientific	Ictalurus punctatus	ITIS	163998
+Ilypnus gilberti	scientific	Ilypnus gilberti	ITIS	171892
+Lampetra ayresii	scientific	Lampetra ayresii	ITIS	622248
+Lampetra tridentata	scientific	Lampetra tridentata	ITIS	159713
+Lavinia exilicauda	scientific	Lavinia exilicauda	ITIS	163569
+Lepidogobius lepidus	scientific	Lepidogobius lepidus	ITIS	171762
+Lepomis macrochirus	scientific	Lepomis macrochirus	ITIS	168141
+Lepomis microlophus	scientific	Lepomis microlophus	ITIS	168154
+Leptocottus armatus	scientific	Leptocottus armatus	ITIS	167302
+Lucania parva	scientific	Lucania parva	ITIS	165679
+Menidia audens	scientific	Menidia audens	ITIS	165998
+Micropterus dolomieu	scientific	Micropterus dolomieu	ITIS	550562
+Micropterus punctulatus	scientific	Micropterus punctulatus	ITIS	168161
+Micropterus salmoides	scientific	Micropterus salmoides	ITIS	168160
+Morone saxatilis	scientific	Morone saxatilis	ITIS	167680
+Notemigonus crysoleucas	scientific	Notemigonus crysoleucas	ITIS	163368
+Oncorhynchus tshawytscha	scientific	Oncorhynchus tshawytscha	ITIS	161980
+Orthodon microlepidotus	scientific	Orthodon microlepidotus	ITIS	163589
+Osmeridae	scientific	Osmeridae	ITIS	162028
+Parophrys vetulus	scientific	Parophrys vetulus	ITIS	172921
+Percina macrolepida	scientific	Percina macrolepida	ITIS	168487
+Petromyzontiformes	scientific	Petromyzontiformes	ITIS	159696
+Platichthys stellatus	scientific	Platichthys stellatus	ITIS	172893
+Pogonichthys macrolepidotus	scientific	Pogonichthys macrolepidotus	ITIS	163603
+Pomoxis annularis	scientific	Pomoxis annularis	ITIS	168166
+Pomoxis nigromaculatus	scientific	Pomoxis nigromaculatus	ITIS	168167
+Porichthys notatus	scientific	Porichthys notatus	ITIS	164414
+Ptychocheilus grandis	scientific	Ptychocheilus grandis	ITIS	163524
+Sebastes auriculatus	scientific	Sebastes auriculatus	ITIS	166708
+Spirinchus thaleichthys	scientific	Spirinchus thaleichthys	ITIS	162049
+Symphurus atricauda	scientific	Symphurus atricauda	ITIS	173077
+Syngnathus leptorhynchus	scientific	Syngnathus leptorhynchus	ITIS	166462
+Tridentiger	scientific	Tridentiger	ITIS	171911
+Tridentiger barbatus	scientific	Tridentiger barbatus	ITIS	638138
+Tridentiger bifasciatus	scientific	Tridentiger bifasciatus	ITIS	553361
+Tridentiger trigonocephalus	scientific	Tridentiger trigonocephalus	ITIS	171912
+UnID	scientific	UnID	NA	NA
+Acipenser medirostris	scientific	Acipenser medirostris	ITIS	161067
+Allosmerus elongatus	scientific	Allosmerus elongatus	ITIS	162053
+Alopias vulpinus	scientific	Alopias vulpinus	ITIS	159916
+Alosinae	scientific	Alosinae	ITIS	551155
+Ammodytes hexapterus	scientific	Ammodytes hexapterus	ITIS	171672
+Amphistichus argenteus	scientific	Amphistichus argenteus	ITIS	169758
+Amphistichus koelzi	scientific	Amphistichus koelzi	ITIS	169759
+Amphistichus rhodoterus	scientific	Amphistichus rhodoterus	ITIS	169757
+Artedius fenestralis	scientific	Artedius fenestralis	ITIS	167212
+Artedius harringtoni	scientific	Artedius harringtoni	ITIS	167213
+Artedius notospilotus	scientific	Artedius notospilotus	ITIS	167215
+Atractoscion nobilis	scientific	Atractoscion nobilis	ITIS	169387
+Aulorhynchus flavidus	scientific	Aulorhynchus flavidus	ITIS	166404
+Bathymasteridae	scientific	Bathymasteridae	ITIS	170945
+Chilara taylori	scientific	Chilara taylori	ITIS	165006
+Citharichthys	scientific	Citharichthys	ITIS	172715
+Citharichthys sordidus	scientific	Citharichthys sordidus	ITIS	172716
+Cololabis saira	scientific	Cololabis saira	ITIS	165609
+Embiotoca jacksoni	scientific	Embiotoca jacksoni	ITIS	169745
+Embiotoca lateralis	scientific	Embiotoca lateralis	ITIS	169744
+Embiotocidae	scientific	Embiotocidae	ITIS	169735
+Enophrys bison	scientific	Enophrys bison	ITIS	167267
+Hemilepidotus hemilepidotus	scientific	Hemilepidotus hemilepidotus	ITIS	167279
+Hemilepidotus spinosus	scientific	Hemilepidotus spinosus	ITIS	167283
+Hexagrammos decagrammus	scientific	Hexagrammos decagrammus	ITIS	167110
+Hyperprosopon anale	scientific	Hyperprosopon anale	ITIS	169749
+Hyperprosopon argenteum	scientific	Hyperprosopon argenteum	ITIS	169747
+Hyperprosopon ellipticum	scientific	Hyperprosopon ellipticum	ITIS	169748
+Hypomesus pretiosus	scientific	Hypomesus pretiosus	ITIS	162030
+Hypsoblennius jenkinsi	scientific	Hypsoblennius jenkinsi	ITIS	171160
+Hypsurus caryi	scientific	Hypsurus caryi	ITIS	169761
+Ictalurus furcatus	scientific	Ictalurus furcatus	ITIS	163997
+Inopsetta ischyra	scientific	Inopsetta ischyra	ITIS	621021
+Lampetra richardsoni	scientific	Lampetra richardsoni	ITIS	159707
+Lepomis cyanellus	scientific	Lepomis cyanellus	ITIS	168132
+Lepomis gibbosus	scientific	Lepomis gibbosus	ITIS	168144
+Leuresthes tenuis	scientific	Leuresthes tenuis	ITIS	166014
+Liparis	scientific	Liparis	ITIS	43620
+Liparis fucensis	scientific	Liparis fucensis	ITIS	167560
+Liparis pulchellus	scientific	Liparis pulchellus	ITIS	167572
+Lumpenus sagitta	scientific	Lumpenus sagitta	ITIS	171583
+Medialuna californiensis	scientific	Medialuna californiensis	ITIS	169522
+Microgadus proximus	scientific	Microgadus proximus	ITIS	164719
+Micrometrus minimus	scientific	Micrometrus minimus	ITIS	169766
+Microstomus pacificus	scientific	Microstomus pacificus	ITIS	172887
+Mustelus henlei	scientific	Mustelus henlei	ITIS	160236
+Myliobatis californica	scientific	Myliobatis californica	ITIS	160981
+Mylopharodon conocephalus	scientific	Mylopharodon conocephalus	ITIS	163587
+Neoclinus uninotatus	scientific	Neoclinus uninotatus	ITIS	171480
+Notorynchus cepedianus	scientific	Notorynchus cepedianus	ITIS	159829
+Odontopyxis trispinosa	scientific	Odontopyxis trispinosa	ITIS	167460
+Oncorhynchus kisutch	scientific	Oncorhynchus kisutch	ITIS	161977
+Oncorhynchus mykiss	scientific	Oncorhynchus mykiss	ITIS	161989
+Ophichthus zophochir	scientific	Ophichthus zophochir	ITIS	161469
+Ophiodon elongatus	scientific	Ophiodon elongatus	ITIS	167116
+Paralichthys californicus	scientific	Paralichthys californicus	ITIS	172743
+Peprilus simillimus	scientific	Peprilus simillimus	ITIS	172565
+Phanerodon furcatus	scientific	Phanerodon furcatus	ITIS	169751
+Pholis ornata	scientific	Pholis ornata	ITIS	171642
+Pisces	scientific	Pisces	World Register of Marine Species	11676
+Platyrhinoidis triseriata	scientific	Platyrhinoidis triseriata	ITIS	160824
+Pleuronectidae	scientific	Pleuronectidae	ITIS	172859
+Pleuronectiformes	scientific	Pleuronectiformes	ITIS	172702
+Pleuronichthys coenosus	scientific	Pleuronichthys coenosus	ITIS	172923
+Pleuronichthys decurrens	scientific	Pleuronichthys decurrens	ITIS	172924
+Pleuronichthys guttulatus	scientific	Pleuronichthys guttulatus	ITIS	616048
+Pleuronichthys verticalis	scientific	Pleuronichthys verticalis	ITIS	172926
+Psettichthys melanostictus	scientific	Psettichthys melanostictus	ITIS	172928
+Raja binoculata	scientific	Raja binoculata	ITIS	160848
+Rathbunella hypoplecta	scientific	Rathbunella hypoplecta	ITIS	170954
+Rhacochilus toxotes	scientific	Rhacochilus toxotes	ITIS	169755
+Rhacochilus vacca	scientific	Rhacochilus vacca	ITIS	169754
+Rhinobatos productus	scientific	Rhinobatos productus	ITIS	160818
+Sarda chiliensis	scientific	Sarda chiliensis	ITIS	172408
+Sardinops sagax	scientific	Sardinops sagax	ITIS	161729
+Scomber japonicus	scientific	Scomber japonicus	ITIS	172412
+Scorpaenichthys marmoratus	scientific	Scorpaenichthys marmoratus	ITIS	167353
+Sebastes	scientific	Sebastes	ITIS	166705
+Sebastes flavidus	scientific	Sebastes flavidus	ITIS	166720
+Sebastes melanops	scientific	Sebastes melanops	ITIS	166727
+Sebastes miniatus	scientific	Sebastes miniatus	ITIS	166729
+Sebastes mystinus	scientific	Sebastes mystinus	ITIS	166730
+Sebastes paucispinis	scientific	Sebastes paucispinis	ITIS	166733
+Seriphus politus	scientific	Seriphus politus	ITIS	169362
+Sphyraena argentea	scientific	Sphyraena argentea	ITIS	170426
+Spirinchus starksi	scientific	Spirinchus starksi	ITIS	162048
+Squalus acanthias	scientific	Squalus acanthias	ITIS	160617
+Synodus lucioceps	scientific	Synodus lucioceps	ITIS	162378
+Thaleichthys pacificus	scientific	Thaleichthys pacificus	ITIS	162051
+Torpedo californica	scientific	Torpedo californica	ITIS	160833
+Trachurus symmetricus	scientific	Trachurus symmetricus	ITIS	168586
+Triakis semifasciata	scientific	Triakis semifasciata	ITIS	160448
+Ameiurus natalis	scientific	Ameiurus natalis	ITIS	164041
+Anguilliformes	scientific	Anguilliformes	ITIS	161123
+Apodichthys flavidus	scientific	Apodichthys flavidus	ITIS	171634
+Archoplites interruptus	scientific	Archoplites interruptus	ITIS	168175
+Brachyistius frenatus	scientific	Brachyistius frenatus	ITIS	169737
+Catostomidae	scientific	Catostomidae	ITIS	163892
+Cyprinella lutrensis	scientific	Cyprinella lutrensis	ITIS	163792
+Gibbonsia metzi	scientific	Gibbonsia metzi	ITIS	171398
+Gibbonsia montereyensis	scientific	Gibbonsia montereyensis	ITIS	171399
+Hesperoleucus symmetricus	scientific	Hesperoleucus symmetricus	ITIS	163565
+Heterostichus rostratus	scientific	Heterostichus rostratus	ITIS	171476
+Isopsetta isolepis	scientific	Isopsetta isolepis	ITIS	172919
+Lepidopsetta bilineata	scientific	Lepidopsetta bilineata	ITIS	172917
+Lepomis gulosus	scientific	Lepomis gulosus	ITIS	168138
+Lucania goodei	scientific	Lucania goodei	ITIS	165680
+Micropterus	scientific	Micropterus	ITIS	168158
+Micropterus coosae	scientific	Micropterus coosae	ITIS	168163
+Mugil cephalus	scientific	Mugil cephalus	ITIS	170335
+Notropis rubellus	scientific	Notropis rubellus	ITIS	163409
+Oligocottus maculosus	scientific	Oligocottus maculosus	ITIS	167333
+Oligocottus rimensis	scientific	Oligocottus rimensis	ITIS	167334
+Percidae	scientific	Percidae	ITIS	168356
+Pholis schultzi	scientific	Pholis schultzi	ITIS	171644
+Pimephales promelas	scientific	Pimephales promelas	ITIS	163517
+Pomoxis	scientific	Pomoxis	ITIS	168165
+Pterygoplichthys disjunctivus	scientific	Pterygoplichthys disjunctivus	ITIS	680351
+Rhinichthys osculus	scientific	Rhinichthys osculus	ITIS	163387
+Salmo trutta	scientific	Salmo trutta	ITIS	161997
+Sebastes carnatus	scientific	Sebastes carnatus	ITIS	166767
+Siphateles bicolor	scientific	Siphateles bicolor	ITIS	913989
+Aurelia aurita	scientific	Aurelia aurita	ITIS	51701
+Blackfordia virginica	scientific	Blackfordia virginica	ITIS	49780
+Crangon	scientific	Crangon	ITIS	97107
+Decapoda	scientific	Decapoda	ITIS	95599
+Lepomis	scientific	Lepomis	ITIS	168130
+Maeotias marginata	scientific	Maeotias marginata	ITIS	719132
+Palaemon	scientific	Palaemon	ITIS	96449
+Palaemon macrodactylus	scientific	Palaemon macrodactylus	ITIS	96450
+Palaemon modestus	scientific	Palaemon modestus	GBIF Backbone Taxonomy	9526094
+Pandalus danae	scientific	Pandalus danae	ITIS	96982
+Pleurobrachia bachei	scientific	Pleurobrachia bachei	ITIS	53863
+Polyorchis penicillatus	scientific	Polyorchis penicillatus	ITIS	49255
+Scrippsia pacifica	scientific	Scrippsia pacifica	ITIS	49261
+Aequorea	scientific	Aequorea	ITIS	50623
+Anarrhichthys ocellatus	scientific	Anarrhichthys ocellatus	ITIS	171345
+Chrysaora fuscescens	scientific	Chrysaora fuscescens	ITIS	51658
+Cnidaria	scientific	Cnidaria	ITIS	48738
+Cottus gulosus	scientific	Cottus gulosus	ITIS	167234
+Hippoglossus stenolepis	scientific	Hippoglossus stenolepis	ITIS	172932
+Mustelus californicus	scientific	Mustelus californicus	ITIS	160235
+Palaemon kadiakensis	scientific	Palaemon kadiakensis	GBIF Backbone Taxonomy	8969832
+Upogebia	scientific	Upogebia	ITIS	98207
+Actinopteri	scientific	Actinopteri	World Register of Marine Species	843664
+Atherinopsidae	scientific	Atherinopsidae	ITIS	630579
+Cancer magister	scientific	Cancer magister	ITIS	98675
+Clupeidae	scientific	Clupeidae	ITIS	161700
+Eucyclogobius newberryi	scientific	Eucyclogobius newberryi	ITIS	171916
+Exopalaemon modestus	scientific	Exopalaemon modestus	ITIS	96574
+Corbicula fluminea	scientific	Corbicula fluminea	ITIS	81387
+Crangon franciscorum	scientific	Crangon franciscorum	ITIS	97114
+Eriocheir sinensis	scientific	Eriocheir sinensis	ITIS	99058
+Macoma	scientific	Macoma	ITIS	81033
+Myoidae	scientific	Myoidae	NA	NA
+Mysida	scientific	Mysida	ITIS	89855
+Potamocorbula amurensis	scientific	Potamocorbula amurensis	ITIS	81746
+Procambarus clarkii	scientific	Procambarus clarkii	ITIS	97491
+Rhithropanopeus harrisii	scientific	Rhithropanopeus harrisii	ITIS	98790

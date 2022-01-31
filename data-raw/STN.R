@@ -127,6 +127,7 @@ sampleSTN <- Sample %>%
                 TowNum=TowNumber,
                 Tow_volume=TowVolm3,
                 Station=StationCode) %>%
+  mutate(Tow_direction=recode(Tow_direction, `Against Current`="Against current", `With Current`="With current"))%>%
   select(TowRowID, Source, Station, Latitude, Longitude, Date, Datetime,
                 Survey, TowNum, Depth, SampleID, Method, Tide, Sal_surf,
                 Temp_surf, Secchi, Tow_volume, Tow_direction, Cable_length)

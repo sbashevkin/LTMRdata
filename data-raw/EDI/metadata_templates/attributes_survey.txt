@@ -7,13 +7,18 @@ Date	Date sample was collected	Date		YYYY-MM-DD
 Datetime	Date and time sample was collected	Date		YYYY-MM-DD hh:mm:ss	NA	Not recorded
 Survey	Cumulative survey number in the source dataset	numeric	dimensionless		NA	The source dataset does not record survey numbers
 Depth	"Bottom depth. Sometimes this is recorded at the time of the tow, and sometimes it's an average depth for the sampling location. "	numeric	meter		NA	Not recorded
-SampleID	Unique identifier for the sample (tow)	character				
+SampleID	Unique identifier for each sample (i.e. tow). This is the key to join the fish and sample tables together.	character				
 Method	Gear type	categorical				
 Tide	Tidal stage	categorical			NA	Not recorded
 Sal_surf	Surface salinity	numeric	dimensionless		NA	Not recorded
+Sal_bot	Bottom salinity	numeric	dimensionless		NA	Not recorded
 Temp_surf	Surface temperature	numeric	celsius		NA	Not recorded
 Secchi	Secchi depth	numeric	centimeter		NA	Not recorded
+Secchi_estimated	Was Secchi depth estimated? This is only used for FMWT data.				NA	Not recorded (only used for FMWT data)
 Tow_duration	Duration of tow	numeric	minute		NA	Not recorded
 Tow_area	Area sampled by tow	numeric	squareMeter		NA	Not recorded or this effort metric not used for this gear type
 Tow_volume	Volume sampled by tow	numeric	meterCubed		NA	Not recorded or this effort metric not used for this gear type
-Tow_direction	Direction of tow	categorical			NA	Not recorded
+Cable_length	Length of cable released when net deployed	numeric	meter		NA	Not recorded
+Tow_direction	"Direction of tow, this has not been standardized among surveys. "	character			NA	Not recorded
+Notes_tow	Notes recorded about the tow	character			NA	Not recorded
+Notes_flowmeter	Notes recorded about the flowmeter used to calculate tow_area or tow_volume	character			NA	Not recorded

@@ -1,30 +1,21 @@
 attributeName	code	definition
-Method	20mm net	
-Method	Beach seine	
-Method	Kodiak trawl	
-Method	Midwater trawl	
-Method	Oblique tow	
-Method	Otter trawl	
-Method	STN net	
-Source	20mm	
-Source	Bay Study	
-Source	DJFMP	
-Source	EDSM	
-Source	FMWT	
-Source	SKT	
-Source	SLS	
-Source	STN	
-Source	Suisun	
-Tide	Ebb	
-Tide	Flood	
-Tide	High Slack	
-Tide	Low Slack	
-Tow_direction	Against current	
-Tow_direction	Against Current	
-Tow_direction	Downstream	
-Tow_direction	Neither	
-Tow_direction	Slack or cross-current	
-Tow_direction	Unknown	
-Tow_direction	Upstream	
-Tow_direction	With current	
-Tow_direction	With Current	
+Method	20mm net	20mm net
+Method	Beach seine	Beach seine
+Method	Kodiak trawl	Kodiak trawl
+Method	Midwater trawl	Midwater trawl
+Method	Oblique tow	Oblique tow
+Method	Otter trawl	Otter trawl
+Method	STN net	Summer townet
+Source	20mm	CDFW 20mm Survey
+Source	Bay Study	CDFW Bay Study
+Source	DJFMP	USFWS Delta Juvenile Fish Monitoring Program
+Source	EDSM	USFWS Enhanced Delta Smelt Monitoring
+Source	FMWT	CDFW Fall Midwater Trawl
+Source	SKT	CDFW Spring Kodiak Trawl
+Source	SLS	CDFW Smelt Larva Survey
+Source	STN	CDFW Summer Townet
+Source	Suisun	UC Davis Suisun Marsh Fish Study
+Tide	Ebb	Ebb tide
+Tide	Flood	Flood tide
+Tide	High Slack	High slack tide
+Tide	Low Slack	Low slack tide

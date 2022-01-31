@@ -1,3 +1,12 @@
+# TODO:
+# 1) Add variables to attributes templates that were recently added to the dataset
+
+
+
+
+
+
+
 # This script executes an EMLassemblyline workflow.
 
 # Initialize workspace --------------------------------------------------------
@@ -13,6 +22,8 @@ root<-file.path("data-raw", "EDI")
 path_templates <- file.path(root, "metadata_templates")
 path_data <- file.path(root, "data_objects")
 path_eml <- file.path(root, "eml")
+
+data_tables<-c("survey.csv", "fish.csv", "Length_conversions.csv")
 
 
 # Create data -------------------------------------------------------------
@@ -42,7 +53,7 @@ template_provenance(
 template_table_attributes(
   path = path_templates,
   data.path = path_data,
-  data.table = c("survey.csv", "fish.csv", "Length_conversions.csv"))
+  data.table = data_tables)
 
 # Create categorical variables template (required when attributes templates
 # contains variables with a "categorical" class)
@@ -57,15 +68,15 @@ template_categorical_variables(
 template_geographic_coverage(
   path = path_templates,
   data.path = path_data,
-  data.table = "",
-  lat.col = "",
-  lon.col = "",
-  site.col = "")
+  data.table = "survey.csv",
+  lat.col = "Latitude",
+  lon.col = "Longitude",
+  site.col = "Station")
 
 # Create taxonomic coverage template (Not-required. Use this to report
 # taxonomic entities in the metadata)
 
-remotes::install_github("EDIorg/taxonomyCleanr")
+#remotes::install_github("EDIorg/taxonomyCleanr")
 library(taxonomyCleanr)
 
 taxonomyCleanr::view_taxa_authorities()
@@ -73,31 +84,40 @@ taxonomyCleanr::view_taxa_authorities()
 template_taxonomic_coverage(
   path = path_templates,
   data.path = path_data,
-  taxa.table = "",
-  taxa.col = "",
-  taxa.name.type = "",
-  taxa.authority = 3)
+  taxa.table = "fish.csv",
+  taxa.col = "Taxa",
+  taxa.name.type = "scientific",
+  taxa.authority = c(3,9,11))
 
 # Make EML from metadata templates --------------------------------------------
 
 # Once all your metadata templates are complete call this function to create
 # the EML.
 
+#Sandbox
+ID<-"edi.746.1"
+
+#EDI
+ID<-"edi.1075.1"
+
 make_eml(
   path = path_templates,
   data.path = path_data,
   eml.path = path_eml,
-  dataset.title = "",
-  temporal.coverage = c("YYYY-MM-DD", "YYYY-MM-DD"),
-  geographic.description = "",
-  geographic.coordinates = c("N", "E", "S", "W"),
-  maintenance.description = "",
-  data.table = c(""),
-  data.table.name = c(""),
-  data.table.description = c(""),
-  other.entity = c(""),
-  other.entity.name = c(""),
-  other.entity.description = c(""),
-  user.id = "",
-  user.domain = "",
-  package.id = "")
+  dataset.title = "Fish abundance in the San Francisco Estuary (1959-2021), an integration of 9 monitoring surveys.",
+  temporal.coverage = c("1959-06-13", "2021-09-23"),
+  maintenance.description = "ongoing",
+  data.table = data_tables,
+  data.table.url = c(),
+  data.table.name = c("Sample-level table", "Fish-level data", "Length conversion equations"),
+  data.table.description = c("Sample-level environmental and effort data. Can be joined to the fish table with the SampleID column.",
+                             "Fish-level length and abundance data. Can be joined to the survey table with the SampleID column.",
+                             "Length conversion equations for 20 fishes, of the form fork or total length = intercept + slope * standard length."),
+  other.entity = c("Fishsurvey_compressed.rds"),
+  other.entity.url = "",
+  other.entity.name = c("Compressed fish and survey data."),
+  other.entity.description = c("The fish and survey tables compressed into an rda file (compressed file format for the R programming language).
+                               These data are exactly identical to their csv analogs. They are provided to reduce download time for R-users."),
+  user.id = "sbashevkin",
+  user.domain = "EDI",
+  package.id = ID)
