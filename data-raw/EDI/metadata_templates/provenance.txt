@@ -7,10 +7,10 @@ dataPackageID	systemID	title	givenName	middleInitial	surName	role	organizationNa
 		Suisun Marsh Fish Study	Moyle		Peter	creator	"University of California, Davis"		This online link references the location of information and contact information for this survey	https://watershed.ucdavis.edu/project/suisun-marsh-fish-study
 		Fall Midwater Trawl data	CDFW			creator	California Department of Fish and Wildlife		This online link references the location of the metadata and original data from this survey	https://filelib.wildlife.ca.gov/Public/TownetFallMidwaterTrawl/FMWT%20Data/
 		Fall Midwater Trawl data	White		James	contact	California Department of Fish and Wildlife	James.White@wildlife.ca.gov	This online link references the location of the metadata and original data from this survey	https://filelib.wildlife.ca.gov/Public/TownetFallMidwaterTrawl/FMWT%20Data/
-edi.244.5										
-edi.415.5										
-edi.535.4										
-edi.534.4										
+edi.244.5	EDI									
+edi.415.5	EDI									
+edi.535.4	EDI									
+edi.534.4	EDI									
 		Summer Townet data	CDFW			creator	California Department of Fish and Wildlife		This online link references the location of the metadata and original data from this survey	https://filelib.wildlife.ca.gov/Public/TownetFallMidwaterTrawl/TNS%20MS%20Access%20Data/TNS%20data/
 		Summer Townet data	Malinich		Timothy	contact	California Department of Fish and Wildlife	Timothy.malinich@wildlife.ca.gov	This online link references the location of the metadata and original data from this survey	https://filelib.wildlife.ca.gov/Public/TownetFallMidwaterTrawl/TNS%20MS%20Access%20Data/TNS%20data/
-edi.527.4										
+edi.527.4	EDI									

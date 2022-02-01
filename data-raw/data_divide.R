@@ -12,32 +12,39 @@ for (i in seq_along(sources)){
 
 load(file.path("data", "Length_conversions.rda"))
 
+
+survey_cols <- c("Source",
+                 "Station",
+                 "Latitude",
+                 "Longitude",
+                 "Date",
+                 "Datetime",
+                 "Survey",
+                 "Depth",
+                 "SampleID",
+                 "Method",
+                 "Tide",
+                 "Sal_surf",
+                 "Sal_bot",
+                 "Temp_surf",
+                 "Secchi",
+                 "Secchi_estimated",
+                 "Tow_duration",
+                 "Tow_area",
+                 "Tow_volume",
+                 "Cable_length",
+                 "Tow_direction",
+                 "Notes_tow",
+                 "Notes_flowmeter")
+
+fish_cols <- c("SampleID",
+               "Source",
+               "Taxa",
+               "Length",
+               "Count",
+               "Notes_catch" )
+
 divide_survey <- function(table){
-
-  survey_cols <- c("Source",
-                   "Station",
-                   "Latitude",
-                   "Longitude",
-                   "Date",
-                   "Datetime",
-                   "Survey",
-                   "Depth",
-                   "SampleID",
-                   "Method",
-                   "Tide",
-                   "Sal_surf",
-                   "Sal_bot",
-                   "Temp_surf",
-                   "Secchi",
-                   "Secchi_estimated",
-                   "Tow_duration",
-                   "Tow_area",
-                   "Tow_volume",
-                   "Cable_length",
-                   "Tow_direction",
-                   "Notes_tow",
-                   "Notes_flowmeter")
-
 
   survey_info <- table %>%
     dplyr::select(tidyselect::any_of(survey_cols)) %>%
@@ -45,15 +52,6 @@ divide_survey <- function(table){
 
 }
 divide_fish <- function(table){
-
-  fish_cols <- c("SampleID",
-                 "Source",
-                 "Taxa",
-                 "Length",
-                 "Count",
-                 "Length_NA_flag",
-                 "Notes_catch" )
-
 
   fish_info <- table %>%
     dplyr::select(tidyselect::any_of(fish_cols)) %>%
@@ -65,12 +63,13 @@ dat_l <- mget(sources)
 res_survey <- lapply(dat_l, divide_survey)
 res_fish <- lapply(dat_l, divide_fish)
 
-res_survey <- do.call(dplyr::bind_rows, res_survey)
+res_survey <- do.call(dplyr::bind_rows, res_survey)%>%
+  relocate(any_of(survey_cols))
 res_fish <- do.call(dplyr::bind_rows, res_fish)
 
 
 res_fish <- res_fish %>%
-  dplyr::select(tidyselect::any_of(c("SampleID", "Taxa", "Length", "Count", "Notes_catch", "Source"))) %>%
+  dplyr::select(tidyselect::any_of(fish_cols)) %>%
   dplyr::group_by(Source) %>%
   tidyr::complete(.data$SampleID, .data$Taxa, fill=list(Count=0))%>%
   dplyr::ungroup()%>%

@@ -98,7 +98,7 @@ template_taxonomic_coverage(
 ID<-"edi.746.1"
 
 #EDI
-ID<-"edi.1075.1"
+#ID<-"edi.1075.1"
 
 make_eml(
   path = path_templates,
@@ -108,13 +108,15 @@ make_eml(
   temporal.coverage = c("1959-06-13", "2021-09-23"),
   maintenance.description = "ongoing",
   data.table = data_tables,
-  data.table.url = c(),
+  data.table.url = c("https://deltacouncil.box.com/shared/static/hgnmfhhlceg1r8qmw6n51dx9nhk4rhwp.csv",
+                     "https://deltacouncil.box.com/shared/static/wzn5xixwl7fyoudbu4fn2k1d94hytjva.csv",
+                     "https://deltacouncil.box.com/shared/static/11ip1suyvp2z6byuhomhldfifralyegd.csv"),
   data.table.name = c("Sample-level table", "Fish-level data", "Length conversion equations"),
   data.table.description = c("Sample-level environmental and effort data. Can be joined to the fish table with the SampleID column.",
                              "Fish-level length and abundance data. Can be joined to the survey table with the SampleID column.",
                              "Length conversion equations for 20 fishes, of the form fork or total length = intercept + slope * standard length."),
-  other.entity = c("Fishsurvey_compressed.rds"),
-  other.entity.url = "",
+  other.entity = c("fishsurvey_compressed.rds"),
+  other.entity.url = "https://deltacouncil.box.com/shared/static/bmmel4xzjg59mqmjzci8chsxmv869on8.rds",
   other.entity.name = c("Compressed fish and survey data."),
   other.entity.description = c("The fish and survey tables compressed into an rda file (compressed file format for the R programming language).
                                These data are exactly identical to their csv analogs. They are provided to reduce download time for R-users."),

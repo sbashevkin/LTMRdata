@@ -19,3 +19,5 @@ Tide	Ebb	Ebb tide
 Tide	Flood	Flood tide
 Tide	High Slack	High slack tide
 Tide	Low Slack	Low slack tide
+Secchi_estimated	TRUE	The Secchi value is estimated
+Secchi_estimated	FALSE	The Secchi value is not estimated

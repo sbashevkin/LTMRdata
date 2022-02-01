@@ -14,7 +14,7 @@ Sal_surf	Surface salinity	numeric	dimensionless		NA	Not recorded
 Sal_bot	Bottom salinity	numeric	dimensionless		NA	Not recorded
 Temp_surf	Surface temperature	numeric	celsius		NA	Not recorded
 Secchi	Secchi depth	numeric	centimeter		NA	Not recorded
-Secchi_estimated	Was Secchi depth estimated? This is only used for FMWT data.				NA	Not recorded (only used for FMWT data)
+Secchi_estimated	Was Secchi depth estimated? This is only used for FMWT data.	categorical			NA	Not recorded (only used for FMWT data)
 Tow_duration	Duration of tow	numeric	minute		NA	Not recorded
 Tow_area	Area sampled by tow	numeric	squareMeter		NA	Not recorded or this effort metric not used for this gear type
 Tow_volume	Volume sampled by tow	numeric	meterCubed		NA	Not recorded or this effort metric not used for this gear type
