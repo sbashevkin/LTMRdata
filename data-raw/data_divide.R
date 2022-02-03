@@ -65,10 +65,8 @@ res_survey <- lapply(dat_l, divide_survey)
 res_fish <- lapply(dat_l, divide_fish)
 
 res_survey <- do.call(dplyr::bind_rows, res_survey)%>%
-  dplyr::relocate(tidyselect::any_of(survey_cols))%>%
-  dplyr::mutate(dplyr::across(c(Notes_tow, Notes_flowmeter), ~stringr::str_replace(.x, stringr::fixed(","), ";")))
-res_fish <- do.call(dplyr::bind_rows, res_fish)%>%
-  dplyr::mutate(Notes_catch=stringr::str_replace(Notes_catch, stringr::fixed(","), ";"))
+  dplyr::relocate(any_of(survey_cols))
+res_fish <- do.call(dplyr::bind_rows, res_fish)
 
 
 res_fish <- res_fish %>%

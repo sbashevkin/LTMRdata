@@ -115,6 +115,7 @@ make_eml(
   data.table.description = c("Sample-level environmental and effort data. Can be joined to the fish table with the SampleID column.",
                              "Fish-level length and abundance data. Can be joined to the survey table with the SampleID column.",
                              "Length conversion equations for 20 fishes, of the form fork or total length = intercept + slope * standard length."),
+  data.table.quote.character=c('"','"','"'),
   other.entity = c("fishsurvey_compressed.rds"),
   other.entity.url = "https://deltacouncil.box.com/shared/static/bmmel4xzjg59mqmjzci8chsxmv869on8.rds",
   other.entity.name = c("Compressed fish and survey data."),
