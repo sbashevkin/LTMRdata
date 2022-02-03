@@ -26,28 +26,30 @@ DJFMP_stations <- read_csv(file.path(tempdir(), "DJFMP_stations.csv"),
 DJFMP <-  bind_rows(
   read_csv(file.path(tempdir(), "DJFMP_1976-2001.csv"),
            col_types = cols_only(StationCode = "c", SampleDate = "c", SampleTime = "c",
-                                 TowNumber = "c", MethodCode = "c",
+                                 TowNumber = "c", MethodCode = "c", GearConditionCode = "i", flowDebris = "c",
                                  Conductivity = "d", WaterTemperature = "d", Secchi = "d",
                                  Volume = "d", TowDirectionCode = "c", MarkCode="c", RaceByLength="c",
                                  OrganismCode = "c", ForkLength = "d", Count = "d")),
   read_csv(file.path(tempdir(), "DJFMP_2002-2020.csv"),
            col_types = cols_only(StationCode = "c", SampleDate = "c", SampleTime = "c",
-                                 TowNumber = "c", MethodCode = "c",
+                                 TowNumber = "c", MethodCode = "c", GearConditionCode = "i", flowDebris = "c",
                                  Conductivity = "d", WaterTemperature = "d", Secchi = "d",
                                  Volume = "d", TowDirectionCode = "c", MarkCode="c", RaceByLength="c",
                                  OrganismCode = "c", ForkLength = "d", Count = "d")),
   read_csv(file.path(tempdir(), "DJFMP_BeachSeine_1976-2020.csv"),
            col_types = cols_only(StationCode = "c", SampleDate = "c", SampleTime = "c",
                                  TowNumber = "c", MethodCode = "c", SeineDepth = "d",
+                                 GearConditionCode = "i", flowDebris = "c",
                                  Conductivity = "d", WaterTemperature = "d", Secchi = "d",
                                  Volume = "d", TowDirectionCode = "c", MarkCode="c", RaceByLength="c",
                                  OrganismCode = "c", ForkLength = "d", Count = "d")))%>%
   rename(Station = StationCode, Date = SampleDate, Time = SampleTime, Temp_surf = WaterTemperature,
          Method = MethodCode, Tow_volume = Volume, Depth=SeineDepth,
          Tow_direction = TowDirectionCode, Length = ForkLength) %>%
-  # convert Secchi to cm
-  mutate(Secchi = Secchi*100) %>%
-  mutate(Source = "DJFMP",
+  filter(is.na(GearConditionCode) | !GearConditionCode%in%c(3,4,9))%>%
+  mutate(Tow_volume = if_else(flowDebris=="Y", NA_real_, Tow_volume, missing=Tow_volume),
+         Secchi = Secchi*100, # convert Secchi to cm
+         Source = "DJFMP",
          Date = parse_date_time(Date, "%Y-%m-%d", tz = "America/Los_Angeles"),
          Time = parse_date_time(Time, "%H:%M:%S", tz = "America/Los_Angeles"),
          Datetime = parse_date_time(if_else(is.na(Time), NA_character_, paste0(Date, " ", hour(Time), ":", minute(Time))), "%Y-%m-%d %H:%M", tz="America/Los_Angeles"),
@@ -62,7 +64,7 @@ DJFMP <-  bind_rows(
          Group=case_when(MarkCode=="None" & OrganismCode=="CHN" ~ RaceByLength,
                          MarkCode!="None" ~ paste("Tag", 1:nrow(.)),
                          TRUE ~ NA_character_))%>%
-  select(-Time, -MarkCode, -RaceByLength) %>%
+  select(-Time, -MarkCode, -RaceByLength, -GearConditionCode, -flowDebris) %>%
   group_by(across(-Count))%>% # Some species are recorded with the same length multiple times
   summarise(Count=sum(Count), .groups="drop")%>%
   group_by(SampleID, OrganismCode, Group)%>%
@@ -75,7 +77,7 @@ DJFMP <-  bind_rows(
            is.infinite(Count) ~ "Unknown length",
            is.na(Length)~ "No fish caught",
            TRUE ~ NA_character_), # Add reasoning for an NA lengths (all "No Fish Caught" for FMWT)
-    Count=if_else(is.infinite(Count), Total, Count))%>%
+         Count=if_else(is.infinite(Count), Total, Count))%>%
   filter(Length!=0 | is.na(Length))%>%
   select(-Total, -TotalMeasured, -Group)%>%
   left_join(DJFMP_stations, by = "Station") %>%

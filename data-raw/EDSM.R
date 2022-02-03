@@ -21,6 +21,7 @@ EDSM <- bind_rows(
   read_csv(file.path(tempdir(), "EDSM_20mm.csv"),
            col_types = cols_only(Station = "c", Date = "c", Time = "c", Tide = "c",
                                  StartLong = "d", StartLat = "d", Tow="d",
+                                 GearConditionCode = "i", Debris = "c",
                                  TopEC = "d", TopTemp = "d", Scchi = "d", Depth = "d",
                                  Volume = "d", Dir = "c", GearType = "c",
                                  OrganismCode = "c", ForkLength = "d", SumOfCatchCount = "d",
@@ -29,6 +30,7 @@ EDSM <- bind_rows(
            col_types = cols_only(Station = "c", Date = "c", Time = "c", Tide = "c",
                                  StartLong = "d", StartLat = "d", Tow="d",
                                  EC = "d", Temp = "d", Scchi = "d", StartDepth = "d",
+                                 GearConditionCode = "i", Debris = "c",
                                  Volume = "d", Dir = "c", GearType = "c",
                                  OrganismCode = "c", ForkLength = "d", SumOfCatchCount = "d",
                                  MarkCode="c", RaceByLength="c"))%>%
@@ -36,7 +38,9 @@ EDSM <- bind_rows(
   rename(Temp_surf = TopTemp, Tow_volume = Volume, Method = GearType, Secchi = Scchi,
          Tow_direction = Dir, Length = ForkLength, Conductivity = TopEC, Count = SumOfCatchCount,
          Latitude=StartLat, Longitude=StartLong) %>%
-  mutate(Source = "EDSM",
+  filter(is.na(GearConditionCode) | !GearConditionCode%in%c(3,4,9))%>%
+  mutate(Tow_volume = if_else(Debris%in%c("Y", "Yes"), NA_real_, Tow_volume, missing=Tow_volume),
+         Source = "EDSM",
          Date = parse_date_time(Date, "%Y-%m-%d", tz = "America/Los_Angeles"),
          Time = parse_date_time(Time, "%H:%M:%S", tz = "America/Los_Angeles"),
          Datetime = parse_date_time(if_else(is.na(Time), NA_character_, paste0(Date, " ", hour(Time), ":", minute(Time))), "%Y-%m-%d %H:%M", tz="America/Los_Angeles"),
@@ -54,7 +58,7 @@ EDSM <- bind_rows(
                          MarkCode!="None" ~ paste("Tag", 1:nrow(.)),
                          TRUE ~ NA_character_),
          Count=if_else(OrganismCode=="NOFISH", NA_real_, Count))%>%
-  select(-Time, -MarkCode, -RaceByLength) %>%
+  select(-Time, -MarkCode, -RaceByLength, -GearConditionCode, -Debris) %>%
   group_by(across(-Count))%>% # Some species are recorded with the same length multiple times
   summarise(Count=sum(Count), .groups="drop")%>%
   group_by(SampleID, OrganismCode, Group)%>%
