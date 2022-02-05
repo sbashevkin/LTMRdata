@@ -1,3 +1,9 @@
+* Set `Count` values to 0 for all cases of "No fish caught"
+* Standardized usage of `Length_NA_flag`
+* Added SKT, SLS, STN, 20mm, DJFMP, and EDSM datasets.
+* Fixed issues with incorrect incorporation of zeroes in the `zero_fill` function.
+* Updated FMWT, Bay Study, and Suisun data.
+
 # LTMRdata 1.0.0
 
 * Fixed incorrect Bay Study Tow_area values by converting Nautical miles to meters.

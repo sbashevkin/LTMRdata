@@ -182,7 +182,8 @@ TMM[index_2, ]
 
 ## set Count for all
 TMM<-TMM%>%
-  mutate(Count=if_else(Length_NA_flag=="No fish caught", 0, Count, missing=Count))
+  mutate(Count=if_else(Length_NA_flag=="No fish caught", 0, Count, missing=Count),
+         Length=as.numeric(Length))
 
 ## Create final measured lengths data frame:
 TMM_measured_lengths <- TMM %>%

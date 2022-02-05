@@ -33,13 +33,15 @@ fish<-function(sources,
   rm(list=sources, envir = environment())
   gc()
 
-  if(convert_lengths){
+  if(convert_lengths & "Suisun"%in%sources){
     Length_conversions<-LTMRdata::Length_conversions
 
+    if(any(Length_conversions$Species%in%species) | is.null(species)){
     data<-data%>%
       dplyr::left_join(Length_conversions, by=c("Taxa" = "Species"))%>%
       dplyr::mutate(Length=dplyr::if_else(.data$Source=="Suisun" & .data$Taxa%in%unique(Length_conversions$Species), .data$Intercept+.data$Slope*.data$Length, .data$Length))%>%
       dplyr::select(-.data$Intercept, -.data$Slope)
+    }
   }
 
   if(!is.null(size_cutoff)){
