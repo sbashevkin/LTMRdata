@@ -116,11 +116,12 @@ make_eml(
                              "Fish-level length and abundance data. Can be joined to the survey table with the SampleID column.",
                              "Length conversion equations for 20 fishes, of the form fork or total length = intercept + slope * standard length."),
   data.table.quote.character=c('"','"','"'),
-  other.entity = c("fishsurvey_compressed.rds"),
+  other.entity = c("fishsurvey_compressed.rda"),
   other.entity.url = "https://deltacouncil.box.com/shared/static/bmmel4xzjg59mqmjzci8chsxmv869on8.rds",
   other.entity.name = c("Compressed fish and survey data."),
   other.entity.description = c("The fish and survey tables compressed into an rda file (compressed file format for the R programming language).
-                               These data are exactly identical to their csv analogs. They are provided to reduce download time for R-users."),
+                               These data are exactly identical to their csv analogs. They are provided to reduce download time for R-users.
+                               This file can be read into R using the 'load' function."),
   user.id = "sbashevkin",
   user.domain = "EDI",
   package.id = ID)

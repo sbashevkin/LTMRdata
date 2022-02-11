@@ -84,7 +84,7 @@ write.csv(res_fish, file.path(data_path, "fish.csv"), row.names = F)
 write.csv(Length_conversions, file.path(data_path, "Length_conversions.csv"), row.names = F)
 
 if(rda){
-  save(res_survey, res_fish, file=file.path(data_path, "fishsurvey_compressed.rds"), compress = "xz")
+  save(res_survey, res_fish, file=file.path(data_path, "fishsurvey_compressed.rda"), compress = "xz")
 }
 
 }
