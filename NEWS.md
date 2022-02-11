@@ -1,3 +1,5 @@
+# LTMRdata 2.0.0
+
 * Set `Count` values to 0 for all cases of "No fish caught"
 * Standardized usage of `Length_NA_flag`
 * Added SKT, SLS, STN, 20mm, DJFMP, and EDSM datasets.
