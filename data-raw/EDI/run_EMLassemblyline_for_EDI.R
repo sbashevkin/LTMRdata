@@ -1,12 +1,3 @@
-# TODO:
-# 1) Add variables to attributes templates that were recently added to the dataset
-
-
-
-
-
-
-
 # This script executes an EMLassemblyline workflow.
 
 # Initialize workspace --------------------------------------------------------
@@ -95,10 +86,10 @@ template_taxonomic_coverage(
 # the EML.
 
 #Sandbox
-ID<-"edi.746.1"
+#ID<-"edi.746.1"
 
 #EDI
-#ID<-"edi.1075.1"
+ID<-"edi.1075.1"
 
 make_eml(
   path = path_templates,
@@ -117,7 +108,7 @@ make_eml(
                              "Length conversion equations for 20 fishes, of the form fork or total length = intercept + slope * standard length."),
   data.table.quote.character=c('"','"','"'),
   other.entity = c("fishsurvey_compressed.rda"),
-  other.entity.url = "https://deltacouncil.box.com/shared/static/bmmel4xzjg59mqmjzci8chsxmv869on8.rds",
+  other.entity.url = "https://deltacouncil.box.com/shared/static/7zx2ipc3iv18t3x3vo89hqho6oetq0j7.rda",
   other.entity.name = c("Compressed fish and survey data."),
   other.entity.description = c("The fish and survey tables compressed into an rda file (compressed file format for the R programming language).
                                These data are exactly identical to their csv analogs. They are provided to reduce download time for R-users.
