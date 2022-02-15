@@ -23,7 +23,7 @@ knitr::opts_chunk$set(
 [![DOI](https://zenodo.org/badge/250588599.svg)](https://zenodo.org/badge/latestdoi/250588599)
 <!-- badges: end -->
 
-Integration of the Fall Midwater Trawl, Bay Study, and Suisun Marsh Fish Study data for use in the IEP long-term monitoring survey review.
+Integration of the Fall Midwater Trawl, Bay Study, and UC Davis Suisun Marsh Fish Study data for use in the IEP long-term monitoring survey review.
 
 ## Installation
 
