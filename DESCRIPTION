@@ -27,12 +27,14 @@ Suggests:
     covr,
     stringr,
     tibble,
-    spelling,
-    tidyselect
+    spelling
 RoxygenNote: 7.1.2
 Imports: 
     dplyr,
+    tidyselect,
     magrittr,
     rlang,
-    tidyr
+    tidyr,
+    utils,
+    data.table
 Language: en-US
