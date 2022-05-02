@@ -27,7 +27,8 @@ Suggests:
     covr,
     stringr,
     tibble,
-    spelling
+    spelling,
+    deltafish
 RoxygenNote: 7.1.2
 Imports: 
     dplyr,

@@ -30,3 +30,8 @@ Invisbly returns a list with the survey and fish tables.
 \description{
 Integrate datasets, add zeroes, divide into fish and survey tables, and export to csv and/or rda.
 }
+\examples{
+\dontrun{
+data_integrate(data_path=file.path("data-raw", "EDI", "data_objects"))
+}
+}

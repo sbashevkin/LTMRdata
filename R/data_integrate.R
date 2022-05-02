@@ -14,6 +14,7 @@
 #' @examples
 #' \dontrun{
 #' data_integrate(data_path=file.path("data-raw", "EDI", "data_objects"))
+#' }
 #' @export
 
 data_integrate<-function(data_path,
