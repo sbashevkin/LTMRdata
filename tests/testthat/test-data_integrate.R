@@ -1,7 +1,7 @@
 require(dplyr)
 require(LTMRdata)
-# data_dir<-tempdir()
-data_dir<-file.path("data-raw", "EDI", "data_objects")
+data_dir<-tempdir()
+# data_dir<-file.path("data-raw", "EDI", "data_objects")
 cache_dir<-"LTMRdata-test"
 
 # First collect some stats on the raw mashed together data
@@ -20,7 +20,7 @@ raw_samples<-unique(unlist(data_raw$Samples))
 
 gc()
 
-#data_integrate(data_dir)
+data_integrate(data_dir)
 
 gc()
 deltafish:::create_fish_db_f(data_dir=data_dir, cache_dir)

@@ -27,8 +27,7 @@ Suggests:
     covr,
     stringr,
     tibble,
-    spelling,
-    deltafish
+    spelling
 RoxygenNote: 7.1.2
 Imports: 
     dplyr,
@@ -37,5 +36,8 @@ Imports:
     rlang,
     tidyr,
     utils,
-    data.table
+    data.table,
+    deltafish (>= 0.1.0)
 Language: en-US
+Remotes:  
+    delta-stewardship-council/deltafish
