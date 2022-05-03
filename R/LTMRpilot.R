@@ -13,6 +13,7 @@
 #' @seealso \code{\link{Suisun}}, \code{\link{Suisun_measured_lengths}}, \code{\link{FMWT}}, \code{\link{FMWT_measured_lengths}}, \code{\link{Baystudy}}, \code{\link{Baystudy_measured_lengths}}
 #'
 #' @examples
+#' \dontrun{
 #' # All data, no length conversions
 #' Data <- LTMRpilot(convert_lengths=FALSE)
 #'
@@ -24,6 +25,7 @@
 #' # Only outputting measured lengths, without frequencies adjusted for counts of unmeasured fish,
 #' # with all lengths converted and only species with converted lengths returned
 #' Data <- LTMRpilot(measured_lengths=TRUE, convert_lengths=TRUE, remove_unconverted_lengths=TRUE)
+#' }
 #' @export
 
 LTMRpilot <- function(quiet=FALSE,
