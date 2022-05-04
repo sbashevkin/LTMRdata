@@ -8,6 +8,7 @@
 #
 
 library(shiny)
+library(shinyWidgets)
 library(dplyr)
 require(lubridate)
 library(ggplot2)
@@ -28,15 +29,16 @@ surveys<-surv%>%
     collect()%>%
     pull(Source)
 
-# stations<-surv%>%
-#     distinct(StationID)%>%
-#     collect()%>%
-#     as.vector()
+ stations<-surv%>%
+     distinct(StationID)%>%
+     collect()%>%
+     as.vector()
 
 years<-surv%>%
     distinct(Year)%>%
     collect()%>%
-    pull(Year)
+    pull(Year)%>%
+    range()
 
 species<-fish%>%
     filter(Count>0)%>%
@@ -54,26 +56,36 @@ ui <- fluidPage(
     # Sidebar with a slider input for number of bins
     sidebarLayout(
         sidebarPanel(
-            selectInput("Surveys",
+            pickerInput("Surveys",
                         "Select surveys:",
                         choices = surveys,
-                        multiple = TRUE),
-            selectInput("Months",
+                        multiple = TRUE,
+                        selected=surveys,
+                        options=list(`actions-box`=TRUE, `selected-text-format` = "count > 3")),
+            pickerInput("Months",
                         "Select months:",
                         choices = 1:12,
-                        multiple = TRUE),
-            selectInput("Years",
+                        multiple = TRUE,
+                        selected=1:12,
+                        options=list(`actions-box`=TRUE, `selected-text-format` = "count > 3")),
+            sliderInput("Years",
                         "Select years:",
-                        choices = years,
-                        multiple = TRUE),
-            # selectInput("Stations",
-            #             "Select sampling stations:",
-            #             choices = stations,
-            #             multiple = TRUE),
-            selectInput("Species",
+                        min = years[1],
+                        max=years[2],
+                        value=years,
+                        step=1),
+             pickerInput("Stations",
+                         "Select sampling stations:",
+                         choices = stations,
+                         multiple = TRUE,
+                         selected=stations,
+                         options=list(`actions-box`=TRUE, `selected-text-format` = "count > 3")),
+            pickerInput("Species",
                         "Select species:",
                         choices = species,
-                        multiple = TRUE),
+                        multiple = TRUE,
+                        selecte=species,
+                        options=list(`actions-box`=TRUE, `selected-text-format` = "count > 3")),
             h2("Rows:"),
             textOutput("rows"),
             h2("Estimated CSV size:"),
@@ -108,9 +120,9 @@ server <- function(input, output) {
 
     year_filt<-reactive({
         if(is.null(input$Years)){
-            as.integer(years)
+            years
         }else{
-            as.integer(input$Years)
+            input$Years
         }
     })
 
@@ -124,8 +136,12 @@ server <- function(input, output) {
 
     data_filt<-reactive({
         req(survey_filt, month_filt, year_filt, species_filt)
+
+        year_filts<-year_filt()
+        year_min<-min(year_filts)
+        year_max<-max(year_filts)
         surv%>%
-            filter(Source%in%local(survey_filt()) & Month%in%local(month_filt()) & Year%in%local(year_filt()))%>%
+            filter(Source%in%local(survey_filt()) & Month%in%local(month_filt()) & Year>=year_min & Year<=year_max)%>%
             left_join(fish%>%
                           filter(Taxa%in%local(species_filt())),
                       by="SampleID")
