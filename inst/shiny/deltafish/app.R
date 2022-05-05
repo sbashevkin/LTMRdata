@@ -29,10 +29,10 @@ surveys<-surv%>%
     collect()%>%
     pull(Source)
 
- stations<-surv%>%
-     distinct(StationID)%>%
-     collect()%>%
-     as.vector()
+stations<-surv%>%
+    distinct(StationID)%>%
+    collect()%>%
+    as.vector()
 
 years<-surv%>%
     distinct(Year)%>%
@@ -47,6 +47,13 @@ species<-fish%>%
     collect()%>%
     pull(Taxa)
 
+length_max<-fish%>%
+    filter(Length>0)%>%
+    select(Length)%>%
+    collect()%>%
+    pull(Length)%>%
+    max()
+gc()
 # Define UI for application that draws a histogram
 ui <- fluidPage(
 
@@ -73,19 +80,24 @@ ui <- fluidPage(
                         min = years[1],
                         max=years[2],
                         value=years,
-                        step=1),
-             pickerInput("Stations",
-                         "Select sampling stations:",
-                         choices = stations,
-                         multiple = TRUE,
-                         selected=stations,
-                         options=list(`actions-box`=TRUE, `selected-text-format` = "count > 3")),
+                        step=1,
+                        sep=""),
+            pickerInput("Stations",
+                        "Select sampling stations:",
+                        choices = stations,
+                        multiple = TRUE,
+                        selected=stations,
+                        options=list(`actions-box`=TRUE, `selected-text-format` = "count > 3")),
             pickerInput("Species",
                         "Select species:",
                         choices = species,
                         multiple = TRUE,
                         selecte=species,
                         options=list(`actions-box`=TRUE, `selected-text-format` = "count > 3")),
+            prettySwitch("Aggregate",HTML("<b>Aggregate data?</b>"), status = "success", fill = TRUE, bigger=TRUE),
+            conditionalPanel(condition="input.Aggregate",
+                             sliderInput("Standardlength", "Standard length cutoff (mm; Suisun survey)", value = c(0, length_max), min=0, max=length_max, step = 1),
+                             sliderInput("Forklength", "Fork length cutoff (mm; all other surveys)", value = c(0, length_max), min=0, max=length_max, step = 1)),
             h2("Rows:"),
             textOutput("rows"),
             h2("Estimated CSV size:"),
@@ -94,7 +106,7 @@ ui <- fluidPage(
 
         # Show a plot of the generated distribution
         mainPanel(
-           plotOutput("dataPlot")
+            plotOutput("dataPlot")
         )
     )
 )
@@ -140,11 +152,28 @@ server <- function(input, output) {
         year_filts<-year_filt()
         year_min<-min(year_filts)
         year_max<-max(year_filts)
-        surv%>%
+
+
+        out<-surv%>%
             filter(Source%in%local(survey_filt()) & Month%in%local(month_filt()) & Year>=year_min & Year<=year_max)%>%
             left_join(fish%>%
                           filter(Taxa%in%local(species_filt())),
                       by="SampleID")
+
+        if(input$Aggregate){
+            req(input$Standardlength, input$Forklength)
+            standard_min<-min(input$Standardlength)
+            standard_max<-max(input$Standardlength)
+            fork_min<-min(input$Forklength)
+            fork_max<-max(input$Forklength)
+            out<-out%>%
+                filter((Source!="Suisun" & Length>=standard_min & Length<=standard_max) | (Source=="Suisun" & Length>=fork_min & Length<=fork_max) | is.na(Length))%>%
+                group_by(across(-c(Length, Count, Notes_catch)))%>%
+                summarise(Count=sum(Count, na.rm=T), .groups="drop")
+
+        }
+        return(out)
+
     })
 
     rows<-reactive({
@@ -154,9 +183,15 @@ server <- function(input, output) {
             collect()%>%
             nrow
     })
+
+    data_ag<-reactive({
+        req(isTRUE(input$Aggregate), input$Standardlength, input$Forklength)
+
+    })
+
     output$rows <- renderText({
         req(rows)
-            format(rows(), big.mark=",")
+        format(rows(), big.mark=",")
     })
 
     output$size <- renderText({
