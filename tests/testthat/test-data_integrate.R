@@ -126,6 +126,6 @@ test_that("Some (but not all) lengths are NA ", {
 })
 
 # Remove the cache at the end
-rm(list = ls())
+rm(fish, surv)
 gc()
 deltafish:::clear_cache_f(cache_dir)
