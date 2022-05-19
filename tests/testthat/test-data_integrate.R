@@ -74,18 +74,20 @@ integrated_surv_rows<-surv%>%
 
 names(integrated_surv_rows)<-NULL
 
-# gc()
-#
-# data_integrated_samples<-surv%>%
-#   distinct(SampleID, Source)%>%
-#   left_join(fish%>%
-#               distinct(SampleID, Taxa),
-#             by="SampleID")%>%
-#   collect()%>%
-#   group_by(Source, SampleID)%>%
-#   summarise(Fish=list(sort(unique(Taxa))), .groups="drop")%>%
-#   distinct(Source, Fish)%>%
-#   arrange(Source)
+gc()
+
+data_integrated_samples<-surv%>%
+  distinct(SampleID, Source)%>%
+  compute()%>%
+  left_join(fish%>%
+              distinct(SampleID, Taxa)%>%
+              compute(),
+            by="SampleID")%>%
+  collect()%>%
+  group_by(Source, SampleID)%>%
+  summarise(Fish=list(sort(unique(Taxa))), .groups="drop")%>%
+  distinct(Source, Fish)%>%
+  arrange(Source)
 
 gc()
 
@@ -110,9 +112,9 @@ test_that("Length data are not lost", {
   expect_equal(data_integrated_surveys$N_lengths, data_raw$N_lengths)
 })
 
-# test_that("For each survey, the zero-filled dataset has a record (whether 0 or >0) in every sample for every species ever recorded by that survey", {
-#   expect_equal(data_integrated_samples, select(data_raw, Source, Fish))
-# })
+test_that("For each survey, the zero-filled dataset has a record (whether 0 or >0) in every sample for every species ever recorded by that survey", {
+  expect_equal(data_integrated_samples, select(data_raw, Source, Fish))
+})
 
 test_that("No lengths are <= 0", {
   expect_equal(data_integrated_surveys$N_lengths + data_integrated_surveys$N_length_NA, data_integrated_surveys$N)
@@ -122,7 +124,8 @@ test_that("Some (but not all) lengths are NA ", {
   expect_true(all(data_integrated_surveys$N_length_NA > 0))
   expect_true(all(data_integrated_surveys$N > data_integrated_surveys$N_length_NA))
 })
+
 # Remove the cache at the end
-#rm(fish, surv)
-#gc()
-#deltafish:::clear_cache_f(cache_dir)
+rm(list = ls())
+gc()
+deltafish:::clear_cache_f(cache_dir)
