@@ -29,7 +29,7 @@ Suggests:
     tibble,
     spelling,
     deltafish (>= 0.1.0)
-RoxygenNote: 7.1.2
+RoxygenNote: 7.2.0
 Imports: 
     dplyr,
     tidyselect,

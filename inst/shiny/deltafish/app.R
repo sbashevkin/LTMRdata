@@ -144,6 +144,7 @@ ui <- fluidPage(
 # Define server logic required to draw a histogram
 server <- function(input, output) {
 
+  # Set default if input$Species is NULL
   species_filt<-reactive({
     if(is.null(input$Species)){
       species
@@ -152,15 +153,18 @@ server <- function(input, output) {
     }
   })
 
+  # Filter the data to user inputs
   data_filt<-eventReactive(input$Run, {
     req(species_filt)
 
+    # Set default if input$Surveys is NULL
     if(is.null(input$Surveys)){
       survey_filt<-surveys
     }else{
       survey_filt<-input$Surveys
     }
 
+    # Set default if input$Years is NULL
     if(is.null(input$Years)){
       year_filt<-years
     }else{
@@ -170,6 +174,7 @@ server <- function(input, output) {
     year_min<-min(year_filt)
     year_max<-max(year_filt)
 
+    # Set default if input$Month is NULL
     if(is.null(input$Month)){
       month_filt<-1:12
     }else{
@@ -177,9 +182,11 @@ server <- function(input, output) {
     }
 
     if(input$Aggregate){
+      # If user wishes to aggregate, we need the length ranges to be set
       req(input$Standardmin, input$Standardmax, input$Forkmin, input$Forkmax)
     }
 
+    # Filter the data, but only if the user actually deselects any values of each variable (to save time)
     out<-surv%>%
       {if(length(survey_filt)<length(surveys)){
         filter(., Source%in%survey_filt)
@@ -203,6 +210,8 @@ server <- function(input, output) {
                     .
                   }}%>%
                   {if(input$Aggregate){
+                    # Filter lengths before summarising only if user wishes to aggregate across lengths
+                    # Fork length for all surveys except Suisun, which uses standard length
                     filter(., (!SampleID%in%suisun_samples & Length>=local(input$Forkmin) & Length<=local(input$Forkmax)) |
                              (SampleID%in%suisun_samples & Length>=local(input$Standardmin) & Length<=local(input$Standardmax)) |
                              is.na(Length))%>%
@@ -216,6 +225,7 @@ server <- function(input, output) {
 
   })
 
+  # Number of rows of dataset from data_filt()
   rows<-reactive({
     req(data_filt)
     data_filt()%>%
@@ -224,16 +234,13 @@ server <- function(input, output) {
       nrow
   })
 
-  data_ag<-reactive({
-    req(isTRUE(input$Aggregate), input$Standardlength, input$Forklength)
-
-  })
-
+  # Format row number for display
   output$rows <- renderText({
     req(rows)
     format(rows(), big.mark=",")
   })
 
+  # Tell users if they can safely open the dataset in excel
   output$excel <- renderText({
     req(rows)
     if(rows()>1048576){
@@ -243,6 +250,7 @@ server <- function(input, output) {
     }
   })
 
+  # Estimate CSV file size (this will be an over-estimate for aggregated data since it is missing some columns)
   output$size <- renderText({
     req(rows)
     size<-rows()*0.00025*1048576 # estimated by writing csvs of different numbers of rows and extracting file size, then converting to bytes
@@ -250,6 +258,7 @@ server <- function(input, output) {
     return(format(size, units="auto"))
   })
 
+  # Create very simple plot of total catch of each species per year
   output$dataPlot <- renderPlot({
     req(data_filt)
     plot_data<-data_filt()%>%
@@ -262,6 +271,7 @@ server <- function(input, output) {
       geom_bar(position="stack", stat="identity")+
       theme_bw()
 
+    # Remove legend if > 10 fish species are present
     if(length(unique(plot_data$Taxa))>10){
       p<-p+theme(legend.position="none")
     }
