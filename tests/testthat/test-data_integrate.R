@@ -23,7 +23,7 @@ gc()
 data_integrate(data_dir)
 
 gc()
-deltafish:::create_fish_db_f(data_dir=data_dir, cache_dir)
+deltafish:::create_fish_db_f(data_dir=data_dir, cache_dir, edi_pid="edi.1075.1", update=T)
 gc()
 
 fish<-deltafish:::open_fish_f(cache_dir)
