@@ -13,9 +13,10 @@ library(dplyr)
 require(lubridate)
 library(ggplot2)
 library(deltafish)
+require(readr)
 
 create_fish_db()
-
+cat("finished creating fish database")
 surv<-open_survey()%>%
   mutate(StationID=paste(Source, Station),
          Date=as_date(Date),
@@ -65,11 +66,17 @@ ui <- fluidPage(
 
   a(shiny::icon("reply"), "Delta Science shinyapps homepage", href="https://deltascience.shinyapps.io/Home/"),
   # Application title
-  titlePanel("deltafish"),
+  titlePanel(title=div(h1("Delta fish database", style="display: inline-block"),
+                       a(img(src="logo.png", height = 100, align="right", style="display: inline-block"), href="https://delta-stewardship-council.github.io/deltafish/"),
+                       h5("If you encounter any issues, please email ", a("sam.bashevkin@deltacouncil.ca.gov.",
+                                                                          href="mailto:sam.bashevkin@deltacouncil.ca.gov?subject=Fish%20data%20Shiny%20app"))),
+             windowTitle = "Delta fish database"),
 
   # Sidebar with a slider input for number of bins
   sidebarLayout(
-    sidebarPanel(
+    sidebarPanel(#Instructions
+      actionBttn("Instructions", "Instructions", style="simple", color="primary", icon=icon("question-circle")),
+      br(), br(),
       pickerInput("Surveys",
                   "Select surveys:",
                   choices = surveys,
@@ -93,7 +100,6 @@ ui <- fluidPage(
                   "Select species:",
                   choices = species,
                   multiple = TRUE,
-                  selecte=species,
                   options=list(`actions-box`=TRUE, `selected-text-format` = "count > 3", `live-search`=TRUE)),
       prettySwitch("Aggregate",HTML("<b>Sum counts over all lengths?</b>"), status = "success", fill = TRUE, bigger=TRUE),
       conditionalPanel(condition="input.Aggregate",
@@ -102,14 +108,15 @@ ui <- fluidPage(
                                 column(6, numericInput("Standardmax", "Max", value = length_max, min=0, max=length_max, step = 1))),
                        h4("Fork length cutoff (mm; all other surveys)"),
                        fluidRow(column(6, numericInput("Forkmin", "Min", value = 0, min=0, max=length_max, step = 1)),
-                                       column(6, numericInput("Forkmax", "Max", value = length_max, min=0, max=length_max, step = 1)))),
+                                column(6, numericInput("Forkmax", "Max", value = length_max, min=0, max=length_max, step = 1)))),
       actionBttn("Run", "Run/Update", style="bordered", icon = icon("play"), color="danger", size="sm"),
       h2("Rows:"),
       textOutput("rows"),
       h2("Can you safely open this in excel?"),
       textOutput("excel"),
       h2("Estimated CSV size:"),
-      textOutput("size")
+      textOutput("size"),
+      actionBttn("Download", "Download data", style="simple", color="royal", icon=icon("file-download"))
     ),
 
     # Show a plot of the generated distribution
@@ -142,7 +149,25 @@ ui <- fluidPage(
 )
 
 # Define server logic required to draw a histogram
-server <- function(input, output) {
+server <- function(input, output, session) {
+
+  #Popup for app instructions
+  observeEvent(input$Instructions, {
+    sendSweetAlert(session, title = "Instructions",
+                   text = tags$span(tags$p("This app works best if you select a subset of the data, rather than trying to obtain the full dataset.
+                                           If you wish to access the full dataset, you can do so at the",
+                                           a("data publication.", href="https://www.doi.org/10.6073/pasta/0cdf7e5e954be1798ab9bf4f23816e83")),
+                                    tags$p("The 'sum counts over all lengths' option allows you to decide whether to keep the data as length frequency
+                                           data (the number of captured fish in each measured length category) or to ignore length and add up the
+                                           total number of each species captured in each trawl. If you decide to sum counts over all lengths,
+                                           you are given the option to only select fish within a given size range, so you can get the total number
+                                           of fish in your desired length range. This can be helpful to exclude small fish that are not always counted in the surveys."),
+                                    "------------------------------------------",
+                                    tags$p(tags$b("App created and maintained by Sam Bashevkin.
+                                                  Please email", a("Sam", href="mailto:sam.bashevkin@deltacouncil.ca.gov?subject=Fish%20data%20Shiny%20app"), "with any questions."))),
+                   type = "info",
+                   btn_labels = "Ok", html = F, closeOnClickOutside = TRUE)
+  })
 
   # Set default if input$Species is NULL
   species_filt<-reactive({
@@ -277,6 +302,37 @@ server <- function(input, output) {
     }
     return(p)
   })
+
+  #Show modal dialog to save data when Download button is clicked
+  observeEvent(input$Download, {
+    showModal(ModalDownloadData())
+  })
+
+  #Modal dialog (popup window) to download data
+  ModalDownloadData<-function(){
+    modalDialog(
+      h1("Data info"),
+      p("Please see the", a("data publication.", href="https://www.doi.org/10.6073/pasta/0cdf7e5e954be1798ab9bf4f23816e83"),
+        "for all metadata associated with this dataset, as well as the citation information."),
+      footer = tagList(modalButton("Cancel"),
+                       downloadBttn("Downloaddata", "Download data", style="bordered", color = "primary", size="sm")),
+      easyClose=TRUE
+    )
+  }
+
+  #Download handler for data downloading
+  output$Downloaddata <- downloadHandler(
+    filename = function() {
+      paste0("Delta fish ", gsub(":", ".", gsub("-", ".", Sys.time(), fixed=TRUE), fixed=TRUE), ".csv")
+    },
+    content = function(file) {
+      data_filt()%>%
+        collect()%>%
+        write_csv(file)
+    }
+
+  )
+
 }
 
 # Run the application

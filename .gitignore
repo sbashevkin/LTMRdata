@@ -41,3 +41,6 @@ vignettes/*.pdf
 
 # EDI data objects
 data-raw/EDI/data_objects
+
+#shinyapps.io
+inst/shiny/deltafish/rsconnect
