@@ -100,7 +100,10 @@ ui <- fluidPage(
                   "Select species:",
                   choices = species,
                   multiple = TRUE,
-                  options=list(`actions-box`=TRUE, `selected-text-format` = "count > 3", `live-search`=TRUE)),
+                  options=list("selected-text-format" = "count > 3",
+                               "live-search" = TRUE,
+                               "max-options" = 10,
+                               "max-options-text" = "You can only select 10 species")),
       prettySwitch("Aggregate",HTML("<b>Sum counts over all lengths?</b>"), status = "success", fill = TRUE, bigger=TRUE),
       conditionalPanel(condition="input.Aggregate",
                        h4("Standard length cutoff (mm; Suisun survey)"),
@@ -155,13 +158,18 @@ server <- function(input, output, session) {
   observeEvent(input$Instructions, {
     sendSweetAlert(session, title = "Instructions",
                    text = tags$span(tags$p("This app works best if you select a subset of the data, rather than trying to obtain the full dataset.
+                                           You will not be allowed to select more than 10 fish species, since that will crash the app.
                                            If you wish to access the full dataset, you can do so at the",
                                            a("data publication.", href="https://www.doi.org/10.6073/pasta/0cdf7e5e954be1798ab9bf4f23816e83")),
+                                    tags$p("If you are an R user, you can access the database with more advanced options using the R package",
+                                           a("deltafish.", href="https://delta-stewardship-council.github.io/deltafish/")),
                                     tags$p("The 'sum counts over all lengths' option allows you to decide whether to keep the data as length frequency
                                            data (the number of captured fish in each measured length category) or to ignore length and add up the
                                            total number of each species captured in each trawl. If you decide to sum counts over all lengths,
                                            you are given the option to only select fish within a given size range, so you can get the total number
                                            of fish in your desired length range. This can be helpful to exclude small fish that are not always counted in the surveys."),
+                                    tags$p(tags$b("Please read the full documentation in the", a("data publication", href="https://www.doi.org/10.6073/pasta/0cdf7e5e954be1798ab9bf4f23816e83"),
+                                                  "before using these data. There are important details to take into account, such as the inconsistency in the fish length unit.")),
                                     "------------------------------------------",
                                     tags$p(tags$b("App created and maintained by Sam Bashevkin.
                                                   Please email", a("Sam", href="mailto:sam.bashevkin@deltacouncil.ca.gov?subject=Fish%20data%20Shiny%20app"), "with any questions."))),
@@ -181,6 +189,7 @@ server <- function(input, output, session) {
   # Filter the data to user inputs
   data_filt<-eventReactive(input$Run, {
     req(species_filt)
+    gc()
 
     # Set default if input$Surveys is NULL
     if(is.null(input$Surveys)){
@@ -200,10 +209,10 @@ server <- function(input, output, session) {
     year_max<-max(year_filt)
 
     # Set default if input$Month is NULL
-    if(is.null(input$Month)){
+    if(is.null(input$Months)){
       month_filt<-1:12
     }else{
-      month_filt<-input$Month
+      month_filt<-input$Months
     }
 
     if(input$Aggregate){
@@ -240,6 +249,7 @@ server <- function(input, output, session) {
                     filter(., (!SampleID%in%suisun_samples & Length>=local(input$Forkmin) & Length<=local(input$Forkmax)) |
                              (SampleID%in%suisun_samples & Length>=local(input$Standardmin) & Length<=local(input$Standardmax)) |
                              is.na(Length))%>%
+                      compute()%>%
                       group_by(SampleID, Taxa)%>%
                       summarise(Count=sum(Count, na.rm=T), .groups="drop")
                   }else{
@@ -329,6 +339,8 @@ server <- function(input, output, session) {
       data_filt()%>%
         collect()%>%
         write_csv(file)
+
+      gc()
     }
 
   )
