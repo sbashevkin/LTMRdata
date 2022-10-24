@@ -6,7 +6,7 @@ Authors@R:
     person(given = "Sam",
            family = "Bashevkin",
            role = c("aut", "cre"),
-           email = "sam.bashevkin@deltacouncil.ca.gov",
+           email = "sam.bashevkin@waterboards.ca.gov",
            comment = c(ORCID = "0000-0001-7406-7089"))
 Description: Integration of the Fall Midwater Trawl, Bay Study, and Suisun Marsh Fish Study data for use in the IEP long-term monitoring survey review.
 License: GPL-3
