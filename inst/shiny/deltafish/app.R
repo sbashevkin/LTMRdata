@@ -68,8 +68,8 @@ ui <- fluidPage(
   # Application title
   titlePanel(title=div(h1("Delta fish database", style="display: inline-block"),
                        a(img(src="logo.png", height = 100, align="right", style="display: inline-block"), href="https://delta-stewardship-council.github.io/deltafish/"),
-                       h5("If you encounter any issues, please email ", a("sam.bashevkin@deltacouncil.ca.gov.",
-                                                                          href="mailto:sam.bashevkin@deltacouncil.ca.gov?subject=Fish%20data%20Shiny%20app"))),
+                       h5("If you encounter any issues, please email ", a("sam.bashevkin@waterboards.ca.gov.",
+                                                                          href="mailto:sam.bashevkin@waterboards.ca.gov?subject=Fish%20data%20Shiny%20app"))),
              windowTitle = "Delta fish database"),
 
   # Sidebar with a slider input for number of bins
@@ -172,7 +172,7 @@ server <- function(input, output, session) {
                                                   "before using these data. There are important details to take into account, such as the inconsistency in the fish length unit.")),
                                     "------------------------------------------",
                                     tags$p(tags$b("App created and maintained by Sam Bashevkin.
-                                                  Please email", a("Sam", href="mailto:sam.bashevkin@deltacouncil.ca.gov?subject=Fish%20data%20Shiny%20app"), "with any questions."))),
+                                                  Please email", a("Sam", href="mailto:sam.bashevkin@waterboards.ca.gov?subject=Fish%20data%20Shiny%20app"), "with any questions."))),
                    type = "info",
                    btn_labels = "Ok", html = F, closeOnClickOutside = TRUE)
   })
