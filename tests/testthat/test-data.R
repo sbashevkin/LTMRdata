@@ -47,3 +47,8 @@ test_that("No zero counts exist in the dataset, except for instances of 'No fish
 test_that("No NA counts exist in the datast", {
   expect_equal(nrow(filter(data, is.na(Count))), 0)
 })
+
+test_that("No Tow volumes or Tow areas are negative", {
+  expect_equal(nrow(filter(data, Tow_volume<0)), 0)
+  expect_equal(nrow(filter(data, Tow_area<0)), 0)
+})

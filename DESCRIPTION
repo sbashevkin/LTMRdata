@@ -29,7 +29,7 @@ Suggests:
     tibble,
     spelling,
     deltafish (>= 0.1.0)
-RoxygenNote: 7.2.0
+RoxygenNote: 7.2.1
 Imports: 
     dplyr,
     tidyselect,
@@ -38,5 +38,5 @@ Imports:
     tidyr,
     utils
 Language: en-US
-Remotes:  
+Remotes: 
     delta-stewardship-council/deltafish
