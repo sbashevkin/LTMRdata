@@ -40,7 +40,7 @@ fish<-function(sources,
     data<-data%>%
       dplyr::left_join(Length_conversions, by=c("Taxa" = "Species"))%>%
       dplyr::mutate(Length=dplyr::if_else(.data$Source=="Suisun" & .data$Taxa%in%unique(Length_conversions$Species), .data$Intercept+.data$Slope*.data$Length, .data$Length))%>%
-      dplyr::select(-.data$Intercept, -.data$Slope)
+      dplyr::select(-Intercept, -Slope)
     }
   }
 
