@@ -90,7 +90,7 @@ data_integrate<-function(data_path,
     dplyr::group_by(.data$Source) %>%
     tidyr::complete(.data$SampleID, .data$Taxa, fill=list(Count=0))%>%
     dplyr::ungroup()%>%
-    dplyr::select(-.data$Source)
+    dplyr::select(-"Source")
 
 
   res_fish <- res_fish %>%

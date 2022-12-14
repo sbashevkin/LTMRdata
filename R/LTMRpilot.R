@@ -42,7 +42,7 @@ LTMRpilot <- function(quiet=FALSE,
 
     data<-lengths%>%
       dplyr::left_join(data%>%
-                  dplyr::select(-.data$Length, -.data$Count, -.data$Notes_catch, -.data$Length_NA_flag)%>%
+                  dplyr::select(-"Length", -"Count", -"Notes_catch", -"Length_NA_flag")%>%
                   dplyr::distinct(),
                 by=c("SampleID", "Taxa"))
 
@@ -60,7 +60,7 @@ LTMRpilot <- function(quiet=FALSE,
     data<-data%>%
       dplyr::left_join(Length_conversions, by=c("Taxa" = "Species"))%>%
       dplyr::mutate(Length=dplyr::if_else(.data$Source=="Suisun" & .data$Taxa%in%unique(Length_conversions$Species), .data$Intercept+.data$Slope*.data$Length, .data$Length))%>%
-      dplyr::select(-.data$Intercept, -.data$Slope)
+      dplyr::select(-"Intercept", -"Slope")
   }
 
   if(!is.null(size_cutoff)){
