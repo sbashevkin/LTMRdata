@@ -11,3 +11,4 @@ Species <- read_csv(file.path("data-raw", "Species codes.csv"),
   mutate(Taxa = if_else(!is.na(Lifestage), paste0(ScientificName, " (", Lifestage, ")"), ScientificName))
 
 usethis::use_data(Species, overwrite=TRUE)
+

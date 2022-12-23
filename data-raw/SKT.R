@@ -3,17 +3,77 @@
 ##  code to prepare `SKT` dataset as prepared by Sam Bashevkin   ##
 ###################################################################
 
-require(readr)
 require(wql)
-require(dplyr)
-require(tidyr)
-require(lubridate)
 require(LTMRdata)
+require(readr)
+require(dplyr)
+require(lubridate)
+require(tidyr)
 require(stringr)
+require(RODBC)
 
-# shows the relationshiph between tables and which field is the connecting field
-# tblSample <= (SampleRowID) => tblCatch <= (CatchRowID) => tblFishInfo
-# tblCatch <= (OrganismCode) => tblOrganismCodes
+Path<-file.path(tempdir(), "SKT.zip")
+Path_origin<-file.path(tempdir())
+#Downloading MWT_data.zip----
+download.file("https://filelib.wildlife.ca.gov/Public/Delta%20Smelt/SKT.zip", Path, mode="wb",method="libcurl")
+unzip(Path,files="SKT.accdb",exdir=Path_origin)
+
+# MS access database set up----
+# MS Access database driver.
+driver <- "Driver={Microsoft Access Driver (*.mdb, *.accdb)};"
+
+# File path to Access database (Salvage)
+db_path <- file.path(tempdir(),"Skt.accdb")
+
+# Just pastes driver info and file path together.
+full_path <- paste0(driver,"DBQ=",db_path)
+full_path
+# Connect to database using information above.
+conn <- odbcDriverConnect(full_path)
+names<-sqlTables(conn)
+
+#MWT data setup ----
+SKT_Data<-list()
+
+
+SKT_Data$StationsSKT <- sqlFetch(conn, "lktblStationsSKT")%>%
+  select(Station,LatDeg,LatMin,LatSec,LongDec,LongMin,LongSec)
+{
+  SKT_Data$StationsSKT$Station<-as.character(SKT_Data$StationsSKT$Station)
+  SKT_Data$StationsSKT$LatMin<-as.numeric(SKT_Data$StationsSKT$LatMin)
+  SKT_Data$StationsSKT$Latitude<-SKT_Data$StationsSKT$LatDeg+SKT_Data$StationsSKT$LatMin/60+SKT_Data$StationsSKT$LatSec/3600
+  SKT_Data$StationsSKT$Longitude<-(SKT_Data$StationsSKT$LongDec+SKT_Data$StationsSKT$LongMin/60+SKT_Data$StationsSKT$LongSec/3600)*-1
+  }
+
+SKT_Data$Sample <- sqlFetch(conn, "tblSample")%>%
+  select(SampleRowID,SampleDate,StationCode,SampleTimeStart,SurveyNumber,
+         WaterTemperature,TideCode,DepthBottom,Secchi,ConductivityTop,
+         TowDirectionCode,MeterStart,MeterEnd)
+{
+  SKT_Data$Sample$StationCode<-as.character(SKT_Data$Sample$StationCode)
+  SKT_Data$Sample<-rename(SKT_Data$Sample, Station=StationCode)
+  SKT_Data$Sample$DateTime<-ymd_hms(if_else(is.na(SKT_Data$Sample$SampleTimeStart), NA_character_, paste(SKT_Data$Sample$SampleDate, paste(hour(SKT_Data$Sample$SampleTimeStart), minute(SKT_Data$Sample$SampleTimeStart), second(SKT_Data$Sample$SampleTimeStart), sep=":"))),
+                                    tz = "America/Los_Angeles")
+  SKT_Data$Sample$TideCode<-recode(SKT_Data$Sample$TideCode, `1` = "High Slack", `2` = "Ebb", `3` = "Low Slack", `4` = "Flood", .default = NA_character_)
+  SKT_Data$Sample$Meter_total<-SKT_Data$Sample$MeterEnd-SKT_Data$Sample$MeterStart
+  SKT_Data$Sample$Meter_total<-ifelse(SKT_Data$Sample$Meter_total<0, SKT_Data$Sample$Meter_total + 1000000, SKT_Data$Sample$Meter_total)
+  SKT_Data$Sample$Depth = SKT_Data$Sample$Depth*0.3048
+  SKT_Data$Sample$Tow_volume <- SKT_Data$Sample$Meter_total*0.026873027*13.95
+  SKT_Data$Sample$Tow_direction <- recode(SKT_Data$Sample$TowDirectionCode, `1` = "With current", `2` = "Against current",
+                         `3` = "Unknown", .default = NA_character_)
+
+  SKT_Data$Sample<-SKT_Data$Sample%>%select(-Meter_total, -TideCode, -TowDirectionCode, -MeterStart, -MeterEnd, -SampleTimeStart) %>%
+    # Add station coordinates
+    left_join(SKT_Data$StationsSKT, by = "Station")%>%select(-LatDeg,-LatMin,-LatSec,-LongDec,-LongMin,-LongSec)
+}
+SKT_Data$FishInfo <- sqlFetch(conn, "tblFishInfo")
+SKT_Data$Catch <- sqlFetch(conn, "tblCatch")
+
+
+
+
+odbcCloseAll()
+rm(names,conn,db_path,full_path,Path,Path_origin)
 
 
 # Station locations -------------------------------------------------------
