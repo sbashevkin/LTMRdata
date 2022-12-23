@@ -226,6 +226,3 @@ rm(catchlength_skt, catch_skt, length_skt, sample_skt, stations_skt)
 
 # Save compressed data to /data
 usethis::use_data(SKT, SKT_measured_lengths, overwrite=TRUE)
-
-
-
