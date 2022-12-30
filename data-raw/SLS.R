@@ -30,21 +30,21 @@ names<-sqlTables(conn)
 
 #MWT data setup ----
 SLSTables<-list()
-SLSTables$Catch <- sqlFetch(conn, "Catch")%>%select(Date,Station,Tow,FishCode,Catch,CatchID)
+SLSTables$Catch <- sqlFetch(conn, "Catch")%>%dplyr::select(Date,Station,Tow,FishCode,Catch,CatchID)
 
 SLSTables$Catch$Station<-as.character(SLSTables$Catch$Station)
 
-SLSTables$Lengths <- sqlFetch(conn, "Lengths")%>%select(Date,Station,Tow,FishCode,Length,entryorder)
+SLSTables$Lengths <- sqlFetch(conn, "Lengths")%>%dplyr::select(Date,Station,Tow,FishCode,Length,entryorder)
 SLSTables$Lengths$Station<-as.character(SLSTables$Lengths$Station)
 
-SLSTables$"Meter Corrections" <- sqlFetch(conn, "Meter Corrections")%>%select(StudyYear,MeterSerial,CalibrationDate,kfactor,Notes)
-SLSTables$"20mm Stations" <- sqlFetch(conn, "20mm Stations")%>%select(Station,LatD,LatM,LatS,LonD,LonM,LonS)
+SLSTables$"Meter Corrections" <- sqlFetch(conn, "Meter Corrections")%>%dplyr::select(StudyYear,MeterSerial,CalibrationDate,kfactor,Notes)
+SLSTables$"20mm Stations" <- sqlFetch(conn, "20mm Stations")%>%dplyr::select(Station,LatD,LatM,LatS,LonD,LonM,LonS)
 
 SLSTables$"20mm Stations"$Latitude<-SLSTables$"20mm Stations"$LatD+SLSTables$"20mm Stations"$LatM/60+SLSTables$"20mm Stations"$LatS/3600
 SLSTables$"20mm Stations"$Longitude<-SLSTables$"20mm Stations"$LonD+SLSTables$"20mm Stations"$LonM/60+SLSTables$"20mm Stations"$LonS/3600
 SLSTables$"20mm Stations"$Station<-as.character(SLSTables$"20mm Stations"$Station)
 
-SLSTables$"Tow Info"<-sqlFetch(conn,"Tow Info")%>%select(Date,Station,Tow,Time,Tide,BottomDepth,CableOut,Duration,NetMeterSerial,NetMeterStart,NetMeterCheck,CBMeterSerial,CBMeterStart,CBMeterEnd,CBMeterCheck,Comments)
+SLSTables$"Tow Info"<-sqlFetch(conn,"Tow Info")%>%dplyr::select(Date,Station,Tow,Time,Tide,BottomDepth,CableOut,Duration,NetMeterSerial,NetMeterStart,NetMeterCheck,CBMeterSerial,CBMeterStart,CBMeterEnd,CBMeterCheck,Comments)
 colnames(SLSTables$"Tow Info")[16]<-"Notes_tow"
 
 
@@ -53,7 +53,7 @@ SLSTables$"Tow Info"$Station<-as.character(SLSTables$"Tow Info"$Station)
 SLSTables$"Tow Info"$Tide<-as.character(SLSTables$"Tow Info"$Tide)
 SLSTables$"Tow Info"$CableOut<-SLSTables$"Tow Info"$CableOut*0.3048
 
-SLSTables$"Water Info"<-sqlFetch(conn,"Water Info")%>%select(Survey,Date,Station,Temp,TopEC,BottomEC,Secchi,Turbidity,Comments)
+SLSTables$"Water Info"<-sqlFetch(conn,"Water Info")%>%dplyr::select(Survey,Date,Station,Temp,TopEC,BottomEC,Secchi,Turbidity,Comments)
 colnames(SLSTables$"Water Info")[9]<-"Notes_env"
 SLSTables$"Water Info"$Station<-as.character(SLSTables$"Water Info"$Station)
 

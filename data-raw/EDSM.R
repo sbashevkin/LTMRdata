@@ -10,12 +10,20 @@ require(dplyr)
 require(lubridate)
 require(tidyr)
 require(stringr)
+require(utils)
+require(rvest)
+require(XML)
 
 # downloading data because the dataset is too huge to keep on file
 
-download.file("https://pasta.lternet.edu/package/data/eml/edi/415/5/d468c513fa69c4fc6ddc02e443785f28", file.path(tempdir(), "EDSM_20mm.csv"), mode="wb",method="libcurl")
-download.file("https://pasta.lternet.edu/package/data/eml/edi/415/5/4d7de6f0a38eff744a009a92083d37ae", file.path(tempdir(), "EDSM_KDTR.csv"), mode="wb",method="libcurl")
+utils::download.file("https://pasta.lternet.edu/package/data/eml/edi/415/5/d468c513fa69c4fc6ddc02e443785f28", file.path(tempdir(), "EDSM_20mm.csv"), mode="wb",method="libcurl")
+utils::download.file("https://pasta.lternet.edu/package/data/eml/edi/415/5/4d7de6f0a38eff744a009a92083d37ae", file.path(tempdir(), "EDSM_KDTR.csv"), mode="wb",method="libcurl")
 
+testlink<-rvest::read_html("https://www.fws.gov/media/edsm-daily-report-0")
+test<-testlink%>%html_elements("span")%>%html_text()
+test2<-paste("https://www.fws.gov/sites/default/files/documents/",test[77],sep="")
+utils::download.file(test2, file.path(tempdir(), "EDSM_recent.xlsx"), mode="wb",method="libcurl")
+test3<-read_excel(file.path(tempdir(),"EDSM_recent.xlsx"))
 
 EDSM <- bind_rows(
   read_csv(file.path(tempdir(), "EDSM_20mm.csv"),
@@ -38,7 +46,7 @@ EDSM <- bind_rows(
   rename(Temp_surf = TopTemp, Tow_volume = Volume, Method = GearType, Secchi = Scchi,
          Tow_direction = Dir, Length = ForkLength, Conductivity = TopEC, Count = SumOfCatchCount,
          Latitude=StartLat, Longitude=StartLong) %>%
-  filter(is.na(GearConditionCode) | !GearConditionCode%in%c(3,4,9))%>%
+  dplyr::filter(is.na(GearConditionCode) | !GearConditionCode%in%c(3,4,9))%>%
   mutate(Tow_volume = if_else(Debris%in%c("Y", "Yes"), NA_real_, Tow_volume, missing=Tow_volume),
          Source = "EDSM",
          Date = parse_date_time(Date, "%Y-%m-%d", tz = "America/Los_Angeles"),
@@ -72,18 +80,18 @@ EDSM <- bind_rows(
            is.na(Length)~ "No fish caught",
            TRUE ~ NA_character_), # Add reasoning for NA lengths
          Count=if_else(is.infinite(Count), Total, Count))%>% # These cases all represent the only row of that SamppleID, OrganismCode, and Group, so this doesn't result in over-counting, it just returns the value to the prior count
-  filter(Length!=0 | is.na(Length))%>%
-  filter(Count!=0 | is.na(Count))%>% # Remove 1 case of a 0 count of a striped bass, *****NEED TO CHECK IN UPDATES*****
+  dplyr::filter(Length!=0 | is.na(Length))%>%
+  dplyr::filter(Count!=0 | is.na(Count))%>% # Remove 1 case of a 0 count of a striped bass, *****NEED TO CHECK IN UPDATES*****
   select(-Total, -TotalMeasured, -Group)%>%
   group_by(across(-Count))%>% # Add up any new multiples after removing Group
   summarise(Count=sum(Count), .groups="drop")%>%
   group_by(SampleID)%>% # Now we need to remove any NOFISH records when there are actually fish counts in that sample (including next 3 lines)
   mutate(Valid=sum(Count, na.rm=T))%>%
   ungroup()%>%
-  filter(!(Valid>0 & OrganismCode=="NOFISH"))%>%
+  dplyr::filter(!(Valid>0 & OrganismCode=="NOFISH"))%>%
   left_join(Species %>%
               select(USFWS_Code, Taxa) %>%
-              filter(!is.na(USFWS_Code)),
+              dplyr::filter(!is.na(USFWS_Code)),
             by=c("OrganismCode"="USFWS_Code")) %>%
   mutate(SampleID=paste(Source, SampleID), # Add variable for unique (across all studies) sampleID
          Taxa=str_remove(Taxa, " \\((.*)"), # Remove life stage info from Taxa names
