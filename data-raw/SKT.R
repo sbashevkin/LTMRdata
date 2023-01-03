@@ -10,7 +10,7 @@ require(dplyr)
 require(lubridate)
 require(tidyr)
 require(stringr)
-require(RODBC)
+require(RODBC) #suggest using ODBC w/ another package (search)
 
 Path<-file.path(tempdir(), "SKT.zip")
 Path_origin<-file.path(tempdir())
