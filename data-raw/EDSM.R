@@ -15,7 +15,8 @@ require(rvest)
 require(XML)
 
 # downloading data because the dataset is too huge to keep on file
-
+# start pipeline to edi
+# relational tables
 utils::download.file("https://pasta.lternet.edu/package/data/eml/edi/415/5/d468c513fa69c4fc6ddc02e443785f28", file.path(tempdir(), "EDSM_20mm.csv"), mode="wb",method="libcurl")
 utils::download.file("https://pasta.lternet.edu/package/data/eml/edi/415/5/4d7de6f0a38eff744a009a92083d37ae", file.path(tempdir(), "EDSM_KDTR.csv"), mode="wb",method="libcurl")
 

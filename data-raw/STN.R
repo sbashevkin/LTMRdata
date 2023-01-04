@@ -8,8 +8,13 @@
 
 library(DBI)
 library(odbc)
+require(utils)
+
+
 
 ## STN database url and file names:
+utils::download.file("https://filelib.wildlife.ca.gov/Public/TownetFallMidwaterTrawl/TNS%20MS%20Access%20Data/TNS%20data/STN_Data1959-2022.xlsx", file.path(tempdir(), "STN_Data1959-2022.xlsx"), mode="wb",method="libcurl")
+
 dbName <- "STN_Data1959-2020.accdb"
 surveyURL <- paste0("https://filelib.wildlife.ca.gov/Public/TownetFallMidwaterTrawl",
 										"/TNS%20MS%20Access%20Data/TNS%20data/",dbName)

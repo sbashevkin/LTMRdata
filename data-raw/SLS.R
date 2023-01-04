@@ -21,46 +21,125 @@ driver <- "Driver={Microsoft Access Driver (*.mdb, *.accdb)};"
 # File path to Access database (Salvage)
 db_path <- file.path(tempdir(),"SLS.mdb")
 
+source("bridgeAccess.R")
+connectAccess <- function(file,
+                          driver = "Microsoft Access Driver (*.mdb, *.accdb)", uid = "", pwd = "", ...) {
+
+  file <- normalizePath(file, winslash = "\\")
+
+  # Driver and path required to connect from RStudio to Access
+  dbString <- paste0("Driver={", driver,
+                     "};Dbq=", file,
+                     ";Uid=", uid,
+                     ";Pwd=", pwd,
+                     ";")
+
+  tryCatch(DBI::dbConnect(drv = odbc::odbc(), .connection_string = dbString),
+           error = function(cond) {
+             if (all(stringr::str_detect(cond$message, c("IM002", "ODBC Driver Manager")))) {
+               message(cond, "\n")
+               message("IM002 and ODBC Driver Manager error generally means a 32-bit R needs to be installed or used.")
+             } else {
+               message(cond)
+             }
+           })
+  # RODBC::odbcDriverConnect(con, ...)
+}
+Conn<-connectAccess(file=db_path)
+
+
+
 # Just pastes driver info and file path together.
 full_path <- paste0(driver,"DBQ=",db_path)
 full_path
 # Connect to database using information above.
-conn <- odbcDriverConnect(full_path)
-names<-sqlTables(conn)
+#conn <- odbcDriverConnect(full_path)
+
+#names<-sqlTables(conn,tableType = c("TABLE","VIEW"))["TABLE_NAME"]
+
+
+
+extractTables <- function(con, tables, out) {
+
+  # Pulling just the table names
+  # tableNames <- RODBC::sqlTables(con, tableType = c("TABLE", "VIEW"))["TABLE_NAME"]
+  tableNames <- odbc::dbListTables(conn = con)
+
+  # Includes system tables which cannot be read, excluding them below with negate
+  # tableNames <- stringr::str_subset(tableNames, "MSys", negate = T)
+  if (length(tables) == 1 & all(tables %in% "check")) {
+    # If no table names are specified, then simply return the names of the possible databases for the user to pic
+
+    # RODBC::odbcClose(con)
+    DBI::dbDisconnect(con)
+
+    cat("Specify at least one table to pull from: \n")
+
+    return(print(tableNames))
+  }
+
+  # Apply the dbReadTable to each readable table in db
+  # returnedTables <- mapply(RODBC::sqlQuery,
+  #                          query = paste("SELECT * FROM", tables),
+  #                          MoreArgs = list(channel = con),
+  #                          SIMPLIFY = F)
+  returnedTables <- mapply(DBI::dbReadTable,
+                           name = tables,
+                           MoreArgs = list(conn = con),
+                           SIMPLIFY = F)
+
+  # names(returnedTables) <- tables
+
+  DBI::dbDisconnect(con)
+  # RODBC::odbcClose(con)
+
+  if (length(tables) != 1 & all(tables %in% "check")) {
+    # Save the table to be read back into R
+    saveRDS(returnedTables, file = file.path(out, "savedAccessTables.rds"))
+  } else {
+    returnedTables
+  }
+}
+SLSTables<-extractTables(con=Conn,tables=c("20mm Stations","AreaCode1","Catch","FishCodes","Lengths","Tow Info","Water Info","Meter Corrections","Wt_factors"),out=Path_origin)
+
+#Test_again<-extractTables(con=Conn,tables=set_test[[1]][["TABLE_NAME"]],out=Path_origin)
+
 
 #MWT data setup ----
-SLSTables<-list()
-SLSTables$Catch <- sqlFetch(conn, "Catch")%>%dplyr::select(Date,Station,Tow,FishCode,Catch,CatchID)
 
-SLSTables$Catch$Station<-as.character(SLSTables$Catch$Station)
+SLSTables$Catch <- SLSTables$Catch%>%
+  dplyr::select(Date,Station,Tow,FishCode,Catch,CatchID)%>%
+  mutate(Station=as.character(Station))
 
-SLSTables$Lengths <- sqlFetch(conn, "Lengths")%>%dplyr::select(Date,Station,Tow,FishCode,Length,entryorder)
-SLSTables$Lengths$Station<-as.character(SLSTables$Lengths$Station)
-
-SLSTables$"Meter Corrections" <- sqlFetch(conn, "Meter Corrections")%>%dplyr::select(StudyYear,MeterSerial,CalibrationDate,kfactor,Notes)
-SLSTables$"20mm Stations" <- sqlFetch(conn, "20mm Stations")%>%dplyr::select(Station,LatD,LatM,LatS,LonD,LonM,LonS)
-
-SLSTables$"20mm Stations"$Latitude<-SLSTables$"20mm Stations"$LatD+SLSTables$"20mm Stations"$LatM/60+SLSTables$"20mm Stations"$LatS/3600
-SLSTables$"20mm Stations"$Longitude<-SLSTables$"20mm Stations"$LonD+SLSTables$"20mm Stations"$LonM/60+SLSTables$"20mm Stations"$LonS/3600
-SLSTables$"20mm Stations"$Station<-as.character(SLSTables$"20mm Stations"$Station)
-
-SLSTables$"Tow Info"<-sqlFetch(conn,"Tow Info")%>%dplyr::select(Date,Station,Tow,Time,Tide,BottomDepth,CableOut,Duration,NetMeterSerial,NetMeterStart,NetMeterCheck,CBMeterSerial,CBMeterStart,CBMeterEnd,CBMeterCheck,Comments)
-colnames(SLSTables$"Tow Info")[16]<-"Notes_tow"
+SLSTables$Lengths <- SLSTables$Lengths %>%
+  dplyr::select(Date,Station,Tow,FishCode,Length,entryorder)%>%
+  mutate(Station=as.character(Station))
 
 
+SLSTables$"Meter Corrections" <- SLSTables$"Meter Corrections"%>%
+  dplyr::select(StudyYear,MeterSerial,CalibrationDate,kfactor,Notes)
+SLSTables$"20mm Stations" <- SLSTables$"20mm Stations"%>%
+  dplyr::select(Station,LatD,LatM,LatS,LonD,LonM,LonS)%>%
+  mutate(Latitude=LatD+LatM/60+LatS/3600,
+         Longitude=LonD+LonM/60+LonS/3600,
+         Station=as.character(Station))%>%
+  dplyr::select(Station,Latitude,Longitude)%>%
+  na.omit()
 
-SLSTables$"Tow Info"$Station<-as.character(SLSTables$"Tow Info"$Station)
-SLSTables$"Tow Info"$Tide<-as.character(SLSTables$"Tow Info"$Tide)
-SLSTables$"Tow Info"$CableOut<-SLSTables$"Tow Info"$CableOut*0.3048
+SLSTables$"Tow Info"<-SLSTables$"Tow Info"%>%
+  dplyr::select(Date,Station,Tow,Time,Tide,BottomDepth,CableOut,Duration,NetMeterSerial,NetMeterStart,NetMeterCheck,CBMeterSerial,CBMeterStart,CBMeterEnd,CBMeterCheck,Comments)%>%
+  rename(Notes_tow=Comments)%>%
+  mutate(Station=as.character(Station),
+         Tide=as.character(Tide),
+         CableOut=CableOut*0.3048)
 
-SLSTables$"Water Info"<-sqlFetch(conn,"Water Info")%>%dplyr::select(Survey,Date,Station,Temp,TopEC,BottomEC,Secchi,Turbidity,Comments)
-colnames(SLSTables$"Water Info")[9]<-"Notes_env"
-SLSTables$"Water Info"$Station<-as.character(SLSTables$"Water Info"$Station)
 
-
+SLSTables$"Water Info"<-SLSTables$"Water Info"%>%dplyr::select(Survey,Date,Station,Temp,TopEC,BottomEC,Secchi,Turbidity,Comments)%>%
+  rename(Notes_env=Comments)%>%
+  mutate(Station=as.character(Station))
 
 odbcCloseAll()
-rm(names,conn,db_path,full_path,Path,Path_origin)
+rm(names,Conn,db_path,full_path,Path,Path_origin)
 
 
 # Manipulating the data tables --------------------------------------------
