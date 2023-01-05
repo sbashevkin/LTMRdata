@@ -21,7 +21,6 @@ driver <- "Driver={Microsoft Access Driver (*.mdb, *.accdb)};"
 # File path to Access database (Salvage)
 db_path <- file.path(tempdir(),"SLS.mdb")
 
-source("bridgeAccess.R")
 connectAccess <- function(file,
                           driver = "Microsoft Access Driver (*.mdb, *.accdb)", uid = "", pwd = "", ...) {
 
