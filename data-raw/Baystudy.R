@@ -10,12 +10,8 @@ require(LTMRdata)
 require(stringr)
 
 # Station locations -------------------------------------------------------
-test<-file.path("LTMRdata","LTMRdata","data-raw", "Baystudy", "Bay Study_Station Coordinates for Distribution_04May2020.xlsx")
 
-stations_baystudy <- read_excel(file.path(
-  #test
-  "data-raw", "Baystudy", "Bay Study_Station Coordinates for Distribution_04May2020.xlsx"
-  ))%>%
+stations_baystudy <- read_excel(file.path("data-raw", "Baystudy", "Bay Study_Station Coordinates for Distribution_04May2020.xlsx"))%>%
   separate(Latitude, into=c("Lat_Deg", "Lat_Min"), sep = "°", convert=T)%>% # Convert to decimal degrees
   separate(Longitude, into=c("Lon_Deg", "Lon_Min"), sep = "°", convert=T)%>%
   mutate(Latitude=Lat_Deg+Lat_Min/60,
@@ -23,6 +19,7 @@ stations_baystudy <- read_excel(file.path(
   dplyr::select(Station, Latitude, Longitude)%>%
   dplyr::filter(Station!="211E")%>% # Kathy said W location of station 211 is more often used, so using those coordinates
   mutate(Station=recode(Station, `211W`="211"))%>%
+  mutate(Station=as.integer(Station))
 
 
 

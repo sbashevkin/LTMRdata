@@ -31,7 +31,7 @@ con <- DBI::dbConnect(drv=odbc::odbc(), .connection_string=dbString)
 tables <- odbc::dbListTables(conn=con)
 tables
 
-## Save select tables:
+## Save dplyr::select tables:
 keepTables <- c("Catch","Length","luMicrocystis","luOrganism","luStation",
 								"luTide","luTowDirection","Sample","TowEffort",
 								"Web_Local_Meter_Corrections")
@@ -107,7 +107,7 @@ sampleSTN <- Sample %>%
                 TowNumber=if_else(SampleRowID==7078 & TowNumber==1 & TowRowID==12153, 2, TowNumber),
                 SampleID=paste(Source, Date, Survey, StationCode, TowNumber),
                 Method="STN net",
-                TowTime=str_split(TimeStart, " ")[[1]][2], #Select time which always follows a space
+                TowTime=str_split(TimeStart, " ")[[1]][2], #dplyr::select time which always follows a space
                 Datetime=paste(Date, TowTime),
                 Datetime=parse_date_time(if_else(is.na(TowTime), NA_character_,
                                                  Datetime),
@@ -133,16 +133,16 @@ sampleSTN <- Sample %>%
                 Tow_volume=TowVolm3,
                 Station=StationCode) %>%
   mutate(Tow_direction=recode(Tow_direction, `Against Current`="Against current", `With Current`="With current"))%>%
-  select(TowRowID, Source, Station, Latitude, Longitude, Date, Datetime,
+  dplyr::select(TowRowID, Source, Station, Latitude, Longitude, Date, Datetime,
                 Survey, TowNum, Depth, SampleID, Method, Tide, Sal_surf,
                 Temp_surf, Secchi, Tow_volume, Tow_direction, Cable_length)
 
 
 fish_totalCatch <- Catch %>%
-  filter(!is.na(Catch) & Catch > 0)
+  dplyr::filter(!is.na(Catch) & Catch > 0)
 
 Length_measured<-Length%>%
-  filter(ForkLength!=0)%>%
+  dplyr::filter(ForkLength!=0)%>%
   group_by(CatchRowID, ForkLength)%>%
   summarise(LengthFrequency=sum(LengthFrequency), .groups="drop")
 
@@ -160,8 +160,8 @@ fish_adjustedCount <- fish_totalCatch %>%
 	## Calculate length-frequency-adjusted counts:
   mutate(Count=(LengthFrequency/TotalMeasured)*CatchNew) %>%
   left_join(Species %>% ## Add species names
-										select(STN_Code, Taxa) %>%
-										filter(!is.na(STN_Code)),
+										dplyr::select(STN_Code, Taxa) %>%
+										dplyr::filter(!is.na(STN_Code)),
 									 by=c("OrganismCode"="STN_Code"))
 
 
@@ -177,7 +177,7 @@ intersect(names(sampleSTN), names(fish_adjustedCount))
 
 STN <- sampleSTN %>%
 	left_join(fish_adjustedCount %>%
-										select(TowRowID, OrganismCode, Taxa,
+										dplyr::select(TowRowID, OrganismCode, Taxa,
 										              ForkLength, LengthFrequency,
 										              Catch, CatchNew, Count),
 									 by="TowRowID") %>%
@@ -198,7 +198,7 @@ STN$Length_NA_flag[index_1] <- "Unknown length"
 all(STN$OrganismCode %in% Species$STN_Code)
 
 STN<-STN%>%
-  select(-CatchNew, Catch, LengthFrequency)%>%
+  dplyr::select(-CatchNew, Catch, LengthFrequency)%>%
   group_by(across(-Count))%>% # Add up any new multiples after removing lifestages
   summarise(Count=sum(Count), .groups="drop")%>%
   mutate(ForkLength=as.numeric(ForkLength),
@@ -206,8 +206,8 @@ STN<-STN%>%
 
 ## Create final measured lengths data frame:
 STN_measured_lengths <- STN %>%
-	select(SampleID, Taxa, ForkLength, LengthFrequency) %>%
-  filter(!is.na(LengthFrequency))%>% # Remove fish that weren't measured
+	dplyr::select(SampleID, Taxa, ForkLength, LengthFrequency) %>%
+  dplyr::filter(!is.na(LengthFrequency))%>% # Remove fish that weren't measured
   rename(Length=ForkLength,
                 Count=LengthFrequency)
 
@@ -219,7 +219,7 @@ names(STN_measured_lengths)
 ## Create final catch data frame:
 STN <- STN %>%
   rename(Length=ForkLength) %>%
-  select(-TowRowID, -OrganismCode, -LengthFrequency, -Catch)
+  dplyr::select(-TowRowID, -OrganismCode, -LengthFrequency, -Catch)
 
 nrow(STN)
 ncol(STN)
