@@ -8,16 +8,11 @@
 
 library(DBI)
 library(odbc)
-require(utils)
-
-
 
 ## STN database url and file names:
-utils::download.file("https://filelib.wildlife.ca.gov/Public/TownetFallMidwaterTrawl/TNS%20MS%20Access%20Data/TNS%20data/STN_Data1959-2022.xlsx", file.path(tempdir(), "STN_Data1959-2022.xlsx"), mode="wb",method="libcurl")
-
 dbName <- "STN_Data1959-2020.accdb"
 surveyURL <- paste0("https://filelib.wildlife.ca.gov/Public/TownetFallMidwaterTrawl",
-										"/TNS%20MS%20Access%20Data/TNS%20data/",dbName)
+                    "/TNS%20MS%20Access%20Data/TNS%20data/",dbName)
 tmpFile <- file.path(tempdir(), dbName)
 
 downloadCheck <- download.file(url=surveyURL, destfile=tmpFile, mode="wb")
@@ -25,19 +20,19 @@ downloadCheck
 
 ## Open connection to the database:
 dbString <- paste0("Driver={Microsoft Access Driver (*.mdb, *.accdb)};",
-									 "Dbq=",tmpFile)
+                   "Dbq=",tmpFile)
 con <- DBI::dbConnect(drv=odbc::odbc(), .connection_string=dbString)
 
 tables <- odbc::dbListTables(conn=con)
 tables
 
-## Save dplyr::select tables:
+## Save select tables:
 keepTables <- c("Catch","Length","luMicrocystis","luOrganism","luStation",
-								"luTide","luTowDirection","Sample","TowEffort",
-								"Web_Local_Meter_Corrections")
+                "luTide","luTowDirection","Sample","TowEffort",
+                "Web_Local_Meter_Corrections")
 for(tab in keepTables) {
-	tmp <- DBI::dbReadTable(con, tab)
-	write.csv(tmp, file=file.path("data-raw","STN",paste0(tab,".csv")), row.names=FALSE)
+  tmp <- DBI::dbReadTable(con, tab)
+  write.csv(tmp, file=file.path("data-raw","STN",paste0(tab,".csv")), row.names=FALSE)
 }
 
 ## Disconnect from database and remove original files:
@@ -85,84 +80,84 @@ suspect_fm_TowRowID <- c(6612,12815,2551,12786,8031,1857)
 
 
 sampleSTN <- Sample %>%
-	inner_join(TowEffort, by="SampleRowID") %>%
-	left_join(luStation, by=c("StationCode"="StationCodeSTN")) %>%
+  inner_join(TowEffort, by="SampleRowID") %>%
+  left_join(luStation, by=c("StationCode"="StationCodeSTN")) %>%
   mutate(Date=parse_date_time(SampleDate, "%m/%d/%Y %H:%M:%S",
-                                           tz="America/Los_Angeles"),
-                Year=year(Date)) %>%
-	left_join(Web_Local_Meter_Corrections,
-	                 by=c("Year"="Study Year","MeterSerial"="Meter Serial")) %>%
-	mutate(MeterTotal=ifelse((MeterOut - MeterIn) < 0,
-																	(MeterOut + 1000000 - MeterIn),
-																	(MeterOut - MeterIn)),
-								TowVolm3=ifelse(is.na(MeterIn), 735, `k factor`*MeterTotal*1.49),
-								TowVolm3=ifelse(is.na(TowVolm3), 735, TowVolm3),
-								## Use CDFW default tow volume when comments indicate
-								## something went wrong with the flow meter or resulting
-								## volume is unusually small or large:
-								TowVolm3=ifelse(TowRowID %in% suspect_fm_TowRowID, 735,
-								                TowVolm3)) %>%
+                              tz="America/Los_Angeles"),
+         Year=year(Date)) %>%
+  left_join(Web_Local_Meter_Corrections,
+            by=c("Year"="Study Year","MeterSerial"="Meter Serial")) %>%
+  mutate(MeterTotal=ifelse((MeterOut - MeterIn) < 0,
+                           (MeterOut + 1000000 - MeterIn),
+                           (MeterOut - MeterIn)),
+         TowVolm3=ifelse(is.na(MeterIn), 735, `k factor`*MeterTotal*1.49),
+         TowVolm3=ifelse(is.na(TowVolm3), 735, TowVolm3),
+         ## Use CDFW default tow volume when comments indicate
+         ## something went wrong with the flow meter or resulting
+         ## volume is unusually small or large:
+         TowVolm3=ifelse(TowRowID %in% suspect_fm_TowRowID, 735,
+                         TowVolm3)) %>%
   arrange(Date, Survey, StationCode, TowNumber) %>%
   mutate(Source="STN",
-                TowNumber=if_else(SampleRowID==7078 & TowNumber==1 & TowRowID==12153, 2, TowNumber),
-                SampleID=paste(Source, Date, Survey, StationCode, TowNumber),
-                Method="STN net",
-                TowTime=str_split(TimeStart, " ")[[1]][2], #dplyr::select time which always follows a space
-                Datetime=paste(Date, TowTime),
-                Datetime=parse_date_time(if_else(is.na(TowTime), NA_character_,
-                                                 Datetime),
-                                         "%Y-%m-%d %H:%M:%S",
-                                         tz="America/Los_Angeles"),
-                Depth=DepthBottom*0.3048, # Convert depth from feet to m
-                Cable_length=CableOut*0.3048, # Convert to m from feet
-                Temp_surf=TemperatureTop, # degrees Celsius
-                ## Secchi is already in cm.
+         TowNumber=if_else(SampleRowID==7078 & TowNumber==1 & TowRowID==12153, 2, TowNumber),
+         SampleID=paste(Source, Date, Survey, StationCode, TowNumber),
+         Method="STN net",
+         TowTime=str_split(TimeStart, " ")[[1]][2], #Select time which always follows a space
+         Datetime=paste(Date, TowTime),
+         Datetime=parse_date_time(if_else(is.na(TowTime), NA_character_,
+                                          Datetime),
+                                  "%Y-%m-%d %H:%M:%S",
+                                  tz="America/Los_Angeles"),
+         Depth=DepthBottom*0.3048, # Convert depth from feet to m
+         Cable_length=CableOut*0.3048, # Convert to m from feet
+         Temp_surf=TemperatureTop, # degrees Celsius
+         ## Secchi is already in cm.
 
-                ## Convert conductivity to salinity.
-                ## ConductivityTop is in micro-S/cm at 25 degrees Celsius.
-                ## Input for ec2pss should be in milli-S/cm.
-                Sal_surf=wql::ec2pss(ConductivityTop/1000, t=25),
-                Latitude=(LatD + LatM/60 + LatS/3600),
-                Longitude= -(LonD + LonM/60 + LonS/3600)) %>%
+         ## Convert conductivity to salinity.
+         ## ConductivityTop is in micro-S/cm at 25 degrees Celsius.
+         ## Input for ec2pss should be in milli-S/cm.
+         Sal_surf=wql::ec2pss(ConductivityTop/1000, t=25),
+         Latitude=(LatD + LatM/60 + LatS/3600),
+         Longitude= -(LonD + LonM/60 + LonS/3600)) %>%
   left_join(luTide, by=c("TideCode"="TideRowID")) %>%
   mutate(TideDesc=recode(TideDesc, `High Tide`="High Slack", `Low Tide`="Low Slack"))%>%
   left_join(luTowDirection, by=c("TowDirection"="TowDirectionID")) %>%
   rename(Tide=TideDesc,
-                Tow_direction=TowDirection.y,
-                TowNum=TowNumber,
-                Tow_volume=TowVolm3,
-                Station=StationCode) %>%
+         Tow_direction=TowDirection.y,
+         TowNum=TowNumber,
+         Tow_volume=TowVolm3,
+         Station=StationCode) %>%
   mutate(Tow_direction=recode(Tow_direction, `Against Current`="Against current", `With Current`="With current"))%>%
-  dplyr::select(TowRowID, Source, Station, Latitude, Longitude, Date, Datetime,
-                Survey, TowNum, Depth, SampleID, Method, Tide, Sal_surf,
-                Temp_surf, Secchi, Tow_volume, Tow_direction, Cable_length)
+  select(TowRowID, Source, Station, Latitude, Longitude, Date, Datetime,
+         Survey, TowNum, Depth, SampleID, Method, Tide, Sal_surf,
+         Temp_surf, Secchi, Tow_volume, Tow_direction, Cable_length)
 
 
 fish_totalCatch <- Catch %>%
-  dplyr::filter(!is.na(Catch) & Catch > 0)
+  filter(!is.na(Catch) & Catch > 0)
 
 Length_measured<-Length%>%
-  dplyr::filter(ForkLength!=0)%>%
+  filter(ForkLength!=0)%>%
   group_by(CatchRowID, ForkLength)%>%
   summarise(LengthFrequency=sum(LengthFrequency), .groups="drop")
 
 
 fish_adjustedCount <- fish_totalCatch %>%
   left_join(Length_measured,
-									 by="CatchRowID") %>%
+            by="CatchRowID") %>%
   group_by(TowRowID, CatchRowID, OrganismCode) %>%
   mutate(TotalMeasured=sum(LengthFrequency, na.rm=TRUE)) %>%
   ungroup() %>%
-	## Add total catch numbers:
-	## There are some cases where the number of fish measured is greater than the
-	## catch value in the Catch table. In these cases, use the number measured.
-	mutate(CatchNew=ifelse(TotalMeasured > Catch, TotalMeasured, Catch)) %>%
-	## Calculate length-frequency-adjusted counts:
+  ## Add total catch numbers:
+  ## There are some cases where the number of fish measured is greater than the
+  ## catch value in the Catch table. In these cases, use the number measured.
+  mutate(CatchNew=ifelse(TotalMeasured > Catch, TotalMeasured, Catch)) %>%
+  ## Calculate length-frequency-adjusted counts:
   mutate(Count=(LengthFrequency/TotalMeasured)*CatchNew) %>%
   left_join(Species %>% ## Add species names
-										dplyr::select(STN_Code, Taxa) %>%
-										dplyr::filter(!is.na(STN_Code)),
-									 by=c("OrganismCode"="STN_Code"))
+              select(STN_Code, Taxa) %>%
+              filter(!is.na(STN_Code)),
+            by=c("OrganismCode"="STN_Code"))
 
 
 ## Examine the cases where number measured > catch:
@@ -176,16 +171,16 @@ names(fish_adjustedCount)
 intersect(names(sampleSTN), names(fish_adjustedCount))
 
 STN <- sampleSTN %>%
-	left_join(fish_adjustedCount %>%
-										dplyr::select(TowRowID, OrganismCode, Taxa,
-										              ForkLength, LengthFrequency,
-										              Catch, CatchNew, Count),
-									 by="TowRowID") %>%
-	## Add reasoning for any NA lengths:
+  left_join(fish_adjustedCount %>%
+              select(TowRowID, OrganismCode, Taxa,
+                     ForkLength, LengthFrequency,
+                     Catch, CatchNew, Count),
+            by="TowRowID") %>%
+  ## Add reasoning for any NA lengths:
   mutate(Length_NA_flag=if_else(is.na(Catch), "No fish caught",
-                                      NA_character_),
-                Station=as.character(Station),
-                Taxa=stringr::str_remove(Taxa, " \\((.*)"))  # Remove life stage info from Taxa names)
+                                NA_character_),
+         Station=as.character(Station),
+         Taxa=stringr::str_remove(Taxa, " \\((.*)"))  # Remove life stage info from Taxa names)
 
 ## no lengths for calculating adjusted length frequencies (Count):
 ## use the Catch value from Catch as Count and change Length_NA_flag.
@@ -198,7 +193,7 @@ STN$Length_NA_flag[index_1] <- "Unknown length"
 all(STN$OrganismCode %in% Species$STN_Code)
 
 STN<-STN%>%
-  dplyr::select(-CatchNew, Catch, LengthFrequency)%>%
+  select(-CatchNew, Catch, LengthFrequency)%>%
   group_by(across(-Count))%>% # Add up any new multiples after removing lifestages
   summarise(Count=sum(Count), .groups="drop")%>%
   mutate(ForkLength=as.numeric(ForkLength),
@@ -206,10 +201,10 @@ STN<-STN%>%
 
 ## Create final measured lengths data frame:
 STN_measured_lengths <- STN %>%
-	dplyr::select(SampleID, Taxa, ForkLength, LengthFrequency) %>%
-  dplyr::filter(!is.na(LengthFrequency))%>% # Remove fish that weren't measured
+  select(SampleID, Taxa, ForkLength, LengthFrequency) %>%
+  filter(!is.na(LengthFrequency))%>% # Remove fish that weren't measured
   rename(Length=ForkLength,
-                Count=LengthFrequency)
+         Count=LengthFrequency)
 
 nrow(STN_measured_lengths)
 ncol(STN_measured_lengths)
@@ -219,7 +214,7 @@ names(STN_measured_lengths)
 ## Create final catch data frame:
 STN <- STN %>%
   rename(Length=ForkLength) %>%
-  dplyr::select(-TowRowID, -OrganismCode, -LengthFrequency, -Catch)
+  select(-TowRowID, -OrganismCode, -LengthFrequency, -Catch)
 
 nrow(STN)
 ncol(STN)
@@ -228,5 +223,3 @@ names(STN)
 
 ## Save compressed data to /data:
 usethis::use_data(STN, STN_measured_lengths, overwrite=TRUE)
-
-

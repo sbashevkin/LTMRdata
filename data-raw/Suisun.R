@@ -148,7 +148,7 @@ catch_comments_suisun <- read_excel(file.path("data-raw", "Suisun", "Suisun comm
             by=c("Lifestage"="Class", "Month", "OrganismCode"))%>%
   mutate(Min_length=if_else(is.na(Min_length), Min, Min_length),
          Max_length=if_else(is.na(Max_length), Max, Max_length))%>%
-    select(SampleID, Taxa, Count, CatchComments, Min_length, Length, Max_length, Lifestage, Notes)%>%
+  select(SampleID, Taxa, Count, CatchComments, Min_length, Length, Max_length, Lifestage, Notes)%>%
   mutate(NA_length = if_else(is.na(Min_length) & is.na(Max_length) & is.na(Length), TRUE, FALSE)) # Identify comments with no translatable length information (like "YOY")
 
 sizegroups_suisun <- catch_comments_suisun%>%

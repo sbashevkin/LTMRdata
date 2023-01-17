@@ -8,14 +8,12 @@ require(stringr)
 
 # downloading data because the dataset is too huge to keep on file
 
-options(timeout=300)
-
-download.file("https://pasta.lternet.edu/package/data/eml/edi/244/11/71c16ead9b8ffa4da7a52da180f601f4", file.path(tempdir(), "DJFMP_1976-2001.csv"), method="auto")
-download.file("https://pasta.lternet.edu/package/data/eml/edi/244/11/0f80e0390bfcbf548c50d40d952e03bc", file.path(tempdir(), "DJFMP_2002-2020.csv"), method="auto")
-download.file("https://pasta.lternet.edu/package/data/eml/edi/244/11/644fe41db87336bdbe917c528ac4e4cb", file.path(tempdir(), "DJFMP_BeachSeine_1976-2020.csv"), mode="wb",method="libcurl")
+download.file("https://pasta.lternet.edu/package/data/eml/edi/244/5/71c16ead9b8ffa4da7a52da180f601f4", file.path(tempdir(), "DJFMP_1976-2001.csv"), mode="wb",method="libcurl")
+download.file("https://pasta.lternet.edu/package/data/eml/edi/244/5/0edf413c39ac8b111a576d894306a60f", file.path(tempdir(), "DJFMP_2002-2020.csv"), mode="wb",method="libcurl")
+download.file("https://pasta.lternet.edu/package/data/eml/edi/244/5/a3e94e8f0cf6f675d716151c1ca17b4f", file.path(tempdir(), "DJFMP_BeachSeine_1976-2020.csv"), mode="wb",method="libcurl")
 
 
-#download.file("https://portal.edirepository.org/nis/dataviewer?packageid=edi.244.4&entityid=99a038d691f27cd306ff93fdcbc03b77", file.path(tempdir(), "DJFMP_stations.csv"), mode="wb")
+download.file("https://portal.edirepository.org/nis/dataviewer?packageid=edi.244.4&entityid=99a038d691f27cd306ff93fdcbc03b77", file.path(tempdir(), "DJFMP_stations.csv"), mode="wb")
 
 
 # Methods in  metadata say they do not know if their data were corrected for temperature before May 3 or 17 2019
@@ -45,29 +43,28 @@ DJFMP <-  bind_rows(
                                  Conductivity = "d", WaterTemperature = "d", Secchi = "d",
                                  Volume = "d", TowDirectionCode = "c", MarkCode="c", RaceByLength="c",
                                  OrganismCode = "c", ForkLength = "d", Count = "d")))%>%
-  rename(Station = StationCode, Date = SampleDate, Time = SampleTime, Temp_surf = WaterTemp,
+  rename(Station = StationCode, Date = SampleDate, Time = SampleTime, Temp_surf = WaterTemperature,
          Method = MethodCode, Tow_volume = Volume, Depth=SeineDepth,
-         Tow_direction = SamplingDirection, Length = ForkLength,Conductivity=SpecificConductance) %>%
-  dplyr::filter(is.na(GearConditionCode) | !GearConditionCode%in%c(3,4,9))%>%
-  mutate(Tow_volume = if_else(FlowDebris=="Y", NA_real_, Tow_volume, missing=Tow_volume),
+         Tow_direction = TowDirectionCode, Length = ForkLength) %>%
+  filter(is.na(GearConditionCode) | !GearConditionCode%in%c(3,4,9))%>%
+  mutate(Tow_volume = if_else(flowDebris=="Y", NA_real_, Tow_volume, missing=Tow_volume),
          Secchi = Secchi*100, # convert Secchi to cm
          Source = "DJFMP",
          Date = parse_date_time(Date, "%Y-%m-%d", tz = "America/Los_Angeles"),
          Time = parse_date_time(Time, "%H:%M:%S", tz = "America/Los_Angeles"),
-         Datetime = parse_date_time(ifelse(is.na(Time), NA_character_, paste0(Date, " ", hour(Time), ":", minute(Time))), "%Y-%m-%d %H:%M", tz="America/Los_Angeles"),
+         Datetime = parse_date_time(if_else(is.na(Time), NA_character_, paste0(Date, " ", hour(Time), ":", minute(Time))), "%Y-%m-%d %H:%M", tz="America/Los_Angeles"),
          # Removing conductivity data from dates before it was standardized
-         Conductivity = ifelse(Date<parse_date_time("2019-06-01", "%Y-%m-%d", tz="America/Los_Angeles"), NA_real_, Conductivity),
+         Conductivity = if_else(Date<parse_date_time("2019-06-01", "%Y-%m-%d", tz="America/Los_Angeles"), NA_real_, Conductivity),
          Sal_surf = ec2pss(Conductivity/1000, t=25),
          Method = recode(Method, MWTR="Midwater trawl", KDTR="Kodiak trawl", SEIN="Beach seine"),
          Tow_direction = recode(Tow_direction, U="Upstream", D="Downstream", X="Neither"),
-         SampleID = paste(Datetime, Station, TowNumber, Method),
-         MarkCode = ifelse(OrganismCode=="NOFISH", "None", MarkCode),
+         SampleID=paste(Datetime, Station, TowNumber, Method),
+         MarkCode=if_else(OrganismCode=="NOFISH", "None", MarkCode),
          # Set up code for sub-groups to apply plus counts. Untagged Chinoook Salmon are grouped by RaceByLength and any tagged fish are not incorporated into the process
-         Group = case_when(MarkCode=="None" & OrganismCode=="CHN" ~ RaceByLength,
-                           MarkCode!="None" ~ paste("Tag", 1:nrow(.)),
-                           TRUE ~ NA_character_))
-
-select(-Time, -MarkCode, -RaceByLength, -GearConditionCode, -FlowDebris) %>%
+         Group=case_when(MarkCode=="None" & OrganismCode=="CHN" ~ RaceByLength,
+                         MarkCode!="None" ~ paste("Tag", 1:nrow(.)),
+                         TRUE ~ NA_character_))%>%
+  select(-Time, -MarkCode, -RaceByLength, -GearConditionCode, -flowDebris) %>%
   group_by(across(-Count))%>% # Some species are recorded with the same length multiple times
   summarise(Count=sum(Count), .groups="drop")%>%
   group_by(SampleID, OrganismCode, Group)%>%
@@ -75,26 +72,26 @@ select(-Time, -MarkCode, -RaceByLength, -GearConditionCode, -FlowDebris) %>%
          Total=sum(Count), # Calculate total number of fish of each species caught
          Count=(Count/TotalMeasured)*Total)%>% # Calculate the adjusted length frequency
   ungroup()%>%
-  mutate(Length=ifelse(is.infinite(Count) & Length==0, NA_real_, Length), # Some Chinook were not measured, so these lines fix some after-effects of that
+  mutate(Length=if_else(is.infinite(Count) & Length==0, NA_real_, Length), # Some Chinook were not measured, so these lines fix some after-effects of that
          Length_NA_flag=case_when(
            is.infinite(Count) ~ "Unknown length",
            is.na(Length)~ "No fish caught",
            TRUE ~ NA_character_), # Add reasoning for an NA lengths (all "No Fish Caught" for FMWT)
-         Count=ifelse(is.infinite(Count), Total, Count))%>%
-  dplyr::filter(Length!=0 | is.na(Length))%>%
+         Count=if_else(is.infinite(Count), Total, Count))%>%
+  filter(Length!=0 | is.na(Length))%>%
   select(-Total, -TotalMeasured, -Group)%>%
   left_join(DJFMP_stations, by = "Station") %>%
   # Add species names
   left_join(Species %>%
               select(USFWS_Code, Taxa) %>%
-              dplyr::filter(!is.na(USFWS_Code)),
+              filter(!is.na(USFWS_Code)),
             by=c("OrganismCode"="USFWS_Code")) %>%
   mutate(SampleID=paste(Source, SampleID), # Add variable for unique (across all studies) sampleID
          Taxa=str_remove(Taxa, " \\((.*)"))%>% # Remove life stage info from Taxa names
   select(-OrganismCode)%>%
   group_by(across(-Count))%>% # Add up any new multiples after removing Group
   summarise(Count=sum(Count), .groups="drop")%>%
-  mutate(Count=ifelse(Length_NA_flag=="No fish caught", 0, Count, missing=Count))%>% # Transform all counts for 'No fish caught' to 0.
+  mutate(Count=if_else(Length_NA_flag=="No fish caught", 0, Count, missing=Count))%>% # Transform all counts for 'No fish caught' to 0.
   select(Source, Station, Latitude, Longitude, Date, Datetime, Depth, SampleID, Method, Sal_surf,
          Temp_surf, Secchi, Tow_volume, Tow_direction, Taxa, Length, Count, Length_NA_flag)
 
