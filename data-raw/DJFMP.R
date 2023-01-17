@@ -1,13 +1,14 @@
-require(wql)
+library(wql)
+
+library(readr)
+library(dplyr)
+library(lubridate)
+library(hms)
+library(stringr)
 require(LTMRdata)
-require(readr)
-require(dplyr)
-require(lubridate)
-require(hms)
-require(stringr)
 
 # downloading data because the dataset is too huge to keep on file
-
+options(timeout = 99999)
 download.file("https://pasta.lternet.edu/package/data/eml/edi/244/5/71c16ead9b8ffa4da7a52da180f601f4", file.path(tempdir(), "DJFMP_1976-2001.csv"), mode="wb",method="libcurl")
 download.file("https://pasta.lternet.edu/package/data/eml/edi/244/5/0edf413c39ac8b111a576d894306a60f", file.path(tempdir(), "DJFMP_2002-2020.csv"), mode="wb",method="libcurl")
 download.file("https://pasta.lternet.edu/package/data/eml/edi/244/5/a3e94e8f0cf6f675d716151c1ca17b4f", file.path(tempdir(), "DJFMP_BeachSeine_1976-2020.csv"), mode="wb",method="libcurl")
