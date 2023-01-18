@@ -44,6 +44,3 @@ data-raw/EDI/data_objects
 
 #shinyapps.io
 inst/shiny/deltafish/rsconnect
-R/Test.R
-data-raw/bridgeAccess.R
-data-raw/connectAccess.R
