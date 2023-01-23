@@ -1,66 +1,66 @@
-"StationRowID","StationCodeSTN","Active","Core","Index","Region","Location","LatD","LatM","LatS","LonD","LonM","LonS","RKI","AreaCode","TNS Diet Area","Comments","STRArea","WeightingFactor","YearAdded","YearEliminated","LatD_2019","LatM_2019","LatS_2019","LonD_2019","LonM_2019","LonS_2019"
-1,"20",0,0,0,"Napa River","Lower Napa River",,,,,,,,,,,,,,,,,,,,
-2,"21",0,0,0,,,,,,,,,"RNAP015",,,"Only sampled in 1959 & 1960",,,,,,,,,,
-3,"22",0,0,0,,,,,,,,,"SLNAP08",,,"Only sampled in 1959",,,,,,,,,,
-4,"23",0,0,0,,,,,,,,,"SLSTH06",,,"Only sampled in 1959",,,,,,,,,,
-5,"24",0,0,0,,,,,,,,,"RSAC045",,,"Only sampled in 1959 & 1960",,,,,,,,,,
-6,"301",0,0,0,,,,,,,,,"RSAC045",,,"Only sampled in 1974 (one tow)",,,,,,,,,,
-7,"302",0,0,0,,,,,,,,,"LSPE06",,,"Only sampled in 1974 (one tow)",,,,,,,,,,
-8,"312",0,0,0,,,,,,,,,"LSPD03",,,"Only sampled in 1974 (one tow)",,,,,,,,,,
-9,"315",0,0,0,,,,,,,,,"LSPD07",,,"Only sampled in 1974 (one tow)",,,,,,,,,,
-10,"32",0,0,0,,,,,,,,,"RMID23",,,"Only sampled in 1961",,,,,,,,,,
-11,"320",0,0,0,,,,,,,,,,,,"Began Sampling in July 1998",,,,,,,,,,
-12,"322",0,0,0,,,,,,,,,,,,"Only sampled in 1974 (one tow)",,,,,,,,,,
-13,"323",1,1,1,"San Pablo Bay","San Pablo Bay Rodeo Flats Opp. end of  rock wall",38,2,53.90,122,16,58.10,"LSPE10",1,,,"01-San Pablo",213,1959,,38,2,39.60,122,17,31.10
-14,"326",0,0,0,,,,,,,,,"LSPE13",,,"Only sampled in 1974 (one tow)",,,,,,,,,,
-15,"328",0,0,0,,"SP Bay-About 1900 yds NW of Ship Channel Light 11",38,3,37.10,122,21,0.00,"LSPD12",1,,"Sampled one tow in 1974 and 6 tows in 1995",,,,,,,,,,
-16,"329",0,0,0,,"SP Bay 800 yds N of Ship Channel Light 13",38,3,49.00,122,18,14.40,"LSPD16",1,,"Sampled one tow in 1974, 5 tows in 1983 and 2 tows",,,,,,,,,,
-17,"334",0,0,0,,"SP Bay-3000 yds N of Ship Channel Light 11",38,4,35.00,122,20,16.80,"LSPC14",1,,"Only sampled in 1995 (2 tows)",,,,,,,,,,
-18,"335",0,0,0,,"SP Bay-2700 yds NW of rock wall on flats",38,4,16.00,122,19,26.40,"LSPC16",1,,"Only sampled in 1995 (2 tows)",,,,,,,,,,
-19,"336",0,0,0,,"SP Bay along N side of channel E of Light 15",38,3,40.00,122,16,40.80,"RSAC040",1,,"Sampled 6 tows in 1983 and 6 tows in 1995",,,,,,,,,,
-20,"340",1,1,0,"Napa River","Napa River along Vallejo seawall and park",38,5,51.00,122,15,43.90,"RNAP005",2,,"Sampled beginning 1978","02-Carquinez",0,1978,,38,5,51.00,122,15,43.90
-21,"342",0,0,0,"Napa River",,,,,,,,,,,"Only sampled in 2006",,,,,,,,,,
-22,"35",0,0,0,,,,,,,,,"RMKL006",,,"Sampled 1961-1965",,,,,,,,,,
-23,"36",0,0,0,,,,,,,,,"SLSTH10",,,"Only sampled in 1961",,,,,,,,,,
-24,"405",1,1,1,"Suisun Bay (Carquinez St.)","Carquinez Strait just W of Benecia army dock",38,2,22.90,122,9,1.80,"RSAC054",3,1,,"02-Carquinez",13,1959,,38,2,22.90,122,9,1.80
-25,"411",1,1,1,"Suisun Bay","Suisun Bay just W of Point Edith",38,3,4.70,122,4,59.90,"RSAC059",3,1,,"03-Suisun Bay",46,1959,,38,3,4.20,122,4,41.60
-26,"418",1,1,1,"Suisun Bay (Mothball)","Suisun Bay near surplus ships, opposite Avon oil d",38,3,53.30,122,5,52.10,"LSBB04",3,1,,"03-Suisun Bay",70,1959,,38,3,53.30,122,5,52.10
-27,"501",1,1,1,"Suisun Bay","Suisun Bay between Roe and Ryer Islands",38,4,21.00,122,1,30.70,"LSBA5",6,1,,"03-Suisun Bay",49,1959,,38,4,24.50,122,1,30.40
-28,"504",1,1,1,"Suisun Bay","Suisun Bay just E of Middle Point",38,3,16.20,121,59,22.20,"RSAC068",6,2,,"03-Suisun Bay",60,1959,,38,3,9.50,121,59,10.10
-29,"508",1,1,1,"Suisun Bay","Suisun Bay off Chipps Island, opposite Sacramento ",38,2,43.80,121,55,7.70,"RSAC075",6,2,,"04-Confluence",31,1959,,38,2,43.80,121,55,7.70
-30,"513",1,1,1,"Suisun Bay","Sacramento River between vanSickle & Winter Island",38,3,29.90,121,52,4.80,"RSAC079",7,2,,"04-Confluence",43,1959,,38,3,29.90,121,52,4.80
-31,"519",1,1,1,"Suisun Bay (Honker)","Honker Bay,W end at Dolphin",38,4,20.30,121,57,34.90,"LSBB23",6,2,,"03-Suisun Bay",15,1959,,38,4,20.30,121,57,34.90
-32,"520",1,1,1,"Suisun Bay","New York Slough,W end along Pittsburg dock",38,1,58.10,121,52,9.50,"SLNY1",7,2,,"04-Confluence",9,1959,,38,1,58.10,121,52,9.50
-33,"602",1,1,1,"Suisun Bay (Grizzly)","Grizzly Bay NE of Suisun Slough at Dolphin",38,6,50.40,122,2,46.30,"LSBB11",4,9,,"03-Suisun Bay",44,1959,,38,6,50.40,122,2,46.30
-34,"606",1,1,1,"Suisun Bay (Mont. Sl.)","Montezuma Slough off Joice Island at PG&E cable cr",38,10,10.10,122,1,32.40,"SLMZU06",5,9,,"03-Suisun Bay",20,1959,,38,10,10.10,122,1,32.40
-35,"609",1,1,1,"Suisun Bay (Mont. Sl.)","Montezuma Slough at Nurse Slough",38,10,1.90,121,56,16.80,"SLMZU16",5,9,,"03-Suisun Bay",15,1959,,38,10,1.90,121,56,16.80
-36,"610",1,1,1,"Suisun Bay (Mont. Sl.)","Montezuma Slough at road from Bird's Landing",38,7,7.70,121,53,21.10,"SLMZU25",5,9,,"03-Suisun Bay",4,1959,,38,7,7.70,121,53,21.10
-37,"704",1,1,1,"Lower Sacramento River","Sacramento River N side across from Sherman Lake",38,4,9.00,121,46,31.00,"RSAC087",8,3,,"05-Lower Sac River",53,1959,,38,3,59.90,121,47,11.00
-38,"706",1,1,1,"Lower Sacramento River","Sacramento River below S tip of Decker Island",38,5,6.70,121,45,2.50,"RSAC092",8,3,,"05-Lower Sac River",27,1959,,38,5,6.70,121,45,2.50
-39,"707",1,1,1,"Lower Sacramento River","Sacramento River at Three Mile Slough in channel f",38,6,48.60,121,42,27.00,"RSAC096",8,4,,"05-Lower Sac River",35,1959,,38,6,48.60,121,42,27.00
-40,"711",1,1,1,"Sacramento River","Sacramento River at tip of Grand Island",38,10,43.70,121,39,55.10,"RSAC104",8,4,,"05-Lower Sac River",32,1959,,38,10,38.10,121,39,47.60
-41,"713",1,0,0,"Cache Slough","Cache Slough N of Light 43",38,12,22.80,121,39,36.30,"SLCCH03",,,"Sampled in 1977, 2 tows. Sampling resumed in 2011","09-Cache Slough",0,2011,,38,12,22.80,121,39,36.30
-42,"715",0,,,,,,,,,,,,,,,"09-Cache Slough",0,2011,,,,,,,
-43,"716",1,0,0,"Cache Slough","Cache Slough North of cable Ferry 1 & 51",38,14,18.50,121,41,5.20,,,,"Since 2011 (716 sampled in 2009 is closer to 721)","09-Cache Slough",0,2011,,38,14,19.20,121,41,5.30
-44,"719",1,0,0,"Sac. Deep Water Channel","Sac. Deep Water Channel - Between Lights 59 & 60",38,20,0.20,121,38,51.10,,,,"2009 (09 data in standalone DB) and since 2011","06-Sac Deep Water Shipping Channel",0,2011,,38,20,0.20,121,38,51.10
-45,"721",1,0,0,"Cache Slough","Cache Slough - 75 YDS. S. OF PUMPHOUSE ON W. BANK.",38,16,6.40,121,42,11.10,,,,"Since 2011","09-Cache Slough",0,2011,,38,16,5.30,121,42,10.00
-65,"722",1,0,0,"Cache Slough","Cache Slough",38,14,28.80,121,41,9.60,,,,"Same as SKT 716","09-Cache Slough",0,2021,,38,14,28.80,121,41,9.60
-46,"723",1,0,0,"Sac. Deep Water Channel","Sac. Deep Water Channel - Between Lights 51& 52",38,14,14.00,121,40,23.00,,,,"2009 (09 data in standalone DB) and since 2011","06-Sac Deep Water Shipping Channel",0,2011,,38,14,14.00,121,40,23.00
-47,"794",0,0,0,"Sac. Deep Water Channel","Sac. Deep Water Channel Turning Basin near S. Bank",,,,,,,,,,"Only sampled in 2009, data in standalone DB",,,,,,,,,,
-48,"795",1,0,0,"Sac. Deep Water Channel","Sac. Deep Water Channel - Between Lights 75 & 76",38,32,15.30,121,35,4.70,,,,"2009 (09 data in standalone DB) and since 2011","06-Sac Deep Water Shipping Channel",0,2011,,38,32,15.30,121,35,4.70
-49,"796",1,0,0,"Sac. Deep Water Channel","Sac. Deep Water Channel - Between Lights 71 & 72",38,28,24.80,121,35,4.00,,,,"2009 (09 data in standalone DB) and since 2011","06-Sac Deep Water Shipping Channel",0,2011,,38,28,24.80,121,35,4.00
-50,"797",1,0,0,"Sac. Deep Water Channel","Sac. Deep Water Channel - Between Lights 65 & 66",38,24,17.00,121,36,56.20,,,,"2009 (09 data in standalone DB) and since 2011","06-Sac Deep Water Shipping Channel",0,2011,,38,24,16.80,121,36,55.90
-51,"801",1,1,1,"Confluence","San Joaquin River -1km upstream of the mouth",38,2,37.30,121,50,38.40,"RSAN001",7,5,,"04-Confluence",26,1959,,38,2,37.30,121,50,38.40
-52,"804",1,1,1,"Confluence","San Joaquin River SW tip of West lsland in S chann",38,1,5.50,121,47,49.20,"RSAN007",10,5,,"04-Confluence",52,1959,,38,1,5.50,121,47,49.20
-53,"809",1,1,1,"Lower San Joaquin","San Joaquin River N channel opposite Jersey Point",38,3,9.00,121,41,21.10,"RSAN018",10,6,,"07-Lower San Joaquin River",56,1959,,38,3,13.10,121,41,30.60
-54,"812",1,1,1,"Lower San Joaquin","San Joaquin River just west of Oulton Point",38,5,25.10,121,38,25.80,"RSAN026",10,7,,"07-Lower San Joaquin River",22,1959,,38,5,25.10,121,38,25.80
-55,"815",1,1,1,"Lower San Joaquin","San Joaquin River at mouth of Potato Slough betwee",38,4,48.00,121,34,11.30,"RSAN035",10,7,,"07-Lower San Joaquin River",40,1959,,38,5,3.70,121,34,16.50
-56,"9",0,0,0,,,,,,,,,"SLSBT09",,,"Only sampled in 1959 & 1960",,,,,,,,,,
-57,"902",1,1,1,"Old River","Old River at mouth of Holland Cut",38,1,9.10,121,34,55.90,"ROLD05",12,8,,"08-South Delta",23,1959,,38,1,9.10,121,34,55.90
-58,"906",1,1,1,"San Joaquin River","San Joaquin River at Medford Island between Lights",38,3,6.10,121,30,32.40,"RSAN042",12,8,,"07-Lower San Joaquin River",21,1959,,38,2,59.80,121,30,21.20
-59,"910",1,1,1,"South Delta","San Joaquin River between Hog and Turner Cut at Li",38,0,6.50,121,26,55.30,"RSAN050",12,8,,"08-South Delta",11,1959,,38,0,6.50,121,27,0.00
-60,"912",1,1,1,"South Delta","San Joaquin River at mouth of Calaveras River, Lig",37,57,57.60,121,22,2.30,"RSAN058",12,8,,"08-South Delta",8,1959,,37,57,59.40,121,22,8.60
-61,"914",1,1,1,"South Delta","Middle River at Empire Cut, along E arm of river",37,58,17.40,121,31,12.00,"RMID12",12,8,,"08-South Delta",15,1959,,37,58,2.00,121,31,50.50
-62,"915",1,1,1,"South Delta","Old River W arm at railroad bridge",37,56,33.00,121,33,48.60,"ROLD28",12,8,,"08-South Delta",15,1959,,37,56,44.20,121,34,8.40
-63,"918",1,1,1,"South Delta","Old River NW of Coney Island",37,51,33.50,121,34,7.70,"ROLD39",12,8,,"08-South Delta",11,1959,,37,51,40.90,121,34,10.00
-64,"919",1,1,1,"Mokelumne River","Little Potato Slough, 1 km E of Terminous",38,6,17.30,121,29,31.20,"SLLPT5",11,8,,"07-Lower San Joaquin River",10,1959,,38,6,24.00,121,29,55.30
+"StationRowID","StationCodeSTN","Active","Core","Index","Region","Location","LatD","LatM","LatS","LonD","LonM","LonS","RKI","AreaCode","TNS.Diet.Area","Comments","STRArea","WeightingFactor","YearAdded","YearEliminated","LatD_2019","LatM_2019","LatS_2019","LonD_2019","LonM_2019","LonS_2019"
+24,"405",TRUE,1,1,"Suisun Bay (Carquinez St.)","Carquinez Strait just W of Benecia army dock",38,2,22.8999996185303,122,9,1.79999995231628,"RSAC054",3,1,NA,"02-Carquinez",13,1959,NA,38,2,22.8999996185303,122,9,1.79999995231628
+25,"411",TRUE,1,1,"Suisun Bay","Suisun Bay just W of Point Edith",38,3,4.69999980926514,122,4,59.9000015258789,"RSAC059",3,1,NA,"03-Suisun Bay",46,1959,NA,38,3,4.19999980926514,122,4,41.5999984741211
+26,"418",TRUE,1,1,"Suisun Bay (Mothball)","Suisun Bay near surplus ships, opposite Avon oil d",38,3,53.2999992370605,122,5,52.0999984741211,"LSBB04",3,1,NA,"03-Suisun Bay",70,1959,NA,38,3,53.2999992370605,122,5,52.0999984741211
+27,"501",TRUE,1,1,"Suisun Bay","Suisun Bay between Roe and Ryer Islands",38,4,21,122,1,30.7000007629395,"LSBA5",6,1,NA,"03-Suisun Bay",49,1959,NA,38,4,24.5,122,1,30.3999996185303
+28,"504",TRUE,1,1,"Suisun Bay","Suisun Bay just E of Middle Point",38,3,16.2000007629395,121,59,22.2000007629395,"RSAC068",6,2,NA,"03-Suisun Bay",60,1959,NA,38,3,9.5,121,59,10.1000003814697
+29,"508",TRUE,1,1,"Suisun Bay","Suisun Bay off Chipps Island, opposite Sacramento ",38,2,43.7999992370605,121,55,7.69999980926514,"RSAC075",6,2,NA,"04-Confluence",31,1959,NA,38,2,43.7999992370605,121,55,7.69999980926514
+30,"513",TRUE,1,1,"Suisun Bay","Sacramento River between vanSickle & Winter Island",38,3,29.8999996185303,121,52,4.80000019073486,"RSAC079",7,2,NA,"04-Confluence",43,1959,NA,38,3,29.8999996185303,121,52,4.80000019073486
+31,"519",TRUE,1,1,"Suisun Bay (Honker)","Honker Bay,W end at Dolphin",38,4,20.2999992370605,121,57,34.9000015258789,"LSBB23",6,2,NA,"03-Suisun Bay",15,1959,NA,38,4,20.2999992370605,121,57,34.9000015258789
+32,"520",TRUE,1,1,"Suisun Bay","New York Slough,W end along Pittsburg dock",38,1,58.0999984741211,121,52,9.5,"SLNY1",7,2,NA,"04-Confluence",9,1959,NA,38,1,58.0999984741211,121,52,9.5
+33,"602",TRUE,1,1,"Suisun Bay (Grizzly)","Grizzly Bay NE of Suisun Slough at Dolphin",38,6,50.4000015258789,122,2,46.2999992370605,"LSBB11",4,9,NA,"03-Suisun Bay",44,1959,NA,38,6,50.4000015258789,122,2,46.2999992370605
+34,"606",TRUE,1,1,"Suisun Bay (Mont. Sl.)","Montezuma Slough off Joice Island at PG&E cable cr",38,10,10.1000003814697,122,1,32.4000015258789,"SLMZU06",5,9,NA,"03-Suisun Bay",20,1959,NA,38,10,10.1000003814697,122,1,32.4000015258789
+35,"609",TRUE,1,1,"Suisun Bay (Mont. Sl.)","Montezuma Slough at Nurse Slough",38,10,1.89999997615814,121,56,16.7999992370605,"SLMZU16",5,9,NA,"03-Suisun Bay",15,1959,NA,38,10,1.89999997615814,121,56,16.7999992370605
+36,"610",TRUE,1,1,"Suisun Bay (Mont. Sl.)","Montezuma Slough at road from Bird's Landing",38,7,7.69999980926514,121,53,21.1000003814697,"SLMZU25",5,9,NA,"03-Suisun Bay",4,1959,NA,38,7,7.69999980926514,121,53,21.1000003814697
+37,"704",TRUE,1,1,"Lower Sacramento River","Sacramento River N side across from Sherman Lake",38,4,9,121,46,31,"RSAC087",8,3,NA,"05-Lower Sac River",53,1959,NA,38,3,59.9000015258789,121,47,11
+38,"706",TRUE,1,1,"Lower Sacramento River","Sacramento River below S tip of Decker Island",38,5,6.69999980926514,121,45,2.5,"RSAC092",8,3,NA,"05-Lower Sac River",27,1959,NA,38,5,6.69999980926514,121,45,2.5
+39,"707",TRUE,1,1,"Lower Sacramento River","Sacramento River at Three Mile Slough in channel f",38,6,48.5999984741211,121,42,27,"RSAC096",8,4,NA,"05-Lower Sac River",35,1959,NA,38,6,48.5999984741211,121,42,27
+40,"711",TRUE,1,1,"Sacramento River","Sacramento River at tip of Grand Island",38,10,43.7000007629395,121,39,55.0999984741211,"RSAC104",8,4,NA,"05-Lower Sac River",32,1959,NA,38,10,38.0999984741211,121,39,47.5999984741211
+41,"713",TRUE,0,0,"Cache Slough","Cache Slough N of Light 43",38,12,22.7999992370605,121,39,36.2999992370605,"SLCCH03",NA,NA,"Sampled in 1977, 2 tows. Sampling resumed in 2011","09-Cache Slough",0,2011,NA,38,12,22.7999992370605,121,39,36.2999992370605
+42,"715",FALSE,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,"09-Cache Slough",0,2011,NA,NA,NA,NA,NA,NA,NA
+43,"716",TRUE,0,0,"Cache Slough","Cache Slough North of cable Ferry 1 & 51",38,14,18.5,121,41,5.19999980926514,NA,NA,NA,"Since 2011 (716 sampled in 2009 is closer to 721)","09-Cache Slough",0,2011,NA,38,14,19.2000007629395,121,41,5.30000019073486
+44,"719",TRUE,0,0,"Sac. Deep Water Channel","Sac. Deep Water Channel - Between Lights 59 & 60",38,20,0.200000002980232,121,38,51.0999984741211,NA,NA,NA,"2009 (09 data in standalone DB) and since 2011","06-Sac Deep Water Shipping Channel",0,2011,NA,38,20,0.200000002980232,121,38,51.0999984741211
+45,"721",TRUE,0,0,"Cache Slough","Cache Slough - 75 YDS. S. OF PUMPHOUSE ON W. BANK.",38,16,6.40000009536743,121,42,11.1000003814697,NA,NA,NA,"Since 2011","09-Cache Slough",0,2011,NA,38,16,5.30000019073486,121,42,10
+65,"722",TRUE,0,0,"Cache Slough","Cache Slough",38,14,28.7999992370605,121,41,9.60000038146973,NA,NA,NA,"Same as SKT 716","09-Cache Slough",0,2021,NA,38,14,28.7999992370605,121,41,9.60000038146973
+46,"723",TRUE,0,0,"Sac. Deep Water Channel","Sac. Deep Water Channel - Between Lights 51& 52",38,14,14,121,40,23,NA,NA,NA,"2009 (09 data in standalone DB) and since 2011","06-Sac Deep Water Shipping Channel",0,2011,NA,38,14,14,121,40,23
+47,"794",FALSE,0,0,"Sac. Deep Water Channel","Sac. Deep Water Channel Turning Basin near S. Bank",NA,NA,NA,NA,NA,NA,NA,NA,NA,"Only sampled in 2009, data in standalone DB",NA,NA,NA,NA,NA,NA,NA,NA,NA,NA
+48,"795",TRUE,0,0,"Sac. Deep Water Channel","Sac. Deep Water Channel - Between Lights 75 & 76",38,32,15.3000001907349,121,35,4.69999980926514,NA,NA,NA,"2009 (09 data in standalone DB) and since 2011","06-Sac Deep Water Shipping Channel",0,2011,NA,38,32,15.3000001907349,121,35,4.69999980926514
+49,"796",TRUE,0,0,"Sac. Deep Water Channel","Sac. Deep Water Channel - Between Lights 71 & 72",38,28,24.7999992370605,121,35,4,NA,NA,NA,"2009 (09 data in standalone DB) and since 2011","06-Sac Deep Water Shipping Channel",0,2011,NA,38,28,24.7999992370605,121,35,4
+50,"797",TRUE,0,0,"Sac. Deep Water Channel","Sac. Deep Water Channel - Between Lights 65 & 66",38,24,17,121,36,56.2000007629395,NA,NA,NA,"2009 (09 data in standalone DB) and since 2011","06-Sac Deep Water Shipping Channel",0,2011,NA,38,24,16.7999992370605,121,36,55.9000015258789
+51,"801",TRUE,1,1,"Confluence","San Joaquin River -1km upstream of the mouth",38,2,37.2999992370605,121,50,38.4000015258789,"RSAN001",7,5,NA,"04-Confluence",26,1959,NA,38,2,37.2999992370605,121,50,38.4000015258789
+52,"804",TRUE,1,1,"Confluence","San Joaquin River SW tip of West lsland in S chann",38,1,5.5,121,47,49.2000007629395,"RSAN007",10,5,NA,"04-Confluence",52,1959,NA,38,1,5.5,121,47,49.2000007629395
+53,"809",TRUE,1,1,"Lower San Joaquin","San Joaquin River N channel opposite Jersey Point",38,3,9,121,41,21.1000003814697,"RSAN018",10,6,NA,"07-Lower San Joaquin River",56,1959,NA,38,3,13.1000003814697,121,41,30.6000003814697
+54,"812",TRUE,1,1,"Lower San Joaquin","San Joaquin River just west of Oulton Point",38,5,25.1000003814697,121,38,25.7999992370605,"RSAN026",10,7,NA,"07-Lower San Joaquin River",22,1959,NA,38,5,25.1000003814697,121,38,25.7999992370605
+55,"815",TRUE,1,1,"Lower San Joaquin","San Joaquin River at mouth of Potato Slough betwee",38,4,48,121,34,11.3000001907349,"RSAN035",10,7,NA,"07-Lower San Joaquin River",40,1959,NA,38,5,3.70000004768372,121,34,16.5
+56,"9",FALSE,0,0,NA,NA,NA,NA,NA,NA,NA,NA,"SLSBT09",NA,NA,"Only sampled in 1959 & 1960",NA,NA,NA,NA,NA,NA,NA,NA,NA,NA
+57,"902",TRUE,1,1,"Old River","Old River at mouth of Holland Cut",38,1,9.10000038146973,121,34,55.9000015258789,"ROLD05",12,8,NA,"08-South Delta",23,1959,NA,38,1,9.10000038146973,121,34,55.9000015258789
+58,"906",TRUE,1,1,"San Joaquin River","San Joaquin River at Medford Island between Lights",38,3,6.09999990463257,121,30,32.4000015258789,"RSAN042",12,8,NA,"07-Lower San Joaquin River",21,1959,NA,38,2,59.7999992370605,121,30,21.2000007629395
+59,"910",TRUE,1,1,"South Delta","San Joaquin River between Hog and Turner Cut at Li",38,0,6.5,121,26,55.2999992370605,"RSAN050",12,8,NA,"08-South Delta",11,1959,NA,38,0,6.5,121,27,0
+60,"912",TRUE,1,1,"South Delta","San Joaquin River at mouth of Calaveras River, Lig",37,57,57.5999984741211,121,22,2.29999995231628,"RSAN058",12,8,NA,"08-South Delta",8,1959,NA,37,57,59.4000015258789,121,22,8.60000038146973
+61,"914",TRUE,1,1,"South Delta","Middle River at Empire Cut, along E arm of river",37,58,17.3999996185303,121,31,12,"RMID12",12,8,NA,"08-South Delta",15,1959,NA,37,58,2,121,31,50.5
+62,"915",TRUE,1,1,"South Delta","Old River W arm at railroad bridge",37,56,33,121,33,48.5999984741211,"ROLD28",12,8,NA,"08-South Delta",15,1959,NA,37,56,44.2000007629395,121,34,8.39999961853027
+63,"918",TRUE,1,1,"South Delta","Old River NW of Coney Island",37,51,33.5,121,34,7.69999980926514,"ROLD39",12,8,NA,"08-South Delta",11,1959,NA,37,51,40.9000015258789,121,34,10
+64,"919",TRUE,1,1,"Mokelumne River","Little Potato Slough, 1 km E of Terminous",38,6,17.2999992370605,121,29,31.2000007629395,"SLLPT5",11,8,NA,"07-Lower San Joaquin River",10,1959,NA,38,6,24,121,29,55.2999992370605
+1,"20",FALSE,0,0,"Napa River","Lower Napa River",NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA
+2,"21",FALSE,0,0,NA,NA,NA,NA,NA,NA,NA,NA,"RNAP015",NA,NA,"Only sampled in 1959 & 1960",NA,NA,NA,NA,NA,NA,NA,NA,NA,NA
+3,"22",FALSE,0,0,NA,NA,NA,NA,NA,NA,NA,NA,"SLNAP08",NA,NA,"Only sampled in 1959",NA,NA,NA,NA,NA,NA,NA,NA,NA,NA
+4,"23",FALSE,0,0,NA,NA,NA,NA,NA,NA,NA,NA,"SLSTH06",NA,NA,"Only sampled in 1959",NA,NA,NA,NA,NA,NA,NA,NA,NA,NA
+5,"24",FALSE,0,0,NA,NA,NA,NA,NA,NA,NA,NA,"RSAC045",NA,NA,"Only sampled in 1959 & 1960",NA,NA,NA,NA,NA,NA,NA,NA,NA,NA
+6,"301",FALSE,0,0,NA,NA,NA,NA,NA,NA,NA,NA,"RSAC045",NA,NA,"Only sampled in 1974 (one tow)",NA,NA,NA,NA,NA,NA,NA,NA,NA,NA
+7,"302",FALSE,0,0,NA,NA,NA,NA,NA,NA,NA,NA,"LSPE06",NA,NA,"Only sampled in 1974 (one tow)",NA,NA,NA,NA,NA,NA,NA,NA,NA,NA
+8,"312",FALSE,0,0,NA,NA,NA,NA,NA,NA,NA,NA,"LSPD03",NA,NA,"Only sampled in 1974 (one tow)",NA,NA,NA,NA,NA,NA,NA,NA,NA,NA
+9,"315",FALSE,0,0,NA,NA,NA,NA,NA,NA,NA,NA,"LSPD07",NA,NA,"Only sampled in 1974 (one tow)",NA,NA,NA,NA,NA,NA,NA,NA,NA,NA
+10,"32",FALSE,0,0,NA,NA,NA,NA,NA,NA,NA,NA,"RMID23",NA,NA,"Only sampled in 1961",NA,NA,NA,NA,NA,NA,NA,NA,NA,NA
+11,"320",FALSE,0,0,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,"Began Sampling in July 1998",NA,NA,NA,NA,NA,NA,NA,NA,NA,NA
+12,"322",FALSE,0,0,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,"Only sampled in 1974 (one tow)",NA,NA,NA,NA,NA,NA,NA,NA,NA,NA
+13,"323",TRUE,1,1,"San Pablo Bay","San Pablo Bay Rodeo Flats Opp. end of  rock wall",38,2,53.9000015258789,122,16,58.0999984741211,"LSPE10",1,NA,NA,"01-San Pablo",213,1959,NA,38,2,39.5999984741211,122,17,31.1000003814697
+14,"326",FALSE,0,0,NA,NA,NA,NA,NA,NA,NA,NA,"LSPE13",NA,NA,"Only sampled in 1974 (one tow)",NA,NA,NA,NA,NA,NA,NA,NA,NA,NA
+15,"328",FALSE,0,0,NA,"SP Bay-About 1900 yds NW of Ship Channel Light 11",38,3,37.0999984741211,122,21,0,"LSPD12",1,NA,"Sampled one tow in 1974 and 6 tows in 1995",NA,NA,NA,NA,NA,NA,NA,NA,NA,NA
+16,"329",FALSE,0,0,NA,"SP Bay 800 yds N of Ship Channel Light 13",38,3,49,122,18,14.3999996185303,"LSPD16",1,NA,"Sampled one tow in 1974, 5 tows in 1983 and 2 tows",NA,NA,NA,NA,NA,NA,NA,NA,NA,NA
+17,"334",FALSE,0,0,NA,"SP Bay-3000 yds N of Ship Channel Light 11",38,4,35,122,20,16.7999992370605,"LSPC14",1,NA,"Only sampled in 1995 (2 tows)",NA,NA,NA,NA,NA,NA,NA,NA,NA,NA
+18,"335",FALSE,0,0,NA,"SP Bay-2700 yds NW of rock wall on flats",38,4,16,122,19,26.3999996185303,"LSPC16",1,NA,"Only sampled in 1995 (2 tows)",NA,NA,NA,NA,NA,NA,NA,NA,NA,NA
+19,"336",FALSE,0,0,NA,"SP Bay along N side of channel E of Light 15",38,3,40,122,16,40.7999992370605,"RSAC040",1,NA,"Sampled 6 tows in 1983 and 6 tows in 1995",NA,NA,NA,NA,NA,NA,NA,NA,NA,NA
+20,"340",TRUE,1,0,"Napa River","Napa River along Vallejo seawall and park",38,5,51,122,15,43.9000015258789,"RNAP005",2,NA,"Sampled beginning 1978","02-Carquinez",0,1978,NA,38,5,51,122,15,43.9000015258789
+21,"342",FALSE,0,0,"Napa River",NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,"Only sampled in 2006",NA,NA,NA,NA,NA,NA,NA,NA,NA,NA
+22,"35",FALSE,0,0,NA,NA,NA,NA,NA,NA,NA,NA,"RMKL006",NA,NA,"Sampled 1961-1965",NA,NA,NA,NA,NA,NA,NA,NA,NA,NA
+23,"36",FALSE,0,0,NA,NA,NA,NA,NA,NA,NA,NA,"SLSTH10",NA,NA,"Only sampled in 1961",NA,NA,NA,NA,NA,NA,NA,NA,NA,NA

@@ -4,16 +4,17 @@ library(dplyr)
 library(lubridate)
 library(hms)
 library(curl)
+library(tidyverse)
 library(stringr)
 require(LTMRdata)
 
 # downloading data because the dataset is too huge to keep on file
+# 1976-2001 ----
 options(timeout = 99999)
 inUrl1  <- "https://pasta.lternet.edu/package/data/eml/edi/244/11/71c16ead9b8ffa4da7a52da180f601f4"
 infile1 <- tempfile()
 try(download.file(inUrl1,infile1,method="curl"))
 if (is.na(file.size(infile1))) download.file(inUrl1,infile1,method="auto")
-
 
 dt1 <-read.csv(infile1,header=F
                ,skip=1
@@ -192,7 +193,7 @@ dt1$StageCode <- as.factor(ifelse((trimws(as.character(dt1$StageCode))==trimws("
 dt1$Expression <- as.factor(ifelse((trimws(as.character(dt1$Expression))==trimws("NA")),NA,as.character(dt1$Expression)))
 dt1$ForkLength <- ifelse((trimws(as.character(dt1$ForkLength))==trimws("NA")),NA,dt1$ForkLength)
 suppressWarnings(dt1$ForkLength <- ifelse(!is.na(as.numeric("NA")) & (trimws(as.character(dt1$ForkLength))==as.character(as.numeric("NA"))),NA,dt1$ForkLength))
-dt1$RaceByLength <- as.factor(ifelse((trimws(as.character(dt1$RaceByLength))==trimws("NA")),NA,as.character(dt1$RaceByLength)))
+dt1$RaceByLength <- as.character(ifelse((trimws(as.character(dt1$RaceByLength))==trimws("NA")),NA,as.character(dt1$RaceByLength)))
 dt1$TagCode <- as.factor(ifelse((trimws(as.character(dt1$TagCode))==trimws("NA")),NA,as.character(dt1$TagCode)))
 dt1$RaceByTag <- as.factor(ifelse((trimws(as.character(dt1$RaceByTag))==trimws("NA")),NA,as.character(dt1$RaceByTag)))
 dt1$ArchivalID <- as.factor(ifelse((trimws(as.character(dt1$ArchivalID))==trimws("NA")),NA,as.character(dt1$ArchivalID)))
@@ -218,7 +219,7 @@ attach(dt1)
 
 detach(dt1)
 
-
+# 2002-2022 ----
 inUrl2  <- "https://pasta.lternet.edu/package/data/eml/edi/244/11/0f80e0390bfcbf548c50d40d952e03bc"
 infile2 <- tempfile()
 try(download.file(inUrl2,infile2,method="curl"))
@@ -402,7 +403,7 @@ dt2$StageCode <- as.factor(ifelse((trimws(as.character(dt2$StageCode))==trimws("
 dt2$Expression <- as.factor(ifelse((trimws(as.character(dt2$Expression))==trimws("NA")),NA,as.character(dt2$Expression)))
 dt2$ForkLength <- ifelse((trimws(as.character(dt2$ForkLength))==trimws("NA")),NA,dt2$ForkLength)
 suppressWarnings(dt2$ForkLength <- ifelse(!is.na(as.numeric("NA")) & (trimws(as.character(dt2$ForkLength))==as.character(as.numeric("NA"))),NA,dt2$ForkLength))
-dt2$RaceByLength <- as.factor(ifelse((trimws(as.character(dt2$RaceByLength))==trimws("NA")),NA,as.character(dt2$RaceByLength)))
+dt2$RaceByLength <- as.character(ifelse((trimws(as.character(dt2$RaceByLength))==trimws("NA")),NA,as.character(dt2$RaceByLength)))
 dt2$TagCode <- as.factor(ifelse((trimws(as.character(dt2$TagCode))==trimws("NA")),NA,as.character(dt2$TagCode)))
 dt2$RaceByTag <- as.factor(ifelse((trimws(as.character(dt2$RaceByTag))==trimws("NA")),NA,as.character(dt2$RaceByTag)))
 dt2$ArchivalID <- as.factor(ifelse((trimws(as.character(dt2$ArchivalID))==trimws("NA")),NA,as.character(dt2$ArchivalID)))
@@ -429,7 +430,7 @@ attach(dt2)
 
 detach(dt2)
 
-
+# Water Quality data 1976-2022 ----
 inUrl3  <- "https://pasta.lternet.edu/package/data/eml/edi/244/11/644fe41db87336bdbe917c528ac4e4cb"
 infile3 <- tempfile()
 try(download.file(inUrl3,infile3,method="curl"))
@@ -613,7 +614,7 @@ dt3$StageCode <- as.factor(ifelse((trimws(as.character(dt3$StageCode))==trimws("
 dt3$Expression <- as.factor(ifelse((trimws(as.character(dt3$Expression))==trimws("NA")),NA,as.character(dt3$Expression)))
 dt3$ForkLength <- ifelse((trimws(as.character(dt3$ForkLength))==trimws("NA")),NA,dt3$ForkLength)
 suppressWarnings(dt3$ForkLength <- ifelse(!is.na(as.numeric("NA")) & (trimws(as.character(dt3$ForkLength))==as.character(as.numeric("NA"))),NA,dt3$ForkLength))
-dt3$RaceByLength <- as.factor(ifelse((trimws(as.character(dt3$RaceByLength))==trimws("NA")),NA,as.character(dt3$RaceByLength)))
+dt3$RaceByLength <- as.character(ifelse((trimws(as.character(dt3$RaceByLength))==trimws("NA")),NA,as.character(dt3$RaceByLength)))
 dt3$TagCode <- as.factor(ifelse((trimws(as.character(dt3$TagCode))==trimws("NA")),NA,as.character(dt3$TagCode)))
 dt3$RaceByTag <- as.factor(ifelse((trimws(as.character(dt3$RaceByTag))==trimws("NA")),NA,as.character(dt3$RaceByTag)))
 dt3$ArchivalID <- as.factor(ifelse((trimws(as.character(dt3$ArchivalID))==trimws("NA")),NA,as.character(dt3$ArchivalID)))
@@ -641,63 +642,61 @@ attach(dt3)
 detach(dt3)
 
 
-inUrl4  <- "https://pasta.lternet.edu/package/data/eml/edi/244/11/17c9974d9b7b0125c146a887f3c64bd8"
-infile4 <- tempfile()
-try(download.file(inUrl4,infile4,method="curl"))
-if (is.na(file.size(infile4))) download.file(inUrl4,infile4,method="auto")
+#inUrl4  <- "https://pasta.lternet.edu/package/data/eml/edi/244/11/17c9974d9b7b0125c146a887f3c64bd8"
+#infile4 <- tempfile()
+#try(download.file(inUrl4,infile4,method="curl"))
+#if (is.na(file.size(infile4))) download.file(inUrl4,infile4,method="auto")
 
 
-dt4 <-read.csv(infile4,header=F
-               ,skip=1
-               ,sep=","
-               ,quot='"'
-               , col.names=c(
-                 "OrganismCode",
-                 "IEPFishCode",
-                 "CommonName",
-                 "NonNative",
-                 "Phylum",
-                 "Class",
-                 "Order",
-                 "Family",
-                 "Genus",
-                 "Species",
-                 "Active"    ), check.names=TRUE)
+#dt4 <-read.csv(infile4,header=F
+#               ,skip=1
+#               ,sep=","
+#               ,quot='"'
+#               , col.names=c(
+#                 "OrganismCode",
+#                 "IEPFishCode",
+#                 "CommonName",
+#                 "NonNative",
+#                 "Phylum",
+#                 "Class",
+#                 "Order",
+#                 "Family",
+#                 "Genus",
+#                 "Species",
+#                 "Active"    ), check.names=TRUE)
 
-unlink(infile4)
-
+#unlink(infile4)
+#
 # Fix any interval or ratio columns mistakenly read in as nominal and nominal columns read as numeric or dates read as strings
 
-if (class(dt4$OrganismCode)!="factor") dt4$OrganismCode<- as.factor(dt4$OrganismCode)
-if (class(dt4$IEPFishCode)!="factor") dt4$IEPFishCode<- as.factor(dt4$IEPFishCode)
-if (class(dt4$CommonName)!="factor") dt4$CommonName<- as.factor(dt4$CommonName)
-if (class(dt4$NonNative)!="factor") dt4$NonNative<- as.factor(dt4$NonNative)
-if (class(dt4$Phylum)!="factor") dt4$Phylum<- as.factor(dt4$Phylum)
-if (class(dt4$Class)!="factor") dt4$Class<- as.factor(dt4$Class)
-if (class(dt4$Order)!="factor") dt4$Order<- as.factor(dt4$Order)
-if (class(dt4$Family)!="factor") dt4$Family<- as.factor(dt4$Family)
-if (class(dt4$Genus)!="factor") dt4$Genus<- as.factor(dt4$Genus)
-if (class(dt4$Species)!="factor") dt4$Species<- as.factor(dt4$Species)
-if (class(dt4$Active)!="factor") dt4$Active<- as.factor(dt4$Active)
+#if (class(dt4$OrganismCode)!="factor") dt4$OrganismCode<- as.factor(dt4$OrganismCode)
+#if (class(dt4$IEPFishCode)!="factor") dt4$IEPFishCode<- as.factor(dt4$IEPFishCode)
+#if (class(dt4$CommonName)!="factor") dt4$CommonName<- as.factor(dt4$CommonName)
+#if (class(dt4$NonNative)!="factor") dt4$NonNative<- as.factor(dt4$NonNative)
+#if (class(dt4$Phylum)!="factor") dt4$Phylum<- as.factor(dt4$Phylum)
+#if (class(dt4$Class)!="factor") dt4$Class<- as.factor(dt4$Class)
+#if (class(dt4$Order)!="factor") dt4$Order<- as.factor(dt4$Order)
+#if (class(dt4$Family)!="factor") dt4$Family<- as.factor(dt4$Family)
+#if (class(dt4$Genus)!="factor") dt4$Genus<- as.factor(dt4$Genus)
+#if (class(dt4$Species)!="factor") dt4$Species<- as.factor(dt4$Species)
+#if (class(dt4$Active)!="factor") dt4$Active<- as.factor(dt4$Active)
 
 # Convert Missing Values to NA for non-dates
 
-dt4$IEPFishCode <- as.factor(ifelse((trimws(as.character(dt4$IEPFishCode))==trimws("NA")),NA,as.character(dt4$IEPFishCode)))
-dt4$Phylum <- as.factor(ifelse((trimws(as.character(dt4$Phylum))==trimws("NA")),NA,as.character(dt4$Phylum)))
-dt4$Class <- as.factor(ifelse((trimws(as.character(dt4$Class))==trimws("NA")),NA,as.character(dt4$Class)))
-dt4$Order <- as.factor(ifelse((trimws(as.character(dt4$Order))==trimws("NA")),NA,as.character(dt4$Order)))
-dt4$Family <- as.factor(ifelse((trimws(as.character(dt4$Family))==trimws("NA")),NA,as.character(dt4$Family)))
-dt4$Genus <- as.factor(ifelse((trimws(as.character(dt4$Genus))==trimws("NA")),NA,as.character(dt4$Genus)))
-dt4$Species <- as.factor(ifelse((trimws(as.character(dt4$Species))==trimws("NA")),NA,as.character(dt4$Species)))
+#dt4$IEPFishCode <- as.factor(ifelse((trimws(as.character(dt4$IEPFishCode))==trimws("NA")),NA,as.character(dt4$IEPFishCode)))
+#dt4$Phylum <- as.factor(ifelse((trimws(as.character(dt4$Phylum))==trimws("NA")),NA,as.character(dt4$Phylum)))
+#dt4$Class <- as.factor(ifelse((trimws(as.character(dt4$Class))==trimws("NA")),NA,as.character(dt4$Class)))
+#dt4$Order <- as.factor(ifelse((trimws(as.character(dt4$Order))==trimws("NA")),NA,as.character(dt4$Order)))
+#dt4$Family <- as.factor(ifelse((trimws(as.character(dt4$Family))==trimws("NA")),NA,as.character(dt4$Family)))
+#dt4$Genus <- as.factor(ifelse((trimws(as.character(dt4$Genus))==trimws("NA")),NA,as.character(dt4$Genus)))
+#dt4$Species <- as.factor(ifelse((trimws(as.character(dt4$Species))==trimws("NA")),NA,as.character(dt4$Species)))
 
 
 # Here is the structure of the input data frame:
-str(dt4)
-attach(dt4)
+#str(dt4)
+#attach(dt4)
 # The analyses below are basic descriptions of the variables. After testing, they should be replaced.
-
-
-detach(dt4)
+#detach(dt4)
 
 
 inUrl5  <- "https://pasta.lternet.edu/package/data/eml/edi/244/11/99a038d691f27cd306ff93fdcbc03b77"
@@ -752,6 +751,7 @@ detach(dt5)
 DJFMP_station<-dt5%>%
   select(StationCode,Latitude,Longitude)%>%
   rename(Station=StationCode)
+rm(dt5)
 
 DJFMP<-bind_rows(dt1%>%select(StationCode,SampleDate,SampleTime,
                               TowNumber,MethodCode,GearConditionCode,FlowDebris,
@@ -767,7 +767,9 @@ DJFMP<-bind_rows(dt1%>%select(StationCode,SampleDate,SampleTime,
                               TowNumber,MethodCode,GearConditionCode,FlowDebris,
                               SpecificConductance,WaterTemp, Secchi, SeineDepth,
                               Volume, SamplingDirection, MarkCode, RaceByLength,
-                              OrganismCode,ForkLength,Count))%>%
+                              OrganismCode,ForkLength,Count))
+rm(dt1,dt2,dt3)
+DJFMP<-DJFMP%>%
   rename(Station = StationCode, Date = SampleDate, Time = SampleTime, Temp_surf = WaterTemp,
          Method = MethodCode, Tow_volume = Volume, Depth=SeineDepth,
          Tow_direction = SamplingDirection, Length = ForkLength,Conductivity=SpecificConductance) %>%
@@ -775,7 +777,7 @@ DJFMP<-bind_rows(dt1%>%select(StationCode,SampleDate,SampleTime,
   mutate(Tow_volume = if_else(FlowDebris=="Y", NA_real_, Tow_volume, missing=Tow_volume),
          Secchi = Secchi*100, # convert Secchi to cm
          Source = "DJFMP",
-         Date = parse_date_time(Date, "%Y-%m-%d", tz = "America/Los_Angeles"),
+         #Date = parse_date_time(Date, "%Y-%m-%d", tz = "America/Los_Angeles"),
          Time = parse_date_time(Time, "%H:%M:%S", tz = "America/Los_Angeles"),
          Datetime = parse_date_time(ifelse(is.na(Time), NA_character_, paste0(Date, " ", hour(Time), ":", minute(Time))), "%Y-%m-%d %H:%M", tz="America/Los_Angeles"),
          # Removing conductivity data from dates before it was standardized
@@ -784,11 +786,11 @@ DJFMP<-bind_rows(dt1%>%select(StationCode,SampleDate,SampleTime,
          Method = recode(Method, MWTR="Midwater trawl", KDTR="Kodiak trawl", SEIN="Beach seine"),
          Tow_direction = recode(Tow_direction, U="Upstream", D="Downstream", X="Neither"),
          SampleID=paste(Datetime, Station, TowNumber, Method),
-         MarkCode=ifelse(OrganismCode=="NOFISH", "None", MarkCode))
-         # Set up code for sub-groups to apply plus counts. Untagged Chinoook Salmon are grouped by RaceByLength and any tagged fish are not incorporated into the process
-         #Group = dplyr::case_when(MarkCode=="None" & OrganismCode=="CHN" ~ RaceByLength,
-          #                 MarkCode!="None" ~ paste("Tag", 1:nrow(.)),
-           #                TRUE ~ NA_character_))
+         MarkCode=ifelse(OrganismCode=="NOFISH", "None", MarkCode),
+         # Set up code for sub-groups to apply plus counts. Untagged Chinook Salmon are grouped by RaceByLength and any tagged fish are not incorporated into the process
+         Group=case_when(MarkCode=="None" & OrganismCode=="CHN" ~ RaceByLength,
+                         MarkCode!="None" ~ paste("Tag", 1:nrow(.)),
+                         TRUE ~ NA_character_))%>%
   select(-Time, -MarkCode, -RaceByLength, -GearConditionCode, -FlowDebris) %>%
   group_by(across(-Count))%>% # Some species are recorded with the same length multiple times
   summarise(Count=sum(Count), .groups="drop")%>%
@@ -797,7 +799,7 @@ DJFMP<-bind_rows(dt1%>%select(StationCode,SampleDate,SampleTime,
          Total=sum(Count), # Calculate total number of fish of each species caught
          Count=(Count/TotalMeasured)*Total)%>% # Calculate the adjusted length frequency
   ungroup()%>%
-  mutate(Length=ifelse(is.infinite(Count) & Length==0, NA_real_, Length), # Some Chinook were not measured, so these lines fix some after-effects of that
+  mutate(Length=if_else(is.infinite(Count) & Length==0, NA_real_, Length), # Some Chinook were not measured, so these lines fix some after-effects of that
          Length_NA_flag=case_when(
            is.infinite(Count) ~ "Unknown length",
            is.na(Length)~ "No fish caught",
@@ -805,20 +807,24 @@ DJFMP<-bind_rows(dt1%>%select(StationCode,SampleDate,SampleTime,
          Count=ifelse(is.infinite(Count), Total, Count))%>%
   dplyr::filter(Length!=0 | is.na(Length))%>%
   select(-Total, -TotalMeasured, -Group)%>%
-  left_join(DJFMP_stations, by = "Station") %>%
+  left_join(DJFMP_station, by = "Station") %>%
   # Add species names
   left_join(Species %>%
-              select(USFWS_Code, Taxa) %>%
+              select(USFWS_Code, ScientificName) %>%
               dplyr::filter(!is.na(USFWS_Code)),
             by=c("OrganismCode"="USFWS_Code")) %>%
   mutate(SampleID=paste(Source, SampleID), # Add variable for unique (across all studies) sampleID
-         Taxa=str_remove(Taxa, " \\((.*)"))%>% # Remove life stage info from Taxa names
+         #Taxa=str_remove(Taxa, " \\((.*)")
+         )%>% # Remove life stage info from Taxa names
+  rename(ScientificName="Taxa")%>%
   select(-OrganismCode)%>%
   group_by(across(-Count))%>% # Add up any new multiples after removing Group
   summarise(Count=sum(Count), .groups="drop")%>%
   mutate(Count=ifelse(Length_NA_flag=="No fish caught", 0, Count, missing=Count))%>% # Transform all counts for 'No fish caught' to 0.
   select(Source, Station, Latitude, Longitude, Date, Datetime, Depth, SampleID, Method, Sal_surf,
          Temp_surf, Secchi, Tow_volume, Tow_direction, Taxa, Length, Count, Length_NA_flag)
+
+
 
 # Save compressed data to /data
 usethis::use_data(DJFMP, overwrite=TRUE, compress="xz")
