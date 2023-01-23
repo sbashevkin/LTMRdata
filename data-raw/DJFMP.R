@@ -828,4 +828,4 @@ DJFMP<-DJFMP%>%
 
 
 # Save compressed data to /data
-usethis::use_data(DJFMP, overwrite=TRUE, compress = "xz")
+usethis::use_data(DJFMP, overwrite=TRUE)
