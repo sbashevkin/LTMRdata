@@ -6,6 +6,8 @@ library(tidyr)
 library(tidyverse)
 library(stringr)
 library(RODBC)
+library(DBI)
+library(odbc)
 require(LTMRdata)
 
 Path<-file.path(tempdir(), "SLS.zip")

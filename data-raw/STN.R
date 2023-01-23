@@ -10,7 +10,7 @@ library(DBI)
 library(odbc)
 
 ## STN database url and file names:
-dbName <- "STN_Data1959-2020.accdb"
+dbName <- "STN_Data1959-2022.accdb"
 surveyURL <- paste0("https://filelib.wildlife.ca.gov/Public/TownetFallMidwaterTrawl",
                     "/TNS%20MS%20Access%20Data/TNS%20data/",dbName)
 tmpFile <- file.path(tempdir(), dbName)
@@ -26,14 +26,82 @@ con <- DBI::dbConnect(drv=odbc::odbc(), .connection_string=dbString)
 tables <- odbc::dbListTables(conn=con)
 tables
 
+connectAccess <- function(file,
+                          driver = "Microsoft Access Driver (*.mdb, *.accdb)", uid = "", pwd = "", ...) {
+
+  file <- normalizePath(file, winslash = "\\")
+
+  # Driver and path required to connect from RStudio to Access
+  dbString <- paste0("Driver={", driver,
+                     "};Dbq=", file,
+                     ";Uid=", uid,
+                     ";Pwd=", pwd,
+                     ";")
+
+  tryCatch(DBI::dbConnect(drv = odbc::odbc(), .connection_string = dbString),
+           error = function(cond) {
+             if (all(stringr::str_detect(cond$message, c("IM002", "ODBC Driver Manager")))) {
+               message(cond, "\n")
+               message("IM002 and ODBC Driver Manager error generally means a 32-bit R needs to be installed or used.")
+             } else {
+               message(cond)
+             }
+           })
+  # RODBC::odbcDriverConnect(con, ...)
+}
+Conn<-connectAccess(file=tmpFile)
+
 ## Save select tables:
 keepTables <- c("Catch","Length","luMicrocystis","luOrganism","luStation",
                 "luTide","luTowDirection","Sample","TowEffort",
                 "Web_Local_Meter_Corrections")
-for(tab in keepTables) {
-  tmp <- DBI::dbReadTable(con, tab)
-  write.csv(tmp, file=file.path("data-raw","STN",paste0(tab,".csv")), row.names=FALSE)
+
+extractTables <- function(con, tables, out) {
+
+  # Pulling just the table names
+  # tableNames <- RODBC::sqlTables(con, tableType = c("TABLE", "VIEW"))["TABLE_NAME"]
+  tableNames <- odbc::dbListTables(conn = con)
+
+  # Includes system tables which cannot be read, excluding them below with negate
+  # tableNames <- stringr::str_subset(tableNames, "MSys", negate = T)
+  if (length(tables) == 1 & all(tables %in% "check")) {
+    # If no table names are specified, then simply return the names of the possible databases for the user to pic
+
+    # RODBC::odbcClose(con)
+    DBI::dbDisconnect(con)
+
+    cat("Specify at least one table to pull from: \n")
+
+    return(print(tableNames))
+  }
+
+  # Apply the dbReadTable to each readable table in db
+  # returnedTables <- mapply(RODBC::sqlQuery,
+  #                          query = paste("SELECT * FROM", tables),
+  #                          MoreArgs = list(channel = con),
+  #                          SIMPLIFY = F)
+  returnedTables <- mapply(DBI::dbReadTable,
+                           name = tables,
+                           MoreArgs = list(conn = con),
+                           SIMPLIFY = F)
+
+  # names(returnedTables) <- tables
+
+  DBI::dbDisconnect(con)
+  # RODBC::odbcClose(con)
+
+  if (length(tables) != 1 & all(tables %in% "check")) {
+    # Save the table to be read back into R
+    saveRDS(returnedTables, file = file.path(out, "savedAccessTables.rds"))
+  } else {
+    returnedTables
+  }
 }
+STNTables<-extractTables(con=Conn,tables=keepTables,out=Path_origin)
+
+keepTables <- c("Catch","Length","luMicrocystis","luOrganism","luStation",
+                "luTide","luTowDirection","Sample","TowEffort",
+                "Web_Local_Meter_Corrections")
 
 ## Disconnect from database and remove original files:
 DBI::dbDisconnect(conn=con)
@@ -50,29 +118,27 @@ require(readr)
 require(stringr)
 require(LTMRdata)
 
-raw_data <- file.path("data-raw","STN")
 
-Catch <- read_csv(file.path(raw_data,"Catch.csv"),
-                  col_types=cols_only(CatchRowID="d", TowRowID="d", OrganismCode="d", Catch="d"))
-Length <- read_csv(file.path(raw_data,"Length.csv"),
-                   col_types=cols_only(LengthRowID="d", CatchRowID="d", ForkLength="d", LengthFrequency="d"))
-luStation <- read_csv(file.path(raw_data,"luStation.csv"),
-                      col_types=cols_only(StationCodeSTN="c", LatD="d", LatM="d", LatS="d", LonD="d", LonM="d", LonS="d"))
-luTide <- read_csv(file.path(raw_data,"luTide.csv"),
-                   col_types=cols_only(TideDesc="c", TideRowID="d"))
-luTowDirection <- read_csv(file.path(raw_data,"luTowDirection.csv"),
-                           col_types=cols_only(TowDirection="c", TowDirectionID="d"))
-Sample <- read_csv(file.path(raw_data,"Sample.csv"),
-                   col_types=cols_only(SampleRowID="d", SampleDate="c", StationCode="c", Survey="d",
-                                       TemperatureTop="d", Secchi="d", ConductivityTop="d",
-                                       TideCode="d", DepthBottom="d", CableOut="d", TowDirection="d"))
-TowEffort <- read_csv(file.path(raw_data,"TowEffort.csv"),
-                      col_types=cols_only(TimeStart="c", TowRowID="d", SampleRowID="d", TowNumber="d",
-                                          MeterSerial="d", MeterIn="d", MeterOut="d",
-                                          MeterDifference="d", MeterEstimate="d"))
-Web_Local_Meter_Corrections <- read_csv(file.path(raw_data,
-                                                  "Web_Local_Meter_Corrections.csv"),
-                                        col_types=cols_only(`Study Year`="d", `Meter Serial`="d", `k factor`="d"))
+
+Catch <- STNTables$Catch%>%select(CatchRowID,TowRowID,OrganismCode,Catch)
+
+Length <- STNTables$Length%>%select(LengthRowID,CatchRowID,ForkLength,LengthFrequency)
+
+luStation <- STNTables$luStation%>%select(StationCodeSTN, LatD, LatM, LatS, LonD, LonM, LonS)
+
+luTide <- STNTables$luTide%>%select(TideDesc,TideRowID)
+
+luTowDirection <- STNTables$luTowDirection%>%select(TowDirection, TowDirectionID)
+
+Sample <- STNTables$Sample%>%select(SampleRowID, SampleDate, StationCode, Survey,
+                                    TemperatureTop, Secchi, ConductivityTop,TideCode,
+                                    DepthBottom, CableOut,TowDirection)
+
+TowEffort <- STNTables$TowEffort%>%select(TimeStart, TowRowID, SampleRowID, TowNumber,
+                                       MeterSerial, MeterIn, MeterOut,
+                                       MeterDifference, MeterEstimate)
+
+Web_Local_Meter_Corrections <- STNTables$Web_Local_Meter_Corrections%>%select(Study.Year, Meter.Serial, k.factor)%>%rename("Study Year"=Study.Year,"Meter Serial"=Meter.Serial,"k factor"=k.factor)
 
 
 suspect_fm_TowRowID <- c(6612,12815,2551,12786,8031,1857)
@@ -82,9 +148,9 @@ suspect_fm_TowRowID <- c(6612,12815,2551,12786,8031,1857)
 sampleSTN <- Sample %>%
   inner_join(TowEffort, by="SampleRowID") %>%
   left_join(luStation, by=c("StationCode"="StationCodeSTN")) %>%
-  mutate(Date=parse_date_time(SampleDate, "%m/%d/%Y %H:%M:%S",
-                              tz="America/Los_Angeles"),
-         Year=year(Date)) %>%
+  mutate(#Date=parse_date_time(SampleDate, "%m/%d/%Y %H:%M:%S",
+                             # tz="America/Los_Angeles"),
+         Year= year(SampleDate)) %>%
   left_join(Web_Local_Meter_Corrections,
             by=c("Year"="Study Year","MeterSerial"="Meter Serial")) %>%
   mutate(MeterTotal=ifelse((MeterOut - MeterIn) < 0,
@@ -97,14 +163,14 @@ sampleSTN <- Sample %>%
          ## volume is unusually small or large:
          TowVolm3=ifelse(TowRowID %in% suspect_fm_TowRowID, 735,
                          TowVolm3)) %>%
-  arrange(Date, Survey, StationCode, TowNumber) %>%
+  arrange(SampleDate, Survey, StationCode, TowNumber) %>%
   mutate(Source="STN",
-         TowNumber=if_else(SampleRowID==7078 & TowNumber==1 & TowRowID==12153, 2, TowNumber),
-         SampleID=paste(Source, Date, Survey, StationCode, TowNumber),
+         TowNumber=ifelse(SampleRowID==7078 & TowNumber==1 & TowRowID==12153, 2, TowNumber),
+         SampleID=paste(Source, SampleDate, Survey, StationCode, TowNumber),
          Method="STN net",
          TowTime=str_split(TimeStart, " ")[[1]][2], #Select time which always follows a space
-         Datetime=paste(Date, TowTime),
-         Datetime=parse_date_time(if_else(is.na(TowTime), NA_character_,
+         Datetime=paste(SampleDate, TowTime),
+         Datetime=parse_date_time(ifelse(is.na(TowTime), NA_character_,
                                           Datetime),
                                   "%Y-%m-%d %H:%M:%S",
                                   tz="America/Los_Angeles"),
@@ -126,7 +192,8 @@ sampleSTN <- Sample %>%
          Tow_direction=TowDirection.y,
          TowNum=TowNumber,
          Tow_volume=TowVolm3,
-         Station=StationCode) %>%
+         Station=StationCode,
+         Date=SampleDate) %>%
   mutate(Tow_direction=recode(Tow_direction, `Against Current`="Against current", `With Current`="With current"))%>%
   select(TowRowID, Source, Station, Latitude, Longitude, Date, Datetime,
          Survey, TowNum, Depth, SampleID, Method, Tide, Sal_surf,
@@ -134,10 +201,10 @@ sampleSTN <- Sample %>%
 
 
 fish_totalCatch <- Catch %>%
-  filter(!is.na(Catch) & Catch > 0)
+  dplyr::filter(!is.na(Catch) & Catch > 0)
 
 Length_measured<-Length%>%
-  filter(ForkLength!=0)%>%
+  dplyr::filter(ForkLength!=0)%>%
   group_by(CatchRowID, ForkLength)%>%
   summarise(LengthFrequency=sum(LengthFrequency), .groups="drop")
 
@@ -156,7 +223,7 @@ fish_adjustedCount <- fish_totalCatch %>%
   mutate(Count=(LengthFrequency/TotalMeasured)*CatchNew) %>%
   left_join(Species %>% ## Add species names
               select(STN_Code, Taxa) %>%
-              filter(!is.na(STN_Code)),
+              dplyr::filter(!is.na(STN_Code)),
             by=c("OrganismCode"="STN_Code"))
 
 
@@ -202,7 +269,7 @@ STN<-STN%>%
 ## Create final measured lengths data frame:
 STN_measured_lengths <- STN %>%
   select(SampleID, Taxa, ForkLength, LengthFrequency) %>%
-  filter(!is.na(LengthFrequency))%>% # Remove fish that weren't measured
+  dplyr::filter(!is.na(LengthFrequency))%>% # Remove fish that weren't measured
   rename(Length=ForkLength,
          Count=LengthFrequency)
 
