@@ -131,7 +131,7 @@ catch_fix<-catch_suisun%>%
   filter(StandardLength>0)
 
 catch_comments_suisun <- read_excel(file.path("data-raw", "Suisun", "Suisun comments.xlsx"))%>% # Read in translated excel comments
-  filter(is.na(Ignore))%>% #Remove "ignored" comments that have nothing to do with lenth.
+  filter(is.na(Ignore))%>% #Remove "ignored" comments that have nothing to do with length.
   mutate(Lifestage=recode(Lifestage, YOY="Age-0", Larval="Age-0", Yearling="Age-1"),
          Lifestage=case_when(
            Lifestage=="Adult" & Taxa%in%c("Ameiurus melas","Morone saxatilis") ~ "Age-2+",
