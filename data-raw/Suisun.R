@@ -54,11 +54,11 @@ sample_suisun <- read_csv(file.path("data-raw", "Suisun", "Sample.csv"),
          Temperature=WaterTemperature, Conductivity=SpecificConductance,
          Tide=TideCode, Method=MethodCode)%>%
   mutate(Method=recode(Method, MWTR="Midwater trawl", OTR="Otter trawl"))%>% # Convert method codes to values
-  filter(Method=="Otter trawl")%>% #Only including otter trawl data because midwater trawl only used rarely and not currently
-  mutate(Date=parse_date_time(Date, "%m/%d/%Y %H:%M:%S", tz="America/Los_Angeles"),
-         Time=parse_date_time(Time, "%m/%d/%Y %H:%M:%S", tz="America/Los_Angeles"))%>%
+  dplyr::filter(Method=="Otter trawl")%>% #Only including otter trawl data because midwater trawl only used rarely and not currently
+  #mutate(Date=parse_date_time(Date, "%m/%d/%Y %H:%M:%S", tz="America/Los_Angeles"),
+        # Time=parse_date_time(Time, "%m/%d/%Y %H:%M:%S", tz="America/Los_Angeles"))%>%
   mutate(Datetime=parse_date_time(if_else(is.na(Time), NA_character_, paste0(Date, " ", hour(Time), ":", minute(Time))), "%Y-%m-%d %%H:%M", tz="America/Los_Angeles"))%>%
-  select(-Time)%>% # Remove unneeded variable
+  dplyr::select(-Time)%>% # Remove unneeded variable
   mutate(Tide=recode(Tide, flood="Flood", ebb="Ebb", low="Low Slack", high="High Slack", outgoing="Ebb", incoming="Flood"), # Rename tide codes for consistency
          Source="Suisun",
          SampleID=paste(Source, SampleRowID))%>% # Create identifier for each sample
@@ -80,14 +80,14 @@ catch_suisun <- read_csv(file.path("data-raw", "Suisun", "Catch.csv"), na=c("NA"
          Count=if_else(OrganismCode=="NOCATCH", 0, Count))%>% #Make sure "no catch" actually has a count of 0
   right_join(sample_suisun, # Add sample-level data
              by="SampleRowID")%>%
-  filter(Method=="Otter trawl" & OrganismCode!="NOTRAWL")%>% # Only include otter trawl and exclude samples with no trawl.
+  dplyr::filter(Method=="Otter trawl" & OrganismCode!="NOTRAWL")%>% # Only include otter trawl and exclude samples with no trawl.
   left_join(Species%>% # Add species names
-              select(OrganismCode=SMF_Code, Taxa)%>%
-              filter(!is.na(OrganismCode)),
+              dplyr::select(OrganismCode=SMF_Code, Taxa)%>%
+              dplyr::filter(!is.na(OrganismCode)),
             by="OrganismCode")%>%
-  select(-OrganismCode)%>% # Remove unneeded variable
+  dplyr::select(-OrganismCode)%>% # Remove unneeded variable
   mutate(Count = if_else(SampleRowID=="{8327B645-BC36-4405-ADB3-C6561718A17B}" & StandardLength==87, Count+1, Count))%>% # Correcting for misstyped data point per email from Teejay that
-  filter(!(!QADone & Taxa=="Pogonichthys macrolepidotus" & StandardLength==8))%>% # all QADone==FALSE data from January 2007 are correct EXCEPT for that lone splittail measuring 8 mm (was actually 87 mm).
+  dplyr::filter(!(!QADone & Taxa=="Pogonichthys macrolepidotus" & StandardLength==8))%>% # all QADone==FALSE data from January 2007 are correct EXCEPT for that lone splittail measuring 8 mm (was actually 87 mm).
   mutate(StandardLength=if_else(is.na(Taxa), NA_real_, StandardLength))%>% #COnverting lengths to NA for samples in which no fish were caught (i.e. Taxa is NA).
   mutate(CatchComments=if_else(SampleID=="Suisun {490F4873-8947-4352-81C9-3AA475D5FEEE}" & Taxa=="Gobiidae" & StandardLength==0, "larval", CatchComments)) # Removing weird symbol in this comment that messes up code
 
@@ -108,16 +108,16 @@ catch_suisun <- read_csv(file.path("data-raw", "Suisun", "Catch.csv"), na=c("NA"
 # Other comments had nothing to do with length (e.g., "with eggs") and those comments are marked "ignore" to indicate we will assume they DO represent
 # random samples of all catch of that species.
 
-# filter(catch_suisun, StandardLength==0 & !is.na(CatchComments))%>%
-# select(SampleRowID, Station, Date, Datetime, SampleID, TrawlComments, Taxa, Count, CatchComments)%>%
+# dplyr::filter(catch_suisun, StandardLength==0 & !is.na(CatchComments))%>%
+# dplyr::select(SampleRowID, Station, Date, Datetime, SampleID, TrawlComments, Taxa, Count, CatchComments)%>%
 #   write_csv("~/Suisun comments.csv")
 
 ## For future updates, create the csv files as follows
 # old<-read_excel(file.path("data-raw", "Suisun", "Suisun comments.xlsx"))%>%mutate(ID=paste(SampleID, Taxa, CatchComments))
-# filter(catch_suisun, StandardLength==0 & !is.na(CatchComments))%>%
+# dplyr::filter(catch_suisun, StandardLength==0 & !is.na(CatchComments))%>%
 # mutate(ID=paste(SampleID, Taxa, CatchComments))%>%
-# filter(!ID%in%old$ID)%>%
-# select(SampleRowID, Station, Date, Datetime, SampleID, TrawlComments, Taxa, Count, CatchComments)%>%
+# dplyr::filter(!ID%in%old$ID)%>%
+# dplyr::select(SampleRowID, Station, Date, Datetime, SampleID, TrawlComments, Taxa, Count, CatchComments)%>%
 #   write_csv("~/Suisun comments.csv")
 
 # The overall approach is to, where possible, convert these comments into Size Groups as used by Baystudy
@@ -127,11 +127,11 @@ catch_suisun <- read_csv(file.path("data-raw", "Suisun", "Catch.csv"), na=c("NA"
 
 # Create dataset of just meausured lengths for use below
 catch_fix<-catch_suisun%>%
-  select(Taxa, StandardLength, Count, SampleID)%>%
-  filter(StandardLength>0)
+  dplyr::select(Taxa, StandardLength, Count, SampleID)%>%
+  dplyr::filter(StandardLength>0)
 
 catch_comments_suisun <- read_excel(file.path("data-raw", "Suisun", "Suisun comments.xlsx"))%>% # Read in translated excel comments
-  filter(is.na(Ignore))%>% #Remove "ignored" comments that have nothing to do with length.
+  dplyr::filter(is.na(Ignore))%>% #Remove "ignored" comments that have nothing to do with length.
   mutate(Lifestage=recode(Lifestage, YOY="Age-0", Larval="Age-0", Yearling="Age-1"),
          Lifestage=case_when(
            Lifestage=="Adult" & Taxa%in%c("Ameiurus melas","Morone saxatilis") ~ "Age-2+",
@@ -140,21 +140,21 @@ catch_comments_suisun <- read_excel(file.path("data-raw", "Suisun", "Suisun comm
          ),
          Month=month(ymd_hms(Date, tz="America/Los_Angeles")))%>%
   left_join(Species%>% # Add species names
-              select(OrganismCode=SMF_Code, Taxa)%>%
-              filter(!is.na(OrganismCode) & !is.na(Taxa)),
+              dplyr::select(OrganismCode=SMF_Code, Taxa)%>%
+              dplyr::filter(!is.na(OrganismCode) & !is.na(Taxa)),
             by="Taxa")%>%
   left_join(age_size_suisun%>%
-              filter(!is.na(Class)),
+              dplyr::filter(!is.na(Class)),
             by=c("Lifestage"="Class", "Month", "OrganismCode"))%>%
   mutate(Min_length=if_else(is.na(Min_length), Min, Min_length),
          Max_length=if_else(is.na(Max_length), Max, Max_length))%>%
-  select(SampleID, Taxa, Count, CatchComments, Min_length, Length, Max_length, Lifestage, Notes)%>%
+  dplyr::select(SampleID, Taxa, Count, CatchComments, Min_length, Length, Max_length, Lifestage, Notes)%>%
   mutate(NA_length = if_else(is.na(Min_length) & is.na(Max_length) & is.na(Length), TRUE, FALSE)) # Identify comments with no translatable length information (like "YOY")
 
 sizegroups_suisun <- catch_comments_suisun%>%
   rename(Unmeasured=Count)%>% # Each of these counts is the number of unmeasured fish
-  filter(!is.na(Min_length) | !is.na(Max_length))%>% # Only start with those with a value for min or max length
-  mutate(Min_length=if_else(is.na(Min_length), -Inf, Min_length), # If there is no min length, the min is -Inf. This will help select values between min and max.
+  dplyr::filter(!is.na(Min_length) | !is.na(Max_length))%>% # Only start with those with a value for min or max length
+  mutate(Min_length=if_else(is.na(Min_length), -Inf, Min_length), # If there is no min length, the min is -Inf. This will help dplyr::select values between min and max.
          Max_length=if_else(is.na(Max_length), Inf, Max_length), # If there is no max length, the max is Inf
          RowNum=2:(n()+1))%>% # Give each comment a unique number excluding 1. THis numbers will be converted to "Size Groups" as used in the Baystudy data.
   nest_join(catch_fix, # For each commented set of unmeasured fish, this will join a mini dataframe with all measured fish of the same species and sample
@@ -168,12 +168,12 @@ sizegroups_suisun <- catch_comments_suisun%>%
   unnest(cols="catch_fix", keep_empty = TRUE) # This will expand out the dataframe by each row of the nested mini dataframes of measured fish.
 
 catch_comments_suisun2<-sizegroups_suisun%>% # Start with the parsed comments that contain min or max lengths
-  select(-SizeGroup, -Count, -StandardLength, -Notes, -Lifestage, -Max_length, -Min_length)%>%
+  dplyr::select(-SizeGroup, -Count, -StandardLength, -Notes, -Lifestage, -Max_length, -Min_length)%>%
   rename(Count=Unmeasured)%>%
   distinct()%>% # By calling 'distinct' after removing all length-associated data, this will remove any measured lengths added to the dataset by the "unnest" above.
   bind_rows(catch_comments_suisun%>% # Now bind to the rest of the comments that do not have a min nor max length
-              filter(is.na(Min_length) & is.na(Max_length))%>%
-              select(-Notes, -Lifestage, -Max_length, -Min_length))%>%
+              dplyr::filter(is.na(Min_length) & is.na(Max_length))%>%
+              dplyr::select(-Notes, -Lifestage, -Max_length, -Min_length))%>%
   mutate(Length=case_when(
     !is.na(Length) ~ Length, # If the comment was parsed to an actual length, assign that as a length
     NA_length ~ NA_real_, # If we had marked earlier that length should be NA, make length NA
@@ -183,30 +183,30 @@ catch_comments_suisun2<-sizegroups_suisun%>% # Start with the parsed comments th
   # other NA lengths in the data which correspond to empty nets (Taxa would be NA in this latter case as well).
   rename(SizeGroup=RowNum, StandardLength=Length)%>% # Convert RowNum to size group
   left_join(catch_suisun%>% # Join to the catch data to add all sample-level data to these unmeasured length data
-              select(-StandardLength, -Count, -Dead, -CatchComments)%>%
+              dplyr::select(-StandardLength, -Count, -Dead, -CatchComments)%>%
               distinct(),
             by=c("SampleID", "Taxa"))%>%
   mutate(ID=paste(SampleID, Taxa))%>% # Create an ID for all species by sample combinations that ended up in this corrected portion of the dataset, to avoid data duplication later on.
-  select(-NA_length)
+  dplyr::select(-NA_length)
 
 catch_suisun2<-catch_suisun%>%
   left_join(sizegroups_suisun%>% # Add size groups to measured fish
-              filter(RowNum==SizeGroup)%>% # There were a few cases where we had multiple size groups per taxa per sample, this ensures we're only them once
-              select(SampleID, Taxa, StandardLength, Count, SizeGroup),
+              dplyr::filter(RowNum==SizeGroup)%>% # There were a few cases where we had multiple size groups per taxa per sample, this ensures we're only them once
+              dplyr::select(SampleID, Taxa, StandardLength, Count, SizeGroup),
             by=c("SampleID", "Taxa", "StandardLength", "Count"))%>%
   mutate(SizeGroup=replace_na(SizeGroup, 1))%>% # Unless we've just defined a size group, give it the default value of 1
   mutate(ID=paste(SampleID, Taxa))%>% # Create an ID to correspond the one created above
-  filter(!(ID%in%unique(catch_comments_suisun2$ID) & StandardLength==0))%>% # Remove all rows from the catch data that correspond to rows in the corrected catch comments to prevent data duplication
+  dplyr::filter(!(ID%in%unique(catch_comments_suisun2$ID) & StandardLength==0))%>% # Remove all rows from the catch data that correspond to rows in the corrected catch comments to prevent data duplication
   bind_rows(catch_comments_suisun2)%>% # Bind to parsed comments
   mutate(Length_NA_flag=if_else(is.na(Length_NA_flag) & is.na(StandardLength), "No fish caught", Length_NA_flag)) # If length is NA and a flag hasn't been defined yet, no fish were caught
 
 Suisun1 <- catch_suisun2%>%
-  filter(StandardLength!=0 | is.na(StandardLength))%>% #Remove unmeasured fish to calculate total number of fish measured. The is.na part is Trying to retain samples in which no fish were caught
+  dplyr::filter(StandardLength!=0 | is.na(StandardLength))%>% #Remove unmeasured fish to calculate total number of fish measured. The is.na part is Trying to retain samples in which no fish were caught
   group_by(SampleID, Taxa, SizeGroup)%>% # This is where size group comes in, now all calculations are performed separately for each size group
   mutate(TotalMeasured=sum(Count, na.rm=T))%>% # Calculate the total number of fish measured
   ungroup()%>%
   left_join(catch_suisun2%>% # Join to data with total catch of fish. Using a full join
-              select(SampleID, Taxa, Count, SizeGroup)%>%
+              dplyr::select(SampleID, Taxa, Count, SizeGroup)%>%
               group_by(SampleID, Taxa, SizeGroup)%>%
               summarise(TotalCatch=sum(Count, na.rm=T), .groups="drop"), # Calculate total catch
             by=c("SampleID", "Taxa", "SizeGroup"))%>%
@@ -215,7 +215,7 @@ Suisun1 <- catch_suisun2%>%
 Suisun <- Suisun1%>%
   bind_rows(catch_suisun2%>% # Now joining to any records in the catch data that do not corresponding to any measured lengths.
               mutate(ID=paste(SampleID, Taxa, SizeGroup))%>%
-              filter(!ID%in%unique(Suisun1$ID))%>% # Avoiding data duplication, this is the reason Suisun1 had to be created in a prior step
+              dplyr::filter(!ID%in%unique(Suisun1$ID))%>% # Avoiding data duplication, this is the reason Suisun1 had to be created in a prior step
               mutate(StandardLength=NA_real_, # Converting these 0 lengths to NAs
                      Length_NA_flag = "Unknown length"))%>% # Flagging these as unknown lengths
   mutate(Count = if_else(is.na(TotalMeasured) | TotalMeasured==0, Count, (Count/TotalMeasured)*TotalCatch), # Calculate adjusted frequency, if no fish were measured, leave as Count
@@ -225,7 +225,7 @@ Suisun <- Suisun1%>%
          Taxa=if_else(is.na(Count),  NA_character_, Taxa), # Set Taxa to NA if Length and Count are NA
          StandardLength=if_else(is.na(Count), NA_real_, StandardLength),
          CatchComments=if_else(is.na(Count), NA_character_, CatchComments))%>%
-  select(Source, Station, Latitude, Longitude, Date, Datetime, Depth, SampleID, Method, Tide, # Re-order variables
+  dplyr::select(Source, Station, Latitude, Longitude, Date, Datetime, Depth, SampleID, Method, Tide, # Re-order variables
          Sal_surf, Temp_surf=Temperature, Secchi,
          Tow_duration=TowDuration, Tow_area, Taxa,
          Length=StandardLength, Count, Length_NA_flag, Notes_catch=CatchComments, Notes_tow=TrawlComments)%>%
@@ -236,14 +236,14 @@ Suisun <- Suisun1%>%
   ungroup()%>%
   mutate(Length_NA_flag=if_else(Valid>0, Length_NA_flag, "No fish caught"))%>% # Where there are no fish catches in the whole sample, set to "No fish caught"
   distinct()%>%
-  filter(!(Valid>0 & is.na(Count)))%>% # Remove rows corresponding to NA catch in samples where there are other fish catches
-  select(-Valid)%>%
+  dplyr::filter(!(Valid>0 & is.na(Count)))%>% # Remove rows corresponding to NA catch in samples where there are other fish catches
+  dplyr::select(-Valid)%>%
   mutate(Count=if_else(Length_NA_flag=="No fish caught", 0, Count, missing=Count)) # Transform all counts for 'No fish caught' to 0.
 
 # Just measured lengths
 Suisun_measured_lengths <- catch_suisun2%>%
-  filter(StandardLength!=0)%>%
+  dplyr::filter(StandardLength!=0)%>%
   mutate(Taxa=stringr::str_remove(Taxa, " \\((.*)"))%>% # Remove life stage from Taxa
-  select(SampleID, Taxa, Dead, Length=StandardLength, Count)
+  dplyr::select(SampleID, Taxa, Dead, Length=StandardLength, Count)
 
 usethis::use_data(Suisun, Suisun_measured_lengths, overwrite=TRUE)
