@@ -141,7 +141,7 @@ fish20mm_adjustedCount <- fish20mm_totalCatch %>%
   dplyr::mutate(Count=(LengthFrequency/TotalMeasured)*CatchNew) %>%
   dplyr::left_join(Species %>% ## Add species names
 										dplyr::select(TMM_Code, Taxa) %>%
-										filter(!is.na(TMM_Code)),
+										dplyr::filter(!is.na(TMM_Code)),
 									 by=c("FishCode"="TMM_Code"))
 
 ## Examine the cases where number measured > catch:
@@ -188,7 +188,7 @@ TMM<-TMM%>%
 ## Create final measured lengths data frame:
 TMM_measured_lengths <- TMM %>%
 	dplyr::select(SampleID, Taxa, Length, LengthFrequency) %>%
-  filter(!is.na(LengthFrequency))%>% # Remove fish that weren't measured
+  dplyr::filter(!is.na(LengthFrequency))%>% # Remove fish that weren't measured
 	dplyr::rename(Count=LengthFrequency)
 nrow(TMM_measured_lengths)
 ncol(TMM_measured_lengths)
