@@ -10,6 +10,7 @@ library(DBI)
 library(odbc)
 require(LTMRdata)
 
+# Setting up path for SLS files----
 Path<-file.path(tempdir(), "SLS.zip")
 Path_origin<-file.path(tempdir())
 #Downloading MWT_data.zip----
@@ -47,19 +48,7 @@ connectAccess <- function(file,
   # RODBC::odbcDriverConnect(con, ...)
 }
 Conn<-connectAccess(file=db_path)
-
-
-
-# Just pastes driver info and file path together.
-full_path <- paste0(driver,"DBQ=",db_path)
-full_path
-# Connect to database using information above.
-#conn <- odbcDriverConnect(full_path)
-
-#names<-sqlTables(conn,tableType = c("TABLE","VIEW"))["TABLE_NAME"]
-
-
-
+# Extracting Tables ----
 extractTables <- function(con, tables, out) {
 
   # Pulling just the table names

@@ -12,7 +12,6 @@ require(odbc)
 require(DBI)
 require(DBIsqldf)
 
-
 Path<-file.path(tempdir(), "MWT_data.zip")
 Path_origin<-file.path(tempdir())
 #Downloading MWT_data.zip----
