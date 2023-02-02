@@ -747,6 +747,8 @@ DJFMP<-bind_rows(dt1%>%select(StationCode,SampleDate,SampleTime,
                               Volume, SamplingDirection, MarkCode, RaceByLength,
                               OrganismCode,ForkLength,Count))
 
+rm(dt1,dt2,dt3)
+
 DJFMP<-DJFMP%>%
   rename(Station = StationCode, Date = SampleDate, Time = SampleTime, Temp_surf = WaterTemp,
          Method = MethodCode, Tow_volume = Volume, Depth=SeineDepth,
