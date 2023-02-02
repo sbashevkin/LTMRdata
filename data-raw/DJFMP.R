@@ -212,13 +212,6 @@ dt1$GeneticModel <- as.factor(ifelse((trimws(as.character(dt1$GeneticModel))==tr
 dt1$Count <- ifelse((trimws(as.character(dt1$Count))==trimws("NA")),NA,dt1$Count)
 suppressWarnings(dt1$Count <- ifelse(!is.na(as.numeric("NA")) & (trimws(as.character(dt1$Count))==as.character(as.numeric("NA"))),NA,dt1$Count))
 
-
-# Here is the structure of the input data frame:
-str(dt1)
-attach(dt1)
-
-detach(dt1)
-
 # 2002-2022 ----
 inUrl2  <- "https://pasta.lternet.edu/package/data/eml/edi/244/11/0f80e0390bfcbf548c50d40d952e03bc"
 infile2 <- tempfile()
@@ -421,14 +414,6 @@ dt2$GeneticTest <- as.factor(ifelse((trimws(as.character(dt2$GeneticTest))==trim
 dt2$GeneticModel <- as.factor(ifelse((trimws(as.character(dt2$GeneticModel))==trimws("NA")),NA,as.character(dt2$GeneticModel)))
 dt2$Count <- ifelse((trimws(as.character(dt2$Count))==trimws("NA")),NA,dt2$Count)
 suppressWarnings(dt2$Count <- ifelse(!is.na(as.numeric("NA")) & (trimws(as.character(dt2$Count))==as.character(as.numeric("NA"))),NA,dt2$Count))
-
-
-# Here is the structure of the input data frame:
-str(dt2)
-attach(dt2)
-# The analyses below are basic descriptions of the variables. After testing, they should be replaced.
-
-detach(dt2)
 
 # Water Quality data 1976-2022 ----
 inUrl3  <- "https://pasta.lternet.edu/package/data/eml/edi/244/11/644fe41db87336bdbe917c528ac4e4cb"
@@ -634,14 +619,6 @@ dt3$Count <- ifelse((trimws(as.character(dt3$Count))==trimws("NA")),NA,dt3$Count
 suppressWarnings(dt3$Count <- ifelse(!is.na(as.numeric("NA")) & (trimws(as.character(dt3$Count))==as.character(as.numeric("NA"))),NA,dt3$Count))
 
 
-# Here is the structure of the input data frame:
-str(dt3)
-attach(dt3)
-# The analyses below are basic descriptions of the variables. After testing, they should be replaced.
-
-detach(dt3)
-
-
 #inUrl4  <- "https://pasta.lternet.edu/package/data/eml/edi/244/11/17c9974d9b7b0125c146a887f3c64bd8"
 #infile4 <- tempfile()
 #try(download.file(inUrl4,infile4,method="curl"))
@@ -769,7 +746,7 @@ DJFMP<-bind_rows(dt1%>%select(StationCode,SampleDate,SampleTime,
                               SpecificConductance,WaterTemp, Secchi, SeineDepth,
                               Volume, SamplingDirection, MarkCode, RaceByLength,
                               OrganismCode,ForkLength,Count))
-rm(dt1,dt2,dt3)
+
 DJFMP<-DJFMP%>%
   rename(Station = StationCode, Date = SampleDate, Time = SampleTime, Temp_surf = WaterTemp,
          Method = MethodCode, Tow_volume = Volume, Depth=SeineDepth,
