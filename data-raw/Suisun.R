@@ -113,12 +113,28 @@ catch_suisun <- read_csv(file.path("data-raw", "Suisun", "Catch.csv"), na=c("NA"
 #   write_csv("~/Suisun comments.csv")
 
 ## For future updates, create the csv files as follows
- old<-read_excel(file.path("data-raw", "Suisun", "Suisun comments.xlsx"))%>%mutate(ID=paste(SampleID, Taxa, CatchComments))
- #dplyr::filter(catch_suisun, StandardLength==0 & !is.na(CatchComments))%>%
- #mutate(ID=paste(SampleID, Taxa, CatchComments))%>%
+ #old<-read_excel(file.path("data-raw", "Suisun", "Suisun comments.xlsx"))%>%mutate(ID=paste(SampleID, Taxa, CatchComments))
+ #new<-dplyr::filter(catch_suisun, StandardLength==0 & !is.na(CatchComments))%>%
+ #mutate(SampleRowID=paste("{",SampleRowID,"}",sep=""),
+  #      SampleID=paste("Suisun",SampleRowID,sep=" "),
+  #      Min_length=ifelse(grepl(">",CatchComments),1,as.numeric(NA)),
+  #      Length=ifelse(grepl("~",CatchComments)|grepl("about",CatchComments),1,as.numeric(NA)),
+  #      Max_length=ifelse(grepl("<",CatchComments),1,as.numeric(NA)),
+  #      Lifestage=ifelse(grepl("YOY",CatchComments),"YOY",
+  #                       ifelse(grepl("larva",CatchComments),"Larval",
+  #                              ifelse(grepl("uvenile",CatchComments),"Juvenile",
+  #                                     ifelse(grepl("dult",CatchComments),"Adult",as.character(NA))))),
+  #      Lifestage=ifelse(grepl("age 0",CatchComments),"Age-0",
+  #                       ifelse(grepl("age 1",CatchComments),"Age-1",
+  #                              ifelse(grepl("age 2",CatchComments),"Age-2+",Lifestage))),
+  #      Ignore=ifelse(grepl("egg",CatchComments)|grepl("ovi",CatchComments)|grepl("OVI",CatchComments),1,as.numeric(NA)),
+  #      ID=paste(SampleID, Taxa, CatchComments)
+  #     )%>%
  #dplyr::filter(!ID%in%old$ID)%>%
- #dplyr::select(SampleRowID, Station, Date, Datetime, SampleID, TrawlComments, Taxa, Count, CatchComments)%>%
-#   write_csv("~/Suisun comments.csv")
+ #dplyr::select(SampleRowID, Station, Date, Datetime, SampleID, TrawlComments, Taxa, Count, CatchComments,Min_length,Length,Max_length,Lifestage,Ignore)%>%
+  # write_csv("~/Suisun comments.csv")
+
+
 
 # The overall approach is to, where possible, convert these comments into Size Groups as used by Baystudy
 # If we can identify the range of lengths sampled for these unmeasured lengths, we can then find all fish actually
@@ -129,6 +145,8 @@ catch_suisun <- read_csv(file.path("data-raw", "Suisun", "Catch.csv"), na=c("NA"
 catch_fix<-catch_suisun%>%
   dplyr::select(Taxa, StandardLength, Count, SampleID)%>%
   dplyr::filter(StandardLength>0)
+
+
 
 catch_comments_suisun <- read_excel(file.path("data-raw", "Suisun", "Suisun comments.xlsx"))%>% # Read in translated excel comments
   dplyr::filter(is.na(Ignore))%>% #Remove "ignored" comments that have nothing to do with length.
@@ -246,4 +264,4 @@ Suisun_measured_lengths <- catch_suisun2%>%
   mutate(Taxa=stringr::str_remove(Taxa, " \\((.*)"))%>% # Remove life stage from Taxa
   dplyr::select(SampleID, Taxa, Dead, Length=StandardLength, Count)
 
-usethis::use_data(Suisun, Suisun_measured_lengths, overwrite=TRUE)
+usethis::use_data(Suisun, Suisun_measured_lengths, overwrite=TRUE, compress="xz")
