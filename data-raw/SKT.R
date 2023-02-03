@@ -181,4 +181,4 @@ SKT<-SKT %>%
 rm(SKT_Data)
 
 # Save compressed data to /data
-usethis::use_data(SKT, SKT_measured_lengths, overwrite=TRUE)
+usethis::use_data(SKT, SKT_measured_lengths, overwrite=TRUE, compress="xz")

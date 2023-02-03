@@ -234,4 +234,4 @@ SLS <- waterInfo %>%
 # all.equal(lengths$Length %>% sum(na.rm = T),
 #           dfFin$Length %>% sum(na.rm = T))
 
-usethis::use_data(SLS, overwrite=TRUE)
+usethis::use_data(SLS, overwrite=TRUE, compress="xz")
