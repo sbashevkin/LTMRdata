@@ -24,6 +24,7 @@ stations_baystudy <- read_excel(file.path("data-raw", "Baystudy", "Bay Study_Sta
 
 
 # Import lookup tables ----------------------------------------------------
+options(timeout = 999999)
 Path<-file.path(tempdir(), "BayStudy_AccessDatabase_1980-2021.zip")
 Path_origin<-file.path(tempdir())
 #Downloading MWT_data.zip----
@@ -273,3 +274,4 @@ Baystudy <- Baystudy%>%
   dplyr::select(-Year)# Remove unneeded variables
 
 usethis::use_data(Baystudy, Baystudy_measured_lengths, overwrite = TRUE, compress="xz") # Save compressed data to /data folder
+
