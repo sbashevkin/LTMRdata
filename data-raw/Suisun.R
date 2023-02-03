@@ -113,8 +113,8 @@ catch_suisun <- read_csv(file.path("data-raw", "Suisun", "Catch.csv"), na=c("NA"
 #   write_csv("~/Suisun comments.csv")
 
 ## For future updates, create the csv files as follows
- #old<-read_excel(file.path("data-raw", "Suisun", "Suisun comments.xlsx"))%>%mutate(ID=paste(SampleID, Taxa, CatchComments))
- #new<-dplyr::filter(catch_suisun, StandardLength==0 & !is.na(CatchComments))%>%
+ old<-read_excel(file.path("data-raw", "Suisun", "Suisun comments.xlsx"))%>%mutate(ID=paste(SampleID, Taxa, CatchComments))
+ #dplyr::filter(catch_suisun, StandardLength==0 & !is.na(CatchComments))%>%
  #mutate(ID=paste(SampleID, Taxa, CatchComments))%>%
  #dplyr::filter(!ID%in%old$ID)%>%
  #dplyr::select(SampleRowID, Station, Date, Datetime, SampleID, TrawlComments, Taxa, Count, CatchComments)%>%
