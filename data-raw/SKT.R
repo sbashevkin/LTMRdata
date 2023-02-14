@@ -91,7 +91,7 @@ SKT_Data$Catch <- sqlFetch(conn, "tblCatch")%>%select(CatchRowID,SampleRowID,Org
 # Length data -------------------------------------------------------------
 # Read Length data (one row per measured fish per tow)
 # Fields: CatchRowID, LengthRowID, ForkLength, ReleasedAlive (flag)
-SKT_Data$FishInfo <- sqlFetch(conn, "tblFishInfo")%>%select(CatchRowID,ForkLength,LengthRowID)
+SKT_Data$FishInfo <- sqlFetch(conn, "tblFishInfo")#%>%select(CatchRowID,ForkLength,LengthRowID)
 {
   SKT_Data$FishInfo<-SKT_Data$FishInfo%>%
     mutate(LengthFrequency = 1) %>%
@@ -100,32 +100,16 @@ SKT_Data$FishInfo <- sqlFetch(conn, "tblFishInfo")%>%select(CatchRowID,ForkLengt
     dplyr::filter(ForkLength != 0)%>%
     group_by(CatchRowID, ForkLength)%>%
     summarise(LengthFrequency=sum(LengthFrequency), .groups="drop")
-
-  SKT_Data$FishInfo<-left_join(SKT_Data$FishInfo,SKT_Data$FishInfo_TotalMeasured,by="CatchRowID")
-  SKT_Data$FishInfo$LengthFrequency<-as.numeric(SKT_Data$FishInfo$LengthFrequency)
-  SKT_Data$FishInfo$TotalMeasured<-as.numeric(SKT_Data$FishInfo$TotalMeasured)
 }
-
-catchlength_skt <- catch_skt%>%
-  left_join(length_skt %>%
-              group_by(CatchRowID) %>%
-              # Calculate total number of fish measured for each species in each sample
-              mutate(TotalMeasured = sum(LengthFrequency)) %>%
-              ungroup(),
-            # Add catch numbers and species names
-            by = "CatchRowID") %>%
-  # Calculate adjusted count
-  mutate(Count = if_else(is.na(TotalMeasured), Catch, (LengthFrequency/TotalMeasured)*Catch))
-
-
 
 SKT_Data$CatchLength<-SKT_Data$Catch%>%
   left_join(SKT_Data$FishInfo%>%
               group_by(CatchRowID)%>%
+              # Calculate total number of fish measured for each species in each sample
               mutate(TotalMeasured = sum(LengthFrequency))%>%
               ungroup(),
             # Add catch numbers and species names
-            by = "CatchRowID")%>%
+            by = "CatchRowID",multiple="all")%>%
   # Calculate adjusted count
   mutate(Count = ifelse(is.na(TotalMeasured), Catch, (LengthFrequency/TotalMeasured)*Catch))
 
@@ -141,7 +125,7 @@ SKT <- SKT_Data$Sample %>%
   # Join to catch/length data
   left_join(SKT_Data$CatchLength%>%
               dplyr::filter(!(is.na(Count) & OrganismCode!=0)), # Remove any cases other than nocatch where Count is NA
-            by="SampleRowID") %>%
+            by="SampleRowID",multiple="all") %>%
   # Convert conductivity to salinity
   mutate(Sal_surf = ec2pss(ConductivityTop/1000, t=25),
          # add identifier for survey
