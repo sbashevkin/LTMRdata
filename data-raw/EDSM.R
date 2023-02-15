@@ -20,12 +20,6 @@ require(XML)
 utils::download.file("https://pasta.lternet.edu/package/data/eml/edi/415/5/d468c513fa69c4fc6ddc02e443785f28", file.path(tempdir(), "EDSM_20mm.csv"), mode="wb",method="libcurl")
 utils::download.file("https://pasta.lternet.edu/package/data/eml/edi/415/5/4d7de6f0a38eff744a009a92083d37ae", file.path(tempdir(), "EDSM_KDTR.csv"), mode="wb",method="libcurl")
 
-testlink<-rvest::read_html("https://www.fws.gov/media/edsm-daily-report-0")
-test<-testlink%>%html_elements("span")%>%html_text()
-test2<-paste("https://www.fws.gov/sites/default/files/documents/",test[77],sep="")
-utils::download.file(test2, file.path(tempdir(), "EDSM_recent.xlsx"), mode="wb",method="libcurl")
-test3<-read_excel(file.path(tempdir(),"EDSM_recent.xlsx"))
-
 EDSM <- bind_rows(
   read_csv(file.path(tempdir(), "EDSM_20mm.csv"),
            col_types = cols_only(Station = "c", Date = "c", Time = "c", Tide = "c",
