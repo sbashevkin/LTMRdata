@@ -6,7 +6,6 @@ require(tidyr)
 require(lubridate)
 require(LTMRdata)
 require(stringr)
-require(RODBC)
 
 Path<-file.path(tempdir(), "MWT_data.zip")
 Path_origin<-file.path(tempdir())
@@ -15,29 +14,25 @@ download.file("https://filelib.wildlife.ca.gov/Public/TownetFallMidwaterTrawl/FM
 unzip(Path,files="MWT_data.accdb",exdir=Path_origin)
 
 # MS access database set up----
-# MS Access database driver.
-driver <- "Driver={Microsoft Access Driver (*.mdb, *.accdb)};"
-
 # File path to Access database (Salvage)
 db_path <- file.path(tempdir(),"MWT_data.accdb")
 
-# Just pastes driver info and file path together.
-full_path <- paste0(driver,"DBQ=",db_path)
+source(file.path("data-raw", "bridgeAccess.R"))
 
-# Connect to database using information above.
-conn <- odbcDriverConnect(full_path)
-names<-sqlTables(conn)
+keepTables <- c("StationsLookUp", "Sample", "Catch", "Length")
 
-FMWT_Tables<-list()
+FMWT_Tables <- bridgeAccess(db_path,
+                            tables = keepTables,
+                            script = file.path("data-raw", "connectAccess.R"))
+
 # Station locations -------------------------------------------------------
-FMWT_Tables$Station <- sqlFetch(conn, "StationsLookUp")%>%
+FMWT_Tables$Station <- FMWT_Tables$StationsLookUp%>%
   select("StationCode","DD_Latitude","DD_Longitude")%>%
   rename(Station=StationCode, Latitude=DD_Latitude, Longitude=DD_Longitude)%>%
   drop_na()
 
-
 # Sample-level data -------------------------------------------------------
-FMWT_Tables$Sample <- sqlFetch(conn, "Sample")%>%
+FMWT_Tables$Sample <- FMWT_Tables$Sample %>%
   select("SampleRowID","StationCode","MethodCode","SampleDate",
          "SampleTimeStart","SurveyNumber","WaterTemperature","Turbidity",
          "Secchi","SecchiEstimated","ConductivityTop","ConductivityBottom",
@@ -63,8 +58,10 @@ FMWT_Tables$Sample <- sqlFetch(conn, "Sample")%>%
   mutate(SampleID=1:nrow(.)) # Add unique identifier for each sample (net tow)
 
 # Catch data --------------------------------------------------------------
-FMWT_Tables$Catch<- sqlFetch(conn, "Catch")%>%
-  select("CatchRowID","SampleRowID","OrganismCode","Catch")%>%
+FMWT_Tables$Catch<- FMWT_Tables$Catch%>%
+  transmute(CatchRowID, SampleRowID,
+            OrganismCode = as.integer(OrganismCode),
+            Catch)%>%
   dplyr::filter(!is.na(OrganismCode))%>% # Remove any records with an NA organism code
   left_join(Species%>% # Add species names
               select(OrganismCode=FMWT_Code, Taxa)%>%
@@ -72,9 +69,8 @@ FMWT_Tables$Catch<- sqlFetch(conn, "Catch")%>%
             by="OrganismCode")%>%
   select(-OrganismCode) # Remove unneeded variable
 
-
 # Length data -------------------------------------------------------------
-FMWT_Tables$Length<- sqlFetch(conn, "Length")%>%
+FMWT_Tables$Length<- FMWT_Tables$Length%>%
   select("CatchRowID","ForkLength","LengthFrequency")%>%
   dplyr::filter(ForkLength!=0)%>% # 0 fork length means not measured, so removing those from length table so those fish can be redistributed among measured lengths
   group_by(CatchRowID, ForkLength)%>%
@@ -135,7 +131,5 @@ FMWT<-FMWT%>%
   select(-CatchRowID)%>% # Remove unneeded variable
   group_by(across(-Count))%>% # Add up any new multiples after removing lifestages
   summarise(Count=sum(Count), .groups="drop")
-
-rm(FMWT_Tables) # Clean up
 
 usethis::use_data(FMWT, FMWT_measured_lengths, overwrite=TRUE, compress="xz") # Save compressed data to /data

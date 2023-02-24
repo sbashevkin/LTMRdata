@@ -10,7 +10,6 @@ require(dplyr)
 require(lubridate)
 require(tidyr)
 require(stringr)
-require(RODBC) #suggest using ODBC w/ another package (search)
 
 Path<-file.path(tempdir(), "SKT.zip")
 Path_origin<-file.path(tempdir())
@@ -19,25 +18,22 @@ download.file("https://filelib.wildlife.ca.gov/Public/Delta%20Smelt/SKT.zip", Pa
 unzip(Path,files="SKT.accdb",exdir=Path_origin)
 
 # MS access database set up----
-# MS Access database driver.
-driver <- "Driver={Microsoft Access Driver (*.mdb, *.accdb)};"
-
 # File path to Access database (Salvage)
 db_path <- file.path(tempdir(),"Skt.accdb")
 
-# Just pastes driver info and file path together.
-full_path <- paste0(driver,"DBQ=",db_path)
+source(file.path("data-raw", "bridgeAccess.R"))
 
-# Connect to database using information above.
-conn <- odbcDriverConnect(full_path)
-names<-sqlTables(conn)
+keepTables <- c("lktblStationsSKT", "tblSample", "tblCatch", "tblFishInfo")
+
+SKT_Data <- bridgeAccess(db_path,
+                         tables = keepTables,
+                         script = file.path("data-raw", "connectAccess.R"))
 
 #MWT data setup ----
-SKT_Data<-list()
 
 # Station locations -------------------------------------------------------
 # read table with station latitude and longitude (one row per station)
-SKT_Data$StationsSKT <- sqlFetch(conn, "lktblStationsSKT")%>%
+SKT_Data$StationsSKT <- SKT_Data$lktblStationsSKT%>%
   select(Station,LatDeg,LatMin,LatSec,LongDec,LongMin,LongSec)
 {
   SKT_Data$StationsSKT$Station<-as.character(SKT_Data$StationsSKT$Station)
@@ -49,7 +45,7 @@ SKT_Data$StationsSKT <- sqlFetch(conn, "lktblStationsSKT")%>%
 }
 # Sample-level data -------------------------------------------------------
 # read sample data (one row per tow)
-SKT_Data$Sample <- sqlFetch(conn, "tblSample")%>%
+SKT_Data$Sample <- SKT_Data$tblSample%>%
   select(SampleRowID,SampleDate,StationCode,SampleTimeStart,SurveyNumber,
          WaterTemperature,TideCode,DepthBottom,Secchi,ConductivityTop,
          TowDirectionCode,MeterStart,MeterEnd)
@@ -79,7 +75,7 @@ SKT_Data$Sample <- sqlFetch(conn, "tblSample")%>%
 # Catch data --------------------------------------------------------------
 # Read Catch data (one row per species per tow)
 # Fields: CatchRowID	SampleRowID	OrganismCode	Catch
-SKT_Data$Catch <- sqlFetch(conn, "tblCatch")%>%select(CatchRowID,SampleRowID,OrganismCode,Catch)
+SKT_Data$Catch <- SKT_Data$tblCatch%>%select(CatchRowID,SampleRowID,OrganismCode,Catch)
 {
   SKT_Data$Catch$OrganismCode<-as.character(SKT_Data$Catch$OrganismCode)
       # Add species names
@@ -91,7 +87,7 @@ SKT_Data$Catch <- sqlFetch(conn, "tblCatch")%>%select(CatchRowID,SampleRowID,Org
 # Length data -------------------------------------------------------------
 # Read Length data (one row per measured fish per tow)
 # Fields: CatchRowID, LengthRowID, ForkLength, ReleasedAlive (flag)
-SKT_Data$FishInfo <- sqlFetch(conn, "tblFishInfo")#%>%select(CatchRowID,ForkLength,LengthRowID)
+SKT_Data$FishInfo <- SKT_Data$tblFishInfo #%>%select(CatchRowID,ForkLength,LengthRowID)
 {
   SKT_Data$FishInfo<-SKT_Data$FishInfo%>%
     mutate(LengthFrequency = 1) %>%
@@ -112,11 +108,6 @@ SKT_Data$CatchLength<-SKT_Data$Catch%>%
             by = "CatchRowID",multiple="all")%>%
   # Calculate adjusted count
   mutate(Count = ifelse(is.na(TotalMeasured), Catch, (LengthFrequency/TotalMeasured)*Catch))
-
-
-# close connections ----
-odbcCloseAll()
-rm(names,conn,db_path,full_path,Path,Path_origin)
 
 # Create final datasets ---------------------------------------------------
 
@@ -160,9 +151,6 @@ SKT_measured_lengths<-SKT_Data$FishInfo %>%
 SKT<-SKT %>%
   select(-CatchRowID)%>%
   distinct()
-
-# Clean up; remove temporary files
-rm(SKT_Data)
 
 # Save compressed data to /data
 usethis::use_data(SKT, SKT_measured_lengths, overwrite=TRUE, compress="xz")

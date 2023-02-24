@@ -1,4 +1,3 @@
-
 ## Data retrieval script for CDFW's Summer Townet Survey.
 ## Database is too large to store on GitHub, so query now and save smaller csv files.
 
@@ -6,107 +5,33 @@
 ## Retrieve STN database copy, save tables, delete database.
 ## Only run this section when needed.
 
-library(DBI)
-library(odbc)
+library(rvest)
+library(dplyr)
 
 ## STN database url and file names:
-dbName <- "STN_Data1959-2022.accdb"
+dbName <- read_html("https://filelib.wildlife.ca.gov/Public/TownetFallMidwaterTrawl/TNS%20MS%20Access%20Data/TNS%20data/") %>%
+  html_elements("a") %>%
+  html_attr("href") %>%
+  {.[[which(grepl("STN.*\\.accdb", .))]]} %>%
+  gsub(".*\\/", "", .)
+
 surveyURL <- paste0("https://filelib.wildlife.ca.gov/Public/TownetFallMidwaterTrawl",
                     "/TNS%20MS%20Access%20Data/TNS%20data/",dbName)
-tmpFile <- file.path(tempdir(), dbName)
 
-downloadCheck <- download.file(url=surveyURL, destfile=tmpFile, mode="wb")
-downloadCheck
+download.file(url=surveyURL, destfile=file.path(tempdir(), dbName), mode="wb")
 
-## Open connection to the database:
-dbString <- paste0("Driver={Microsoft Access Driver (*.mdb, *.accdb)};",
-                   "Dbq=",tmpFile)
-con <- DBI::dbConnect(drv=odbc::odbc(), .connection_string=dbString)
+db_path <- file.path(tempdir(), dbName)
 
-tables <- odbc::dbListTables(conn=con)
-tables
-
-connectAccess <- function(file,
-                          driver = "Microsoft Access Driver (*.mdb, *.accdb)", uid = "", pwd = "", ...) {
-
-  file <- normalizePath(file, winslash = "\\")
-
-  # Driver and path required to connect from RStudio to Access
-  dbString <- paste0("Driver={", driver,
-                     "};Dbq=", file,
-                     ";Uid=", uid,
-                     ";Pwd=", pwd,
-                     ";")
-
-  tryCatch(DBI::dbConnect(drv = odbc::odbc(), .connection_string = dbString),
-           error = function(cond) {
-             if (all(stringr::str_detect(cond$message, c("IM002", "ODBC Driver Manager")))) {
-               message(cond, "\n")
-               message("IM002 and ODBC Driver Manager error generally means a 32-bit R needs to be installed or used.")
-             } else {
-               message(cond)
-             }
-           })
-  # RODBC::odbcDriverConnect(con, ...)
-}
-Conn<-connectAccess(file=tmpFile)
-
-## Save select tables:
-keepTables <- c("Catch","Length","luMicrocystis","luOrganism","luStation",
-                "luTide","luTowDirection","Sample","TowEffort",
-                "Web_Local_Meter_Corrections")
-
-extractTables <- function(con, tables, out) {
-
-  # Pulling just the table names
-  # tableNames <- RODBC::sqlTables(con, tableType = c("TABLE", "VIEW"))["TABLE_NAME"]
-  tableNames <- odbc::dbListTables(conn = con)
-
-  # Includes system tables which cannot be read, excluding them below with negate
-  # tableNames <- stringr::str_subset(tableNames, "MSys", negate = T)
-  if (length(tables) == 1 & all(tables %in% "check")) {
-    # If no table names are specified, then simply return the names of the possible databases for the user to pic
-
-    # RODBC::odbcClose(con)
-    DBI::dbDisconnect(con)
-
-    cat("Specify at least one table to pull from: \n")
-
-    return(print(tableNames))
-  }
-
-  # Apply the dbReadTable to each readable table in db
-  # returnedTables <- mapply(RODBC::sqlQuery,
-  #                          query = paste("SELECT * FROM", tables),
-  #                          MoreArgs = list(channel = con),
-  #                          SIMPLIFY = F)
-  returnedTables <- mapply(DBI::dbReadTable,
-                           name = tables,
-                           MoreArgs = list(conn = con),
-                           SIMPLIFY = F)
-
-  # names(returnedTables) <- tables
-
-  DBI::dbDisconnect(con)
-  # RODBC::odbcClose(con)
-
-  if (length(tables) != 1 & all(tables %in% "check")) {
-    # Save the table to be read back into R
-    saveRDS(returnedTables, file = file.path(out, "savedAccessTables.rds"))
-  } else {
-    returnedTables
-  }
-}
-STNTables<-extractTables(con=Conn,tables=keepTables,out=Path_origin)
+# Connecting to the Access db
+source(file.path("data-raw", "bridgeAccess.R"))
 
 keepTables <- c("Catch","Length","luMicrocystis","luOrganism","luStation",
                 "luTide","luTowDirection","Sample","TowEffort",
                 "Web_Local_Meter_Corrections")
 
-## Disconnect from database and remove original files:
-DBI::dbDisconnect(conn=con)
-unlink(tmpFile)
-
+STNTables <- bridgeAccess(db_path,
+                          tables = keepTables,
+                          script = file.path("data-raw", "connectAccess.R"))
 
 #########################################################################################
 ## Create and save compressed data files using raw tables.

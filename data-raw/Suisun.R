@@ -9,79 +9,17 @@ require(readxl)
 require(tidyr)
 
 # Must still reach out to Teejay (taorear@ucdavis.edu) to get the Access db
-unzip(file.path("data-raw", "Suisun", "SuisunMarshFish2020_1_14_23.zip"), exdir = tempdir)
+unzip(file.path("data-raw", "Suisun", "SuisunMarshFish2020_1_14_23.zip"), exdir = tempdir())
+db_path <- file.path(tempdir(), "SuisunMarshFish2020_1_14_23.accdb")
 
-connectAccess <- function(file,
-                          driver = "Microsoft Access Driver (*.mdb, *.accdb)", uid = "", pwd = "", ...) {
+source(file.path("data-raw", "bridgeAccess.R"))
 
-  file <- normalizePath(file, winslash = "\\")
+keepTables <- c("AgesBySizeMo", "Catch", "Depth",
+                "Sample", "StationsLookUp", "TrawlEffort")
 
-  # Driver and path required to connect from RStudio to Access
-  dbString <- paste0("Driver={", driver,
-                     "};Dbq=", file,
-                     ";Uid=", uid,
-                     ";Pwd=", pwd,
-                     ";")
-
-  tryCatch(DBI::dbConnect(drv = odbc::odbc(), .connection_string = dbString),
-           error = function(cond) {
-             if (all(stringr::str_detect(cond$message, c("IM002", "ODBC Driver Manager")))) {
-               message(cond, "\n")
-               message("IM002 and ODBC Driver Manager error generally means a 32-bit R needs to be installed or used.")
-             } else {
-               message(cond)
-             }
-           })
-  # RODBC::odbcDriverConnect(con, ...)
-}
-
-Conn<-connectAccess(file = file.path(tempdir(), "SuisunMarshFish2020_1_14_23.accdb"))
-
-extractTables <- function(con, tables, out) {
-
-  # Pulling just the table names
-  # tableNames <- RODBC::sqlTables(con, tableType = c("TABLE", "VIEW"))["TABLE_NAME"]
-  tableNames <- odbc::dbListTables(conn = con)
-
-  # Includes system tables which cannot be read, excluding them below with negate
-  # tableNames <- stringr::str_subset(tableNames, "MSys", negate = T)
-  if (length(tables) == 1 & all(tables %in% "check")) {
-    # If no table names are specified, then simply return the names of the possible databases for the user to pic
-
-    # RODBC::odbcClose(con)
-    DBI::dbDisconnect(con)
-
-    cat("Specify at least one table to pull from: \n")
-
-    return(print(tableNames))
-  }
-
-  # Apply the dbReadTable to each readable table in db
-  # returnedTables <- mapply(RODBC::sqlQuery,
-  #                          query = paste("dplyr::select * FROM", tables),
-  #                          MoreArgs = list(channel = con),
-  #                          SIMPLIFY = F)
-  returnedTables <- mapply(DBI::dbReadTable,
-                           name = tables,
-                           MoreArgs = list(conn = con),
-                           SIMPLIFY = F)
-
-  # names(returnedTables) <- tables
-
-  DBI::dbDisconnect(con)
-  # RODBC::odbcClose(con)
-
-  if (length(tables) != 1 & all(tables %in% "check")) {
-    # Save the table to be read back into R
-    saveRDS(returnedTables, file = file.path(out, "savedAccessTables.rds"))
-  } else {
-    returnedTables
-  }
-}
-
-suisunMarshTables <-extractTables(con=Conn,tables=c("AgesBySizeMo", "Catch", "Depth",
-                                                    "Sample", "StationsLookUp", "TrawlEffort"),
-                                  out=Path_origin)
+suisunMarshTables <- bridgeAccess(db_path,
+                          tables = keepTables,
+                          script = file.path("data-raw", "connectAccess.R"))
 
 # Depth data --------------------------------------------------------------
 
@@ -113,7 +51,8 @@ effort_suisun <- suisunMarshTables$TrawlEffort %>%
 
 age_size_suisun <- suisunMarshTables$AgesBySizeMo %>%
   transmute(Class = ifelse(Class == "N/A", NA, as.character(Class)),
-            across(c(Month, Min, Max), as.double))
+            across(c(Month, Min, Max), as.double),
+            OrganismCode = as.character(OrganismCode))
 
 # Sample-level data -------------------------------------------------------
 
@@ -230,7 +169,7 @@ catch_comments_suisun <- read_excel(file.path("data-raw", "Suisun", "Suisun comm
            Lifestage=="Adult" & Taxa%in%c("Tridentiger bifasciatus", "Acanthogobius flavimanus") ~ "Age-1+",
            TRUE ~ Lifestage
          ),
-         Month=month(ymd_hms(Date, tz="America/Los_Angeles")))%>%
+         Month=month(as.Date(Date)))%>%
   left_join(Species%>% # Add species names
               dplyr::select(OrganismCode=SMF_Code, Taxa)%>%
               dplyr::filter(!is.na(OrganismCode) & !is.na(Taxa)),

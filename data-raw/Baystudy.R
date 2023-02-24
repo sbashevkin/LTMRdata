@@ -8,6 +8,7 @@ require(lubridate)
 require(readxl)
 require(LTMRdata)
 require(stringr)
+library(rvest)
 
 # Station locations -------------------------------------------------------
 
@@ -43,80 +44,19 @@ accessFile <- unzip(file.path(tempdir(), fileName), list = T) %>%
   pull(Name) %>%
   .[which(grepl("\\.accdb", .))]
 
-driver <- "Driver={Microsoft Access Driver (*.mdb, *.accdb)};"
-
 # File path to Access database (Salvage)
+source(file.path("data-raw", "bridgeAccess.R"))
+
 db_path <- file.path(tempdir(), accessFile)
 
-connectAccess <- function(file,
-                          driver = "Microsoft Access Driver (*.mdb, *.accdb)", uid = "", pwd = "", ...) {
+keepTables <- c("TideCodes_LookUp","WaveCodes_LookUp","CloudCover_LookUp",
+                "SalinTemp","BoatStation","BoatTow",
+                "Fish Catch Data","Fish Length Data")
 
-  file <- normalizePath(file, winslash = "\\")
+BayStudyTables <- bridgeAccess(db_path,
+                     tables = keepTables,
+                     script = file.path("data-raw", "connectAccess.R"))
 
-  # Driver and path required to connect from RStudio to Access
-  dbString <- paste0("Driver={", driver,
-                     "};Dbq=", file,
-                     ";Uid=", uid,
-                     ";Pwd=", pwd,
-                     ";")
-
-  tryCatch(DBI::dbConnect(drv = odbc::odbc(), .connection_string = dbString),
-           error = function(cond) {
-             if (all(stringr::str_detect(cond$message, c("IM002", "ODBC Driver Manager")))) {
-               message(cond, "\n")
-               message("IM002 and ODBC Driver Manager error generally means a 32-bit R needs to be installed or used.")
-             } else {
-               message(cond)
-             }
-           })
-  # RODBC::odbcDriverConnect(con, ...)
-}
-Conn<-connectAccess(file=db_path)
-
-extractTables <- function(con, tables, out) {
-
-  # Pulling just the table names
-  # tableNames <- RODBC::sqlTables(con, tableType = c("TABLE", "VIEW"))["TABLE_NAME"]
-  tableNames <- odbc::dbListTables(conn = con)
-
-  # Includes system tables which cannot be read, excluding them below with negate
-  # tableNames <- stringr::str_subset(tableNames, "MSys", negate = T)
-  if (length(tables) == 1 & all(tables %in% "check")) {
-    # If no table names are specified, then simply return the names of the possible databases for the user to pic
-
-    # RODBC::odbcClose(con)
-    DBI::dbDisconnect(con)
-
-    cat("Specify at least one table to pull from: \n")
-
-    return(print(tableNames))
-  }
-
-  # Apply the dbReadTable to each readable table in db
-  # returnedTables <- mapply(RODBC::sqlQuery,
-  #                          query = paste("dplyr::select * FROM", tables),
-  #                          MoreArgs = list(channel = con),
-  #                          SIMPLIFY = F)
-  returnedTables <- mapply(DBI::dbReadTable,
-                           name = tables,
-                           MoreArgs = list(conn = con),
-                           SIMPLIFY = F)
-
-  # names(returnedTables) <- tables
-
-  DBI::dbDisconnect(con)
-  # RODBC::odbcClose(con)
-
-  if (length(tables) != 1 & all(tables %in% "check")) {
-    # Save the table to be read back into R
-    saveRDS(returnedTables, file = file.path(out, "savedAccessTables.rds"))
-  } else {
-    returnedTables
-  }
-}
-BayStudyTables<-extractTables(con=Conn,tables=c("TideCodes_LookUp","WaveCodes_LookUp","CloudCover_LookUp",
-                                                "SalinTemp","BoatStation","BoatTow",
-                                                "Fish Catch Data","Fish Length Data"),out=Path_origin)
 # Environ data ----
 tidecodes_baystudy <- BayStudyTables$TideCodes_LookUp%>%select(Tide,Description)
 

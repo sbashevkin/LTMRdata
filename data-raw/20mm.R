@@ -8,8 +8,7 @@
 ## Retrieve 20mm Survey database copy, save tables, delete database.
 ## Only run this section when needed.
 
-library(DBI)
-library(odbc)
+source(file.path("data-raw", "bridgeAccess.R"))
 
 ## 20mm Survey url, name of zip file, and name of database within the zip file:
 surveyURL <- "https://filelib.wildlife.ca.gov/Public/Delta%20Smelt/20mm_New.zip"
@@ -21,31 +20,20 @@ localZipFile <- file.path(tempdir(),zipFileName)
 download.file(url=surveyURL, destfile=localZipFile)
 localDbFile <- unzip(zipfile=localZipFile, exdir=file.path(tempdir()))
 
-## Open connection to the database:
-dbString <- paste0("Driver={Microsoft Access Driver (*.mdb, *.accdb)};",
-									 "Dbq=",localDbFile)
-con <- DBI::dbConnect(drv=odbc::odbc(), .connection_string=dbString)
-
-tables <- odbc::dbListTables(conn=con)
-
 ## Save select tables:
 keepTables <- c("Tow","FishSample","FishLength","Survey","Station",
-								"20mmStations","Gear","GearCodesLkp","MeterCorrections","SampleCode")
+                "20mmStations","Gear","GearCodesLkp","MeterCorrections","SampleCode")
+
+## Open connection to the database:
+data <- bridgeAccess(localDbFile,
+                     tables = keepTables,
+                     script = file.path("data-raw", "connectAccess.R"))
 
 # # If you instead want to write the csv files
 # for(tab in keepTables) {
 # 	tmp <- DBI::dbReadTable(con, tab)
 # 	write.csv(tmp, file=file.path("data-raw","20mm",paste0(tab,".csv")), row.names=FALSE)
 # }
-
-data <- lapply(keepTables, DBI::dbReadTable, conn = con) %>%
-  setNames(keepTables)
-
-## Disconnect from database and remove original files:
-DBI::dbDisconnect(conn=con)
-unlink(localZipFile)
-unlink(localDbFile)
-
 
 #########################################################################################
 ## Create and save compressed data files using raw tables.

@@ -5,9 +5,6 @@ library(lubridate)
 library(tidyr)
 library(tidyverse)
 library(stringr)
-library(RODBC)
-library(DBI)
-library(odbc)
 require(LTMRdata)
 
 # Setting up path for SLS files----
@@ -18,82 +15,17 @@ download.file("https://filelib.wildlife.ca.gov/Public/Delta%20Smelt/SLS.zip", Pa
 unzip(Path,files="SLS.mdb",exdir=Path_origin)
 
 # MS access database set up----
-# MS Access database driver.
-driver <- "Driver={Microsoft Access Driver (*.mdb, *.accdb)};"
-
 # File path to Access database (Salvage)
 db_path <- file.path(tempdir(),"SLS.mdb")
 
-connectAccess <- function(file,
-                          driver = "Microsoft Access Driver (*.mdb, *.accdb)", uid = "", pwd = "", ...) {
+source(file.path("data-raw", "bridgeAccess.R"))
 
-  file <- normalizePath(file, winslash = "\\")
+keepTables <- c("20mm Stations","AreaCode1","Catch","FishCodes","Lengths",
+                "Tow Info","Water Info","Meter Corrections","Wt_factors")
 
-  # Driver and path required to connect from RStudio to Access
-  dbString <- paste0("Driver={", driver,
-                     "};Dbq=", file,
-                     ";Uid=", uid,
-                     ";Pwd=", pwd,
-                     ";")
-
-  tryCatch(DBI::dbConnect(drv = odbc::odbc(), .connection_string = dbString),
-           error = function(cond) {
-             if (all(stringr::str_detect(cond$message, c("IM002", "ODBC Driver Manager")))) {
-               message(cond, "\n")
-               message("IM002 and ODBC Driver Manager error generally means a 32-bit R needs to be installed or used.")
-             } else {
-               message(cond)
-             }
-           })
-  # RODBC::odbcDriverConnect(con, ...)
-}
-Conn<-connectAccess(file=db_path)
-# Extracting Tables ----
-extractTables <- function(con, tables, out) {
-
-  # Pulling just the table names
-  # tableNames <- RODBC::sqlTables(con, tableType = c("TABLE", "VIEW"))["TABLE_NAME"]
-  tableNames <- odbc::dbListTables(conn = con)
-
-  # Includes system tables which cannot be read, excluding them below with negate
-  # tableNames <- stringr::str_subset(tableNames, "MSys", negate = T)
-  if (length(tables) == 1 & all(tables %in% "check")) {
-    # If no table names are specified, then simply return the names of the possible databases for the user to pic
-
-    # RODBC::odbcClose(con)
-    DBI::dbDisconnect(con)
-
-    cat("Specify at least one table to pull from: \n")
-
-    return(print(tableNames))
-  }
-
-  # Apply the dbReadTable to each readable table in db
-  # returnedTables <- mapply(RODBC::sqlQuery,
-  #                          query = paste("SELECT * FROM", tables),
-  #                          MoreArgs = list(channel = con),
-  #                          SIMPLIFY = F)
-  returnedTables <- mapply(DBI::dbReadTable,
-                           name = tables,
-                           MoreArgs = list(conn = con),
-                           SIMPLIFY = F)
-
-  # names(returnedTables) <- tables
-
-  DBI::dbDisconnect(con)
-  # RODBC::odbcClose(con)
-
-  if (length(tables) != 1 & all(tables %in% "check")) {
-    # Save the table to be read back into R
-    saveRDS(returnedTables, file = file.path(out, "savedAccessTables.rds"))
-  } else {
-    returnedTables
-  }
-}
-SLSTables<-extractTables(con=Conn,tables=c("20mm Stations","AreaCode1","Catch","FishCodes","Lengths","Tow Info","Water Info","Meter Corrections","Wt_factors"),out=Path_origin)
-
-#Test_again<-extractTables(con=Conn,tables=set_test[[1]][["TABLE_NAME"]],out=Path_origin)
-
+SLSTables <- bridgeAccess(db_path,
+                            tables = keepTables,
+                            script = file.path("data-raw", "connectAccess.R"))
 
 #MWT data setup ----
 
@@ -105,10 +37,9 @@ SLSTables$Lengths <- SLSTables$Lengths %>%
   dplyr::select(Date,Station,Tow,FishCode,Length,entryorder)%>%
   mutate(Station=as.character(Station))
 
-
-SLSTables$"Meter Corrections" <- SLSTables$"Meter Corrections"%>%
+SLSTables$`Meter Corrections` <- SLSTables$`Meter Corrections`%>%
   dplyr::select(StudyYear,MeterSerial,CalibrationDate,kfactor,Notes)
-SLSTables$"20mm Stations" <- SLSTables$"20mm Stations"%>%
+SLSTables$`20mm Stations` <- SLSTables$`20mm Stations`%>%
   dplyr::select(Station,LatD,LatM,LatS,LonD,LonM,LonS)%>%
   mutate(Latitude=LatD+LatM/60+LatS/3600,
          Longitude=LonD+LonM/60+LonS/3600,
@@ -116,25 +47,20 @@ SLSTables$"20mm Stations" <- SLSTables$"20mm Stations"%>%
   dplyr::select(Station,Latitude,Longitude)%>%
   na.omit()
 
-SLSTables$"Tow Info"<-SLSTables$"Tow Info"%>%
+SLSTables$`Tow Info`<-SLSTables$`Tow Info`%>%
   dplyr::select(Date,Station,Tow,Time,Tide,BottomDepth,CableOut,Duration,NetMeterSerial,NetMeterStart,NetMeterCheck,CBMeterSerial,CBMeterStart,CBMeterEnd,CBMeterCheck,Comments)%>%
   rename(Notes_tow=Comments)%>%
   mutate(Station=as.character(Station),
          Tide=as.character(Tide),
          CableOut=CableOut*0.3048)
 
-
-SLSTables$"Water Info"<-SLSTables$"Water Info"%>%dplyr::select(Survey,Date,Station,Temp,TopEC,BottomEC,Secchi,Turbidity,Comments)%>%
+SLSTables$`Water Info`<-SLSTables$`Water Info`%>%dplyr::select(Survey,Date,Station,Temp,TopEC,BottomEC,Secchi,Turbidity,Comments)%>%
   rename(Notes_env=Comments)%>%
   mutate(Station=as.character(Station))
 
-odbcCloseAll()
-rm(names,Conn,db_path,full_path,Path,Path_origin)
-
-
 # Manipulating the data tables --------------------------------------------
 
-waterInfo <- SLSTables$"Water Info" %>%
+waterInfo <- SLSTables$`Water Info` %>%
   mutate(# Converting secchi from cm to m
     Secchi = Secchi/100,
     # Converting EC to salinity
@@ -146,7 +72,7 @@ waterInfo <- SLSTables$"Water Info" %>%
     # Changing Date to as.Date
     Date = as.Date(Date))
 
-towInfo <- SLSTables$"Tow Info" %>%
+towInfo <- SLSTables$`Tow Info` %>%
   # 1 parsing error because time was not recorded for that row
   # Now, joining to the Meter Corrections table to calculate tow volume later
   # This is based on the "WEB_Raw_Catch_Volum_Info" query in the SLS Access query database
@@ -156,7 +82,7 @@ towInfo <- SLSTables$"Tow Info" %>%
          # Changing Date from POSIXct format to simply Date for easy of use
          # Timezone data is still retained in the Datetime column
          Date = as.Date(Date)) %>%
-  left_join(SLSTables$"Meter Corrections" %>%
+  left_join(SLSTables$`Meter Corrections` %>%
               # There are duplicated values here in this table; will simply distinct() them
               # Confirmed via email with Adam, ES of Native Fish unit as of 10-27-2021
               distinct(),
