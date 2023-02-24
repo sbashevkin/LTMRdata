@@ -8,13 +8,85 @@ require(LTMRdata)
 require(readxl)
 require(tidyr)
 
+# Must still reach out to Teejay (taorear@ucdavis.edu) to get the Access db
+unzip(file.path("data-raw", "Suisun", "SuisunMarshFish2020_1_14_23.zip"), exdir = tempdir)
 
+connectAccess <- function(file,
+                          driver = "Microsoft Access Driver (*.mdb, *.accdb)", uid = "", pwd = "", ...) {
+
+  file <- normalizePath(file, winslash = "\\")
+
+  # Driver and path required to connect from RStudio to Access
+  dbString <- paste0("Driver={", driver,
+                     "};Dbq=", file,
+                     ";Uid=", uid,
+                     ";Pwd=", pwd,
+                     ";")
+
+  tryCatch(DBI::dbConnect(drv = odbc::odbc(), .connection_string = dbString),
+           error = function(cond) {
+             if (all(stringr::str_detect(cond$message, c("IM002", "ODBC Driver Manager")))) {
+               message(cond, "\n")
+               message("IM002 and ODBC Driver Manager error generally means a 32-bit R needs to be installed or used.")
+             } else {
+               message(cond)
+             }
+           })
+  # RODBC::odbcDriverConnect(con, ...)
+}
+
+Conn<-connectAccess(file = file.path(tempdir(), "SuisunMarshFish2020_1_14_23.accdb"))
+
+extractTables <- function(con, tables, out) {
+
+  # Pulling just the table names
+  # tableNames <- RODBC::sqlTables(con, tableType = c("TABLE", "VIEW"))["TABLE_NAME"]
+  tableNames <- odbc::dbListTables(conn = con)
+
+  # Includes system tables which cannot be read, excluding them below with negate
+  # tableNames <- stringr::str_subset(tableNames, "MSys", negate = T)
+  if (length(tables) == 1 & all(tables %in% "check")) {
+    # If no table names are specified, then simply return the names of the possible databases for the user to pic
+
+    # RODBC::odbcClose(con)
+    DBI::dbDisconnect(con)
+
+    cat("Specify at least one table to pull from: \n")
+
+    return(print(tableNames))
+  }
+
+  # Apply the dbReadTable to each readable table in db
+  # returnedTables <- mapply(RODBC::sqlQuery,
+  #                          query = paste("dplyr::select * FROM", tables),
+  #                          MoreArgs = list(channel = con),
+  #                          SIMPLIFY = F)
+  returnedTables <- mapply(DBI::dbReadTable,
+                           name = tables,
+                           MoreArgs = list(conn = con),
+                           SIMPLIFY = F)
+
+  # names(returnedTables) <- tables
+
+  DBI::dbDisconnect(con)
+  # RODBC::odbcClose(con)
+
+  if (length(tables) != 1 & all(tables %in% "check")) {
+    # Save the table to be read back into R
+    saveRDS(returnedTables, file = file.path(out, "savedAccessTables.rds"))
+  } else {
+    returnedTables
+  }
+}
+
+suisunMarshTables <-extractTables(con=Conn,tables=c("AgesBySizeMo", "Catch", "Depth",
+                                                    "Sample", "StationsLookUp", "TrawlEffort"),
+                                  out=Path_origin)
 
 # Depth data --------------------------------------------------------------
 
 
-depth_suisun <- read_csv(file.path("data-raw", "Suisun", "Depth.csv"),
-                         col_types=cols_only(SampleRowID="c", Depth="d"))%>%
+depth_suisun <- suisunMarshTables$Depth%>%
   group_by(SampleRowID)%>%
   summarise(Depth=mean(Depth, na.rm=T), .groups="drop") # Sometimes there were multiple depths per sample
 
@@ -22,42 +94,44 @@ depth_suisun <- read_csv(file.path("data-raw", "Suisun", "Depth.csv"),
 # Station locations -------------------------------------------------------
 
 
-stations_suisun <- read_csv(file.path("data-raw", "Suisun", "StationsLookUp.csv"),
-                            col_types=cols_only(StationCode="c", x_WGS84="d", y_WGS84="d"))%>%
+stations_suisun <- suisunMarshTables$StationsLookUp %>%
+  transmute(StationCode = as.character(StationCode),
+            across(c(x_WGS84, y_WGS84), as.double)) %>%
   rename(Longitude=x_WGS84, Latitude=y_WGS84, Station=StationCode)%>%
   drop_na()
 
-
 # Trawl effort ------------------------------------------------------------
 
-
-effort_suisun <- read_csv(file.path("data-raw", "Suisun", "TrawlEffort.csv"),
-                          col_types = cols_only(SampleRowID="c", TowDuration="d", TrawlComments="c"))%>%
+effort_suisun <- suisunMarshTables$TrawlEffort %>%
+  transmute(SampleRowID = as.character(SampleRowID),
+            TowDuration = as.double(TowDuration),
+            TrawlComments = as.character(TrawlComments)) %>%
   mutate(Tow_area = (TowDuration/60)*4*1000*4.3*0.7) # ((TowDuration minutes) / (60 minutes/hour)) * 4km/hour towing speed * 1000 m/km * 4.3 m net width * 0.7 for assumption of 70% open
-
 
 # Age by size info to help with decoding lengths (see below) --------------
 
-age_size_suisun<-read_csv(file.path("data-raw", "Suisun", "AgesBySizeMo.csv"),
-                          col_types = cols_only(Class="c", Month="d", Min="d", Max="d", OrganismCode="c"),
-                          na = "N/A")
+
+age_size_suisun <- suisunMarshTables$AgesBySizeMo %>%
+  transmute(Class = ifelse(Class == "N/A", NA, as.character(Class)),
+            across(c(Month, Min, Max), as.double))
 
 # Sample-level data -------------------------------------------------------
 
 
 #Removing salinity because data do not correspond well with conductivity
-sample_suisun <- read_csv(file.path("data-raw", "Suisun", "Sample.csv"),
-                          col_types = cols_only(SampleRowID="c", MethodCode="c", StationCode="c", SampleDate="c", SampleTime="c",
-                                                QADone="l", WaterTemperature="d", DO="d", PctSaturation="d",
-                                                Secchi="d", SpecificConductance="d", TideCode="c"))%>%
+sample_suisun <- suisunMarshTables$Sample %>%
+  transmute(across(c(SampleRowID, MethodCode, StationCode, SampleDate, SampleTime), as.character),
+            QADone = as.logical(QADone),
+            across(c(WaterTemperature, DO, PctSaturation, Secchi, SpecificConductance), as.double),
+            TideCode = as.character(TideCode)) %>%
   rename(Station=StationCode, Date=SampleDate, Time=SampleTime,
          Temperature=WaterTemperature, Conductivity=SpecificConductance,
          Tide=TideCode, Method=MethodCode)%>%
   mutate(Method=recode(Method, MWTR="Midwater trawl", OTR="Otter trawl"))%>% # Convert method codes to values
   dplyr::filter(Method=="Otter trawl")%>% #Only including otter trawl data because midwater trawl only used rarely and not currently
   #mutate(Date=parse_date_time(Date, "%m/%d/%Y %H:%M:%S", tz="America/Los_Angeles"),
-        # Time=parse_date_time(Time, "%m/%d/%Y %H:%M:%S", tz="America/Los_Angeles"))%>%
-  mutate(Datetime=parse_date_time(if_else(is.na(Time), NA_character_, paste0(Date, " ", hour(Time), ":", minute(Time))), "%Y-%m-%d %%H:%M", tz="America/Los_Angeles"))%>%
+  # Time=parse_date_time(Time, "%m/%d/%Y %H:%M:%S", tz="America/Los_Angeles"))%>%
+  mutate(Datetime=lubridate::parse_date_time(if_else(is.na(Time), NA_character_, paste0(Date, " ", hour(Time), ":", minute(Time))), "%Y-%m-%d %H:%M", tz="America/Los_Angeles"))%>%
   dplyr::select(-Time)%>% # Remove unneeded variable
   mutate(Tide=recode(Tide, flood="Flood", ebb="Ebb", low="Low Slack", high="High Slack", outgoing="Ebb", incoming="Flood"), # Rename tide codes for consistency
          Source="Suisun",
@@ -69,15 +143,16 @@ sample_suisun <- read_csv(file.path("data-raw", "Suisun", "Sample.csv"),
   left_join(effort_suisun, # Add sampling effort
             by="SampleRowID")
 
-
 # Catch data --------------------------------------------------------------
 
-
-catch_suisun <- read_csv(file.path("data-raw", "Suisun", "Catch.csv"), na=c("NA", "n/p"),
-                         col_types = cols_only(SampleRowID="c", OrganismCode="c", StandardLength="d",
-                                               Dead="c", Count="d", CatchComments="c"))%>%
-  mutate(CatchComments=na_if(CatchComments, ""), # Convert empty comments to NA
-         Count=if_else(OrganismCode=="NOCATCH", 0, Count))%>% #Make sure "no catch" actually has a count of 0
+catch_suisun <- suisunMarshTables$Catch %>%
+  transmute(across(c(SampleRowID, OrganismCode), as.character),
+            StandardLength = as.double(StandardLength),
+            Dead = as.character(Dead),
+            Count = as.double(Count),
+            CatchComments = as.character(CatchComments)) %>%
+  mutate(across(everything(), function(x) replace(x, x %in% c("NA", "n/p", ""), NA)),
+         Count=if_else(OrganismCode=="NOCATCH", 0, Count)) %>% #Make sure "no catch" actually has a count of 0
   right_join(sample_suisun, # Add sample-level data
              by="SampleRowID")%>%
   dplyr::filter(Method=="Otter trawl" & OrganismCode!="NOTRAWL")%>% # Only include otter trawl and exclude samples with no trawl.
@@ -90,7 +165,6 @@ catch_suisun <- read_csv(file.path("data-raw", "Suisun", "Catch.csv"), na=c("NA"
   dplyr::filter(!(!QADone & Taxa=="Pogonichthys macrolepidotus" & StandardLength==8))%>% # all QADone==FALSE data from January 2007 are correct EXCEPT for that lone splittail measuring 8 mm (was actually 87 mm).
   mutate(StandardLength=if_else(is.na(Taxa), NA_real_, StandardLength))%>% #COnverting lengths to NA for samples in which no fish were caught (i.e. Taxa is NA).
   mutate(CatchComments=if_else(SampleID=="Suisun {490F4873-8947-4352-81C9-3AA475D5FEEE}" & Taxa=="Gobiidae" & StandardLength==0, "larval", CatchComments)) # Removing weird symbol in this comment that messes up code
-
 
 
 # Fixing problems encountered non-random measuring of fish --------

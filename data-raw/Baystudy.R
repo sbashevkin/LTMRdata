@@ -21,21 +21,32 @@ stations_baystudy <- read_excel(file.path("data-raw", "Baystudy", "Bay Study_Sta
   mutate(Station=recode(Station, `211W`="211"))%>%
   mutate(Station=as.integer(Station))
 
-
-
 # Import lookup tables ----------------------------------------------------
 options(timeout = 999999)
-Path<-file.path(tempdir(), "BayStudy_AccessDatabase_1980-2021.zip")
-Path_origin<-file.path(tempdir())
+# Path<-file.path(tempdir(), "BayStudy_AccessDatabase_1980-2021.zip")
+# Path_origin<-file.path(tempdir())
 #Downloading MWT_data.zip----
-download.file("https://filelib.wildlife.ca.gov/Public/BayStudy/Access_Database/BayStudy_AccessDatabase_1980-2021.zip", Path, mode="wb",method="libcurl")
-unzip(Path,files="CDFW_SFBayStudy_FishData_Sept2022_Public.accdb",exdir=Path_origin)
+# Grab file name of Access DB, which changes per year
 
+session <- session("https://filelib.wildlife.ca.gov/Public/BayStudy/Access_Database/")
+links <- html_elements(session, "a") %>%
+  html_attr("href")
+dbLink <- links[which(grepl("\\.zip", links))]
+fileName <- regmatches(dbLink, regexpr("(BayStudy_).*", dbLink))
+
+download.file(paste0("https://filelib.wildlife.ca.gov", dbLink),
+              file.path(tempdir(), fileName), mode = "wb", method = "libcurl")
+
+unzip(file.path(tempdir(), fileName), exdir = tempdir())
+
+accessFile <- unzip(file.path(tempdir(), fileName), list = T) %>%
+  pull(Name) %>%
+  .[which(grepl("\\.accdb", .))]
 
 driver <- "Driver={Microsoft Access Driver (*.mdb, *.accdb)};"
 
 # File path to Access database (Salvage)
-db_path <- file.path(tempdir(),"CDFW_SFBayStudy_FishData_Sept2022_Public.accdb")
+db_path <- file.path(tempdir(), accessFile)
 
 connectAccess <- function(file,
                           driver = "Microsoft Access Driver (*.mdb, *.accdb)", uid = "", pwd = "", ...) {
@@ -61,18 +72,6 @@ connectAccess <- function(file,
   # RODBC::odbcDriverConnect(con, ...)
 }
 Conn<-connectAccess(file=db_path)
-
-
-
-# Just pastes driver info and file path together.
-full_path <- paste0(driver,"DBQ=",db_path)
-full_path
-# Connect to database using information above.
-conn <- odbcDriverConnect(full_path)
-
-names<-sqlTables(conn,tableType = c("TABLE","VIEW"))["TABLE_NAME"]
-
-
 
 extractTables <- function(con, tables, out) {
 
@@ -171,7 +170,9 @@ boattow_baystudy<-BayStudyTables$BoatTow%>%select(Year, Survey,Station, Net,
   dplyr::filter(Method%in%c("Midwater trawl", "Otter trawl"))%>% # Only include midwater and otter trawls. This currently does not do anything since those are the only two methods in the data.
   mutate(TowStatus=recode(Tow, `0`="Invalid", `1`="Valid", `2`="Valid", `51`="Valid", `52`="Invalid",
                           `53`="Invalid", `54`="Valid", `55`="Valid", `56`="Valid", `57`="Valid", `58`="Invalid"))%>% # Classify TowStatus into Valid or Invalid tows
-  dplyr::select(-Tow, -TotalMeter, -Distance) # Remove unneeded variables
+  dplyr::select(-Tow, -TotalMeter, -Distance) %>% # Remove unneeded variables
+  # fixing time zone to tbe pst
+  mutate(Time = lubridate::force_tz(Time, tz = "America/Los_Angeles"))
 
 # All sample-level data -----
 

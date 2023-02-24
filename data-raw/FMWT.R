@@ -1,16 +1,12 @@
 ## code to prepare `FMWT` dataset goes here
-require(readr)
+# require(readr)
 require(wql)
 require(dplyr)
-library(dbplyr)
 require(tidyr)
 require(lubridate)
 require(LTMRdata)
 require(stringr)
 require(RODBC)
-require(odbc)
-require(DBI)
-require(DBIsqldf)
 
 Path<-file.path(tempdir(), "MWT_data.zip")
 Path_origin<-file.path(tempdir())

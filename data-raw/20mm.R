@@ -27,15 +27,19 @@ dbString <- paste0("Driver={Microsoft Access Driver (*.mdb, *.accdb)};",
 con <- DBI::dbConnect(drv=odbc::odbc(), .connection_string=dbString)
 
 tables <- odbc::dbListTables(conn=con)
-tables
 
 ## Save select tables:
 keepTables <- c("Tow","FishSample","FishLength","Survey","Station",
 								"20mmStations","Gear","GearCodesLkp","MeterCorrections","SampleCode")
-for(tab in keepTables) {
-	tmp <- DBI::dbReadTable(con, tab)
-	write.csv(tmp, file=file.path("data-raw","20mm",paste0(tab,".csv")), row.names=FALSE)
-}
+
+# # If you instead want to write the csv files
+# for(tab in keepTables) {
+# 	tmp <- DBI::dbReadTable(con, tab)
+# 	write.csv(tmp, file=file.path("data-raw","20mm",paste0(tab,".csv")), row.names=FALSE)
+# }
+
+data <- lapply(keepTables, DBI::dbReadTable, conn = con) %>%
+  setNames(keepTables)
 
 ## Disconnect from database and remove original files:
 DBI::dbDisconnect(conn=con)
@@ -51,19 +55,65 @@ library(lubridate)
 library(wql)
 require(LTMRdata)
 
-raw_data <- file.path("data-raw","20mm")
+# # If you've chosen to write the csv files
+# raw_data <- file.path("data-raw","20mm")
+# Survey <- read.csv(file.path(raw_data,"Survey.csv"), stringsAsFactors=FALSE)
+# Station <- read.csv(file.path(raw_data,"Station.csv"), stringsAsFactors=FALSE)
+# Tow <- read.csv(file.path(raw_data,"Tow.csv"), stringsAsFactors=FALSE)
+# Gear <- read.csv(file.path(raw_data,"Gear.csv"), stringsAsFactors=FALSE)
+# GearCodesLkp <- read.csv(file.path(raw_data,"GearCodesLkp.csv"), stringsAsFactors=FALSE)
+# MeterCorrections <- read.csv(file.path(raw_data,"MeterCorrections.csv"),
+#                              stringsAsFactors=FALSE)
+# TmmStations <- read.csv(file.path(raw_data,"20mmStations.csv"), stringsAsFactors=FALSE)
+# FishSample <- read.csv(file.path(raw_data,"FishSample.csv"), stringsAsFactors=FALSE)
+# FishLength <- read.csv(file.path(raw_data,"FishLength.csv"), stringsAsFactors=FALSE)
 
-Survey <- read.csv(file.path(raw_data,"Survey.csv"), stringsAsFactors=FALSE)
-Station <- read.csv(file.path(raw_data,"Station.csv"), stringsAsFactors=FALSE)
-Tow <- read.csv(file.path(raw_data,"Tow.csv"), stringsAsFactors=FALSE)
-Gear <- read.csv(file.path(raw_data,"Gear.csv"), stringsAsFactors=FALSE)
-GearCodesLkp <- read.csv(file.path(raw_data,"GearCodesLkp.csv"), stringsAsFactors=FALSE)
-MeterCorrections <- read.csv(file.path(raw_data,"MeterCorrections.csv"),
-														 stringsAsFactors=FALSE)
-TmmStations <- read.csv(file.path(raw_data,"20mmStations.csv"), stringsAsFactors=FALSE)
-FishSample <- read.csv(file.path(raw_data,"FishSample.csv"), stringsAsFactors=FALSE)
-FishLength <- read.csv(file.path(raw_data,"FishLength.csv"), stringsAsFactors=FALSE)
+Survey <- data$Survey %>%
+  mutate(SurveyID = as.integer(SurveyID),
+         SampleDate = as.Date(SampleDate),
+         Survey = as.integer(Survey),
+         Comments = as.character(Comments))
 
+Station <- data$Station %>%
+  mutate(across(c(StationID, SurveyID, Station), as.integer),
+         across(c(LatDeg, LatMin, LatSec, LonDeg, LonMin, LonSec, Temp, TopEC, BottomEC, Secchi, Turbidity),
+                as.numeric),
+         Comments = as.character(Comments))
+
+Tow <- data$Tow %>%
+  mutate(across(c(TowID, StationID, TowNum, Tide), as.integer),
+         TowTime = force_tz(TowTime, "America/Los_Angeles"),
+         across(c(BottomDepth, CableOut, Duration), as.numeric))
+
+Gear <- data$Gear %>%
+  mutate(across(c(GearID, TowID, GearCode, MeterSerial), as.integer),
+         across(c(MeterStart, MeterEnd, MeterCheck), as.numeric),
+         Comments = as.character(Comments))
+
+GearCodesLkp <- data$GearCodesLkp %>%
+  mutate(across(c(GearCode, Order), as.integer),
+         across(c(Gear, GearDescription), as.character),
+         Active = as.logical(Active))
+
+MeterCorrections <- data$MeterCorrections %>%
+  mutate(across(c(StudyYear, MeterSerial), as.integer),
+         CalibrationDate = as.Date(CalibrationDate),
+         kFactor = as.numeric(kFactor),
+         Notes = as.character(Notes))
+
+TmmStations <- data$`20mmStations` %>%
+  mutate(across(c(Station, AreaCode), as.integer),
+         across(c(LatD, LatM, LatS, LonD, LonM, LonS), as.numeric),
+         across(c(RKI, Location, Notes), as.character))
+
+FishSample <- data$FishSample %>%
+  mutate(across(everything(), as.integer))
+
+FishLength <- data$FishLength %>%
+  mutate(across(c(FishLengthID, FishSampleID), as.integer),
+         Length = as.numeric(Length),
+         across(c(AdFinPresent, ReleasedAlive), as.logical),
+         across(c(FieldRace, FinalRace), as.character))
 
 MeterCorrections_avg <- MeterCorrections %>%
 	dplyr::group_by(MeterSerial) %>%
@@ -87,11 +137,11 @@ sample20mm <- Survey %>%
 				 SampleID=paste(Source, 1:nrow(.)),
 				 Tow_direction=NA,
 				 ## Tide codes from 20mmDataFileFormat_New_102621.pdf on the CDFW ftp site:
-				 Tide=recode(Tide, `1`="High Slack", `2`="Ebb", `3`="Low Slack", `4`="Flood"),
+				 Tide=dplyr::recode(Tide, `1`="High Slack", `2`="Ebb", `3`="Low Slack", `4`="Flood"),
 				 TowTime=substring(TowTime,12),
 				 Datetime=paste(SampleDate, TowTime),
-				 Date=parse_date_time(SampleDate, "%Y-%m-%d", tz="America/Los_Angeles"),
-				 Datetime=parse_date_time(if_else(is.na(TowTime), NA_character_, Datetime),
+				 Date=lubridate::parse_date_time(SampleDate, "%Y-%m-%d", tz="America/Los_Angeles"),
+				 Datetime=lubridate::parse_date_time(dplyr::if_else(is.na(TowTime), NA_character_, Datetime),
 																	"%Y-%m-%d %%H:%M:%S", tz="America/Los_Angeles"),
 				 Depth=BottomDepth*0.3048, # Convert depth to m from feet
 				 Cable_length=CableOut*0.3048, # Convert to m from feet
@@ -119,7 +169,6 @@ fish20mm_totalCatch <- FishSample %>%
 fish20mm_individLength <- FishSample %>%
 	dplyr::inner_join(FishLength, by="FishSampleID") %>%
 	dplyr::select(GearID, FishSampleID, FishCode, Length, Catch)
-unique(fish20mm_individLength$Length)
 
 fish20mm_lengthFreq_measured <- fish20mm_individLength %>%
 	dplyr::filter(!is.na(Length)) %>%
@@ -190,9 +239,7 @@ TMM_measured_lengths <- TMM %>%
 	dplyr::select(SampleID, Taxa, Length, LengthFrequency) %>%
   dplyr::filter(!is.na(LengthFrequency))%>% # Remove fish that weren't measured
 	dplyr::rename(Count=LengthFrequency)
-nrow(TMM_measured_lengths)
-ncol(TMM_measured_lengths)
-names(TMM_measured_lengths)
+
 
 
 ## Now remove extra fields:
@@ -200,11 +247,6 @@ TMM <- TMM %>%
 	dplyr::select(-GearID, -Duration, -Turbidity, -Comments, -Comments.x,
 								-Comments.y, -FishCode, -Catch, -CatchNew,
 								-LengthFrequency)
-nrow(TMM)
-ncol(TMM)
-names(TMM)
-
-
 
 ## Save compressed data to /data:
 usethis::use_data(TMM, TMM_measured_lengths, overwrite=TRUE, compress="xz")
