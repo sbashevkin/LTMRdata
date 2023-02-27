@@ -71,7 +71,7 @@ suspect_fm_TowRowID <- c(6612,12815,2551,12786,8031,1857)
 
 
 sampleSTN <- Sample %>%
-  inner_join(TowEffort, by="SampleRowID") %>%
+  inner_join(TowEffort, by="SampleRowID",multiple="all") %>%
   left_join(luStation, by=c("StationCode"="StationCodeSTN")) %>%
   mutate(#Date=parse_date_time(SampleDate, "%m/%d/%Y %H:%M:%S",
                              # tz="America/Los_Angeles"),
@@ -136,7 +136,7 @@ Length_measured<-Length%>%
 
 fish_adjustedCount <- fish_totalCatch %>%
   left_join(Length_measured,
-            by="CatchRowID") %>%
+            by="CatchRowID",multiple="all") %>%
   group_by(TowRowID, CatchRowID, OrganismCode) %>%
   mutate(TotalMeasured=sum(LengthFrequency, na.rm=TRUE)) %>%
   ungroup() %>%
@@ -167,7 +167,7 @@ STN <- sampleSTN %>%
               select(TowRowID, OrganismCode, Taxa,
                      ForkLength, LengthFrequency,
                      Catch, CatchNew, Count),
-            by="TowRowID") %>%
+            by="TowRowID",multiple="all") %>%
   ## Add reasoning for any NA lengths:
   mutate(Length_NA_flag=if_else(is.na(Catch), "No fish caught",
                                 NA_character_),

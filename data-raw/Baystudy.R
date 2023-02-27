@@ -171,7 +171,7 @@ lengthcatch_baystudy<-catch_baystudy%>%
   dplyr::filter(!is.na(TotalMeasured) & !is.na(PlusCount))%>% # Remove any rows corresponding to 0 fish measured and 0 fish counted
   mutate(TotalCatch=(TotalMeasured+PlusCount)*(QtsCaught/QtsSubsampled))%>% # Calculate total number of each species caught in each sample
   dplyr::select(-PlusCount, -QtsCaught, -QtsSubsampled)%>% # Remove unneeded variables
-  right_join(length_baystudy, by=c("Year", "Survey", "Station", "Method", "SizeGroup", "Taxa"))%>% # Now join all measurements
+  right_join(length_baystudy, by=c("Year", "Survey", "Station", "Method", "SizeGroup", "Taxa"),multiple="all")%>% # Now join all measurements
   mutate(Count = (Frequency/TotalMeasured)*TotalCatch)%>% # Calculate adjusted size frequency
   dplyr::select(-TotalMeasured, -TotalCatch, -Frequency) # Remove unneeded variables
 
@@ -180,7 +180,7 @@ lengthcatch_baystudy<-catch_baystudy%>%
 
 
 Baystudy <- env_baystudy%>% # Start with sample-level data to retain samples with no catch (nets empty of fish)
-  left_join(lengthcatch_baystudy, by=c("Year", "Survey", "Station", "Method"))%>% # Add length and catch data
+  left_join(lengthcatch_baystudy, by=c("Year", "Survey", "Station", "Method"),multiple="all")%>% # Add length and catch data
   mutate(Sal_surf=ec2pss(ECSurf/1000, t=25), # Calculate salinity from conductivity
          Sal_avg=ec2pss(ECAvg/1000, t=25),
          Sal_bott=ec2pss(ECBott/1000, t=25),

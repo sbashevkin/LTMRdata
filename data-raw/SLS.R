@@ -121,9 +121,9 @@ SLS <- waterInfo %>%
   full_join(towInfo,
             by = c("Date", "Station")) %>%
   full_join(catch,
-            by = c("Date", "Station", "Tow")) %>%
+            by = c("Date", "Station", "Tow"),multiple="all") %>%
   full_join(lengths,
-            by = c("Date", "Station", "Tow", "FishCode")) %>%
+            by = c("Date", "Station", "Tow", "FishCode"),multiple="all") %>%
   # Adding in taxa name based on Species Code.csv file
   left_join(Species %>%
               select(TMM_Code,

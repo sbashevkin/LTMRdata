@@ -71,7 +71,7 @@ DJFMP<-DJFMP%>%
          Time = parse_date_time(Time, "%H:%M:%S", tz = "America/Los_Angeles"),
          Datetime = parse_date_time(ifelse(is.na(Time), NA_character_, paste0(Date, " ", hour(Time), ":", minute(Time))), "%Y-%m-%d %H:%M", tz="America/Los_Angeles"),
          # Removing conductivity data from dates before it was standardized
-         Conductivity = ifelse(Date<parse_date_time("2019-06-01", "%Y-%m-%d", tz="America/Los_Angeles"), NA_real_, Conductivity),
+         Conductivity = ifelse(Date<as.Date("2019-06-01"), NA_real_, Conductivity),
          Sal_surf = ec2pss(Conductivity/1000, t=25),
          Method = recode(Method, MWTR="Midwater trawl", KDTR="Kodiak trawl", SEIN="Beach seine"),
          Tow_direction = recode(Tow_direction, U="Upstream", D="Downstream", X="Neither"),
