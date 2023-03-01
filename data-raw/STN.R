@@ -7,6 +7,7 @@
 
 library(rvest)
 library(dplyr)
+library(readr)
 
 ## STN database url and file names:
 dbName <- read_html("https://filelib.wildlife.ca.gov/Public/TownetFallMidwaterTrawl/TNS%20MS%20Access%20Data/TNS%20data/") %>%
@@ -33,17 +34,47 @@ STNTables <- bridgeAccess(db_path,
                           tables = keepTables,
                           script = file.path("data-raw", "connectAccess.R"))
 
+# # If you've chosen to read csv --------------------------------------------
+# STNTables <- list()
+#
+# STNTables$Catch <- read_csv(file.path("data-raw", "STN","Catch.csv"),
+#                   col_types=cols_only(CatchRowID="d", TowRowID="d", OrganismCode="d", Catch="d"))
+#
+# STNTables$Length <- read_csv(file.path("data-raw", "STN","Length.csv"),
+#                    col_types=cols_only(LengthRowID="d", CatchRowID="d", ForkLength="d", LengthFrequency="d"))
+#
+# STNTables$luStation <- read_csv(file.path("data-raw", "STN","luStation.csv"),
+#                       col_types=cols_only(StationCodeSTN="c", LatD="d", LatM="d", LatS="d", LonD="d", LonM="d", LonS="d"))
+#
+# STNTables$luTide <- read_csv(file.path("data-raw", "STN","luTide.csv"),
+#                    col_types=cols_only(TideDesc="c", TideRowID="d"))
+#
+# STNTables$luTowDirection <- read_csv(file.path("data-raw", "STN","luTowDirection.csv"),
+#                            col_types=cols_only(TowDirection="c", TowDirectionID="d"))
+#
+# STNTables$Sample <- read_csv(file.path("data-raw", "STN","Sample.csv"),
+#                    col_types=cols_only(SampleRowID="d", SampleDate="c", StationCode="c", Survey="d",
+#                                        TemperatureTop="d", Secchi="d", ConductivityTop="d",
+#                                        TideCode="d", DepthBottom="d", CableOut="d", TowDirection="d")) %>%
+#   mutate(SampleDate = as.Date(SampleDate, "%m/%d/%Y"))
+#
+# STNTables$TowEffort <- read_csv(file.path("data-raw", "STN","TowEffort.csv"),
+#                       col_types=cols_only(TimeStart="c", TowRowID="d", SampleRowID="d", TowNumber="d",
+#                                           MeterSerial="d", MeterIn="d", MeterOut="d",
+#                                           MeterDifference="d", MeterEstimate="d"))
+#
+# STNTables$Web_Local_Meter_Corrections <- read_csv(file.path("data-raw", "STN",
+#                                                   "Web_Local_Meter_Corrections.csv"),
+#                                         col_types=cols_only(`Study Year`="d", `Meter Serial`="d", `k factor`="d")) %>%
+#   rename_with(~gsub("\\s", ".", .x), everything())
+
 #########################################################################################
 ## Create and save compressed data files using raw tables.
 
-library(dplyr)
 library(lubridate)
 library(wql)
-require(readr)
 require(stringr)
 require(LTMRdata)
-
-
 
 Catch <- STNTables$Catch%>%select(CatchRowID,TowRowID,OrganismCode,Catch)
 

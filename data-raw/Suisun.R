@@ -21,6 +21,32 @@ suisunMarshTables <- bridgeAccess(db_path,
                           tables = keepTables,
                           script = file.path("data-raw", "connectAccess.R"))
 
+# # If you've chosen to read csv --------------------------------------------
+# suisunMarshTables <- list()
+#
+# suisunMarshTables$Depth <- read_csv(file.path("data-raw", "Suisun", "Depth.csv"),
+#                                     col_types=cols_only(SampleRowID="c", Depth="d"))
+#
+# suisunMarshTables$StationsLookUp <- read_csv(file.path("data-raw", "Suisun", "StationsLookUp.csv"),
+#                                              col_types=cols_only(StationCode="c", x_WGS84="d", y_WGS84="d"))
+#
+# suisunMarshTables$TrawlEffort <- read_csv(file.path("data-raw", "Suisun", "TrawlEffort.csv"),
+#                                           col_types = cols_only(SampleRowID="c", TowDuration="d", TrawlComments="c"))
+#
+# suisunMarshTables$AgesBySizeMo <- read_csv(file.path("data-raw", "Suisun", "AgesBySizeMo.csv"),
+#                                            col_types = cols_only(Class="c", Month="d", Min="d", Max="d", OrganismCode="c"),
+#                                            na = "N/A")
+#
+# suisunMarshTables$Sample <- read_csv(file.path("data-raw", "Suisun", "Sample.csv"),
+#                                      col_types = cols_only(SampleRowID="c", MethodCode="c", StationCode="c",
+#                                                            SampleDate="c", SampleTime="c",
+#                                                            QADone="l", WaterTemperature="d", DO="d", PctSaturation="d",
+#                                                            Secchi="d", SpecificConductance="d", TideCode="c"))
+#
+# suisunMarshTables$Catch <- read_csv(file.path("data-raw", "Suisun", "Catch.csv"), na=c("NA", "n/p"),
+#                                     col_types = cols_only(SampleRowID="c", OrganismCode="c", StandardLength="d",
+#                                                           Dead="c", Count="d", CatchComments="c"))
+
 # Depth data --------------------------------------------------------------
 
 
@@ -153,13 +179,10 @@ catch_suisun <- suisunMarshTables$Catch %>%
 # If we can identify the range of lengths sampled for these unmeasured lengths, we can then find all fish actually
 # Measured within the same range and assign those to the same group for later calculations of adjusted size frequencies.
 
-
 # Create dataset of just measured lengths for use below
 catch_fix<-catch_suisun%>%
   dplyr::select(Taxa, StandardLength, Count, SampleID)%>%
   dplyr::filter(StandardLength>0)
-
-
 
 catch_comments_suisun <- read_excel(file.path("data-raw", "Suisun", "Suisun comments.xlsx"))%>% # Read in translated excel comments
   dplyr::filter(is.na(Ignore))%>% #Remove "ignored" comments that have nothing to do with length.
@@ -276,5 +299,5 @@ Suisun_measured_lengths <- catch_suisun2%>%
   dplyr::filter(StandardLength!=0)%>%
   mutate(Taxa=stringr::str_remove(Taxa, " \\((.*)"))%>% # Remove life stage from Taxa
   dplyr::select(SampleID, Taxa, Dead, Length=StandardLength, Count)
-
+stop()
 usethis::use_data(Suisun, Suisun_measured_lengths, overwrite=TRUE, compress="xz")

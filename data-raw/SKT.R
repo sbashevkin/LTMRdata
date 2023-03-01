@@ -29,6 +29,27 @@ SKT_Data <- bridgeAccess(db_path,
                          tables = keepTables,
                          script = file.path("data-raw", "connectAccess.R"))
 
+
+# # If you've chosen to read csv --------------------------------------------
+# SKT_Data <- list()
+#
+# SKT_Data$lktblStationsSKT <- read_csv(file.path("data-raw", "SKT", "lktblStationsSKT.csv"),
+#                                  col_types=cols_only(Station="c", LatDeg="d", LatMin="d", LatSec="d",
+#                                                      LongDec="d", LongMin="d", LongSec="d"))
+#
+# SKT_Data$tblSample <- read_csv(file.path("data-raw", "SKT", "tblSample.csv"),
+#                             col_types = cols_only(SampleRowID = "i", SampleDate = "c", StationCode = "c",
+#                                                   SampleTimeStart = "c", SurveyNumber = "i",
+#                                                   WaterTemperature = "d", TideCode = "i", DepthBottom = "d",
+#                                                   Secchi = "d", ConductivityTop = "d",
+#                                                   TowDirectionCode = "i", MeterStart = "d", MeterEnd = "d"))
+#
+# SKT_Data$tblCatch <- read_csv(file.path("data-raw", "SKT", "tblCatch.csv"),
+#                            col_types = cols_only(CatchRowID = "i", SampleRowID = "i", OrganismCode = "c", Catch = "d"))
+#
+# SKT_Data$tblFishInfo <- read_csv(file.path("data-raw", "SKT", "tblFishInfo.csv"), na = c("NA", "n/p", ""),
+#                               col_types = cols_only(CatchRowID = "i", ForkLength = "d", LengthRowID = "i"))
+
 #MWT data setup ----
 
 # Station locations -------------------------------------------------------
@@ -52,7 +73,9 @@ SKT_Data$Sample <- SKT_Data$tblSample%>%
 {
   SKT_Data$Sample$StationCode<-as.character(SKT_Data$Sample$StationCode)
   SKT_Data$Sample<-SKT_Data$Sample%>%rename(Station = StationCode, Depth = DepthBottom, Temp_surf = WaterTemperature, Survey = SurveyNumber, Date=SampleDate, Time=SampleTimeStart)%>%
-    mutate(# Create a new field which is a Date-Time composite
+    mutate(Date = as.Date(Date, format = "%m/%d/%Y"),
+           Time = as.POSIXct(Time, format = "%m/%d/%Y %H:%M"),
+           # Create a new field which is a Date-Time composite
            Datetime = parse_date_time(if_else(is.na(Time), NA_character_, paste(Date, paste(hour(Time), minute(Time), sep=":"))),
                                       "%Y-%m-%d %H:%M", tz="America/Los_Angeles"),
            # Convert tide codes to values

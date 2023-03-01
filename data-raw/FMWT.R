@@ -6,6 +6,7 @@ require(tidyr)
 require(lubridate)
 require(LTMRdata)
 require(stringr)
+require(readr)
 
 Path<-file.path(tempdir(), "MWT_data.zip")
 Path_origin<-file.path(tempdir())
@@ -24,6 +25,29 @@ keepTables <- c("StationsLookUp", "Sample", "Catch", "Length")
 FMWT_Tables <- bridgeAccess(db_path,
                             tables = keepTables,
                             script = file.path("data-raw", "connectAccess.R"))
+
+# # If you've chosen to read csv --------------------------------------------
+# FMWT_Tables <- list()
+#
+# FMWT_Tables$StationsLookUp <- read_csv(file.path("data-raw", "FMWT", "StationsLookUp.csv"),
+#                                        col_types = cols_only(StationCode="c", DD_Latitude="d", DD_Longitude="d"))
+#
+# FMWT_Tables$Sample <- read_csv(file.path("data-raw", "FMWT", "Sample.csv"),
+#                                col_types = cols_only(SampleRowID="i", StationCode="c", MethodCode="c", SampleDate="c",
+#                                                      SampleTimeStart="c", SurveyNumber="i", WaterTemperature="d",
+#                                                      Turbidity="d", Secchi="d", SecchiEstimated="l", ConductivityTop="d",
+#                                                      ConductivityBottom="d", TowDirectionCode="i", MeterStart="d",
+#                                                      MeterEnd="d", CableOut="d", TideCode="i", DepthBottom="d",
+#                                                      WeatherCode="i", Microcystis="i", WaveCode="i",
+#                                                      WindDirection="c", BottomTemperature="d")) %>%
+#   mutate(SampleDate = as.Date(SampleDate, format = "%m/%d/%Y"),
+#          SampleTimeStart = as.POSIXct(SampleTimeStart, format = "%m/%d/%Y %H:%M:%S"))
+#
+# FMWT_Tables$Catch <- read_csv(file.path("data-raw", "FMWT", "Catch.csv"),
+#                               col_types = cols_only(CatchRowID="i", SampleRowID="i", OrganismCode="i", Catch="d"))
+#
+# FMWT_Tables$Length <- read_csv(file.path("data-raw", "FMWT", "Length.csv"), na=c("NA", "n/p", ""),
+#                                col_types = cols_only(CatchRowID="i", ForkLength="d", LengthFrequency="d"))
 
 # Station locations -------------------------------------------------------
 FMWT_Tables$Station <- FMWT_Tables$StationsLookUp%>%

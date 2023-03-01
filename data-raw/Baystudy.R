@@ -19,8 +19,7 @@ stations_baystudy <- read_excel(file.path("data-raw", "Baystudy", "Bay Study_Sta
          Longitude=Lon_Deg-Lon_Min/60)%>%
   dplyr::select(Station, Latitude, Longitude)%>%
   dplyr::filter(Station!="211E")%>% # Kathy said W location of station 211 is more often used, so using those coordinates
-  mutate(Station=recode(Station, `211W`="211"))%>%
-  mutate(Station=as.integer(Station))
+  mutate(Station=recode(Station, `211W`="211"))
 
 # Import lookup tables ----------------------------------------------------
 options(timeout = 999999)
@@ -57,28 +56,80 @@ BayStudyTables <- bridgeAccess(db_path,
                      tables = keepTables,
                      script = file.path("data-raw", "connectAccess.R"))
 
+
+# # If you've chosen to read csv --------------------------------------------
+# BayStudyTables <- list()
+#
+# BayStudyTables$TideCodes_LookUp <- read_csv(file.path("data-raw", "Baystudy", "TideCodes_LookUp.csv"),
+#                                             col_types=cols_only(Tide="i", Description="c"))
+#
+# BayStudyTables$WaveCodes_LookUp <- read_csv(file.path("data-raw", "Baystudy", "WaveCodes_LookUp.csv"),
+#                                             col_types=cols_only(Waves="i", Description="c"))
+#
+# BayStudyTables$CloudCover_LookUp <- read_csv(file.path("data-raw", "Baystudy", "CloudCover_LookUp.csv"),
+#                                              col_types=cols_only(CloudCover="i", Description="c"))
+#
+# BayStudyTables$SalinTemp <- read_csv(file.path("data-raw", "Baystudy", "SalinTemp.csv"),
+#                                      col_types = cols_only(Year="i", Survey="i", Station="c",
+#                                                            ECSurf="d", ECAvg="d", ECBott="d",
+#                                                            TempSurf="d", TempAvg="d", TempBott="d"))
+#
+# BayStudyTables$BoatStation <- read_csv(file.path("data-raw", "Baystudy", "BoatStation.csv"),
+#                                        col_types = cols_only(Year="i", Survey="i", Station="c",
+#                                                              Date="c", Depth="d", Secchi="d",
+#                                                              SubstrateCode="c", Waves="i", CloudCover="i",
+#                                                              Tide="i", StationComment="c"))
+#
+# BayStudyTables$BoatTow <- read_csv(file.path("data-raw", "Baystudy", "BoatTow.csv"),
+#                                    col_types = cols_only(Year="i", Survey="i", Station="c", Net="i",
+#                                                          Tow="i", Time="c", Bearing="d", Tide="i",
+#                                                          Direction="i", CatchCode="i", Duration="d",
+#                                                          StartMeter="d", EndMeter="d", TotalMeter="d",
+#                                                          StartLong="d", EndLong="d", StartLat="d",
+#                                                          EndLat="d", Distance="d", TowComment="c"))
+#
+# BayStudyTables$`Fish Catch Data` <- read_csv(file.path("data-raw", "Baystudy", "Fish Catch Data.csv"),
+#                                              col_types=cols_only(Year="i", Survey="i", Station="c",
+#                                                                  Net="i", AlphaCode="c",
+#                                                                  SizeGroup="i", QtsCaught="d", QtsSubsampled="d",
+#                                                                  PlusCount="d"))
+#
+# BayStudyTables$`Fish Length Data` <- read_csv(file.path("data-raw", "Baystudy", "Fish Length Data.csv"),
+#                                               col_types=cols_only(Year="i", Survey="i", Station="c",
+#                                                                   Net="i", AlphaCode="c",
+#                                                                   SizeGroup="i", Length="d", Frequency="d"))
+
 # Environ data ----
-tidecodes_baystudy <- BayStudyTables$TideCodes_LookUp%>%select(Tide,Description)
+tidecodes_baystudy <- BayStudyTables$TideCodes_LookUp %>%
+  transmute(Tide = as.integer(Tide),
+            Description = as.character(Description))
 
-wavecodes_baystudy <- BayStudyTables$WaveCodes_LookUp%>%select(Waves,Description)
+wavecodes_baystudy <- BayStudyTables$WaveCodes_LookUp %>%
+  transmute(Waves = as.integer(Waves),
+            Description = as.character(Description))
 
-cloudcovercodes_baystudy <- BayStudyTables$CloudCover_LookUp%>%select(CloudCover,Description)
-
-
+cloudcovercodes_baystudy <- BayStudyTables$CloudCover_LookUp %>%
+  transmute(CloudCover = as.integer(CloudCover),
+            Description = as.character(Description))
 
 # Sample-level data -------------------------------------------------------
-
-
-salintemp_baystudy<-BayStudyTables$SalinTemp%>%select(Year,Survey,Station,
-                                                      ECSurf,ECAvg,ECBott,
-                                                      TempSurf,TempAvg,TempBott)
+salintemp_baystudy <- BayStudyTables$SalinTemp %>%
+  transmute(Year = as.integer(Year), Survey = as.integer(Survey),
+            Station = as.character(Station),
+            across(c(ECSurf, ECAvg, ECBott, TempSurf, TempAvg, TempBott),
+                   as.double))
 
 # Station-visit-level data -----
 
-boatstation_baystudy <- BayStudyTables$BoatStation%>%select(Year, Survey, Station,
-                                                            Date, Depth, Secchi,
-                                                            SubstrateCode, Waves, CloudCover,
-                                                            Tide, StationComment)%>%
+boatstation_baystudy <- BayStudyTables$BoatStation %>%
+  transmute(Year = as.integer(Year), Survey = as.integer(Survey),
+            Station = as.character(Station), Date = as.character(Date),
+            Depth = as.double(Depth), Secchi = as.double(Secchi),
+            SubstrateCode = as.character(SubstrateCode),
+            across(c(Waves, CloudCover, Tide), as.integer),
+            StationComment = as.character(StationComment))
+
+boatstation_baystudy <- boatstation_baystudy %>%
   #mutate(Date=parse_date_time(Date, orders="%m/%d/%Y %H:%M:%S", tz="America/Los_Angeles"))%>%
   left_join(tidecodes_baystudy, by="Tide")%>% # Convert tide codes to values
   dplyr::select(-Tide, -SubstrateCode)%>%
@@ -92,13 +143,17 @@ boatstation_baystudy <- BayStudyTables$BoatStation%>%select(Year, Survey, Statio
 
 
 # Tow-level data -----
+boattow_baystudy <- BayStudyTables$BoatTow %>%
+  transmute(Year = as.integer(Year), Survey = as.integer(Survey),
+            Station = as.character(Station), Net = as.integer(Net),
+            Tow = as.integer(Tow), Time = as.character(Time),
+            Bearing = as.double(Bearing),
+            across(c(Tide, Direction, CatchCode), as.integer),
+            across(c(Duration, StartMeter, EndMeter, TotalMeter,
+                     StartLong, EndLong, StartLat, EndLat, Distance), as.double),
+            TowComment = as.character(TowComment))
 
-boattow_baystudy<-BayStudyTables$BoatTow%>%select(Year, Survey,Station, Net,
-                                                  Tow, Time, Bearing, Tide,
-                                                  Direction, CatchCode, Duration,
-                                                  StartMeter, EndMeter, TotalMeter,
-                                                  StartLong, EndLong, StartLat,
-                                                  EndLat, Distance, TowComment)%>%
+boattow_baystudy <- boattow_baystudy %>%
   dplyr::select(-StartLong, -EndLong, -StartLat, -EndLat, -StartMeter, -EndMeter)%>% # Removing survey lats/longs and start/end meters for now
   mutate(Tow_direction=recode(Direction, `1`="With current", `2`="Against current", `3`="Slack or cross-current"))%>% # Convert tow direction codes to values
   left_join(tidecodes_baystudy, by="Tide")%>% # Convert tide codes to values
@@ -112,10 +167,9 @@ boattow_baystudy<-BayStudyTables$BoatTow%>%select(Year, Survey,Station, Net,
                           `53`="Invalid", `54`="Valid", `55`="Valid", `56`="Valid", `57`="Valid", `58`="Invalid"))%>% # Classify TowStatus into Valid or Invalid tows
   dplyr::select(-Tow, -TotalMeter, -Distance) %>% # Remove unneeded variables
   # fixing time zone to tbe pst
-  mutate(Time = lubridate::force_tz(Time, tz = "America/Los_Angeles"))
+  mutate(Time = lubridate::force_tz(as.POSIXct(Time, format = "%Y-%m-%d %H:%M:%S"), tz = "America/Los_Angeles"))
 
 # All sample-level data -----
-
 env_baystudy <- left_join(boattow_baystudy, boatstation_baystudy, by=c("Year", "Survey", "Station"))%>% # Join together station-visit and tow - level data
   mutate(Tide=if_else(is.na(Tidetow), Tidestation, Tidetow), # Tide was sometimes recorded at each station visit and sometimes at each tow
          Datetime=parse_date_time(if_else(is.na(Time), NA_character_, paste0(Date, " ", hour(Time), ":", minute(Time))), "%Y-%m-%d %%H:%M", tz="America/Los_Angeles"),
@@ -128,12 +182,13 @@ rm(tidecodes_baystudy, wavecodes_baystudy, cloudcovercodes_baystudy, boattow_bay
 
 
 # Catch data --------------------------------------------------------------
+catch_baystudy <- BayStudyTables$`Fish Catch Data` %>%
+  transmute(Year = as.integer(Year), Survey = as.integer(Survey),
+            Station = as.character(Station), Net = as.integer(Net),
+            AlphaCode = as.character(AlphaCode), SizeGroup = as.integer(SizeGroup),
+            across(c(QtsCaught, QtsSubsampled, PlusCount), as.double))
 
-
-catch_baystudy <- BayStudyTables$`Fish Catch Data`%>%select(Year, Survey, Station,
-                                                            Net, AlphaCode,
-                                                            SizeGroup, QtsCaught, QtsSubsampled,
-                                                            PlusCount)%>%
+catch_baystudy <- catch_baystudy %>%
   rename(Method=Net)%>%
   mutate(Method=recode(Method, `1`="Midwater trawl", `2`="Otter trawl", `3`="EL"))%>% # Convert method codes to values
   dplyr::filter(Method%in%c("Midwater trawl", "Otter trawl"))%>% #Only keep midwater and otter trawls
@@ -143,13 +198,14 @@ catch_baystudy <- BayStudyTables$`Fish Catch Data`%>%select(Year, Survey, Statio
             by="AlphaCode")%>%
   dplyr::select(-AlphaCode) # Remove unneeded variable
 
-
 # Length data -------------------------------------------------------------
+length_baystudy <- BayStudyTables$`Fish Length Data` %>%
+  transmute(Year = as.integer(Year), Survey = as.integer(Survey),
+            Station = as.character(Station), Net = as.integer(Net),
+            AlphaCode = as.character(AlphaCode), SizeGroup = as.integer(SizeGroup),
+            Length = as.double(Length), Frequency = as.double(Frequency))
 
-
-length_baystudy <- BayStudyTables$`Fish Length Data`%>%select(Year, Survey, Station,
-                                                              Net, AlphaCode,
-                                                              SizeGroup, Length, Frequency)%>%
+length_baystudy <- length_baystudy %>%
   rename(Method=Net)%>%
   mutate(Method=recode(Method, `1`="Midwater trawl", `2`="Otter trawl", `3`="EL"), # Convert method codes to values
          AlphaCode = toupper(AlphaCode))%>% # Make alphacodes consistent
@@ -161,7 +217,6 @@ length_baystudy <- BayStudyTables$`Fish Length Data`%>%select(Year, Survey, Stat
   dplyr::select(-AlphaCode) # Remove unneeded variable
 
 # Join length and catch data ----
-
 lengthcatch_baystudy<-catch_baystudy%>%
   full_join(length_baystudy%>% # This first join will just include total number measured
                group_by(Year, Survey, Station, Method, SizeGroup, Taxa)%>%
@@ -177,8 +232,6 @@ lengthcatch_baystudy<-catch_baystudy%>%
 
 
 # Create final datasets ---------------------------------------------------
-
-
 Baystudy <- env_baystudy%>% # Start with sample-level data to retain samples with no catch (nets empty of fish)
   left_join(lengthcatch_baystudy, by=c("Year", "Survey", "Station", "Method"),multiple="all")%>% # Add length and catch data
   mutate(Sal_surf=ec2pss(ECSurf/1000, t=25), # Calculate salinity from conductivity
