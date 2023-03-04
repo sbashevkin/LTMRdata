@@ -299,5 +299,8 @@ Suisun_measured_lengths <- catch_suisun2%>%
   dplyr::filter(StandardLength!=0)%>%
   mutate(Taxa=stringr::str_remove(Taxa, " \\((.*)"))%>% # Remove life stage from Taxa
   dplyr::select(SampleID, Taxa, Dead, Length=StandardLength, Count)
-stop()
+
+# Differences in comments and presence of unicode errors between bridgeAccess and reading the csvs. TI can't spot the
+# specific differences. Deeming that they are equal.
+
 usethis::use_data(Suisun, Suisun_measured_lengths, overwrite=TRUE, compress="xz")

@@ -45,16 +45,18 @@ require(LTMRdata)
 
 # # If you've chosen to write the csv files
 # raw_data <- file.path("data-raw","20mm")
-# Survey <- read.csv(file.path(raw_data,"Survey.csv"), stringsAsFactors=FALSE)
-# Station <- read.csv(file.path(raw_data,"Station.csv"), stringsAsFactors=FALSE)
-# Tow <- read.csv(file.path(raw_data,"Tow.csv"), stringsAsFactors=FALSE)
-# Gear <- read.csv(file.path(raw_data,"Gear.csv"), stringsAsFactors=FALSE)
-# GearCodesLkp <- read.csv(file.path(raw_data,"GearCodesLkp.csv"), stringsAsFactors=FALSE)
-# MeterCorrections <- read.csv(file.path(raw_data,"MeterCorrections.csv"),
+# data <- list()
+#
+# data$Survey <- read.csv(file.path(raw_data,"Survey.csv"), stringsAsFactors=FALSE)
+# data$Station <- read.csv(file.path(raw_data,"Station.csv"), stringsAsFactors=FALSE)
+# data$Tow <- read.csv(file.path(raw_data,"Tow.csv"), stringsAsFactors=FALSE)
+# data$Gear <- read.csv(file.path(raw_data,"Gear.csv"), stringsAsFactors=FALSE)
+# data$GearCodesLkp <- read.csv(file.path(raw_data,"GearCodesLkp.csv"), stringsAsFactors=FALSE)
+# data$MeterCorrections <- read.csv(file.path(raw_data,"MeterCorrections.csv"),
 #                              stringsAsFactors=FALSE)
-# TmmStations <- read.csv(file.path(raw_data,"20mmStations.csv"), stringsAsFactors=FALSE)
-# FishSample <- read.csv(file.path(raw_data,"FishSample.csv"), stringsAsFactors=FALSE)
-# FishLength <- read.csv(file.path(raw_data,"FishLength.csv"), stringsAsFactors=FALSE)
+# data$`20mmStations` <- read.csv(file.path(raw_data,"20mmStations.csv"), stringsAsFactors=FALSE)
+# data$FishSample <- read.csv(file.path(raw_data,"FishSample.csv"), stringsAsFactors=FALSE)
+# data$FishLength <- read.csv(file.path(raw_data,"FishLength.csv"), stringsAsFactors=FALSE)
 
 Survey <- data$Survey %>%
   mutate(SurveyID = as.integer(SurveyID),
@@ -70,7 +72,7 @@ Station <- data$Station %>%
 
 Tow <- data$Tow %>%
   mutate(across(c(TowID, StationID, TowNum, Tide), as.integer),
-         TowTime = force_tz(TowTime, "America/Los_Angeles"),
+         TowTime = as.POSIXct(TowTime, format = "%Y-%m-%d %H:%M:%S", tz = "America/Los_Angeles"),
          across(c(BottomDepth, CableOut, Duration), as.numeric))
 
 Gear <- data$Gear %>%

@@ -79,6 +79,8 @@ BayStudyTables <- bridgeAccess(db_path,
 #                                                              Date="c", Depth="d", Secchi="d",
 #                                                              SubstrateCode="c", Waves="i", CloudCover="i",
 #                                                              Tide="i", StationComment="c"))
+#   # # Will need this line depending on the export type you exploy
+#   # mutate(Date = as.POSIXct(Date, format = "%m/%d/%Y %H:%M:%S", tz = "America/Los_Angeles"))
 #
 # BayStudyTables$BoatTow <- read_csv(file.path("data-raw", "Baystudy", "BoatTow.csv"),
 #                                    col_types = cols_only(Year="i", Survey="i", Station="c", Net="i",
@@ -87,6 +89,8 @@ BayStudyTables <- bridgeAccess(db_path,
 #                                                          StartMeter="d", EndMeter="d", TotalMeter="d",
 #                                                          StartLong="d", EndLong="d", StartLat="d",
 #                                                          EndLat="d", Distance="d", TowComment="c"))
+#   # # Will need this line depending on the export type you exploy
+#   # mutate(Time = as.POSIXct(Time, format = "%m/%d/%Y %H:%M:%S", tz = "America/Los_Angeles"))
 #
 # BayStudyTables$`Fish Catch Data` <- read_csv(file.path("data-raw", "Baystudy", "Fish Catch Data.csv"),
 #                                              col_types=cols_only(Year="i", Survey="i", Station="c",
@@ -130,7 +134,7 @@ boatstation_baystudy <- BayStudyTables$BoatStation %>%
             StationComment = as.character(StationComment))
 
 boatstation_baystudy <- boatstation_baystudy %>%
-  #mutate(Date=parse_date_time(Date, orders="%m/%d/%Y %H:%M:%S", tz="America/Los_Angeles"))%>%
+  mutate(Date=as.POSIXct(Date, format="%Y-%m-%d", tz="America/Los_Angeles"))%>% # What about when you read this from a csv file?
   left_join(tidecodes_baystudy, by="Tide")%>% # Convert tide codes to values
   dplyr::select(-Tide, -SubstrateCode)%>%
   rename(Tidestation=Description)%>%

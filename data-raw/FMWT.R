@@ -40,8 +40,9 @@ FMWT_Tables <- bridgeAccess(db_path,
 #                                                      MeterEnd="d", CableOut="d", TideCode="i", DepthBottom="d",
 #                                                      WeatherCode="i", Microcystis="i", WaveCode="i",
 #                                                      WindDirection="c", BottomTemperature="d")) %>%
-#   mutate(SampleDate = as.Date(SampleDate, format = "%m/%d/%Y"),
-#          SampleTimeStart = as.POSIXct(SampleTimeStart, format = "%m/%d/%Y %H:%M:%S"))
+#   # Check format here for time as it can change based on how you export your relational tables
+#   mutate(SampleDate = as.Date(SampleDate),
+#          SampleTimeStart = as.POSIXct(SampleTimeStart, format = "%Y-%m-%d %H:%M:%S"))
 #
 # FMWT_Tables$Catch <- read_csv(file.path("data-raw", "FMWT", "Catch.csv"),
 #                               col_types = cols_only(CatchRowID="i", SampleRowID="i", OrganismCode="i", Catch="d"))
@@ -51,18 +52,27 @@ FMWT_Tables <- bridgeAccess(db_path,
 
 # Station locations -------------------------------------------------------
 FMWT_Tables$Station <- FMWT_Tables$StationsLookUp%>%
-  select("StationCode","DD_Latitude","DD_Longitude")%>%
-  rename(Station=StationCode, Latitude=DD_Latitude, Longitude=DD_Longitude)%>%
+  # select("StationCode","DD_Latitude","DD_Longitude")%>%
+  # rename(Station=StationCode, Latitude=DD_Latitude, Longitude=DD_Longitude)%>%
+  transmute(Station = as.character(StationCode),
+            Latitude = as.double(DD_Latitude), Longitude = as.double(DD_Longitude)) %>%
   drop_na()
 
 # Sample-level data -------------------------------------------------------
 FMWT_Tables$Sample <- FMWT_Tables$Sample %>%
-  select("SampleRowID","StationCode","MethodCode","SampleDate",
-         "SampleTimeStart","SurveyNumber","WaterTemperature","Turbidity",
-         "Secchi","SecchiEstimated","ConductivityTop","ConductivityBottom",
-         "TowDirectionCode","MeterStart","MeterEnd","CableOut",
-         "TideCode","DepthBottom","WeatherCode","Microcystis",
-         "WaveCode","WindDirection","BottomTemperature")%>%
+    transmute(SampleRowID = as.integer(SampleRowID),
+              across(c(StationCode, MethodCode, SampleDate, SampleTimeStart), as.character),
+              SurveyNumber = as.integer(SurveyNumber),
+              across(c(WaterTemperature, Turbidity, Secchi), as.double),
+              SecchiEstimated = as.logical(SecchiEstimated),
+              across(c(ConductivityTop, ConductivityBottom), as.double),
+              TowDirectionCode = as.integer(TowDirectionCode),
+              across(c(MeterStart, MeterEnd, CableOut), as.double),
+              TideCode = as.integer(TideCode),
+              DepthBottom = as.double(DepthBottom),
+              across(c(WeatherCode, Microcystis, WaveCode), as.double),
+              WindDirection = as.character(WindDirection),
+              BottomTemperature = as.double(BottomTemperature)) %>%
   rename(Station=StationCode, Method=MethodCode, Tide=TideCode, Time=SampleTimeStart, Depth=DepthBottom, Date=SampleDate)%>%
   mutate(Station=ifelse(Station<100,as.character(paste("0",as.character(Station),sep="")),as.character(Station)), # Setting Station
          Tide=recode(Tide, `1` = "High Slack", `2` = "Ebb", `3` = "Low Slack", `4` = "Flood"), # Convert tide codes to values
@@ -83,9 +93,8 @@ FMWT_Tables$Sample <- FMWT_Tables$Sample %>%
 
 # Catch data --------------------------------------------------------------
 FMWT_Tables$Catch<- FMWT_Tables$Catch%>%
-  transmute(CatchRowID, SampleRowID,
-            OrganismCode = as.integer(OrganismCode),
-            Catch)%>%
+  transmute(across(c(CatchRowID, SampleRowID, OrganismCode), as.integer),
+            Catch = as.double(Catch)) %>%
   dplyr::filter(!is.na(OrganismCode))%>% # Remove any records with an NA organism code
   left_join(Species%>% # Add species names
               select(OrganismCode=FMWT_Code, Taxa)%>%
@@ -95,12 +104,14 @@ FMWT_Tables$Catch<- FMWT_Tables$Catch%>%
 
 # Length data -------------------------------------------------------------
 FMWT_Tables$Length<- FMWT_Tables$Length%>%
+  mutate(across(everything(), ~replace(.x, .x %in% c("n/p", "NA", ""), NA))) %>%
+  transmute(CatchRowID = as.integer(CatchRowID),
+            across(c(ForkLength, LengthFrequency), as.double)) %>%
   select("CatchRowID","ForkLength","LengthFrequency")%>%
   dplyr::filter(ForkLength!=0)%>% # 0 fork length means not measured, so removing those from length table so those fish can be redistributed among measured lengths
   group_by(CatchRowID, ForkLength)%>%
   summarise(LengthFrequency=sum(LengthFrequency), .groups="drop")%>%
   as.data.frame()
-
 
 FMWT_Tables$CatchLength<- FMWT_Tables$Catch%>%
   left_join(FMWT_Tables$Length%>%

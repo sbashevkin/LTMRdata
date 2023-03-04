@@ -56,16 +56,16 @@ STNTables <- bridgeAccess(db_path,
 #                    col_types=cols_only(SampleRowID="d", SampleDate="c", StationCode="c", Survey="d",
 #                                        TemperatureTop="d", Secchi="d", ConductivityTop="d",
 #                                        TideCode="d", DepthBottom="d", CableOut="d", TowDirection="d")) %>%
-#   mutate(SampleDate = as.Date(SampleDate, "%m/%d/%Y"))
+#   mutate(SampleDate = as.Date(SampleDate))
 #
 # STNTables$TowEffort <- read_csv(file.path("data-raw", "STN","TowEffort.csv"),
 #                       col_types=cols_only(TimeStart="c", TowRowID="d", SampleRowID="d", TowNumber="d",
 #                                           MeterSerial="d", MeterIn="d", MeterOut="d",
-#                                           MeterDifference="d", MeterEstimate="d"))
+#                                           MeterDifference="d", MeterEstimate="l"))
 #
 # STNTables$Web_Local_Meter_Corrections <- read_csv(file.path("data-raw", "STN",
 #                                                   "Web_Local_Meter_Corrections.csv"),
-#                                         col_types=cols_only(`Study Year`="d", `Meter Serial`="d", `k factor`="d")) %>%
+#                                         col_types=cols_only(Study.Year="d", Meter.Serial="d", k.factor="d")) %>%
 #   rename_with(~gsub("\\s", ".", .x), everything())
 
 #########################################################################################
@@ -76,26 +76,40 @@ library(wql)
 require(stringr)
 require(LTMRdata)
 
-Catch <- STNTables$Catch%>%select(CatchRowID,TowRowID,OrganismCode,Catch)
+Catch <- STNTables$Catch %>%
+  transmute(across(c(CatchRowID, TowRowID, OrganismCode, Catch), as.double))
 
-Length <- STNTables$Length%>%select(LengthRowID,CatchRowID,ForkLength,LengthFrequency)
+Length <- STNTables$Length %>%
+  transmute(across(c(LengthRowID, CatchRowID, ForkLength, LengthFrequency),
+                   as.double))
 
-luStation <- STNTables$luStation%>%select(StationCodeSTN, LatD, LatM, LatS, LonD, LonM, LonS)
+luStation <- STNTables$luStation %>%
+  transmute(StationCodeSTN = as.character(StationCodeSTN),
+            across(c(LatD, LatM, LatS, LonD, LonM, LonS), as.double))
 
-luTide <- STNTables$luTide%>%select(TideDesc,TideRowID)
+luTide <- STNTables$luTide %>%
+  transmute(TideDesc = as.character(TideDesc),
+            TideRowID = as.double(TideRowID))
 
-luTowDirection <- STNTables$luTowDirection%>%select(TowDirection, TowDirectionID)
+luTowDirection <- STNTables$luTowDirection %>%
+  transmute(TowDirection = as.character(TowDirection),
+            TowDirectionID = as.double(TowDirectionID))
 
-Sample <- STNTables$Sample%>%select(SampleRowID, SampleDate, StationCode, Survey,
-                                    TemperatureTop, Secchi, ConductivityTop,TideCode,
-                                    DepthBottom, CableOut,TowDirection)
+Sample <- STNTables$Sample %>%
+  transmute(SampleRowID = as.double(SampleRowID),
+            SampleDate = as.Date(SampleDate),
+            StationCode = as.character(StationCode),
+            across(c(Survey, TemperatureTop, Secchi, ConductivityTop, TideCode,
+                     DepthBottom, CableOut, TowDirection), as.double))
 
-TowEffort <- STNTables$TowEffort%>%select(TimeStart, TowRowID, SampleRowID, TowNumber,
-                                       MeterSerial, MeterIn, MeterOut,
-                                       MeterDifference, MeterEstimate)
+TowEffort <- STNTables$TowEffort %>%
+  transmute(TimeStart = as.character(TimeStart),
+            across(c(TowRowID, SampleRowID, TowNumber, MeterSerial,
+                     MeterIn, MeterOut, MeterDifference), as.double),
+            MeterEstimate = as.logical(MeterEstimate))
 
-Web_Local_Meter_Corrections <- STNTables$Web_Local_Meter_Corrections%>%select(Study.Year, Meter.Serial, k.factor)%>%rename("Study Year"=Study.Year,"Meter Serial"=Meter.Serial,"k factor"=k.factor)
-
+Web_Local_Meter_Corrections <- STNTables$Web_Local_Meter_Corrections %>%
+  transmute(across(c(Study.Year, Meter.Serial, k.factor), as.double))
 
 suspect_fm_TowRowID <- c(6612,12815,2551,12786,8031,1857)
 # subset(TowEffort, TowRowID %in% suspect_fm_TowRowID)
@@ -108,11 +122,11 @@ sampleSTN <- Sample %>%
                              # tz="America/Los_Angeles"),
          Year= year(SampleDate)) %>%
   left_join(Web_Local_Meter_Corrections,
-            by=c("Year"="Study Year","MeterSerial"="Meter Serial")) %>%
+            by=c("Year"="Study.Year","MeterSerial"="Meter.Serial")) %>%
   mutate(MeterTotal=ifelse((MeterOut - MeterIn) < 0,
                            (MeterOut + 1000000 - MeterIn),
                            (MeterOut - MeterIn)),
-         TowVolm3=ifelse(is.na(MeterIn), 735, `k factor`*MeterTotal*1.49),
+         TowVolm3=ifelse(is.na(MeterIn), 735, k.factor*MeterTotal*1.49),
          TowVolm3=ifelse(is.na(TowVolm3), 735, TowVolm3),
          ## Use CDFW default tow volume when comments indicate
          ## something went wrong with the flow meter or resulting

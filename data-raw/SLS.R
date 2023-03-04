@@ -26,83 +26,98 @@ SLSTables <- bridgeAccess(db_path,
                             tables = keepTables,
                             script = file.path("data-raw", "connectAccess.R"))
 
-# If you've chosen to read csv --------------------------------------------
-SLSTables <- list()
-
-SLSTables$Catch  <- read_csv(file.path("data-raw", "SLS", "Catch.txt"),
-                             col_types = cols_only(Date = "c", Station = "c", Tow = "i",
-                                                   FishCode = "i", Catch = "i", CatchID = "i")) %>%
-  mutate(Date=mdy_hms(Date))
-
-SLSTables$Lengths <- read_csv(file.path("data-raw", "SLS", "Lengths.txt"),
-                                col_types = cols_only(Date = "c", Station = "c", Tow = "i",
-                                    FishCode = "i", Length = "i", entryorder = "i")) %>%
-  mutate(Date=mdy_hms(Date))
-
-SLSTables$`Meter Corrections` <- read_csv(file.path("data-raw", "SLS", "Meter Corrections.txt"),
-                                          col_types = cols_only(StudyYear = "d", MeterSerial = "i",
-                                                                CalibrationDate = "c", kfactor = "d", Notes = "c")) %>%
-  mutate(CalibrationDate=mdy_hms(CalibrationDate))
-
-SLSTables$`Tow Info` <- read_csv(file.path("data-raw", "SLS", "Tow Info.txt"),
-                                   col_types =
-                                     cols_only(Date = "c", Station = "c", Tow = "i",
-                                       Time = "c", Tide = "c", BottomDepth = "i", CableOut = "i",
-                                       Duration = "d", NetMeterSerial = "i", NetMeterStart = "i",
-                                       NetMeterEnd = "i", NetMeterCheck = "i", CBMeterSerial = "i",
-                                       CBMeterStart = "i", CBMeterEnd = "i", CBMeterCheck = "i", Comments = "c")) %>%
-  # Just going to change this to UTC here b/c that's how the database from Access is read as
-  # This gets changed later to America/Los_Angeles in creating the dataframes for the final table
-  mutate(Time = mdy_hms(Time, tz="America/Los_Angeles"),
-         Date = mdy_hms(Date, tz="America/Los_Angeles"),
-         CableOut = CableOut * 0.3048) # Convert feet to meters
-
-SLSTables$`Water Info` <- read_csv(file.path("data-raw", "SLS", "Water Info.txt"),
-                                   col_types =
-                                     cols_only(Survey = "i", Date = "c", Station = "c", Temp = "d",
-                                               TopEC = "i", BottomEC = "i", Secchi = "i", Turbidity = "i",
-                                               Comments = "c")) %>%
-  mutate(Date = mdy_hms(Date))
-
-SLSTables$`20mm Stations` <- read_csv(file.path("data-raw", "SLS", "20mm Stations.txt"),
-                                      col_types =
-                                        cols_only(Station = "c", LatD = "d", LatM = "d",
-                                                  LatS = "d", LonD = "d", LonM = "d", LonS = "d")) %>%
-  mutate(Latitude=(LatD + LatM/60 + LatS/3600),
-         Longitude= -(LonD + LonM/60 + LonS/3600))
+# # If you've chosen to read csv --------------------------------------------
+# SLSTables <- list()
+#
+# SLSTables$Catch  <- read_csv(file.path("data-raw", "SLS", "Catch.csv"),
+#                              col_types = cols_only(Date = "c", Station = "c", Tow = "i",
+#                                                    FishCode = "i", Catch = "i", CatchID = "i")) %>%
+#   mutate(Date=as.Date(Date))
+#
+# SLSTables$Lengths <- read_csv(file.path("data-raw", "SLS", "Lengths.csv"),
+#                                 col_types = cols_only(Date = "c", Station = "c", Tow = "i",
+#                                     FishCode = "i", Length = "i", entryorder = "i")) %>%
+#   mutate(Date=as.Date(Date))
+#
+# SLSTables$`Meter Corrections` <- read_csv(file.path("data-raw", "SLS", "Meter Corrections.csv"),
+#                                           col_types = cols_only(StudyYear = "d", MeterSerial = "i",
+#                                                                 CalibrationDate = "c", kfactor = "d", Notes = "c")) %>%
+#   mutate(CalibrationDate=as.Date(CalibrationDate))
+#
+# SLSTables$`Tow Info` <- read_csv(file.path("data-raw", "SLS", "Tow Info.csv"),
+#                                    col_types =
+#                                      cols_only(Date = "c", Station = "c", Tow = "i",
+#                                        Time = "c", Tide = "c", BottomDepth = "i", CableOut = "i",
+#                                        Duration = "d", NetMeterSerial = "i", NetMeterStart = "i",
+#                                        NetMeterEnd = "i", NetMeterCheck = "i", CBMeterSerial = "i",
+#                                        CBMeterStart = "i", CBMeterEnd = "i", CBMeterCheck = "i", Comments = "c")) %>%
+#   # Just going to change this to UTC here b/c that's how the database from Access is read as
+#   # This gets changed later to America/Los_Angeles in creating the dataframes for the final table
+#   mutate(Date = as.Date(Date),
+#          Time = as.POSIXct(Time, format = "%Y-%m-%d %H:%M:%S", tz="America/Los_Angeles"))
+#
+# SLSTables$`Water Info` <- read_csv(file.path("data-raw", "SLS", "Water Info.csv"),
+#                                    col_types =
+#                                      cols_only(Survey = "i", Date = "c", Station = "c", Temp = "d",
+#                                                TopEC = "i", BottomEC = "i", Secchi = "i", Turbidity = "i",
+#                                                Comments = "c")) %>%
+#   mutate(Date = as.Date(Date))
+#
+# SLSTables$`20mm Stations` <- read_csv(file.path("data-raw", "SLS", "20mm Stations.csv"),
+#                                       col_types =
+#                                         cols_only(Station = "c", LatD = "d", LatM = "d",
+#                                                   LatS = "d", LonD = "d", LonM = "d", LonS = "d")) %>%
+#   mutate(Latitude=(LatD + LatM/60 + LatS/3600),
+#          Longitude= -(LonD + LonM/60 + LonS/3600))
 
 #MWT data setup ----
 
-SLSTables$Catch <- SLSTables$Catch%>%
-  dplyr::select(Date,Station,Tow,FishCode,Catch,CatchID)%>%
-  mutate(Station=as.character(Station))
+SLSTables$Catch <- SLSTables$Catch %>%
+  transmute(Date = as.Date(Date),
+            Station = as.character(Station),
+            across(c(Tow, FishCode, Catch, CatchID), as.integer))
 
 SLSTables$Lengths <- SLSTables$Lengths %>%
-  dplyr::select(Date,Station,Tow,FishCode,Length,entryorder)%>%
-  mutate(Station=as.character(Station))
+  transmute(Date = as.Date(Date),
+            Station = as.character(Station),
+            across(c(Tow, FishCode, Length, entryorder), as.integer))
 
-SLSTables$`Meter Corrections` <- SLSTables$`Meter Corrections`%>%
-  dplyr::select(StudyYear,MeterSerial,CalibrationDate,kfactor,Notes)
+SLSTables$`Meter Corrections` <- SLSTables$`Meter Corrections` %>%
+  transmute(StudyYear = as.double(StudyYear),
+            MeterSerial = as.integer(MeterSerial),
+            CalibrationDate = as.Date(CalibrationDate),
+            kfactor = as.double(kfactor),
+            Notes = as.character(Notes))
 
-SLSTables$`20mm Stations` <- SLSTables$`20mm Stations`%>%
-  dplyr::select(Station,LatD,LatM,LatS,LonD,LonM,LonS)%>%
-  mutate(Latitude=LatD+LatM/60+LatS/3600,
-         Longitude=LonD+LonM/60+LonS/3600,
-         Station=as.character(Station))%>%
-  dplyr::select(Station,Latitude,Longitude)%>%
+SLSTables$`Tow Info` <- SLSTables$`Tow Info`%>%
+  transmute(Date = as.Date(Date),
+            Station = as.character(Station),
+            Tow = as.integer(Tow),
+            Time = as.POSIXct(Time),
+            Tide = as.character(Tide),
+            across(BottomDepth = as.integer(CableOut)),
+            CableOut = CableOut * 0.3048,
+            Duration = as.double(Duration),
+            across(c(NetMeterSerial, NetMeterStart, NetMeterEnd, NetMeterCheck,
+                     CBMeterSerial, CBMeterStart, CBMeterEnd, CBMeterCheck),
+                   as.integer),
+            Notes_tow = as.character(Comments))
+
+SLSTables$`Water Info` <- SLSTables$`Water Info`%>%
+  transmute(Survey = as.integer(Survey),
+            Date = as.Date(Date),
+            Station = as.character(Station),
+            Temp = as.double(Temp),
+            across(c(TopEC, BottomEC, Secchi, Turbidity), as.integer),
+            Notes_env = as.character(Comments))
+
+SLSTables$`20mm Stations` <- SLSTables$`20mm Stations` %>%
+  mutate(Station = as.character(Station),
+         across(c(LatD, LatM, LatS, LonD, LonM, LonS), as.double),
+         Latitude = (LatD + LatM/60 + LatS/3600),
+         Longitude = -(LonD + LonM/60 + LonS/3600)) %>%
+  dplyr::select(Station,Latitude,Longitude) %>%
   na.omit()
-
-SLSTables$`Tow Info`<-SLSTables$`Tow Info`%>%
-  rename(Notes_tow=Comments)%>%
-  dplyr::select(Date,Station,Tow,Time,Tide,BottomDepth,CableOut,Duration,NetMeterSerial,NetMeterStart,NetMeterCheck,CBMeterSerial,CBMeterStart,CBMeterEnd,CBMeterCheck,Notes_tow)%>%
-  mutate(Station=as.character(Station),
-         Tide=as.character(Tide),
-         CableOut=CableOut*0.3048)
-
-SLSTables$`Water Info`<-SLSTables$`Water Info`%>%
-  rename(Notes_env=Comments)%>%
-  dplyr::select(Survey,Date,Station,Temp,TopEC,BottomEC,Secchi,Turbidity,Notes_env)%>%
-  mutate(Station=as.character(Station))
 
 # Manipulating the data tables --------------------------------------------
 
@@ -205,5 +220,8 @@ SLS <- waterInfo %>%
 # # Just to make sure that no duplications occurred; lengths should be the same
 # all.equal(lengths$Length %>% sum(na.rm = T),
 #           dfFin$Length %>% sum(na.rm = T))
+
+# Some differences in Notes_tow if you use bridgeAccess vs reading from the csv files; seems to be
+# a unicode issue with the apostrophe symbol. Comments read the same, i.e., disregard error for this difference.
 
 usethis::use_data(SLS, overwrite=TRUE, compress="xz")

@@ -28,38 +28,48 @@ tableNames <- lapply(tableLinks, function(x) {
   bind_rows()
 
 # Want the trawl/seine data and the site locations
-data <- tableNames %>%
-  filter(grepl("fish_and_water_quality_data", name) | grepl("Site_Locations", name)) %>%
+DJFMP_stations <- tableNames %>%
+  filter(grepl("Site_Locations", name)) %>%
   pull(url) %>%
-  lapply(read.csv) %>%
-  setNames(tableNames %>%
-             filter(grepl("fish_and_water_quality_data", name) | grepl("Site_Locations", name)) %>%
-             pull(name))
+  read_csv(col_types = cols_only(StationCode="c",
+                                 Latitude="d",
+                                 Longitude="d"))
 
-DJFMP_station<-data$DJFMP_Site_Locations.csv%>%
-  select(StationCode,Latitude,Longitude)%>%
-  rename(Station=StationCode)
+data <- bind_rows(
+  # 1976-2001 trawl data
+  tableNames %>%
+    filter(grepl("1976.*trawl", name)) %>%
+    pull(url) %>%
+    read_csv(col_types = cols_only(StationCode = "c", SampleDate = "c", SampleTime = "c",
+                                   TowNumber = "c", MethodCode = "c", GearConditionCode = "i",
+                                   FlowDebris = "c",
+                                   SpecificConductance = "d", WaterTemp = "d", Secchi = "d",
+                                   Volume = "d", SamplingDirection = "c", MarkCode="c", RaceByLength="c",
+                                   OrganismCode = "c", ForkLength = "d", Count = "d")),
+  # 2002-present trawl
+  tableNames %>%
+    filter(grepl("2022.*trawl", name)) %>%
+    pull(url) %>%
+    read_csv(col_types = cols_only(StationCode = "c", SampleDate = "c", SampleTime = "c",
+                                   TowNumber = "c", MethodCode = "c", GearConditionCode = "i",
+                                   FlowDebris = "c",
+                                   SpecificConductance = "d", WaterTemp = "d", Secchi = "d",
+                                   Volume = "d", SamplingDirection = "c", MarkCode="c", RaceByLength="c",
+                                   OrganismCode = "c", ForkLength = "d", Count = "d")),
+  # 1976-present beach seine
+  tableNames %>%
+    filter(grepl("beach_seine", name)) %>%
+    pull(url) %>%
+    read_csv(col_types = cols_only(StationCode = "c", SampleDate = "c", SampleTime = "c",
+                                   TowNumber = "c", MethodCode = "c", SeineDepth = "d",
+                                   GearConditionCode = "i", FlowDebris = "c",
+                                   SpecificConductance = "d", WaterTemp = "d", Secchi = "d",
+                                   Volume = "d", SamplingDirection = "c", MarkCode="c", RaceByLength="c",
+                                   OrganismCode = "c", ForkLength = "d", Count = "d"))
+)
 
-DJFMP<-bind_rows(data$`1976-2001_DJFMP_trawl_fish_and_water_quality_data.csv`%>%
-                   select(StationCode,SampleDate,SampleTime,
-                              TowNumber,MethodCode,GearConditionCode,FlowDebris,
-                              SpecificConductance,WaterTemp, Secchi, SeineDepth,
-                              Volume, SamplingDirection, MarkCode, RaceByLength,
-                              OrganismCode,ForkLength,Count),
-                 data$`2002-2022_DJFMP_trawl_fish_and_water_quality_data.csv`%>%
-                   select(StationCode,SampleDate,SampleTime,
-                              TowNumber,MethodCode,GearConditionCode,FlowDebris,
-                              SpecificConductance,WaterTemp, Secchi, SeineDepth,
-                              Volume, SamplingDirection, MarkCode, RaceByLength,
-                              OrganismCode,ForkLength,Count),
-                 data$`1976-2022_DJFMP_beach_seine_fish_and_water_quality_data.csv`%>%
-                   select(StationCode,SampleDate,SampleTime,
-                              TowNumber,MethodCode,GearConditionCode,FlowDebris,
-                              SpecificConductance,WaterTemp, Secchi, SeineDepth,
-                              Volume, SamplingDirection, MarkCode, RaceByLength,
-                              OrganismCode,ForkLength,Count))
 
-DJFMP<-DJFMP%>%
+DJFMP<-data%>%
   rename(Station = StationCode, Date = SampleDate, Time = SampleTime, Temp_surf = WaterTemp,
          Method = MethodCode, Tow_volume = Volume, Depth=SeineDepth,
          Tow_direction = SamplingDirection, Length = ForkLength,Conductivity=SpecificConductance) %>%
@@ -67,7 +77,7 @@ DJFMP<-DJFMP%>%
   mutate(Tow_volume = if_else(FlowDebris=="Y", NA_real_, Tow_volume, missing=Tow_volume),
          Secchi = Secchi*100, # convert Secchi to cm
          Source = "DJFMP",
-         #Date = parse_date_time(Date, "%Y-%m-%d", tz = "America/Los_Angeles"),
+         Date = as.Date(Date),
          Time = parse_date_time(Time, "%H:%M:%S", tz = "America/Los_Angeles"),
          Datetime = parse_date_time(ifelse(is.na(Time), NA_character_, paste0(Date, " ", hour(Time), ":", minute(Time))), "%Y-%m-%d %H:%M", tz="America/Los_Angeles"),
          # Removing conductivity data from dates before it was standardized
@@ -113,8 +123,6 @@ DJFMP<-DJFMP%>%
   mutate(Count=if_else(Length_NA_flag=="No fish caught", 0, Count, missing=Count))%>% # Transform all counts for 'No fish caught' to 0.
   select(Source, Station, Latitude, Longitude, Date, Datetime, Depth, SampleID, Method, Sal_surf,
          Temp_surf, Secchi, Tow_volume, Tow_direction, Taxa, Length, Count, Length_NA_flag)
-
-
 
 # Save compressed data to /data
 usethis::use_data(DJFMP, overwrite=TRUE)
