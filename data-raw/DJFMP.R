@@ -70,7 +70,7 @@ data <- bind_rows(
 
 
 DJFMP<-data%>%
-  rename(Station = StationCode, Date = SampleDate, Time = SampleTime, Temp_surf = WaterTemp,
+  dplyr::rename(Station = StationCode, Date = SampleDate, Time = SampleTime, Temp_surf = WaterTemp,
          Method = MethodCode, Tow_volume = Volume, Depth=SeineDepth,
          Tow_direction = SamplingDirection, Length = ForkLength,Conductivity=SpecificConductance) %>%
   dplyr::filter(is.na(GearConditionCode) | !GearConditionCode%in%c(3,4,9))%>%
@@ -107,7 +107,7 @@ DJFMP<-data%>%
          Count=ifelse(is.infinite(Count), Total, Count))%>%
   dplyr::filter(Length!=0 | is.na(Length))%>%
   select(-Total, -TotalMeasured, -Group)%>%
-  left_join(DJFMP_station, by = "Station") %>%
+  left_join(DJFMP_stations, by = c("Station"="StationCode")) %>%
   # Add species names
   left_join(Species %>%
               select(USFWS_Code, ScientificName) %>%
@@ -116,7 +116,7 @@ DJFMP<-data%>%
   mutate(SampleID=paste(Source, SampleID), # Add variable for unique (across all studies) sampleID
          #Taxa=str_remove(Taxa, " \\((.*)")
          )%>% # Remove life stage info from Taxa names
-  rename(Taxa=ScientificName)%>%
+  dplyr::rename(Taxa=ScientificName)%>%
   select(-OrganismCode)%>%
   group_by(across(-Count))%>% # Add up any new multiples after removing Group
   summarise(Count=sum(Count), .groups="drop")%>%
