@@ -8,7 +8,7 @@ require(readr)
 require(DBI)
 require(RODBC)
 
-
+options(timeout = 999999)
 Path<-file.path(tempdir(), "Salvage_data_FTP.accdb")
 Path_origin<-file.path(tempdir())
 #Downloading MWT_data.zip----
@@ -40,18 +40,19 @@ Salvage<-left_join(SalvageTables$Catch,SalvageTables$OrganismsLookUp[c("Organism
   left_join(SalvageTables$Sample,by="SampleRowID")%>%
   left_join(SalvageTables$StudiesLookUp,by="StudyRowID")%>%
   dplyr::select(SampleDate,SampleTime,SampleMethod,BuildingCode,
+                PrimaryDepth,PrimaryFlow,SampleRowID,BuildingRowID,CatchRowID,
                 AcreFeet, MinutesPumping,SampleTimeLength,StudyRowID,WaterTemperature,
                 OrganismCode,CommonName,Genus,Species,
-                ForkLength,LengthFrequency,AdiposeClip,
+                ForkLength,LengthFrequency,AdiposeClip,Count,
                 BayPump1,BayPump2,BayPump3,BayPump4,BayPump5)%>%
-  rename(SampleDuration=SampleTimeLength)%>%
+  #dplyr::rename(SampleDuration=SampleTimeLength)%>%
   mutate(Taxa=paste(Genus,Species,sep=" "))%>%
-  dplyr::select(SampleDate,SampleTime,SampleMethod,AcreFeet,
-                BuildingCode,MinutesPumping,SampleDuration,StudyRowID,WaterTemperature,
-                OrganismCode,CommonName,Taxa,
-                ForkLength,LengthFrequency,AdiposeClip,
+  dplyr::select(SampleDate,StudyRowID,MinutesPumping,SampleTime,
+                PrimaryDepth,PrimaryFlow,WaterTemperature,SampleRowID,
+                BuildingRowID,OrganismCode,Count,CommonName,SampleTimeLength,
+                BuildingCode,CatchRowID,ForkLength,LengthFrequency,
                 BayPump1,BayPump2,BayPump3,BayPump4,BayPump5)%>%
-  dplyr::mutate(ExpansionFactor=ifelse(StudyRowID=="0000",as.numeric(MinutesPumping/SampleDuration),
+  dplyr::mutate(ExpansionFactor=ifelse(StudyRowID=="0000",as.numeric(MinutesPumping/SampleTimeLength),
                                        ifelse(StudyRowID=="9999",1,as.numeric(NA))),
                 ExpandedSalvage=LengthFrequency*ExpansionFactor,
                 Year=lubridate::year(SampleDate),
@@ -60,4 +61,5 @@ Salvage<-left_join(SalvageTables$Catch,SalvageTables$OrganismsLookUp[c("Organism
                 #CalDay = as.numeric(difftime(SampleDate,CalDayStart,units="days")),
                 #WYear= ifelse(SampleDate<as.Date(paste(Year,"10-01",sep="-")),Year,Year+1)
   )
-usethis::use_data(Salvage, overwrite=TRUE, compress="xz")
+
+usethis::use_data(Salvage, overwrite=TRUE)
