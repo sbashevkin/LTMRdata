@@ -9,36 +9,28 @@ require(DBI)
 require(RODBC)
 
 
-# MS Access database driver.
-driver <- "Driver={Microsoft Access Driver (*.mdb, *.accdb)};"
+Path<-file.path(tempdir(), "Salvage_data_FTP.accdb")
+Path_origin<-file.path(tempdir())
+#Downloading MWT_data.zip----
+download.file("https://filelib.wildlife.ca.gov/Public/Salvage/Salvage_data_FTP.accdb", Path, mode="wb",method="libcurl")
 
+
+# MS access database set up----
 # File path to Access database (Salvage)
-db_path <- paste0(" C:/Users/ETham/Downloads/Salvage_StandaloneAccess_V1.accdb")
+db_path <- file.path(tempdir(),"Salvage_data_FTP.accdb")
 
-# Just pastes driver info and file path together.
-full_path <- paste0(driver,"DBQ=",db_path)
-full_path
-# Connect to database using information above.
-conn <- odbcDriverConnect(full_path)
+source(file.path("data-raw", "bridgeAccess.R"))
 
-# See a list of all tables in the database. Scroll past the system tables to see actual tables.
-names<-sqlTables(conn)
+keepTables <- c("Building", "DNAandCWTRace", "LarvalFishLength", "Length",
+                "OrganismsLookUp", "Sample", "StationsLookUp", "Catch",
+                "StudiesLookUp", "VariableCodesLookUp", "VariablesLookUp")
 
-# Compliling table into one large list for organization
-SalvageTables<-list()
+SalvageTables <- bridgeAccess(db_path,
+                            tables = keepTables,
+                            script = file.path("data-raw", "connectAccess.R"))
 
-SalvageTables$Building <- sqlFetch(conn, "Building")%>%dplyr::select(BuildingRowID,SampleRowID,BuildingCode)
-SalvageTables$DNAandCWTRace <- sqlFetch(conn, "DNAandCWTRace")
-SalvageTables$LarvalFishLength <- sqlFetch(conn, "LarvalFishLength")
-SalvageTables$Length <- sqlFetch(conn, "Length")
-SalvageTables$OrganismsLookUp <- sqlFetch(conn, "OrganismsLookUp")
-SalvageTables$Sample <- sqlFetch(conn, "Sample")%>%dplyr::select(SampleRowID,SampleDate,SampleTime,SampleMethod,StudyRowID,AcreFeet,MinutesPumping,SampleTimeLength,WaterTemperature)
-SalvageTables$StationsLookUp <- sqlFetch(conn, "StationsLookUp")%>%dplyr::select(FacilityCode,Comments)
-SalvageTables$Catch<-sqlFetch(conn,"Catch")
-SalvageTables$StudiesLookUp <- sqlFetch(conn, "StudiesLookUp")
-SalvageTables$VariableCodesLookUp <- sqlFetch(conn, "VariableCodesLookUp")
-SalvageTables$VariablesLookUp <- sqlFetch(conn, "VariablesLookUp")
 
+# ----
 # setting up the combined table to link with correct ID"s
 
 options(timeout = 9999)
@@ -50,19 +42,22 @@ Salvage<-left_join(SalvageTables$Catch,SalvageTables$OrganismsLookUp[c("Organism
   dplyr::select(SampleDate,SampleTime,SampleMethod,BuildingCode,
                 AcreFeet, MinutesPumping,SampleTimeLength,StudyRowID,WaterTemperature,
                 OrganismCode,CommonName,Genus,Species,
-                ForkLength,LengthFrequency,AdiposeClip)%>%
+                ForkLength,LengthFrequency,AdiposeClip,
+                BayPump1,BayPump2,BayPump3,BayPump4,BayPump5)%>%
   rename(SampleDuration=SampleTimeLength)%>%
   mutate(Taxa=paste(Genus,Species,sep=" "))%>%
   dplyr::select(SampleDate,SampleTime,SampleMethod,AcreFeet,
                 BuildingCode,MinutesPumping,SampleDuration,StudyRowID,WaterTemperature,
                 OrganismCode,CommonName,Taxa,
-                ForkLength,LengthFrequency,AdiposeClip)%>%
-  dplyr::mutate(ExpansionFactor=ifelse(StudyRowID==0,as.numeric(MinutesPumping/SampleDuration),
-                                       ifelse(StudyRowID==9999,1,as.numeric(NA))),
+                ForkLength,LengthFrequency,AdiposeClip,
+                BayPump1,BayPump2,BayPump3,BayPump4,BayPump5)%>%
+  dplyr::mutate(ExpansionFactor=ifelse(StudyRowID=="0000",as.numeric(MinutesPumping/SampleDuration),
+                                       ifelse(StudyRowID=="9999",1,as.numeric(NA))),
                 ExpandedSalvage=LengthFrequency*ExpansionFactor,
                 Year=lubridate::year(SampleDate),
                 SampleDate=as.Date(SampleDate),
-                CalDayStart = as.Date(paste(Year,"01-01",sep="-")),
-                CalDay = as.numeric(difftime(SampleDate,CalDayStart,units="days")),
-                WYear= ifelse(SampleDate<as.Date(paste(Year,"10-01",sep="-")),Year,Year+1)
+                #CalDayStart = as.Date(paste(Year,"01-01",sep="-")),
+                #CalDay = as.numeric(difftime(SampleDate,CalDayStart,units="days")),
+                #WYear= ifelse(SampleDate<as.Date(paste(Year,"10-01",sep="-")),Year,Year+1)
   )
+usethis::use_data(Salvage, overwrite=TRUE, compress="xz")
