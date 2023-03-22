@@ -271,5 +271,5 @@ Baystudy_measured_lengths<-length_baystudy%>%
 Baystudy <- Baystudy%>%
   dplyr::select(-Year)# Remove unneeded variables
 
-usethis::use_data(Baystudy, Baystudy_measured_lengths, overwrite = TRUE, compress="xz") # Save compressed data to /data folder
+usethis::use_data(Baystudy, Baystudy_measured_lengths, overwrite = TRUE) # Save compressed data to /data folder
 
