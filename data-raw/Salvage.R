@@ -1,12 +1,8 @@
-require(wql)
 require(dplyr)
 require(tidyr)
-require(lubridate)
 require(LTMRdata)
-require(stringr)
-require(readr)
 require(DBI)
-require(RODBC)
+require(odbc)
 
 options(timeout = 999999)
 Path<-file.path(tempdir(), "Salvage_data_FTP.accdb")
@@ -26,22 +22,88 @@ keepTables <- c("Building", "DNAandCWTRace", "LarvalFishLength", "Length",
                 "StudiesLookUp", "VariableCodesLookUp", "VariablesLookUp")
 
 SalvageTables <- bridgeAccess(db_path,
-                            tables = keepTables,
-                            script = file.path("data-raw", "connectAccess.R"))
+                              tables = keepTables,
+                              script = file.path("data-raw", "connectAccess.R"))
 
 
 # ----
-# setting up the combined table to link with correct ID"s
+# Changing some names to avoid duplicated names when joining
+SalvageTables$Sample <- SalvageTables$Sample %>%
+  rename(Comments_Sample = Comments)
 
-options(timeout = 9999)
-Salvage<-left_join(SalvageTables$Sample,SalvageTables$Building,by="SampleRowID",multiple="all")%>%
-  left_join(SalvageTables$Catch,by="BuildingRowID",multiple="all")%>%
-  left_join(SalvageTables$Length,by="CatchRowID",multiple="all")%>%
-  left_join(SalvageTables$OrganismsLookUp, by="OrganismCode",multiple="all")%>%
-  dplyr::select(SampleDate,StudyRowID,MinutesPumping,SampleTimeLength,
-                PrimaryDepth,PrimaryFlow,WaterTemperature,SampleRowID,
-                BuildingRowID,OrganismCode,Count,CommonName,
-                BuildingCode,CatchRowID,ForkLength,LengthFrequency,
-                BayPump1,BayPump2,BayPump3,BayPump4,BayPump5)
+SalvageTables$OrganismsLookUp <- SalvageTables$OrganismsLookUp %>%
+  rename(Active_OrganismsLookUp = Active,
+         Comments_OrganismsLookUp = Comments)
+
+SalvageTables$StationsLookUp <- SalvageTables$StationsLookUp %>%
+  rename(Active_StationsLookUp = Active,
+         Comments_StationsLookUp = Comments)
+
+# setting up the combined table to link with correct ID"s
+SalvageJoined <- full_join(SalvageTables$Sample, SalvageTables$Building,
+                     by = "SampleRowID", multiple = "all") %>%
+  full_join(SalvageTables$Catch, by = "BuildingRowID", multiple = "all") %>%
+  full_join(SalvageTables$Length, by = "CatchRowID", multiple = "all") %>%
+  full_join(SalvageTables$DNAandCWTRace, by = "LengthRowID", multiple = "all") %>%
+  left_join(SalvageTables$OrganismsLookUp, by = "OrganismCode", multiple = "all") %>%
+  left_join(SalvageTables$StudiesLookUp, by = "StudyRowID", multiple = "all") %>%
+  left_join(SalvageTables$StationsLookUp, by = c("BuildingCode" = "FacilityCode"), multiple = "all")
+
+# After joining, calculate and keep only relevant columns
+Salvage <- SalvageJoined %>%
+  group_by(CatchRowID) %>%
+  mutate(TotalMeasured = sum(LengthFrequency)) %>%
+  ungroup() %>%
+  transmute(SampleDate = as.Date(SampleDate),
+            SampleTimeString = SampleTime,
+            SampleTime = as.POSIXct(paste0(SampleDate, " ", SampleTime),
+                                    format = "%Y-%m-%d %H:%M:%S",
+                                    tz = "America/Los_Angeles"),
+            StudyRowID, StudyRowDescription = Description,
+            AcreFeet, MinutesPumping, SampleTimeLength,
+            WaterTemperature = (WaterTemperature - 32) * 5/9,
+            PrimaryDepth, PrimaryFlow, BayPump1, BayPump2, BayPump3, BayPump4,
+            BayPump5, Sampler, QCed,
+            BuildingCode, Building = Location, Facility = Comments_StationsLookUp,
+            # PrimaryBypass, SecondaryDepth, SecondaryFlow, HoldtingTankFlow,
+            OrganismCode, CommonName,
+            CatchRowID, Count, TotalMeasured,
+            Subsampled = ifelse(Count > TotalMeasured, T, F),
+            # If Count < TotalMeasured, simply use the TotalMeasured value for Count
+            MoreMeasured = ifelse(TotalMeasured > Count, T, F),
+            Count = ifelse(TotalMeasured > Count, TotalMeasured, Count),
+            LengthFrequency = as.numeric(LengthFrequency),
+            ExpandedCount = ifelse(Subsampled, (LengthFrequency/TotalMeasured) * Count, Count),
+            ExpandedSalvage = case_when(StudyRowID == "0000" ~ ExpandedCount * (MinutesPumping/SampleTimeLength),
+                                        StudyRowID == "9999" ~ ExpandedCount,
+                                        StudyRowID == "8888" ~ 0),
+            ForkLength, AdiposeClip, Sex,
+            Comments_Sample, Comments_OrganismsLookUp,
+            # Some additional flags
+            Length_NA_flag = case_when(is.na(LengthFrequency) & is.na(ForkLength) & is.na(OrganismCode) ~ "No fish caught",
+                                       is.na(LengthFrequency) & is.na(ForkLength) & !is.na(OrganismCode) ~ "No count",
+                                       is.na(ForkLength) | ForkLength == 0 ~ "Unknown length",
+                                       TRUE ~ NA_character_),
+            # Unmatched Data
+            Unmatched_Data = ifelse(!is.na(SampleDate), T, F),
+            TimeStart_Impossible = ifelse(is.na(SampleTime) & !is.na(SampleTimeString), T, F))
+
+# # For salmon loss:
+# Salvage %>%
+#   mutate(BayPump1 = ifelse(BayPump1, 21, 0),
+#          BayPump2 = ifelse(BayPump2, 21, 0),
+#          BayPump3 = ifelse(BayPump3, 43, 0),
+#          BayPump4 = ifelse(BayPump4, 43, 0),
+#          BayPump5 = ifelse(BayPump5, 21, 0),
+#          TotalWidth = ifelse(SampleMethod == 1, BayPump1 + BayPump2 + BayPump3 + BayPump4 + BayPump5, 84),
+#          # Now to calculate loss
+#          Encounter = ifelse(ForkLength < 101, ExpandedSalvage/(0.630 + (0.0494 * (PrimaryFlow/(PrimaryDepth * TotalWidth)))),
+#                             ExpandedSalvage/(0.568 + (0.0579 * (PrimaryFlow/(PrimaryDepth * TotalWidth))))),
+#          # unique(SampleMethod) = 1, 2
+#          Entrain = ifelse(SampleMethod == 1, Encounter/0.25, Encounter/0.85),
+#          Release = ifelse(ForkLength < 101, ExpandedSalvage * 0.98, ExpandedSalvage),
+#          Loss = case_when(StudyRowID == "0000" ~ (Entrain - Release),
+#                           SampleMethod == 1 & StudyRowID == "9999" ~ (ExpandedSalvage * 4.33),
+#                           SampleMethod == 2 & StudyRowID == "9999" ~ (ExpandedSalvage * 0.569)))
 
 usethis::use_data(Salvage, overwrite=TRUE)
