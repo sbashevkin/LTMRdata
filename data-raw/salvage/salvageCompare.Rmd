@@ -1,0 +1,451 @@
+---
+title: Salvage dataset comparison
+output:
+  html_document:
+    code_folding: hide
+---
+
+<!-- Changing things to be at least 12 pt font -->
+<style type="text/css">
+  body{
+  font-size: 12pt;
+}
+</style>
+
+```{r setup, include=FALSE}
+# Loading libraries
+
+library(kableExtra)
+library(dplyr)
+library(ggplot2)
+library(patchwork)
+library(tidytext)
+library(ggdark)
+
+options(scipen = 999, width = 80)
+
+knitr::opts_chunk$set(dpi=320, fig.width=18, fig.height=14, warning=FALSE, message=F, 
+                      dev.args = list(pointsize = 13))
+
+myTheme <- dark_theme_bw(base_size = 24) +
+  theme(panel.grid.minor = element_blank(),
+        plot.background = element_rect(fill = "#2c2828", color = NA),
+        panel.background = element_blank(),
+        panel.grid.major = element_blank(),
+        legend.background = element_blank(),
+        legend.key = element_blank())
+
+theme_set(myTheme)
+```
+
+# Purpose
+
+This document compares the expanded salvage and export values from the dataset created for the `deltafish` package against the values provided by CDFW from their salvage dataset. Ideally, the numbers are the same; if this is the case, then data is not duplicated in the proposed dataset. 
+
+# Conclusion
+
+The proposed joined dataset successfully recreates the expanded salvage and export values reported on the CDFW salvage website. 
+
+The joins follows the relational schema outlined in the Access database. Once joined, the fidelity of the joined dataset was checked against the CDFW salvage dataset in a stepwise process:
+
+1. comparing expanded salvage values for all reported species (`OrganismCode`) across both facilities (`SWP` or `CVP`) from 1993-01-01 to 2023-03-21.
+2. comparing daily export rate per facility from 1993-01-01 to 2023-03-21. 
+
+The comparison found that the joining process outlined in this report was successful when compared to data provided on the website:
+
+1. expanded salvage from the joined database closely matches values reported from the website (Figure 1) with a few unresolveable differences (Table 1)
+2. all daily export per facility values matches (Figure 3).
+
+Users who would like to use a joined dataset that most closely resembles the CDFW website should follow the joining steps for object `SalvageCount` and apply the zero-filling code to it. The proposed final product of this report is object `SalvageFinal`. The two differences of this dataset are:
+
+1. there are more difference in expanded salvage to the CDFW website. This is attributed to sampling events when there were more fish measured than recorded in the `Count` column--the total measured value was used in these instances instead of `Count`.
+2. the data is zero-filled for each fish species per date per facility.
+
+# Method
+
+I do not have the original query used to calculate the expanded salvage reported on the CDFW website, and must make a best guess at how it is calculated; I believe it makes minimal joins to provide the expanded count data, joining the `Sample`, `StationsLookUp`, `Building`, `OrganismsLookUp`, and `Catch` relational tables from the Access dataset. This join leaves out the fork length data, which the proposed dataset for deltafish joins, and is a point of potential errors introduced by duplications.
+
+The general steps for this comparison are:
+
+1. Join the relational tables following the schema in Access, including as much data as possible
+2. Attempt to recreate the expanded salvage values provided on the website
+3. Explain any relevant departures from the approach used to produce the values provided on the website
+
+## Joining steps
+
+This code builds the proposed dataset for the `deltafish` package. The general steps are:
+
+1. Download the publicably available dataset from the FTP website
+2. Extract the relevant relational tables
+3. Renaming columns across the tables to avoid joining conflicts
+4. Join the tables
+5. Make relevant calculations to produce an expanded salvage value. Expanded salvage is calculated as $Count*(MinutesPumping/SampleTimeLength)$ for normal salvage events (StudyRowID == "0000")
+6. Populate flags to inform of datapoints of relevant importance.
+
+```{r}
+require(dplyr)
+require(tidyr)
+require(LTMRdata)
+require(DBI)
+require(odbc)
+
+options(timeout = 999999)
+Path<-file.path(tempdir(), "Salvage_data_FTP.accdb")
+Path_origin<-file.path(tempdir())
+#Downloading MWT_data.zip----
+download.file("https://filelib.wildlife.ca.gov/Public/Salvage/Salvage_data_FTP.accdb", Path, mode="wb",method="libcurl")
+
+
+# MS access database set up----
+# File path to Access database (Salvage)
+db_path <- file.path(tempdir(),"Salvage_data_FTP.accdb")
+
+source(file.path("..", "bridgeAccess.R"))
+
+keepTables <- c("Building", "DNAandCWTRace", "LarvalFishLength", "Length",
+                "OrganismsLookUp", "Sample", "StationsLookUp", "Catch",
+                "StudiesLookUp", "VariableCodesLookUp", "VariablesLookUp")
+
+SalvageTables <- bridgeAccess(db_path,
+                              tables = keepTables,
+                              script = file.path("..", "connectAccess.R"))
+
+
+# ----
+# Changing some names to avoid duplicated names when joining
+SalvageTables$Sample <- SalvageTables$Sample %>%
+  rename(Comments_Sample = Comments)
+
+SalvageTables$OrganismsLookUp <- SalvageTables$OrganismsLookUp %>%
+  rename(Active_OrganismsLookUp = Active,
+         Comments_OrganismsLookUp = Comments)
+
+SalvageTables$StationsLookUp <- SalvageTables$StationsLookUp %>%
+  rename(Active_StationsLookUp = Active,
+         Comments_StationsLookUp = Comments)
+
+# setting up the combined table to link with correct ID"s
+SalvageJoined <- full_join(SalvageTables$Sample, SalvageTables$Building,
+                     by = "SampleRowID", multiple = "all") %>%
+  full_join(SalvageTables$Catch, by = "BuildingRowID", multiple = "all") %>%
+  full_join(SalvageTables$Length, by = "CatchRowID", multiple = "all") %>%
+  left_join(SalvageTables$OrganismsLookUp, by = "OrganismCode", multiple = "all") %>%
+  left_join(SalvageTables$StudiesLookUp, by = "StudyRowID", multiple = "all") %>%
+  left_join(SalvageTables$StationsLookUp, by = c("BuildingCode" = "FacilityCode"), multiple = "all")
+
+# After joining, calculate and keep only relevant columns
+Salvage <- SalvageJoined %>%
+  group_by(CatchRowID) %>%
+  mutate(TotalMeasured = sum(LengthFrequency, na.rm = T)) %>%
+  ungroup() %>%
+  transmute(SampleDate = as.Date(SampleDate),
+            SampleTimeString = SampleTime,
+            SampleTime = as.POSIXct(paste0(SampleDate, " ", SampleTime),
+                                    format = "%Y-%m-%d %H:%M:%S",
+                                    tz = "America/Los_Angeles"),
+            StudyRowID, StudyRowDescription = Description,
+            AcreFeet, MinutesPumping, SampleTimeLength,
+            WaterTemperature = (WaterTemperature - 32) * 5/9,
+            PrimaryDepth, PrimaryFlow, BayPump1, BayPump2, BayPump3, BayPump4,
+            BayPump5, Sampler, QCed,
+            BuildingCode, Building = Location, Facility = Comments_StationsLookUp,
+            # PrimaryBypass, SecondaryDepth, SecondaryFlow, HoldtingTankFlow,
+            OrganismCode, CommonName,
+            CatchRowID, Count, TotalMeasured,
+            Subsampled = ifelse(Count > TotalMeasured, T, F),
+            # If Count < TotalMeasured, simply use the TotalMeasured value for Count
+            MoreMeasured = ifelse(TotalMeasured > Count, T, F),
+            Count = ifelse(!is.na(TotalMeasured) & (TotalMeasured > Count), TotalMeasured, Count),
+            LengthFrequency = as.numeric(LengthFrequency),
+            # If there is no fish measured, the pure count data is used to calculate expandedCount
+            # Otherwise (for most cases), the length frequency is used to calculate expandedCount
+            ExpandedCount = ifelse(!is.na(TotalMeasured) & TotalMeasured != 0 & (Count >= TotalMeasured),
+                                   (LengthFrequency/TotalMeasured) * Count, Count),
+            ExpandedSalvage = case_when(StudyRowID == "0000" ~ ExpandedCount * (MinutesPumping/SampleTimeLength),
+                                        StudyRowID == "9999" ~ as.numeric(ExpandedCount),
+                                        StudyRowID == "8888" ~ 0),
+            ForkLength, AdiposeClip, Sex,
+            Comments_Sample, Comments_OrganismsLookUp,
+            # Some additional flags
+            Length_NA_flag = case_when(is.na(LengthFrequency) & is.na(ForkLength) & is.na(OrganismCode) ~ "No fish caught",
+                                       is.na(LengthFrequency) & is.na(ForkLength) & !is.na(OrganismCode) ~ "No length measured",
+                                       is.na(ForkLength) | ForkLength == 0 ~ "Unknown length",
+                                       TRUE ~ NA_character_),
+            # Unmatched Data
+            Unmatched_Data = ifelse(!is.na(SampleDate), T, F),
+            TimeStart_Impossible = ifelse(is.na(SampleTime) & !is.na(SampleTimeString), T, F))
+```
+
+One of the main difference between the theoretical query used to provide data shown in the CDFW website (theoretical since I don't have access to it) is the static use of `Count` to calculate expanded salvage. This is changed in the proposed dataset for `deltafish`. Specifically, each length measurement is first expanded if subsampling (defined as measuring less than the number of fish counted) occurred and the total number of fish measured is used instead of `Count`. 
+
+### Comparison of the two datasets
+
+The query used by the website likely uses the `Count` metric in the database. The following chunk of code is what is proposed for deltafish but without accounting for instances during which the number of fish measured are greater than the count reported; this is accomplished by removing the `Count = ifelse()` statement and the condition of `Count >= TotalMeasured` when calculating `ExpandedCount`.
+
+```{r}
+SalvageCount <- SalvageJoined %>%
+  group_by(CatchRowID) %>%
+  mutate(TotalMeasured = sum(LengthFrequency, na.rm = T)) %>%
+  ungroup() %>%
+  transmute(SampleDate = as.Date(SampleDate),
+            SampleTimeString = SampleTime,
+            SampleTime = as.POSIXct(paste0(SampleDate, " ", SampleTime),
+                                    format = "%Y-%m-%d %H:%M:%S",
+                                    tz = "America/Los_Angeles"),
+            StudyRowID, StudyRowDescription = Description,
+            AcreFeet, MinutesPumping, SampleTimeLength,
+            WaterTemperature = (WaterTemperature - 32) * 5/9,
+            PrimaryDepth, PrimaryFlow, BayPump1, BayPump2, BayPump3, BayPump4,
+            BayPump5, Sampler, QCed,
+            BuildingCode, Building = Location, Facility = Comments_StationsLookUp,
+            # PrimaryBypass, SecondaryDepth, SecondaryFlow, HoldtingTankFlow,
+            OrganismCode, CommonName,
+            CatchRowID, Count, TotalMeasured,
+            Subsampled = ifelse(Count > TotalMeasured, T, F),
+            # If Count < TotalMeasured, simply use the TotalMeasured value for Count
+            MoreMeasured = ifelse(TotalMeasured > Count, T, F),
+            # Count = ifelse(!is.na(TotalMeasured) & (TotalMeasured > Count), TotalMeasured, Count),
+            LengthFrequency = as.numeric(LengthFrequency),
+            # If there is no fish measured, the pure count data is used to calculate expandedCount
+            # Otherwise (for most cases), the length frequency is used to calculate expandedCount
+            ExpandedCount = ifelse(!is.na(TotalMeasured) & TotalMeasured != 0,
+                                   (LengthFrequency/TotalMeasured) * Count, Count),
+            ExpandedSalvage = case_when(StudyRowID == "0000" ~ ExpandedCount * (MinutesPumping/SampleTimeLength),
+                                        StudyRowID == "9999" ~ as.numeric(ExpandedCount),
+                                        StudyRowID == "8888" ~ 0),
+            ForkLength, AdiposeClip, Sex,
+            Comments_Sample, Comments_OrganismsLookUp,
+            # Some additional flags
+            Length_NA_flag = case_when(is.na(LengthFrequency) & is.na(ForkLength) & is.na(OrganismCode) ~ "No fish caught",
+                                       is.na(LengthFrequency) & is.na(ForkLength) & !is.na(OrganismCode) ~ "No length measured",
+                                       is.na(ForkLength) | ForkLength == 0 ~ "Unknown length",
+                                       TRUE ~ NA_character_),
+            # Unmatched Data
+            Unmatched_Data = ifelse(!is.na(SampleDate), T, F),
+            TimeStart_Impossible = ifelse(is.na(SampleTime) & !is.na(SampleTimeString), T, F))
+```
+
+I have compared the two datasets from 1993-01-01 to 2023-03-21 and found that the values are essentially the same (Figure 1) with some minor differences: many instances of rounding differences, 6 instances when counts from the database exceeds those reported on the website; and 2 instances when counts from the website exceeds those found in the database (Table 1).
+
+```{r difference plot, fig.cap="Figure 1. Comparison of calculated expanded salvage based on data from the publically available Access database and the CDFW salvage website, spanning from 1993-01-01 to 2023-03-21. The top figure shows the total number of individual salvaged per species within the time period; the middle figure shows the absolute difference between the total number of indivudal salvaged per species between the two data sources; and the bottom figure shows the proportional difference of the middle plot."}
+
+# Sourcing the function and data file for the salvage data pulled from the salvage dataset. Refer to file `websiteSalvage.R` for more information
+load("salvageWebsite_1993.RData")
+
+salvageCompareCount <- websiteCompare %>%
+  bind_rows() %>%
+  filter(between(SampleDate, as.Date("1993-01-01"), as.Date("2023-03-21"))) %>%
+  group_by(OrganismCode = Species, CommonName = OrganismName, Facility) %>%
+  summarise(acreFeetWeb = sum(Acrefeet, na.rm = T),
+            salvageWeb = sum(Salvage, na.rm = T), .groups = "drop") %>%
+  mutate(dataset = "website") %>% 
+  full_join(
+    SalvageCount %>%
+      filter(between(SampleDate, as.Date("1993-01-01"), as.Date("2023-03-21")),
+             OrganismCode %in% as.numeric(species)) %>%
+      group_by(OrganismCode, Facility) %>%
+      summarise(acreFeetAccess = sum(AcreFeet, na.rm = T),
+                salvageAccess = sum(ExpandedSalvage, na.rm = T), .groups = "drop") %>%
+      mutate(dataset = "db") %>% 
+      left_join(speciesData, by = "OrganismCode") %>%
+      rename(CommonName = names),
+    by = c("OrganismCode", "CommonName", "Facility")
+  ) %>% 
+  filter(!is.na(Facility)) %>% 
+  mutate(accessWebDifference = salvageAccess - salvageWeb,
+         differenceProportional = accessWebDifference/salvageWeb) %>% 
+  pivot_longer(c(salvageWeb, salvageAccess), names_to = "source", values_to = "expandedSalvage")
+
+{
+  ggplot(salvageCompareCount,
+         aes(tidytext::reorder_within(OrganismCode, -expandedSalvage, Facility),
+             expandedSalvage, fill = source)) +
+    geom_col(position = position_dodge()) +
+    geom_hline(yintercept = 0, color = "#646464", size = 0.2) +
+    tidytext::scale_x_reordered() +
+    scale_fill_manual(values = c("salvageAccess" = "#FF4D00", "salvageWeb" = "#FFFFB8")) +
+    labs(x = "OrganismCode", y = "Expanded \n Salvage") +
+    facet_wrap(~Facility, scales = "free_x") +
+    scale_y_continuous(labels = scales::label_number_si()) +
+    theme(axis.text.x = element_blank(), axis.ticks.x = element_blank(),
+          axis.title.x = element_blank())
+  }/
+  {
+    ggplot(salvageCompareCount,
+           aes(tidytext::reorder_within(OrganismCode, -expandedSalvage, Facility),
+               accessWebDifference, fill = source)) +
+      geom_col(position = position_dodge()) +
+      geom_hline(yintercept = 0, color = "#646464", size = 0.2) +
+      tidytext::scale_x_reordered() +
+      scale_fill_manual(values = c("salvageAccess" = "#FF4D00", "salvageWeb" = "#FFFFB8")) +
+      labs(x = "OrganismCode", y = "Difference\n(Absolute)") +
+      facet_wrap(~Facility, scales = "free_x") +
+      theme(axis.text.x = element_blank(), axis.ticks.x = element_blank(),
+            axis.title.x = element_blank())
+  }/
+  {
+    ggplot(salvageCompareCount,
+           aes(tidytext::reorder_within(OrganismCode, -expandedSalvage, Facility),
+               differenceProportional, fill = source)) +
+      geom_col(position = position_dodge()) +
+      geom_hline(yintercept = 0, color = "#646464", size = 0.2) +
+      tidytext::scale_x_reordered() +
+      scale_fill_manual(values = c("salvageAccess" = "#FF4D00", "salvageWeb" = "#FFFFB8")) +
+      labs(x = "OrganismCode", y = "Difference\n(Proportional)") +
+      facet_wrap(~Facility, scales = "free_x") +
+      theme(axis.text.x = element_blank(), axis.ticks.x = element_blank())
+  } +
+  plot_layout(heights = c(1, 2, 1), guides = "collect")
+
+read.csv(file.path("discrepancies.csv")) %>% 
+  mutate(date = as.Date(date, format = "%m/%d/%Y")) %>% 
+  kbl(caption = "Table 1. Discrepancies between expanded salvage calculations between the publically available Access database and the CDFW salvage website.") %>%
+  kable_classic(full_width = F, html_font = "Cambria", "striped")
+```
+
+### Count vs total measured
+
+As shown above, the website query uses the `Count` values to expanded salvage. However, there are instances in the dataset when the number of fish measured exceeds the count reported. I have made the decision to replace `Count` with the total number of fish measured for that sampling period if it exceeds `Count`. This results in more discrepancies compared to the salvage website (Figure 2).
+
+```{r replacing count with total measured, fig.cap="Figure 2. Similar figure to Figure 1 except instances when the total number of fish measured exceeding the reported count value are replaced with the total number of fish measured. This results in greater discrepancies between the two data sources."}
+salvageCompare <- websiteCompare %>%
+  bind_rows() %>%
+  filter(between(SampleDate, as.Date("1993-01-01"), as.Date("2023-03-21"))) %>%
+  group_by(OrganismCode = Species, CommonName = OrganismName, Facility) %>%
+  summarise(acreFeetWeb = sum(Acrefeet, na.rm = T),
+            salvageWeb = sum(Salvage, na.rm = T), .groups = "drop") %>%
+  mutate(dataset = "website") %>% 
+  full_join(
+    Salvage %>%
+      filter(between(SampleDate, as.Date("1993-01-01"), as.Date("2023-03-21")),
+             OrganismCode %in% as.numeric(species)) %>%
+      group_by(OrganismCode, Facility) %>%
+      summarise(acreFeetAccess = sum(AcreFeet, na.rm = T),
+                salvageAccess = sum(ExpandedSalvage, na.rm = T), .groups = "drop") %>%
+      mutate(dataset = "db") %>% 
+      left_join(speciesData, by = "OrganismCode") %>%
+      rename(CommonName = names),
+    by = c("OrganismCode", "CommonName", "Facility")
+  ) %>% 
+  filter(!is.na(Facility)) %>% 
+  mutate(accessWebDifference = salvageAccess - salvageWeb,
+         differenceProportional = accessWebDifference/salvageWeb) %>% 
+  pivot_longer(c(salvageWeb, salvageAccess), names_to = "source", values_to = "expandedSalvage")
+
+{
+  ggplot(salvageCompare,
+         aes(tidytext::reorder_within(OrganismCode, -expandedSalvage, Facility),
+             expandedSalvage, fill = source)) +
+    geom_col(position = position_dodge()) +
+    geom_hline(yintercept = 0, color = "#646464", size = 0.2) +
+    tidytext::scale_x_reordered() +
+    scale_fill_manual(values = c("salvageAccess" = "#FF4D00", "salvageWeb" = "#FFFFB8")) +
+    labs(x = "OrganismCode", y = "Expanded \n Salvage", fill = "Source") +
+    facet_wrap(~Facility, scales = "free_x") +
+    scale_y_continuous(labels = scales::label_number_si()) +
+    theme(axis.text.x = element_blank(), axis.ticks.x = element_blank(),
+          axis.title.x = element_blank())
+}/
+  {
+    ggplot(salvageCompare,
+           aes(tidytext::reorder_within(OrganismCode, -expandedSalvage, Facility),
+               accessWebDifference, fill = source)) +
+      geom_col(position = position_dodge()) +
+      geom_hline(yintercept = 0, color = "#646464", size = 0.2) +
+      tidytext::scale_x_reordered() +
+      scale_fill_manual(values = c("salvageAccess" = "#FF4D00", "salvageWeb" = "#FFFFB8")) +
+      labs(x = "OrganismCode", y = "Difference\n(Absolute)", fill = "Source") +
+      facet_wrap(~Facility, scales = "free_x") +
+      theme(axis.text.x = element_blank(), axis.ticks.x = element_blank(),
+            axis.title.x = element_blank())
+  }/
+  {
+    ggplot(salvageCompare,
+           aes(tidytext::reorder_within(OrganismCode, -expandedSalvage, Facility),
+               differenceProportional, fill = source)) +
+      geom_col(position = position_dodge()) +
+      geom_hline(yintercept = 0, color = "#646464", size = 0.2) +
+      tidytext::scale_x_reordered() +
+      scale_fill_manual(values = c("salvageAccess" = "#FF4D00", "salvageWeb" = "#FFFFB8")) +
+      labs(x = "OrganismCode", y = "Difference\n(Proportional)", fill = "Source") +
+      facet_wrap(~Facility, scales = "free_x") +
+      theme(axis.text.x = element_blank(), axis.ticks.x = element_blank())
+  } +
+  plot_layout(heights = c(1, 2, 1), guides = "collect")
+```
+
+### Zero-filling
+
+Zero filling includes all instances of each species, described by `OrganismCode`, for each sampling date and pumping facility. There is a flag to designate original data, `originalData.`
+
+```{r zero filling}
+SalvageFinal <- Salvage %>%
+  mutate(OrganismCode = factor(OrganismCode),
+         originalData = T) %>% 
+  group_by(SampleDate, 
+           Facility = factor(Facility, levels = c("SWP", "CVP")), 
+           AcreFeet) %>% 
+  complete(OrganismCode) %>% 
+  ungroup() %>% 
+  filter(!(is.na(Facility) & is.na(originalData)))
+```
+
+This process should not introduce new, meaningful data to the dataset (i.e., non-NA data). This can be quickly checked by summing across all numeric columns:
+
+```{r checking zero filling}
+all.equal(SalvageFinal %>% 
+            ungroup() %>% 
+            select(MinutesPumping, SampleTimeLength, WaterTemperature, PrimaryDepth, PrimaryFlow,
+                   CatchRowID, Count, TotalMeasured, LengthFrequency, ExpandedCount, ExpandedSalvage, ForkLength) %>% 
+            summarise(across(tidyselect::where(is.numeric), function(x) sum(x, na.rm = T))),
+          Salvage %>% 
+            ungroup() %>% 
+            select(MinutesPumping, SampleTimeLength, WaterTemperature, PrimaryDepth, PrimaryFlow,
+                   CatchRowID, Count, TotalMeasured, LengthFrequency, ExpandedCount, ExpandedSalvage, ForkLength) %>% 
+            summarise(across(tidyselect::where(is.numeric), function(x) sum(x, na.rm = T))))
+```
+
+This check supports the finding so far that the joined dataset is behaving as expected when comparing to values from the CDFW salvage website.
+
+Finally, we can check the export values per facility across time from the two data sources:
+
+```{r checking acre feet, fig.cap="Figure 3. Export values from both facilities across time from the two data sources are the same. The top figure shows the cumulative exports per facility per data sources; the bottom figure shows the absolute difference between the export values per facility between the two data sources."}
+
+finSummary <- SalvageFinal %>% 
+  filter(between(SampleDate, as.Date("1993-01-01"), as.Date("2023-03-21")),
+         !is.na(Facility)) %>%
+  distinct(SampleDate, Facility, acreFeetAccess = AcreFeet) %>% 
+  full_join(websiteCompare$`1` %>% 
+              select(SampleDate, Facility, acreFeetWebsite = Acrefeet),
+            by = c("SampleDate", "Facility")) %>% 
+  mutate(difference = acreFeetAccess - acreFeetWebsite) %>% 
+  pivot_longer(c(acreFeetAccess, acreFeetWebsite), names_to = "Source", values_to = "acreFeet") %>% 
+  arrange(SampleDate) %>% 
+  group_by(Facility, Source) %>% 
+  mutate(cumulativeAcreFeet = cumsum(acreFeet))
+
+
+{
+  ggplot(finSummary, 
+         aes(SampleDate, cumulativeAcreFeet, color = Facility, shape = Source)) +
+    geom_line() +
+    geom_point() +
+    labs(y = "Cumulative Exports\n(Acre Feet)") +
+    scale_color_manual(values = c("CVP" = "#F25E4E", "SWP" = "#049FA2")) +
+    scale_y_continuous(labels = scales::label_number_si()) +
+    theme(axis.text.x = element_blank(), axis.ticks.x = element_blank(),
+          axis.title.x = element_blank())
+  }/
+  {
+    ggplot(finSummary, 
+           aes(SampleDate, difference, color = Facility, shape = Source)) +
+      geom_line() +
+      geom_point() +
+      labs(y = "Difference") +
+      scale_color_manual(values = c("CVP" = "#F25E4E", "SWP" = "#049FA2")) 
+  } +
+  plot_layout(heights = c(2.5, 1), guides = "collect")
+```
+
+Figure 3 shows that the export values are the same across time for both databases, further supporting the validity of the data joins.
+

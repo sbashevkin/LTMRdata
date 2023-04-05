@@ -1,0 +1,9 @@
+date,organismCode,name,facility,catchRowID,dbSalvage,websiteSalvage,difference,comment
+9/30/2019,55,blue catfish,CVP,1088116,4,0,4,in database but not on website
+9/9/2014,67,rainwater killifish,SWP,895390,7,2,5,"in database but not on website, 5 fish missing described from this catchRowID"
+9/9/2014,66,shimofuri goby,SWP,895418,137,81,56,"in database but not on website, 56 fish missing described from this catchRowID"
+9/9/2014,29,prickly sculpin,SWP,895417,100,44,56,"in database but not on website, 56 fish missing described from this catchRowID"
+9/9/2014,21,bluegill,SWP,895397,64,25,39,"in database but not on website, 39 fish missing described from this catchRowID"
+1/17/2022,21,bluegill,SWP,,12,16,4,cannot identify where this discrepancy is occuring. Only 3 fish identified for this period and expanded to 12 instead of 16 (as reported on the website)
+9/30/2019,6,channel catfish,CVP,,32,36,4,cannot identify where this discrepancy is occuring.
+9/9/2014,3,striped bass,SWP,895393,3,1,2,"in database but not on website, 2 fish missing from this catchRowID"

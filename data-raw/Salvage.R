@@ -44,7 +44,6 @@ SalvageJoined <- full_join(SalvageTables$Sample, SalvageTables$Building,
                      by = "SampleRowID", multiple = "all") %>%
   full_join(SalvageTables$Catch, by = "BuildingRowID", multiple = "all") %>%
   full_join(SalvageTables$Length, by = "CatchRowID", multiple = "all") %>%
-  full_join(SalvageTables$DNAandCWTRace, by = "LengthRowID", multiple = "all") %>%
   left_join(SalvageTables$OrganismsLookUp, by = "OrganismCode", multiple = "all") %>%
   left_join(SalvageTables$StudiesLookUp, by = "StudyRowID", multiple = "all") %>%
   left_join(SalvageTables$StationsLookUp, by = c("BuildingCode" = "FacilityCode"), multiple = "all")
@@ -52,7 +51,7 @@ SalvageJoined <- full_join(SalvageTables$Sample, SalvageTables$Building,
 # After joining, calculate and keep only relevant columns
 Salvage <- SalvageJoined %>%
   group_by(CatchRowID) %>%
-  mutate(TotalMeasured = sum(LengthFrequency)) %>%
+  mutate(TotalMeasured = sum(LengthFrequency, na.rm = T)) %>%
   ungroup() %>%
   transmute(SampleDate = as.Date(SampleDate),
             SampleTimeString = SampleTime,
@@ -71,22 +70,35 @@ Salvage <- SalvageJoined %>%
             Subsampled = ifelse(Count > TotalMeasured, T, F),
             # If Count < TotalMeasured, simply use the TotalMeasured value for Count
             MoreMeasured = ifelse(TotalMeasured > Count, T, F),
-            Count = ifelse(TotalMeasured > Count, TotalMeasured, Count),
+            Count = ifelse(!is.na(TotalMeasured) & (TotalMeasured > Count), TotalMeasured, Count),
             LengthFrequency = as.numeric(LengthFrequency),
-            ExpandedCount = ifelse(Subsampled, (LengthFrequency/TotalMeasured) * Count, Count),
+            # If there is no fish measured, the pure count data is used to calculate expandedCount
+            # Otherwise (for most cases), the length frequency is used to calculate expandedCount
+            ExpandedCount = ifelse(!is.na(TotalMeasured) & TotalMeasured != 0 & (Count >= TotalMeasured),
+                                   (LengthFrequency/TotalMeasured) * Count, Count),
             ExpandedSalvage = case_when(StudyRowID == "0000" ~ ExpandedCount * (MinutesPumping/SampleTimeLength),
-                                        StudyRowID == "9999" ~ ExpandedCount,
+                                        StudyRowID == "9999" ~ as.numeric(ExpandedCount),
                                         StudyRowID == "8888" ~ 0),
             ForkLength, AdiposeClip, Sex,
             Comments_Sample, Comments_OrganismsLookUp,
             # Some additional flags
             Length_NA_flag = case_when(is.na(LengthFrequency) & is.na(ForkLength) & is.na(OrganismCode) ~ "No fish caught",
-                                       is.na(LengthFrequency) & is.na(ForkLength) & !is.na(OrganismCode) ~ "No count",
+                                       is.na(LengthFrequency) & is.na(ForkLength) & !is.na(OrganismCode) ~ "No length measured",
                                        is.na(ForkLength) | ForkLength == 0 ~ "Unknown length",
                                        TRUE ~ NA_character_),
             # Unmatched Data
             Unmatched_Data = ifelse(!is.na(SampleDate), T, F),
             TimeStart_Impossible = ifelse(is.na(SampleTime) & !is.na(SampleTimeString), T, F))
+
+SalvageFinal <- Salvage %>%
+  mutate(OrganismCode = factor(OrganismCode),
+         originalData = T) %>%
+  group_by(SampleDate,
+           Facility = factor(Facility, levels = c("SWP", "CVP")),
+           AcreFeet) %>%
+  complete(OrganismCode) %>%
+  ungroup() %>%
+  filter(!(is.na(Facility) & is.na(originalData)))
 
 # # For salmon loss:
 # Salvage %>%
