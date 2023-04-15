@@ -44,7 +44,8 @@ SalvageJoined <- full_join(SalvageTables$Sample, SalvageTables$Building,
                      by = "SampleRowID", multiple = "all") %>%
   full_join(SalvageTables$Catch, by = "BuildingRowID", multiple = "all") %>%
   full_join(SalvageTables$Length, by = "CatchRowID", multiple = "all") %>%
-  left_join(SalvageTables$OrganismsLookUp, by = "OrganismCode", multiple = "all") %>%
+  left_join(SalvageTables$OrganismsLookUp %>%
+              mutate(Taxa = paste(Genus, Species)), by = "OrganismCode", multiple = "all") %>%
   left_join(SalvageTables$StudiesLookUp, by = "StudyRowID", multiple = "all") %>%
   left_join(SalvageTables$StationsLookUp, by = c("BuildingCode" = "FacilityCode"), multiple = "all")
 
@@ -53,33 +54,43 @@ Salvage <- SalvageJoined %>%
   group_by(CatchRowID) %>%
   mutate(TotalMeasured = sum(LengthFrequency, na.rm = T)) %>%
   ungroup() %>%
-  transmute(SampleDate = as.Date(SampleDate),
-            SampleTimeString = SampleTime,
-            SampleTime = as.POSIXct(paste0(SampleDate, " ", SampleTime),
+  transmute(Source = "Salvage",
+            SampleID = paste(Source, SampleRowID),
+            Date = as.Date(SampleDate),
+            Latitude = case_when(Comments_StationsLookUp == "SWP" ~ 37.825612769565474,
+                               Comments_StationsLookUp == "CVP" ~ 37.81667106195238),
+            Longitude = case_when(Comments_StationsLookUp == "SWP" ~ -121.59584120116043,
+                                  Comments_StationsLookUp == "CVP" ~ -121.55857777929133),
+            DateTime = as.POSIXct(paste0(Date, " ", SampleTime),
                                     format = "%Y-%m-%d %H:%M:%S",
                                     tz = "America/Los_Angeles"),
-            StudyRowID, StudyRowDescription = Description,
-            AcreFeet, MinutesPumping, SampleTimeLength,
-            WaterTemperature = (WaterTemperature - 32) * 5/9,
-            PrimaryDepth, PrimaryFlow, BayPump1, BayPump2, BayPump3, BayPump4,
-            BayPump5, Sampler, QCed,
-            BuildingCode, Building = Location, Facility = Comments_StationsLookUp,
+            Method = StudyRowID,
+            # MethodSalvageDescription = Description, # I don't know a good name for this
+            Salvage_volume = AcreFeet,
+            MinutesPumping, SampleTimeLength,
+            Temp_surf = (WaterTemperature - 32) * 5/9, # Is this really surface temperature? It's well mixed
+            # PrimaryDepth, PrimaryFlow, BayPump1, BayPump2, BayPump3, BayPump4,
+            # BayPump5, Sampler, QCed,
+            # BuildingCode,
+            Salvage_building = Location,
+            Station = Comments_StationsLookUp,
             # PrimaryBypass, SecondaryDepth, SecondaryFlow, HoldtingTankFlow,
-            OrganismCode, CommonName,
-            CatchRowID, Count, TotalMeasured,
+            # OrganismCode, CommonName, CatchRowID
+            Taxa, TotalMeasured,
             Subsampled = ifelse(Count > TotalMeasured, T, F),
             # If Count < TotalMeasured, simply use the TotalMeasured value for Count
             MoreMeasured = ifelse(TotalMeasured > Count, T, F),
-            Count = ifelse(!is.na(TotalMeasured) & (TotalMeasured > Count), TotalMeasured, Count),
+            Count1 = ifelse(!is.na(TotalMeasured) & (TotalMeasured > Count), TotalMeasured, Count),
             LengthFrequency = as.numeric(LengthFrequency),
             # If there is no fish measured, the pure count data is used to calculate expandedCount
             # Otherwise (for most cases), the length frequency is used to calculate expandedCount
-            ExpandedCount = ifelse(!is.na(TotalMeasured) & TotalMeasured != 0 & (Count >= TotalMeasured),
-                                   (LengthFrequency/TotalMeasured) * Count, Count),
-            ExpandedSalvage = case_when(StudyRowID == "0000" ~ ExpandedCount * (MinutesPumping/SampleTimeLength),
+            ExpandedCount = ifelse(!is.na(TotalMeasured) & TotalMeasured != 0 & (Count1 >= TotalMeasured),
+                                   (LengthFrequency/TotalMeasured) * Count1, Count1),
+            Count = case_when(StudyRowID == "0000" ~ ExpandedCount * (MinutesPumping/SampleTimeLength),
                                         StudyRowID == "9999" ~ as.numeric(ExpandedCount),
                                         StudyRowID == "8888" ~ 0),
-            ForkLength, AdiposeClip, Sex,
+            Length = ForkLength,
+            # AdiposeClip, Sex,
             Comments_Sample, Comments_OrganismsLookUp,
             # Some additional flags
             Length_NA_flag = case_when(is.na(LengthFrequency) & is.na(ForkLength) & is.na(OrganismCode) ~ "No fish caught",
@@ -87,35 +98,38 @@ Salvage <- SalvageJoined %>%
                                        is.na(ForkLength) | ForkLength == 0 ~ "Unknown length",
                                        TRUE ~ NA_character_),
             # Unmatched Data
-            Unmatched_Data = ifelse(!is.na(SampleDate), T, F),
-            TimeStart_Impossible = ifelse(is.na(SampleTime) & !is.na(SampleTimeString), T, F))
+            Unmatched_Data = ifelse(!is.na(Date), T, F),
+            TimeStart_Impossible = ifelse(is.na(DateTime) & !is.na(SampleTime), T, F)) %>%
+  select(-c(TotalMeasured, Subsampled, MoreMeasured, Count1, LengthFrequency, ExpandedCount))
 
-SalvageFinal <- Salvage %>%
-  mutate(OrganismCode = factor(OrganismCode),
-         originalData = T) %>%
-  group_by(SampleDate,
-           Facility = factor(Facility, levels = c("SWP", "CVP")),
-           AcreFeet) %>%
-  complete(OrganismCode) %>%
-  ungroup() %>%
-  filter(!(is.na(Facility) & is.na(originalData)))
+# # This is the expansion of this dataset, checked against the CDFW website
+# SalvageFinal <- Salvage %>%
+#   mutate(Taxa = factor(Taxa),
+#          originalData = T) %>%
+#   group_by(Date,
+#            Station = factor(Station, levels = c("SWP", "CVP")),
+#            Salvage_volume) %>%
+#   complete(Taxa) %>%
+#   ungroup() %>%
+#   filter(!(is.na(Station) & is.na(originalData)))
 
 # # For salmon loss:
 # Salvage %>%
+#   filter(OrganismCode == 1) %>%
 #   mutate(BayPump1 = ifelse(BayPump1, 21, 0),
 #          BayPump2 = ifelse(BayPump2, 21, 0),
 #          BayPump3 = ifelse(BayPump3, 43, 0),
 #          BayPump4 = ifelse(BayPump4, 43, 0),
 #          BayPump5 = ifelse(BayPump5, 21, 0),
-#          TotalWidth = ifelse(SampleMethod == 1, BayPump1 + BayPump2 + BayPump3 + BayPump4 + BayPump5, 84),
+#          TotalWidth = ifelse(Facility =="SWP", BayPump1 + BayPump2 + BayPump3 + BayPump4 + BayPump5, 84),
 #          # Now to calculate loss
-#          Encounter = ifelse(ForkLength < 101, ExpandedSalvage/(0.630 + (0.0494 * (PrimaryFlow/(PrimaryDepth * TotalWidth)))),
-#                             ExpandedSalvage/(0.568 + (0.0579 * (PrimaryFlow/(PrimaryDepth * TotalWidth))))),
+#          Encounter = ifelse(Length < 101, Count/(0.630 + (0.0494 * (PrimaryFlow/(PrimaryDepth * TotalWidth)))),
+#                             Count/(0.568 + (0.0579 * (PrimaryFlow/(PrimaryDepth * TotalWidth))))),
 #          # unique(SampleMethod) = 1, 2
-#          Entrain = ifelse(SampleMethod == 1, Encounter/0.25, Encounter/0.85),
-#          Release = ifelse(ForkLength < 101, ExpandedSalvage * 0.98, ExpandedSalvage),
-#          Loss = case_when(StudyRowID == "0000" ~ (Entrain - Release),
-#                           SampleMethod == 1 & StudyRowID == "9999" ~ (ExpandedSalvage * 4.33),
-#                           SampleMethod == 2 & StudyRowID == "9999" ~ (ExpandedSalvage * 0.569)))
+#          Entrain = ifelse(Station =="SWP", Encounter/0.25, Encounter/0.85),
+#          Release = ifelse(Length < 101, Count * 0.98, Count),
+#          Loss = case_when(Method == "0000" ~ (Entrain - Release),
+#                           Station =="SWP" & Method == "9999" ~ (Count * 4.33),
+#                           Station == "CVP" & Method == "9999" ~ (Count * 0.569)))
 
 usethis::use_data(Salvage, overwrite=TRUE)

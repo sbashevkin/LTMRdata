@@ -19,7 +19,13 @@ require(XML)
 # relational tables
 
 # Find the newest revision
-tableLinks <- read.delim("https://pasta.lternet.edu/package/eml/edi/415/newest", header = F) %>%
+# IF you want to pull a specific version of a package, which is a number
+version <- NA
+
+link <- ifelse(is.na(version), "https://pasta.lternet.edu/package/eml/edi/415/newest",
+               paste0("https://pasta.lternet.edu/package/eml/edi/415/", version))
+
+tableLinks <- read.delim(link, header = F) %>%
   .[[1]] %>%
   .[which(grepl("/data/", .))]
 
