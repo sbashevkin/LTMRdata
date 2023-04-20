@@ -134,7 +134,7 @@ boatstation_baystudy <- BayStudyTables$BoatStation %>%
             StationComment = as.character(StationComment))
 
 boatstation_baystudy <- boatstation_baystudy %>%
-  mutate(Date=as.POSIXct(Date, format="%Y-%m-%d", tz="America/Los_Angeles"))%>% # What about when you read this from a csv file?
+  mutate(Date=as.Date(Date, format="%Y-%m-%d"))%>% # What about when you read this from a csv file?
   left_join(tidecodes_baystudy, by="Tide")%>% # Convert tide codes to values
   dplyr::select(-Tide, -SubstrateCode)%>%
   rename(Tidestation=Description)%>%

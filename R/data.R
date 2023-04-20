@@ -3,7 +3,7 @@
 #' California Department of Fish and Wildlife Bay Study data.
 #'
 #' @encoding UTF-8
-#' @format a tibble with 764,592 rows and 23 variables
+#' @format a tibble with 785,257 rows and 23 variables
 #' \describe{
 #'   \item{Source}{Name of source dataset.}
 #'   \item{Station}{Station where sample was collected.}
@@ -35,7 +35,7 @@
 #' Baystudy measured lengths
 #'
 #' Only measured lengths from the Baystudy data
-#' @format a tibble with 761,128 rows and 5 variables
+#' @format a tibble with 781,679 rows and 5 variables
 #' \describe{
 #'   \item{SampleID}{Unique sample identifier.}
 #'   \item{Taxa}{Scientific name.}
@@ -50,7 +50,7 @@
 #' US Fish and Wildlife Service Delta Juvenile Fish Monitoring Program data.
 #'
 #' @encoding UTF-8
-#' @format a tibble with 2,154,762 rows and 18 variables
+#' @format a tibble with 2,569,140 rows and 18 variables
 #' \describe{
 #'   \item{Source}{Name of source dataset.}
 #'   \item{Station}{Station where sample was collected.}
@@ -79,7 +79,7 @@
 #' US Fish and Wildlife Service Enhanced Delta Smelt Monitoring (EDSM) data.
 #'
 #' @encoding UTF-8
-#' @format a tibble with 130,986 rows and 19 number of variables
+#' @format a tibble with 157,685 rows and 19 number of variables
 #' \describe{
 #'   \item{Source}{Name of source dataset.}
 #'   \item{Station}{Station where sample was collected.}
@@ -109,7 +109,7 @@
 #' California Department of Fish and Wildlife Fall Midwater Trawl data.
 #'
 #' @encoding UTF-8
-#' @format a tibble with 254,537 rows and 22 variables
+#' @format a tibble with 261,874 rows and 22 variables
 #' \describe{
 #'   \item{Source}{Name of source dataset.}
 #'   \item{Station}{Station where sample was collected.}
@@ -140,7 +140,7 @@
 #' FMWT measured lengths
 #'
 #' Only measured lengths from the FMWT data
-#' @format a tibble with 223,033 rows and 4 variables
+#' @format a tibble with 229,461 rows and 4 variables
 #' \describe{
 #'   \item{SampleID}{Unique sample identifier.}
 #'   \item{Taxa}{Scientific name.}
@@ -166,7 +166,7 @@
 #' California Department of Fish and Wildlife Spring Kodiac Trawl (SKT) data.
 #'
 #' @encoding UTF-8
-#' @format a tibble with 39,881 rows and 20 variables
+#' @format a tibble with 41,263 rows and 20 variables
 #' \describe{
 #'   \item{Source}{Name of source dataset.}
 #'   \item{Station}{Station where sample was collected.}
@@ -197,7 +197,7 @@
 #' Only measured lengths from the SKT data
 #'
 #' @encoding UTF-8
-#' @format a tibble with 38,448 rows and 4 variables
+#' @format a tibble with 39,738 rows and 4 variables
 #' \describe{
 #'   \item{SampleID}{Unique sample identifier.}
 #'   \item{Taxa}{Scientific name.}
@@ -211,7 +211,7 @@
 #' California Department of Fish and Wildlife Smelt Larva Survey data.
 #'
 #' @encoding UTF-8
-#' @format a tibble with 19,447 rows and 25 variables
+#' @format a tibble with 21,486 rows and 25 variables
 #' \describe{
 #'   \item{Source}{Name of source dataset.}
 #'   \item{Station}{Station where sample was collected.}
@@ -267,7 +267,7 @@
 #' California Department of Fish and Wildlife Summer Townet Survey (STN) data.
 #'
 #' @encoding UTF-8
-#' @format a tibble with 183,718 rows and 22 variables
+#' @format a tibble with 187,708 rows and 22 variables
 #' \describe{
 #'   \item{Source}{Name of source dataset.}
 #'   \item{Station}{Station where sample was collected.}
@@ -298,7 +298,7 @@
 #' STN measured lengths
 #'
 #' Only measured lengths from the STN data
-#' @format a tibble with 167,419 rows and 4 variables
+#' @format a tibble with 170,651 rows and 4 variables
 #' \describe{
 #'   \item{SampleID}{Unique sample identifier.}
 #'   \item{Taxa}{Scientific name.}
@@ -312,7 +312,7 @@
 #' UC Davis Suisun Marsh Fish Study data.
 #'
 #' @encoding UTF-8
-#' @format a tibble with 188,714 rows and 21 variables
+#' @format a tibble with 196,479 rows and 21 variables
 #' \describe{
 #'   \item{Source}{Name of source dataset.}
 #'   \item{Station}{Station where sample was collected.}
@@ -341,7 +341,7 @@
 #' Suisun measured lengths
 #'
 #' Only measured lengths from the Suisun data
-#' @format a tibble with 162,198 rows and 5 variables
+#' @format a tibble with 167,785 rows and 5 variables
 #' \describe{
 #'   \item{SampleID}{Unique sample identifier.}
 #'   \item{Taxa}{Scientific name.}
@@ -356,7 +356,7 @@
 #' California Department of Fish and Wildlife 20-mm Survey data.
 #'
 #' @encoding UTF-8
-#' @format a tibble with 324,021 rows and 22 variables
+#' @format a tibble with 336,446 rows and 22 variables
 #' \describe{
 #'   \item{Source}{Name of source dataset.}
 #'   \item{Station}{Station where sample was collected.}
@@ -387,7 +387,7 @@
 #' 20mm measured lengths
 #'
 #' Only measured lengths from the 20-mm Survey data
-#' @format a tibble with 321,019 rows and 4 variables
+#' @format a tibble with 333,127 rows and 4 variables
 #' \describe{
 #'   \item{SampleID}{Unique sample identifier.}
 #'   \item{Taxa}{Scientific name.}
@@ -395,3 +395,46 @@
 #'   \item{Count}{Number of fish measured to this length.}
 #'   }
 "TMM_measured_lengths"
+
+#' Salvage dataset
+#'
+#' California Department of Fish and Wildlife Fish Salvage dataset.
+#'
+#' @encoding UTF-8
+#' @format a tibble with 2,514,681 rows and 20 variables
+#' \describe{
+#'   \item{Source}{Name of source dataset.}
+#'   \item{Station}{State or federal facility (SWP or CVP).}
+#'   \item{Salvage_building}{Specific building of sampling, applicable only to the state facility.}
+#'   \item{Latitude}{Latitude (decimal degrees) of the full facility.}
+#'   \item{Longitude}{Longitude (decimal degrees) of the full facility.}
+#'   \item{Date}{Date sample was collected.}
+#'   \item{Datetime}{Date and time sample was collected.}
+#'   \item{SampleID}{Unique sample identifier.}
+#'   \item{Method}{Sampling period (0000 = Normal count, 9999 = Second flush, 7777 = Traveling screen count, and 8888 = Special study)}
+#'   \item{Salvage_volume}{The amount of water export in cubic meter.}
+#'   \item{MinutesPumping}{Total time the export pumps are running.}
+#'   \item{SampleTimeLength}{Total time within the block of minutes pumped that fish are sampled.}
+#'   \item{Temp_surf}{Surface temperature in °C.}
+#'   \item{Taxa}{Scientific name.}
+#'   \item{Length}{Fork length from tip of the snout to a point at the fork of the caudal fin (mm) or total length for species without a forked tail.}
+#'   \item{Count}{Estimated count for each sample, taxa, and length.}
+#'   \item{Notes_Sample}{Comments or notes of the sampling period.}
+#'   \item{Length_NA_flag}{Why is the length NA?}
+#'   \item{Unmatched_Data}{Data rows not fully matched across all relational tables.}
+#'   \item{TimeStart_Impossible}{Flags of combinations of date and time that cannot exist due to Daylight Saving Time.}
+#'   }
+#' @details More metadata and information on methods are available \href{https://wildlife.ca.gov/Conservation/Delta/Salvage-Monitoring}{here}.
+"Salvage"
+
+#' Salvage measured lengths
+#'
+#' Only measured lengths from the Salvage data
+#' @format a tibble with 1,748,384 rows and 4 variables
+#' \describe{
+#'   \item{SampleID}{Unique sample identifier.}
+#'   \item{Taxa}{Scientific name.}
+#'   \item{Length}{Fork length from tip of the snout to a point at the fork of the caudal fin (mm) or total length for species without a forked tail.}
+#'   \item{Count}{Number of fish measured to this length.}
+#'   }
+"Salvage_measured_lengths"

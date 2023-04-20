@@ -61,7 +61,8 @@ FMWT_Tables$Station <- FMWT_Tables$StationsLookUp%>%
 # Sample-level data -------------------------------------------------------
 FMWT_Tables$Sample <- FMWT_Tables$Sample %>%
     transmute(SampleRowID = as.integer(SampleRowID),
-              across(c(StationCode, MethodCode, SampleDate, SampleTimeStart), as.character),
+              across(c(StationCode, MethodCode, SampleTimeStart), as.character),
+              SampleDate = as.Date(SampleDate),
               SurveyNumber = as.integer(SurveyNumber),
               across(c(WaterTemperature, Turbidity, Secchi), as.double),
               SecchiEstimated = as.logical(SecchiEstimated),

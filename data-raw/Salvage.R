@@ -55,25 +55,27 @@ Salvage <- SalvageJoined %>%
   mutate(TotalMeasured = sum(LengthFrequency, na.rm = T)) %>%
   ungroup() %>%
   transmute(Source = "Salvage",
-            SampleID = paste(Source, SampleRowID),
-            Date = as.Date(SampleDate),
+            Station = Comments_StationsLookUp,
+            Salvage_building = Location,
             Latitude = case_when(Comments_StationsLookUp == "SWP" ~ 37.825612769565474,
                                Comments_StationsLookUp == "CVP" ~ 37.81667106195238),
             Longitude = case_when(Comments_StationsLookUp == "SWP" ~ -121.59584120116043,
                                   Comments_StationsLookUp == "CVP" ~ -121.55857777929133),
+            Date = as.Date(SampleDate),
             DateTime = as.POSIXct(paste0(Date, " ", SampleTime),
                                     format = "%Y-%m-%d %H:%M:%S",
                                     tz = "America/Los_Angeles"),
-            Method = StudyRowID,
+            SampleID = paste(Source, SampleRowID),
+            # Here, 0000 = normal count, 9999 = second flush, 7777 = traveling screen count, and 8888 = special study
+            Method = Description,
             # MethodSalvageDescription = Description, # I don't know a good name for this
-            Salvage_volume = AcreFeet,
+            # Changing acre feet volume to cubic meter
+            Salvage_volume = AcreFeet * 1233.48,
             MinutesPumping, SampleTimeLength,
             Temp_surf = (WaterTemperature - 32) * 5/9, # Is this really surface temperature? It's well mixed
             # PrimaryDepth, PrimaryFlow, BayPump1, BayPump2, BayPump3, BayPump4,
             # BayPump5, Sampler, QCed,
             # BuildingCode,
-            Salvage_building = Location,
-            Station = Comments_StationsLookUp,
             # PrimaryBypass, SecondaryDepth, SecondaryFlow, HoldtingTankFlow,
             # OrganismCode, CommonName, CatchRowID
             Taxa, TotalMeasured,
@@ -86,20 +88,27 @@ Salvage <- SalvageJoined %>%
             # Otherwise (for most cases), the length frequency is used to calculate expandedCount
             ExpandedCount = ifelse(!is.na(TotalMeasured) & TotalMeasured != 0 & (Count1 >= TotalMeasured),
                                    (LengthFrequency/TotalMeasured) * Count1, Count1),
+            Length = ForkLength,
             Count = case_when(StudyRowID == "0000" ~ ExpandedCount * (MinutesPumping/SampleTimeLength),
                                         StudyRowID == "9999" ~ as.numeric(ExpandedCount),
                                         StudyRowID == "8888" ~ 0),
-            Length = ForkLength,
             # AdiposeClip, Sex,
-            Comments_Sample, Comments_OrganismsLookUp,
+            Notes_Sample = Comments_Sample,
+            # Comments_OrganismsLookUp,
             # Some additional flags
             Length_NA_flag = case_when(is.na(LengthFrequency) & is.na(ForkLength) & is.na(OrganismCode) ~ "No fish caught",
-                                       is.na(LengthFrequency) & is.na(ForkLength) & !is.na(OrganismCode) ~ "No length measured",
-                                       is.na(ForkLength) | ForkLength == 0 ~ "Unknown length",
+                                       is.na(LengthFrequency) & Count > 0 ~ "Unknown length",
                                        TRUE ~ NA_character_),
             # Unmatched Data
             Unmatched_Data = ifelse(!is.na(Date), T, F),
-            TimeStart_Impossible = ifelse(is.na(DateTime) & !is.na(SampleTime), T, F)) %>%
+            TimeStart_Impossible = ifelse(is.na(DateTime) & !is.na(SampleTime), T, F))
+
+Salvage_measured_lengths <- Salvage %>%
+  select(SampleID, Taxa, Length, LengthFrequency) %>%
+  filter(!is.na(LengthFrequency)) %>% # Remove fish that weren't measured
+  rename(Count = LengthFrequency)
+
+Salvage <- Salvage %>%
   select(-c(TotalMeasured, Subsampled, MoreMeasured, Count1, LengthFrequency, ExpandedCount))
 
 # # This is the expansion of this dataset, checked against the CDFW website
@@ -132,4 +141,4 @@ Salvage <- SalvageJoined %>%
 #                           Station =="SWP" & Method == "9999" ~ (Count * 4.33),
 #                           Station == "CVP" & Method == "9999" ~ (Count * 0.569)))
 
-usethis::use_data(Salvage, overwrite=TRUE)
+usethis::use_data(Salvage, Salvage_measured_lengths, overwrite=TRUE)
