@@ -6,7 +6,8 @@
 \usage{
 data_integrate(
   data_path,
-  sources = c("Baystudy", "Suisun", "FMWT", "SKT", "DJFMP", "EDSM", "TMM", "SLS", "STN"),
+  sources = c("Baystudy", "Suisun", "FMWT", "SKT", "DJFMP", "EDSM", "TMM", "SLS",
+    "STN"),
   rda = TRUE,
   write = TRUE,
   quiet = FALSE

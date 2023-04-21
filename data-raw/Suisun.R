@@ -85,7 +85,8 @@ age_size_suisun <- suisunMarshTables$AgesBySizeMo %>%
 
 #Removing salinity because data do not correspond well with conductivity
 sample_suisun <- suisunMarshTables$Sample %>%
-  transmute(across(c(SampleRowID, MethodCode, StationCode, SampleDate, SampleTime), as.character),
+  transmute(across(c(SampleRowID, MethodCode, StationCode, SampleTime), as.character),
+            SampleDate = as.Date(SampleDate),
             QADone = as.logical(QADone),
             across(c(WaterTemperature, DO, PctSaturation, Secchi, SpecificConductance), as.double),
             TideCode = as.character(TideCode)) %>%

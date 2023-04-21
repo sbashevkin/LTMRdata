@@ -6,7 +6,7 @@
 \alias{TMM}
 \title{20mm dataset}
 \format{
-a tibble with 324,021 rows and 22 variables
+a tibble with 336,446 rows and 22 variables
 \describe{
   \item{Source}{Name of source dataset.}
   \item{Station}{Station where sample was collected.}

@@ -6,7 +6,7 @@
 \alias{Suisun}
 \title{Suisun Marsh dataset}
 \format{
-a tibble with 188,714 rows and 21 variables
+a tibble with 196,479 rows and 21 variables
 \describe{
   \item{Source}{Name of source dataset.}
   \item{Station}{Station where sample was collected.}
