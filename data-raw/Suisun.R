@@ -101,7 +101,8 @@ sample_suisun <- suisunMarshTables$Sample %>%
   dplyr::select(-Time)%>% # Remove unneeded variable
   mutate(Tide=recode(Tide, flood="Flood", ebb="Ebb", low="Low Slack", high="High Slack", outgoing="Ebb", incoming="Flood"), # Rename tide codes for consistency
          Source="Suisun",
-         SampleID=paste(Source, SampleRowID))%>% # Create identifier for each sample
+         SampleID=ifelse(grepl("\\{|\\}", SampleRowID), paste(Source, SampleRowID),
+                         paste0(Source, " {", SampleRowID, "}")))%>% # Create identifier for each sample
   left_join(stations_suisun, # Add station locations
             by="Station")%>%
   left_join(depth_suisun, # Add bottom depths

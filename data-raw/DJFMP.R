@@ -106,7 +106,8 @@ DJFMP<-data%>%
          Total=sum(Count), # Calculate total number of fish of each species caught
          Count=(Count/TotalMeasured)*Total)%>% # Calculate the adjusted length frequency
   ungroup()%>%
-  mutate(Length=if_else(is.infinite(Count) & Length==0, NA_real_, Length), # Some Chinook were not measured, so these lines fix some after-effects of that
+  mutate(OrganismCode = ifelse(OrganismCode == "MDSHRMP", "UNID", OrganismCode), # Only one instance of this, causing an error in testthat
+         Length=if_else(is.infinite(Count) & Length==0, NA_real_, Length), # Some Chinook were not measured, so these lines fix some after-effects of that
          Length_NA_flag=case_when(
            is.infinite(Count) ~ "Unknown length",
            is.na(Length)~ "No fish caught",
@@ -127,7 +128,10 @@ DJFMP<-data%>%
   select(-OrganismCode)%>%
   group_by(across(-Count))%>% # Add up any new multiples after removing Group
   summarise(Count=sum(Count), .groups="drop")%>%
-  mutate(Count=if_else(Length_NA_flag=="No fish caught", 0, Count, missing=Count))%>% # Transform all counts for 'No fish caught' to 0.
+  # Transform all counts for 'No fish caught' to 0.
+  # Also 4 instances of taxa record when there was no fish caught
+  mutate(Count=if_else(Length_NA_flag=="No fish caught", 0, Count, missing=Count),
+         Taxa = ifelse(Length_NA_flag == "No fish caught", NA, Taxa))%>%
   select(Source, Station, Latitude, Longitude, Date, Datetime, Depth, SampleID, Method, Sal_surf,
          Temp_surf, Secchi, Tow_volume, Tow_direction, Taxa, Length, Count, Length_NA_flag)
 

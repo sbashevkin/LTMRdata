@@ -39,33 +39,63 @@ SalvageTables$StationsLookUp <- SalvageTables$StationsLookUp %>%
   rename(Active_StationsLookUp = Active,
          Comments_StationsLookUp = Comments)
 
-# setting up the combined table to link with correct ID"s
+# Setting up the combined table to link with correct ID"s
 SalvageJoined <- full_join(SalvageTables$Sample, SalvageTables$Building,
                      by = "SampleRowID", multiple = "all") %>%
   full_join(SalvageTables$Catch, by = "BuildingRowID", multiple = "all") %>%
   full_join(SalvageTables$Length, by = "CatchRowID", multiple = "all") %>%
-  left_join(SalvageTables$OrganismsLookUp %>%
-              mutate(Taxa = paste(Genus, Species)), by = "OrganismCode", multiple = "all") %>%
+  left_join(SalvageTables$OrganismsLookUp, by = "OrganismCode", multiple = "all") %>%
   left_join(SalvageTables$StudiesLookUp, by = "StudyRowID", multiple = "all") %>%
   left_join(SalvageTables$StationsLookUp, by = c("BuildingCode" = "FacilityCode"), multiple = "all")
 
+# OrganismCode 98 and 99 are Total Fish Count, Total Fish Estimate, but they are generally recorded as 0.
+# Will have to remove them from the dataset as there are fish caught during these sampling events.
+# However, there are specific instances where these are the only occurence that represents a sampling event...
+# In those cases, cannot remove them as you'll lose environmental data (e.g., export data does not align)
+# Need to keep these, while removing all rows with 98/99 (if not, fails testthat)
+rowsToRemove <- SalvageJoined %>%
+  distinct(SampleRowID, OrganismCode) %>%
+  group_by(SampleRowID) %>%
+  add_tally(name = "nTotalCount") %>%
+  filter(OrganismCode %in% c(98, 99) & nTotalCount != 1) %>%
+  pull(SampleRowID)
+
+# Fixes to the dataset to pass package tests
 # After joining, calculate and keep only relevant columns
 Salvage <- SalvageJoined %>%
+  filter(Description == "Normal count",
+         !(OrganismCode %in% c(98, 99) & SampleRowID %in% rowsToRemove)) %>%
+  mutate(Facility = case_when(SampleMethod == 1 ~ "SWP",
+                              SampleMethod == 2 ~ "CVP",
+                              is.na(SampleMethod) & !is.na(Comments_StationsLookUp) ~ Comments_StationsLookUp),
+         Station = paste(Facility, Location),
+  Station = ifelse(Station %in% "CVP NA", "CVP Federal Facility", Station)) %>%
+  # Specific column to indicate that no fish has been caught
+  group_by(SampleRowID, Station) %>%
+  mutate(FishCaught = ifelse(sum(LengthFrequency, na.rm = T) > 0 | sum(Count, na.rm = T) > 0, T, F)) %>%
   group_by(CatchRowID) %>%
   mutate(TotalMeasured = sum(LengthFrequency, na.rm = T)) %>%
   ungroup() %>%
+  # Binding in the Taxa name here; not directly the OrganismsLookUp table, see code at end for details
+  left_join(Species %>%
+              distinct(OrganismCode = Salvage_Code,
+                       Taxa) %>%
+              filter(!grepl("Age", Taxa),
+                     !is.na(OrganismCode)),
+            by = "OrganismCode") %>%
   transmute(Source = "Salvage",
-            Station = Comments_StationsLookUp,
+            Facility,
+            Station,
             Salvage_building = Location,
             Latitude = case_when(Comments_StationsLookUp == "SWP" ~ 37.825612769565474,
-                               Comments_StationsLookUp == "CVP" ~ 37.81667106195238),
+                                 Comments_StationsLookUp == "CVP" ~ 37.81667106195238),
             Longitude = case_when(Comments_StationsLookUp == "SWP" ~ -121.59584120116043,
                                   Comments_StationsLookUp == "CVP" ~ -121.55857777929133),
             Date = as.Date(SampleDate),
-            DateTime = as.POSIXct(paste0(Date, " ", SampleTime),
-                                    format = "%Y-%m-%d %H:%M:%S",
-                                    tz = "America/Los_Angeles"),
-            SampleID = paste(Source, SampleRowID),
+            Datetime = as.POSIXct(paste0(Date, " ", SampleTime),
+                                  format = "%Y-%m-%d %H:%M:%S",
+                                  tz = "America/Los_Angeles"),
+            SampleRowID,
             # Here, 0000 = normal count, 9999 = second flush, 7777 = traveling screen count, and 8888 = special study
             Method = Description,
             # MethodSalvageDescription = Description, # I don't know a good name for this
@@ -76,32 +106,73 @@ Salvage <- SalvageJoined %>%
             # PrimaryDepth, PrimaryFlow, BayPump1, BayPump2, BayPump3, BayPump4,
             # BayPump5, Sampler, QCed,
             # BuildingCode,
-            # PrimaryBypass, SecondaryDepth, SecondaryFlow, HoldtingTankFlow,
-            # OrganismCode, CommonName, CatchRowID
-            Taxa, TotalMeasured,
+            # PrimaryBypass, SecondaryDepth, SecondaryFlow, HoldingTankFlow,
+            # OrganismCode, CommonName,
+            CatchRowID,
+            # As of April 28, 2023, this filter removes 15 instances of when there was 0 fish caught but a taxa recorded
+            # Not related to the 98 and 99 filter
+            Taxa = ifelse(!is.na(Taxa) & FishCaught != T, NA_character_, Taxa),
+            TotalMeasured,
             Subsampled = ifelse(Count > TotalMeasured, T, F),
             # If Count < TotalMeasured, simply use the TotalMeasured value for Count
             MoreMeasured = ifelse(TotalMeasured > Count, T, F),
-            Count1 = ifelse(!is.na(TotalMeasured) & (TotalMeasured > Count), TotalMeasured, Count),
+            Count1 = ifelse(!is.na(TotalMeasured) & ((TotalMeasured > Count) |
+                                                       (!is.na(TotalMeasured) & is.na(Count))),
+                            TotalMeasured, Count),
             LengthFrequency = as.numeric(LengthFrequency),
             # If there is no fish measured, the pure count data is used to calculate expandedCount
             # Otherwise (for most cases), the length frequency is used to calculate expandedCount
             ExpandedCount = ifelse(!is.na(TotalMeasured) & TotalMeasured != 0 & (Count1 >= TotalMeasured),
                                    (LengthFrequency/TotalMeasured) * Count1, Count1),
             Length = ForkLength,
-            Count = case_when(StudyRowID == "0000" ~ ExpandedCount * (MinutesPumping/SampleTimeLength),
-                                        StudyRowID == "9999" ~ as.numeric(ExpandedCount),
-                                        StudyRowID == "8888" ~ 0),
+            Count = case_when(
+              # In this specific sample, sample time length was not recorded. Imputing with 20 min, the median for all instances when MinutesPumping == 60
+              SampleRowID == 29724 ~ ExpandedCount * (MinutesPumping/20),
+              (is.na(MinutesPumping) | MinutesPumping == 0 | SampleTimeLength == 0 | is.na(SampleTimeLength)) & FishCaught != T ~ 0,
+              is.na(Station) & FishCaught != T ~ 0,
+              StudyRowID == "0000" ~ ExpandedCount * (MinutesPumping/SampleTimeLength),
+              StudyRowID == "9999" ~ as.numeric(ExpandedCount),
+              StudyRowID == "8888" ~ 0,
+              # OrganismCode == 98, 99 simply leave Count as 0
+              OrganismCode %in% c(98, 99) ~ 0,
+              TRUE ~ 0),
             # AdiposeClip, Sex,
             Notes_Sample = Comments_Sample,
             # Comments_OrganismsLookUp,
             # Some additional flags
-            Length_NA_flag = case_when(is.na(LengthFrequency) & is.na(ForkLength) & is.na(OrganismCode) ~ "No fish caught",
-                                       is.na(LengthFrequency) & Count > 0 ~ "Unknown length",
+            Length_NA_flag = case_when(FishCaught != T ~ "No fish caught",
+                                       is.na(Length) & Count > 0 ~ "Unknown length",
                                        TRUE ~ NA_character_),
+            FishCaught
             # Unmatched Data
-            Unmatched_Data = ifelse(!is.na(Date), T, F),
-            TimeStart_Impossible = ifelse(is.na(DateTime) & !is.na(SampleTime), T, F))
+            # Unmatched_Data = ifelse(is.na(Date), T, F),
+            # TimeStart_Impossible = ifelse(is.na(Datetime) & !is.na(SampleTime), T, F)
+  ) %>%
+  # Need to remove the unmatched data for the package check to work
+  filter(!is.na(Date)) %>%
+  group_by(CatchRowID) %>%
+  # Fixing CatchRowID 911654 and 1172485 in which length freq was NA for 1 row instance but other row instances had lengths
+  # Catch will be expanded to all available lengths and the NAs will be removed
+  # Also, CatchRowID 139236 and 139307 is changed as well, LengthFrequency == 0 for these rows for some reason.
+  mutate(lengthNAs = ifelse(!is.na(CatchRowID) & FishCaught == T,
+                            sum(ifelse(is.na(LengthFrequency) | LengthFrequency == 0, T, F) & is.na(Length_NA_flag), na.rm = T),
+                            0)) %>%
+  ungroup() %>%
+  # 16 instances of NA counts from the CVP because
+  # Removes just the four CatchRowID
+  filter(!(lengthNAs == 1 & (LengthFrequency == 0 | is.na(LengthFrequency)) & Method == "Normal count")) %>%
+  # Creating a SampleID. Want to retain SampleRowID from database but also distinguish each building at the SWP
+  {
+    left_join(., distinct(.data = ., Source, Facility, Salvage_building, SampleRowID) %>%
+                group_by(Facility, SampleRowID) %>%
+                mutate(SampleID = paste(Source, SampleRowID, 1:n())),
+              by = c("Source", "Facility", "Salvage_building", "SampleRowID"))
+  } %>%
+  relocate(SampleID, .after = SampleRowID)
+
+# When FishCatch != TRUE
+
+if (!isTRUE(Salvage %>% group_by(lengthNAs) %>% tally() %>% filter(lengthNAs > 0) %>% pull(n) == 49)) stop("Have there been additional entries to this filter? See comments for lengthNAs above.")
 
 Salvage_measured_lengths <- Salvage %>%
   select(SampleID, Taxa, Length, LengthFrequency) %>%
@@ -109,7 +180,9 @@ Salvage_measured_lengths <- Salvage %>%
   rename(Count = LengthFrequency)
 
 Salvage <- Salvage %>%
-  select(-c(TotalMeasured, Subsampled, MoreMeasured, Count1, LengthFrequency, ExpandedCount))
+  select(-c(Facility, Salvage_building, SampleRowID,
+            TotalMeasured, Subsampled, MoreMeasured, Count1, LengthFrequency, ExpandedCount,
+            lengthNAs, CatchRowID, FishCaught))
 
 # # This is the expansion of this dataset, checked against the CDFW website
 # SalvageFinal <- Salvage %>%
@@ -140,5 +213,31 @@ Salvage <- Salvage %>%
 #          Loss = case_when(Method == "0000" ~ (Entrain - Release),
 #                           Station =="SWP" & Method == "9999" ~ (Count * 4.33),
 #                           Station == "CVP" & Method == "9999" ~ (Count * 0.569)))
+
+# # For updating the species table with the salvage codes
+# SalvageTables$OrganismsLookUp %>%
+#   transmute(Salvage_Code = OrganismCode,
+#             ScientificName = case_when(OrganismCode == 90 ~ "UnID",
+#                                        Genus == "NA" & Family != "NA" ~ Family,
+#                                        Genus == "NA" & Family == "NA" ~ CommonName,
+#                                        TRUE ~ paste(Genus, Species))) %>%
+#   mutate(ScientificName = trimws(sub("NA", "", ScientificName)),
+#          # Also, correcting names
+#          ScientificName = case_when(ScientificName == "Anarrhichthys ocellantus" ~ "Anarrhichthys ocellatus",
+#                                     ScientificName == "Clupea pallasi" ~ "Clupea pallasii",
+#                                     ScientificName == "Hyperprosopon Argenteum" ~ "Hyperprosopon argenteum",
+#                                     ScientificName == "Hysterocarpus traski" ~ "Hysterocarpus traskii",
+#                                     ScientificName == "Lampetra ayresi" ~ "Lampetra ayresii",
+#                                     ScientificName == "Lepidopsetta bilineatta" ~ "Lepidopsetta bilineata",
+#                                     ScientificName == "Morone Chrysops" ~ "Morone chrysops",
+#                                     ScientificName == "Palaemon macrodactylum" ~ "Palaemon macrodactylus",
+#                                     ScientificName == "Phanerodon furactus" ~ "Phanerodon furcatus",
+#                                     ScientificName == "Potamocorbula amurenis" ~ "Potamocorbula amurensis",
+#                                     ScientificName == "Spirinchus starski" ~ "Spirinchus starksi",
+#                                     TRUE ~ ScientificName)) %>%
+#   full_join(Species, by = "ScientificName") %>%
+#   relocate(Salvage_Code, .after = "TMM_Code") %>%
+#   write_csv(file.path("data-raw", "Species codes.csv"))
+
 
 usethis::use_data(Salvage, Salvage_measured_lengths, overwrite=TRUE)

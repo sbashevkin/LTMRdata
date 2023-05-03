@@ -1,5 +1,5 @@
 require(dplyr)
-data<-bind_rows(LTMRdata::Baystudy, LTMRdata::Suisun, LTMRdata::FMWT, LTMRdata::DJFMP, LTMRdata::EDSM, LTMRdata::TMM, LTMRdata::SLS, LTMRdata::STN, LTMRdata::SKT)
+data<-bind_rows(LTMRdata::Baystudy, LTMRdata::Suisun, LTMRdata::FMWT, LTMRdata::DJFMP, LTMRdata::EDSM, LTMRdata::TMM, LTMRdata::SLS, LTMRdata::STN, LTMRdata::SKT, LTMRdata::Salvage)
 
 test_that("All Lats are between 37 and 39 and all Longs are between -123 and -121", {
   expect_true(all((data$Latitude<39.3 & data$Latitude>37) | is.na(data$Latitude)))
@@ -37,7 +37,6 @@ test_that("Length_NA_flag 'No fish caught' is applied correctly", {
 test_that("Length_NA_flag 'Unknown length' is applied correctly", {
   expect_setequal(filter(data, is.na(Length) & Count>0)$Length_NA_flag, "Unknown length") # 'Unknown length' should only be applied when length is NA and Count>0
   expect_equal(nrow(filter(data, !(is.na(Length) & Count>0) & Length_NA_flag=="Unknown length")), 0) # 'Unknown length' should only be applied when length is NA and Count>0
-
 })
 
 test_that("No zero counts exist in the dataset, except for instances of 'No fish caught'", {

@@ -6,7 +6,7 @@ cache_dir<-"LTMRdata-test"
 
 # First collect some stats on the raw mashed together data
 
-data_raw<-bind_rows(LTMRdata::Baystudy, LTMRdata::Suisun, LTMRdata::FMWT, LTMRdata::DJFMP, LTMRdata::EDSM, LTMRdata::TMM, LTMRdata::SLS, LTMRdata::STN, LTMRdata::SKT)%>%
+data_raw<-bind_rows(LTMRdata::Baystudy, LTMRdata::Suisun, LTMRdata::FMWT, LTMRdata::DJFMP, LTMRdata::EDSM, LTMRdata::TMM, LTMRdata::SLS, LTMRdata::STN, LTMRdata::SKT, LTMRdata::Salvage)%>%
   group_by(Source)%>%
   summarise(N=n(),
             N_0=length(which(Count==0)),

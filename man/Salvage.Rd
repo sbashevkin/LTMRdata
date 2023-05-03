@@ -9,14 +9,13 @@
 a tibble with 2,514,681 rows and 20 variables
 \describe{
   \item{Source}{Name of source dataset.}
-  \item{Station}{State or federal facility (SWP or CVP).}
-  \item{Salvage_building}{Specific building of sampling, applicable only to the state facility.}
+  \item{Station}{State or federal facility buildings (of the SWP or CVP).}
   \item{Latitude}{Latitude (decimal degrees) of the full facility.}
   \item{Longitude}{Longitude (decimal degrees) of the full facility.}
   \item{Date}{Date sample was collected.}
   \item{Datetime}{Date and time sample was collected.}
   \item{SampleID}{Unique sample identifier.}
-  \item{Method}{Sampling period (0000 = Normal count, 9999 = Second flush, 7777 = Traveling screen count, and 8888 = Special study)}
+  \item{Method}{Sampling period (0000 = Normal count, 9999 = Second flush)}
   \item{Salvage_volume}{The amount of water export in cubic meter.}
   \item{MinutesPumping}{Total time the export pumps are running.}
   \item{SampleTimeLength}{Total time within the block of minutes pumped that fish are sampled.}
@@ -26,8 +25,6 @@ a tibble with 2,514,681 rows and 20 variables
   \item{Count}{Estimated count for each sample, taxa, and length.}
   \item{Notes_Sample}{Comments or notes of the sampling period.}
   \item{Length_NA_flag}{Why is the length NA?}
-  \item{Unmatched_Data}{Data rows not fully matched across all relational tables.}
-  \item{TimeStart_Impossible}{Flags of combinations of date and time that cannot exist due to Daylight Saving Time.}
   }
 }
 \usage{
