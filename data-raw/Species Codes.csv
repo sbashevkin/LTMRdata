@@ -35,11 +35,11 @@ Acipenser transmontanus,WHISTU,White Sturgeon,WST,37,22,WS,37,22,27,NA,Acipenser
 Acipenser medirostris,GRESTU,Green Sturgeon,GST,36,23,GS,36,23,28,NA,Acipenser medirostris
 Cottus asper,PRISCU,Prickly Sculpin,PRS,73,49,SCP,73,49,29,NA,Cottus asper
 Acanthogobius flavimanus,YELGOB,Yellowfin Goby,YFG,42,10,YFG,42,10,30,NA,Acanthogobius flavimanus
-Menidia beryllina,NA,NA,NA,NA,NA,NA,NA,NA,31,NA,NA
+Menidia beryllina,NA,NA,NA,NA,NA,NA,NA,NA,31,NA,Menidia beryllina
 Platichthys stellatus,STAFLO,Starry Flounder,STF,31,19,SF,31,19,32,NA,Platichthys stellatus
-Lampetra,NA,NA,NA,NA,NA,NA,NA,NA,33,NA,NA
+Lampetra,NA,NA,NA,NA,NA,NA,NA,NA,33,NA,Lampetra
 Gambusia affinis,WESMOS,Western Mosquitofish,MQF,70,31,MQF,70,31,34,NA,Gambusia affinis
-Ictalurus natalis,NA,NA,NA,NA,NA,NA,NA,NA,35,NA,NA
+Ictalurus natalis,NA,NA,NA,NA,NA,NA,NA,NA,35,NA,Ictalurus natalis
 Micropterus dolomieu,SMABAS,Smallmouth Bass,SMB,94,68,SMB,94,68,36,NA,Micropterus dolomieu
 Hypomesus pretiosus,SURSME,Surf Smelt,SSM,27,112,SS,27,NA,37,NA,Hypomesus pretiosus
 Leptocottus armatus,PACSSC,Pacific Staghorn Sculpin,PSS,30,48,STAG,30,48,39,NA,Leptocottus armatus
@@ -49,9 +49,9 @@ Clupea pallasii,PACHER,Pacific Herring,PAH,16,52,PH,16,52,42,NA,Clupea pallasii
 Perca flavescens,YELPER,Yellow Perch,YEP,NA,144,YPR,NA,NA,43,NA,Perca flavescens
 Ameiurus melas,BLABUL,Black Bullhead,BKB,68,138,BLB,68,18,44,NA,Ameiurus melas
 Archoplites interruptus,SACPER,Sacramento Perch,SPR,51,42,SAP,51,42,45,NA,Archoplites interruptus
-Gila bicolor,NA,NA,NA,NA,NA,NA,NA,NA,46,NA,NA
+Gila bicolor,NA,NA,NA,NA,NA,NA,NA,NA,46,NA,Gila bicolor
 Oncorhynchus kisutch,COHSAL,Coho Salmon,CHO,NA,146,COHO,NA,NA,47,NA,Oncorhynchus kisutch
-Lampetra pacifica,NA,NA,NA,NA,NA,NA,NA,NA,48,NA,NA
+Lampetra pacifica,NA,NA,NA,NA,NA,NA,NA,NA,48,NA,Lampetra pacifica
 Lepomis microlophus,REDSUN,Redear Sunfish,RES,104,56,RESF,104,56,49,NA,Lepomis microlophus
 Catostomus occidentalis,SACSUC,Sacramento Sucker,SASU,66,64,SKR,66,64,50,NA,Catostomus occidentalis
 Pimephales promelas,FATMIN,Fathead Minnow,FHM,NA,147,FHM,NA,73,51,NA,Pimephales promelas
@@ -70,23 +70,23 @@ Lucania parva,RAIKIL,Rainwater Killifish,RFK,111,65,RWK,114,65,67,NA,Lucania par
 Esox lucius,NORPIK,Northern Pike,NPK,NA,NA,NPK,NA,NA,68,NA,Esox lucius
 Tridentiger barbatus,SHOGOB,Shokihaze Goby,SHG,97,97,SKG,97,74,69,NA,Tridentiger barbatus
 Micropterus punctulatus,SPOBAS,Spotted Bass,SPB,106,NA,SPB,113,77,70,NA,Micropterus punctulatus
-Paramisgurnus dabryanus,NA,NA,NA,NA,NA,NA,NA,NA,71,NA,NA
+Paramisgurnus dabryanus,NA,NA,NA,NA,NA,NA,NA,NA,71,NA,Paramisgurnus dabryanus
 Eriocheir sinensis,NA,Chinese Mitten Crab,CMC,NA,NA,ERIOCHR,NA,NA,80,NA,Eriocheir sinensis
-Chinese Mitten Crab Temp.,NA,NA,NA,NA,NA,NA,NA,NA,81,NA,NA
+Chinese Mitten Crab Temp.,NA,NA,NA,NA,NA,NA,NA,NA,81,NA,Chinese Mitten Crab Temp.
 UnID,NA,UnID,UNID,88,NA,UNK,120,99,90,NA,UnID
 UnID,NA,UnID invertebrate,NA,NA,192,NA,NA,NA,90,NA,UnID
 UnID,NA,UnID damaged,NA,NA,193,NA,NA,NA,90,NA,UnID
-Total Fish Count,NA,NA,NA,NA,NA,NA,NA,NA,98,NA,NA
-Total Fish Estimate,NA,NA,NA,NA,NA,NA,NA,NA,99,NA,NA
+Total Fish Count,NA,NA,NA,NA,NA,NA,NA,NA,98,NA,Total Fish Count
+Total Fish Estimate,NA,NA,NA,NA,NA,NA,NA,NA,99,NA,Total Fish Estimate
 Mugil cephalus,STRMUL,Striped Mullet,SMU,112,142,SMUL,NA,NA,117,NA,Mugil cephalus
 Syngnathus leptorhynchus,BAYPIP,Bay Pipefish,BPF,71,35,BYP,71,35,127,NA,Syngnathus leptorhynchus
 Paralichthys californicus,CALHAL,California Halibut,CAH,78,107,CHA,78,NA,133,NA,Paralichthys californicus
 Crangon franciscorum,NA,California Bay Shrimp,NA,NA,NA,CRANGON,NA,NA,137,NA,Crangon franciscorum
 Gillichthys mirabilis,LONMUD,Longjaw Mudsucker,LMS,NA,69,LJM,NA,69,150,NA,Gillichthys mirabilis
-Maeotias inexpectata,NA,NA,NA,NA,NA,NA,NA,NA,151,NA,NA
+Maeotias inexpectata,NA,NA,NA,NA,NA,NA,NA,NA,151,NA,Maeotias inexpectata
 Porichthys notatus,PLAMID,Plainfin Midshipman,PMP,14,50,MID,14,50,152,NA,Porichthys notatus
-neomysis,NA,NA,NA,NA,NA,NA,NA,NA,154,NA,NA
-Engraulis mordax,NORANC,Northern Anchovy,"NAN",13,14,"NAC",13,14,155,NA,Engraulis mordax
+neomysis,NA,NA,NA,NA,NA,NA,NA,NA,154,NA,neomysis
+Engraulis mordax,NORANC,Northern Anchovy,NAN,13,14,NAC,13,14,155,NA,Engraulis mordax
 Palaemon macrodactylus,NA,Korean Grass Shrimp,ORSH,NA,109,PALAEMON,NA,NA,156,NA,Palaemon macrodactylus
 Lampetra tridentata,PACLAM,Pacific Lamprey,PL,10,61,PL,10,61,158,NA,Lampetra tridentata
 Potamocorbula amurensis,NA,Overbite Clam,ACL,NA,NA,CORBULA,NA,NA,160,NA,Potamocorbula amurensis
@@ -99,8 +99,8 @@ Cottidae,NA,Unidentified Sculpin,SCU,NA,63,NA,NA,63,193,NA,Cottidae
 Lepidogobius lepidus,BAYGOB,Bay Goby,BG,74,59,BGB,74,59,194,NA,Lepidogobius lepidus
 Amphistichus argenteus,BARSUR,Barred Surfperch,BSP,48,135,BSP,48,NA,195,NA,Amphistichus argenteus
 Salmo trutta,BRNTRT,Brown Trout,BT,NA,NA,BRT,NA,NA,196,NA,Salmo trutta
-Hypsopsetta guttulata,NA,NA,NA,NA,NA,NA,NA,NA,198,NA,NA
-Pleuronectes vetulus,NA,NA,NA,NA,NA,NA,NA,NA,199,NA,NA
+Hypsopsetta guttulata,NA,NA,NA,NA,NA,NA,NA,NA,198,NA,Hypsopsetta guttulata
+Pleuronectes vetulus,NA,NA,NA,NA,NA,NA,NA,NA,199,NA,Pleuronectes vetulus
 Gobiidae,NA,Unidentified Goby,GBY,NA,11,GBU,119,11,200,NA,Gobiidae
 Atherinopsis californiensis,JACKSM,Jacksmelt,JSM,8,34,JSM,8,34,201,NA,Atherinopsis californiensis
 Lampetra hubbsi,KBRLAM,Kern Brook Lamprey,NA,NA,NA,KBLP,NA,NA,202,NA,Lampetra hubbsi
@@ -109,7 +109,7 @@ Cyprinidae,NA,Unidentified Shiner,SHI,NA,NA,NA,NA,NA,203,NA,Cyprinidae
 Percidae,NA,Unidentified Perch,PCH,NA,43,NA,NA,43,204,NA,Percidae
 Pleuronectidae,FLOSPP,Unidentifed Flounder (right-eye),RFF,NA,NA,RFLU,NA,3127,205,NA,Pleuronectidae
 Notropis rubellus,RSYSHN,Rosyface Shiner,RFS,NA,NA,RFSNR,NA,NA,206,NA,Notropis rubellus
-Scorpaenidae,NA,NA,NA,NA,NA,NA,NA,NA,207,NA,NA
+Scorpaenidae,NA,NA,NA,NA,NA,NA,NA,NA,207,NA,Scorpaenidae
 Lampetra ayresii,RIVLAM,River Lamprey,RL,11,62,RLP,11,62,208,NA,Lampetra ayresii
 Osmeridae,NA,Unidentified Smelt,SMT,NA,1,NA,NA,1,211,NA,Osmeridae
 Osmeridae,NA,Unidentified Osmeridae,OSM,NA,NA,NA,NA,NA,211,NA,Osmeridae
@@ -117,7 +117,7 @@ Acipenser,NA,Unidentified Sturgeon,STU,NA,21,NA,NA,21,215,NA,Acipenser
 Centrarchidae,SUNSPP,Unidentified Sunfish,CSN,105,36,CENTRARCH,NA,36,216,NA,Centrarchidae
 Catostomidae,NA,Unidentified Sucker,SUC,NA,NA,NA,NA,NA,217,NA,Catostomidae
 Hyperprosopon ellipticum,SILSUR,Silver Surfperch,SVR,NA,114,SVSP,110,NA,218,NA,Hyperprosopon ellipticum
-NoCatch,NA,NA,NA,NA,NA,NA,NA,NA,220,NA,NA
+NoCatch,NA,NA,NA,NA,NA,NA,NA,NA,220,NA,NoCatch
 Hyperprosopon argenteum,WALSUR,Walleye Surfperch,WSP,43,NA,WESP,43,NA,223,NA,Hyperprosopon argenteum
 Amphistichus koelzi,CALSUR,Calico Surfperch,CSP,45,133,CSP,45,NA,224,NA,Amphistichus koelzi
 Mustelus henlei,BROSMO,Brown Smoothhound,BSM,59,106,BRSH,59,NA,225,NA,Mustelus henlei
@@ -132,13 +132,13 @@ Spirinchus starksi,NIGSME,Night Smelt,NSM,26,111,NSM,26,NA,235,NA,Spirinchus sta
 Allosmerus elongatus,WHISME,Whitebait Smelt,WBS,28,113,WBSM,28,NA,236,NA,Allosmerus elongatus
 Rhacochilus vacca,PILPER,Pile Perch,PPE,47,115,PSP,47,NA,237,NA,Rhacochilus vacca
 Embiotoca jacksoni,BLAPER,Black Perch,BSFP,49,116,BKSP,49,NA,238,NA,Embiotoca jacksoni
-Notorynchus maculatus,NA,NA,NA,NA,NA,NA,NA,NA,240,NA,NA
+Notorynchus maculatus,NA,NA,NA,NA,NA,NA,NA,NA,240,NA,Notorynchus maculatus
 Squalus acanthias,SPIDOG,Spiny Dogfish,SDO,57,117,SDF,57,NA,241,NA,Squalus acanthias
-Mustelus californica,NA,NA,NA,NA,NA,NA,NA,NA,242,NA,NA
+Mustelus californica,NA,NA,NA,NA,NA,NA,NA,NA,242,NA,Mustelus californica
 Rhacochilus toxotes,RUBSEA,Rubberlip Seaperch,RSU,44,128,RLSP,44,NA,243,NA,Rhacochilus toxotes
 Hippoglossus stenolepis,PACHAL,Pacific Halibut,PHA,79,140,PHA,79,NA,244,NA,Hippoglossus stenolepis
 Psettichthys melanostictus,SANSOL,Sand Sole,SAS,81,119,SSL,81,NA,245,NA,Psettichthys melanostictus
-Flatfish,NA,NA,NA,NA,NA,NA,NA,NA,246,NA,NA
+Flatfish,NA,NA,NA,NA,NA,NA,NA,NA,246,NA,Flatfish
 Lepidopsetta bilineata,ROKSOL,Rock Sole,ROS,85,122,RSL,85,NA,247,NA,Lepidopsetta bilineata
 Ophiodon elongatus,LINGCO,Lingcod,LIC,86,127,LNCD,86,NA,248,NA,Ophiodon elongatus
 Anarrhichthys ocellatus,WOLEEL,Wolf Eel,WEE,87,123,WEE,87,NA,249,NA,Anarrhichthys ocellatus
@@ -147,14 +147,14 @@ Phanerodon furcatus,WHISEA,White Seaperch,WTSP,90,131,WSP,90,NA,251,NA,Phanerodo
 Torpedo californica,PACERA,Pacific Electric Ray,PELR,91,124,PERA,91,NA,252,NA,Torpedo californica
 Sardinops sagax,PACSAR,Pacific Sardine,PSA,96,155,PSA,96,NA,253,NA,Sardinops sagax
 Micrometrus minimus,DWAPER,Dwarf Perch,DSP,50,125,DSP,50,NA,254,NA,Micrometrus minimus
-Isopsetta,NA,NA,NA,NA,NA,NA,NA,NA,255,NA,NA
+Isopsetta,NA,NA,NA,NA,NA,NA,NA,NA,255,NA,Isopsetta
 Micropterus coosae,REDBAS,Redeye Bass,REB,NA,NA,REB,NA,NA,256,NA,Micropterus coosae
-Llypnus gilberti,NA,NA,NA,NA,NA,NA,NA,NA,257,NA,NA
+Llypnus gilberti,NA,NA,NA,NA,NA,NA,NA,NA,257,NA,Llypnus gilberti
 Oncorhynchus nerka,KOKANE,Kokanee,KOS,NA,NA,KOSA,NA,NA,258,NA,Oncorhynchus nerka
 Clupeidae,NA,Unidentified Herring,HER,NA,4,CLUPEIDAE,NA,4,259,NA,Clupeidae
 Ictaluridae,NA,Unidentified Catfish,CAT,NA,7,CFU,NA,7,260,NA,Ictaluridae
 Eucyclogobius newberryi,TIDGOB,Tidewater Goby,TGO,NA,12,TGB,NA,12,261,NA,Eucyclogobius newberryi
-Atherinidae,NA,NA,NA,NA,NA,NA,NA,NA,262,NA,NA
+Atherinidae,NA,NA,NA,NA,NA,NA,NA,NA,262,NA,Atherinidae
 Aequorea,NA,Crystal Jellies,NA,NA,183,NA,111,NA,NA,NA,Aequorea
 Alopias vulpinus,THRSHR,Thresher Shark,NA,NA,NA,NA,NA,NA,NA,NA,Alopias vulpinus
 Alosinae,SHASPP,Unidentified Shad,NA,NA,NA,NA,NA,NA,NA,NA,Alosinae
@@ -278,7 +278,7 @@ Thaleichthys pacificus,EULACH,Eulachon,NA,NA,NA,NA,NA,NA,NA,NA,Thaleichthys paci
 Trachurus symmetricus,JACMAC,Jack Mackerel,NA,NA,NA,NA,NA,NA,NA,NA,Trachurus symmetricus
 Tridentiger,NA,Unidentified Tri Goby,TRI,NA,98,NA,NA,75,NA,NA,Tridentiger
 Actinopteri,NA,Larval Tridentiger or Striped Bass,NA,NA,194,NA,NA,NA,NA,Larva,Actinopteri (Larva)
-Upogebia,NA,Mud Shrimp,NA,NA,NA,NA,121,NA,NA,NA,Upogebia
+Upogebia,NA,Mud Shrimp,MDSHRMP,NA,NA,NA,121,NA,NA,NA,Upogebia
 Pterygoplichthys disjunctivus,NA,vermiculated sailfin catfish,PLC,NA,NA,NA,NA,NA,NA,NA,Pterygoplichthys disjunctivus
 NA,NOCATC,No Catch,NOFISH,0,NA,NOCATCH,NA,NA,NA,NA,NA
 NA,NA,No Trawl,NA,NA,NA,NOTRAWL,NA,NA,NA,NA,NA

@@ -7,7 +7,7 @@
 data_integrate(
   data_path,
   sources = c("Baystudy", "Suisun", "FMWT", "SKT", "DJFMP", "EDSM", "TMM", "SLS",
-    "STN"),
+    "STN", "Salvarege"),
   rda = TRUE,
   write = TRUE,
   quiet = FALSE

@@ -56,7 +56,7 @@ STNTables <- bridgeAccess(db_path,
 #                    col_types=cols_only(SampleRowID="d", SampleDate="c", StationCode="c", Survey="d",
 #                                        TemperatureTop="d", Secchi="d", ConductivityTop="d",
 #                                        TideCode="d", DepthBottom="d", CableOut="d", TowDirection="d")) %>%
-#   mutate(SampleDate = as.Date(SampleDate))
+#   mutate(SampleDate = parse_date_time(SampleDate, "%Y-%m-%d", tz="America/Los_Angeles"))
 #
 # STNTables$TowEffort <- read_csv(file.path("data-raw", "STN","TowEffort.csv"),
 #                       col_types=cols_only(TimeStart="c", TowRowID="d", SampleRowID="d", TowNumber="d",
@@ -97,7 +97,7 @@ luTowDirection <- STNTables$luTowDirection %>%
 
 Sample <- STNTables$Sample %>%
   transmute(SampleRowID = as.double(SampleRowID),
-            SampleDate = as.Date(SampleDate),
+            SampleDate = parse_date_time(SampleDate, "%Y-%m-%d", tz="America/Los_Angeles"),
             StationCode = as.character(StationCode),
             across(c(Survey, TemperatureTop, Secchi, ConductivityTop, TideCode,
                      DepthBottom, CableOut, TowDirection), as.double))

@@ -16,14 +16,12 @@ a tibble with 2,514,681 rows and 20 variables
   \item{Datetime}{Date and time sample was collected.}
   \item{SampleID}{Unique sample identifier.}
   \item{Method}{Sampling period (0000 = Normal count, 9999 = Second flush)}
-  \item{Salvage_volume}{The amount of water export in cubic meter.}
-  \item{MinutesPumping}{Total time the export pumps are running.}
-  \item{SampleTimeLength}{Total time within the block of minutes pumped that fish are sampled.}
+  \item{Tow_volume}{The amount of water export in cubic meter.}
   \item{Temp_surf}{Surface temperature in °C.}
   \item{Taxa}{Scientific name.}
   \item{Length}{Fork length from tip of the snout to a point at the fork of the caudal fin (mm) or total length for species without a forked tail.}
   \item{Count}{Estimated count for each sample, taxa, and length.}
-  \item{Notes_Sample}{Comments or notes of the sampling period.}
+  \item{Notes_tow}{Comments or notes of the sampling period.}
   \item{Length_NA_flag}{Why is the length NA?}
   }
 }

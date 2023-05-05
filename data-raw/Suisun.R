@@ -86,7 +86,7 @@ age_size_suisun <- suisunMarshTables$AgesBySizeMo %>%
 #Removing salinity because data do not correspond well with conductivity
 sample_suisun <- suisunMarshTables$Sample %>%
   transmute(across(c(SampleRowID, MethodCode, StationCode, SampleTime), as.character),
-            SampleDate = as.Date(SampleDate),
+            SampleDate = parse_date_time(SampleDate, "%Y-%m-%d", tz="America/Los_Angeles"),
             QADone = as.logical(QADone),
             across(c(WaterTemperature, DO, PctSaturation, Secchi, SpecificConductance), as.double),
             TideCode = as.character(TideCode)) %>%
@@ -194,7 +194,7 @@ catch_comments_suisun <- read_excel(file.path("data-raw", "Suisun", "Suisun comm
            Lifestage=="Adult" & Taxa%in%c("Tridentiger bifasciatus", "Acanthogobius flavimanus") ~ "Age-1+",
            TRUE ~ Lifestage
          ),
-         Month=month(as.Date(Date)))%>%
+         Month=month(parse_date_time(Date, "%Y-%m-%d", tz="America/Los_Angeles")))%>%
   left_join(Species%>% # Add species names
               dplyr::select(OrganismCode=SMF_Code, Taxa)%>%
               dplyr::filter(!is.na(OrganismCode) & !is.na(Taxa)),

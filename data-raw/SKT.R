@@ -75,7 +75,7 @@ SKT_Data$Sample <- SKT_Data$tblSample%>%
 {
   SKT_Data$Sample$StationCode<-as.character(SKT_Data$Sample$StationCode)
   SKT_Data$Sample<-SKT_Data$Sample%>%rename(Station = StationCode, Depth = DepthBottom, Temp_surf = WaterTemperature, Survey = SurveyNumber, Date=SampleDate, Time=SampleTimeStart)%>%
-    mutate(Date = as.Date(Date, format = "%m/%d/%Y"),
+    mutate(Date = parse_date_time(Date, "%Y-%m-%d", tz="America/Los_Angeles"),
            Time = as.POSIXct(Time, format = "%m/%d/%Y %H:%M", tz = "America/Los_Angeles"),
            # Create a new field which is a Date-Time composite
            Datetime = parse_date_time(if_else(is.na(Time), NA_character_, paste(Date, paste(hour(Time), minute(Time), sep=":"))),

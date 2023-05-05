@@ -1,6 +1,6 @@
 # Set up data -------------------------------------------------------------
 
-sources<-c("Baystudy", "Suisun", "FMWT", "SKT", "DJFMP", "EDSM", "TMM", "SLS", "STN")
+sources<-c("Baystudy", "Suisun", "FMWT", "SKT", "DJFMP", "EDSM", "TMM", "SLS", "STN", "Salvage")
 
 test_that("fish produces warning messages", {
   expect_message(unconverted <<- fish(sources=sources, convert_lengths=FALSE, zero_fill=FALSE)%>%
@@ -39,7 +39,7 @@ converted_cutoff <- fish(sources=sources, convert_lengths=TRUE, size_cutoff=cuto
 species <- c("Clupea pallasii", "Morone saxatilis", "Parophrys vetulus", "Sardinops sagax")
 zero_filled<-fish(sources=sources, species=species, convert_lengths=TRUE, zero_fill=TRUE)
 
-Data<-bind_rows(LTMRdata::Baystudy, LTMRdata::Suisun, LTMRdata::FMWT, LTMRdata::DJFMP, LTMRdata::EDSM, LTMRdata::TMM, LTMRdata::SLS, LTMRdata::STN)%>%
+Data<-bind_rows(LTMRdata::Baystudy, LTMRdata::Suisun, LTMRdata::FMWT, LTMRdata::DJFMP, LTMRdata::EDSM, LTMRdata::TMM, LTMRdata::SLS, LTMRdata::STN, LTMRdata::Salvage)%>%
   group_by(SampleID)%>%
   summarise(Species=list(unique(Taxa)), .groups="drop")%>%
   rowwise()%>%
@@ -47,8 +47,8 @@ Data<-bind_rows(LTMRdata::Baystudy, LTMRdata::Suisun, LTMRdata::FMWT, LTMRdata::
 # Run tests ---------------------------------------------------------------
 
 test_that("fish simply binds together dataframes when convert_lengths=FALSE", {
-  expect_equal(nrow(unconverted), nrow(LTMRdata::Baystudy)+nrow(LTMRdata::FMWT)+nrow(LTMRdata::Suisun)+nrow(LTMRdata::DJFMP)+nrow(LTMRdata::EDSM)+nrow(LTMRdata::SKT)+nrow(LTMRdata::TMM)+nrow(LTMRdata::SLS)+nrow(LTMRdata::STN))
-  expect_setequal(names(select(unconverted, -ID)), unique(c(names(LTMRdata::Baystudy), names(LTMRdata::FMWT), names(LTMRdata::Suisun), names(LTMRdata::DJFMP), names(LTMRdata::EDSM), names(LTMRdata::SKT), names(LTMRdata::TMM), names(LTMRdata::SLS), names(LTMRdata::STN))))
+  expect_equal(nrow(unconverted), nrow(LTMRdata::Baystudy)+nrow(LTMRdata::FMWT)+nrow(LTMRdata::Suisun)+nrow(LTMRdata::DJFMP)+nrow(LTMRdata::EDSM)+nrow(LTMRdata::SKT)+nrow(LTMRdata::TMM)+nrow(LTMRdata::SLS)+nrow(LTMRdata::STN)+nrow(LTMRdata::Salvage))
+  expect_setequal(names(select(unconverted, -ID)), unique(c(names(LTMRdata::Baystudy), names(LTMRdata::FMWT), names(LTMRdata::Suisun), names(LTMRdata::DJFMP), names(LTMRdata::EDSM), names(LTMRdata::SKT), names(LTMRdata::TMM), names(LTMRdata::SLS), names(LTMRdata::STN), names(LTMRdata::Salvage))))
 })
 
 test_that("No lengths are 0 or negative", {

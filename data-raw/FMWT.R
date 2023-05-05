@@ -62,7 +62,7 @@ FMWT_Tables$Station <- FMWT_Tables$StationsLookUp%>%
 FMWT_Tables$Sample <- FMWT_Tables$Sample %>%
     transmute(SampleRowID = as.integer(SampleRowID),
               across(c(StationCode, MethodCode, SampleTimeStart), as.character),
-              SampleDate = as.Date(SampleDate),
+              SampleDate = parse_date_time(SampleDate, "%Y-%m-%d", tz="America/Los_Angeles"),
               SurveyNumber = as.integer(SurveyNumber),
               across(c(WaterTemperature, Turbidity, Secchi), as.double),
               SecchiEstimated = as.logical(SecchiEstimated),

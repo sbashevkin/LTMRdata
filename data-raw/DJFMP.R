@@ -75,6 +75,21 @@ data <- bind_rows(
                                    OrganismCode = "c", ForkLength = "d", Count = "d"))
 )
 
+# Check to see if there are new Taxa added to the dataset:
+USFWS_Species <- Species %>%
+  select(USFWS_Code, Taxa) %>%
+  dplyr::filter(!is.na(USFWS_Code))
+
+New_Species <- data %>%
+  group_by(OrganismCode) %>%
+  slice(1) %>%
+  transmute(Year = year(SampleDate),
+            OrganismCode) %>%
+  full_join(USFWS_Species,
+            by = c("OrganismCode" = "USFWS_Code")) %>%
+  filter(is.na(Taxa), OrganismCode != "NOFISH")
+
+if (nrow(New_Species) > 0) stop("New species entry, update the Species_Code.csv")
 
 DJFMP<-data%>%
   dplyr::rename(Station = StationCode, Date = SampleDate, Time = SampleTime, Temp_surf = WaterTemp,
@@ -84,7 +99,7 @@ DJFMP<-data%>%
   mutate(Tow_volume = if_else(FlowDebris=="Y", NA_real_, Tow_volume, missing=Tow_volume),
          Secchi = Secchi*100, # convert Secchi to cm
          Source = "DJFMP",
-         Date = as.Date(Date),
+         Date = parse_date_time(Date, "%Y-%m-%d", tz = "America/Los_Angeles"),
          Time = parse_date_time(Time, "%H:%M:%S", tz = "America/Los_Angeles"),
          Datetime = parse_date_time(ifelse(is.na(Time), NA_character_, paste0(Date, " ", hour(Time), ":", minute(Time))), "%Y-%m-%d %H:%M", tz="America/Los_Angeles"),
          # Removing conductivity data from dates before it was standardized
@@ -106,8 +121,7 @@ DJFMP<-data%>%
          Total=sum(Count), # Calculate total number of fish of each species caught
          Count=(Count/TotalMeasured)*Total)%>% # Calculate the adjusted length frequency
   ungroup()%>%
-  mutate(OrganismCode = ifelse(OrganismCode == "MDSHRMP", "UNID", OrganismCode), # Only one instance of this, causing an error in testthat
-         Length=if_else(is.infinite(Count) & Length==0, NA_real_, Length), # Some Chinook were not measured, so these lines fix some after-effects of that
+  mutate(Length=if_else(is.infinite(Count) & Length==0, NA_real_, Length), # Some Chinook were not measured, so these lines fix some after-effects of that
          Length_NA_flag=case_when(
            is.infinite(Count) ~ "Unknown length",
            is.na(Length)~ "No fish caught",
@@ -117,21 +131,19 @@ DJFMP<-data%>%
   select(-Total, -TotalMeasured, -Group)%>%
   left_join(DJFMP_stations, by = c("Station"="StationCode")) %>%
   # Add species names
-  left_join(Species %>%
-              select(USFWS_Code, ScientificName) %>%
-              dplyr::filter(!is.na(USFWS_Code)),
+  left_join(USFWS_Species),
             by=c("OrganismCode"="USFWS_Code")) %>%
   mutate(SampleID=paste(Source, SampleID), # Add variable for unique (across all studies) sampleID
          #Taxa=str_remove(Taxa, " \\((.*)")
          )%>% # Remove life stage info from Taxa names
-  dplyr::rename(Taxa=ScientificName)%>%
+  # dplyr::rename(Taxa=ScientificName)%>%
   select(-OrganismCode)%>%
   group_by(across(-Count))%>% # Add up any new multiples after removing Group
   summarise(Count=sum(Count), .groups="drop")%>%
   # Transform all counts for 'No fish caught' to 0.
   # Also 4 instances of taxa record when there was no fish caught
   mutate(Count=if_else(Length_NA_flag=="No fish caught", 0, Count, missing=Count),
-         Taxa = ifelse(Length_NA_flag == "No fish caught", NA, Taxa))%>%
+         Taxa = ifelse(Length_NA_flag == "No fish caught" & !is.na(Length_NA_flag), NA, Taxa))%>%
   select(Source, Station, Latitude, Longitude, Date, Datetime, Depth, SampleID, Method, Sal_surf,
          Temp_surf, Secchi, Tow_volume, Tow_direction, Taxa, Length, Count, Length_NA_flag)
 

@@ -32,12 +32,12 @@ SLSTables <- bridgeAccess(db_path,
 # SLSTables$Catch  <- read_csv(file.path("data-raw", "SLS", "Catch.csv"),
 #                              col_types = cols_only(Date = "c", Station = "c", Tow = "i",
 #                                                    FishCode = "i", Catch = "i", CatchID = "i")) %>%
-#   mutate(Date=as.Date(Date))
+#   mutate(Date=parse_date_time(Date, "%Y-%m-%d", tz="America/Los_Angeles"))
 #
 # SLSTables$Lengths <- read_csv(file.path("data-raw", "SLS", "Lengths.csv"),
 #                                 col_types = cols_only(Date = "c", Station = "c", Tow = "i",
 #                                     FishCode = "i", Length = "i", entryorder = "i")) %>%
-#   mutate(Date=as.Date(Date))
+#   mutate(Date=parse_date_time(Date, "%Y-%m-%d", tz="America/Los_Angeles"))
 #
 # SLSTables$`Meter Corrections` <- read_csv(file.path("data-raw", "SLS", "Meter Corrections.csv"),
 #                                           col_types = cols_only(StudyYear = "d", MeterSerial = "i",
@@ -61,7 +61,7 @@ SLSTables <- bridgeAccess(db_path,
 #                                      cols_only(Survey = "i", Date = "c", Station = "c", Temp = "d",
 #                                                TopEC = "i", BottomEC = "i", Secchi = "i", Turbidity = "i",
 #                                                Comments = "c")) %>%
-#   mutate(Date = as.Date(Date))
+#   mutate(Date = parse_date_time(Date, "%Y-%m-%d", tz="America/Los_Angeles"))
 #
 # SLSTables$`20mm Stations` <- read_csv(file.path("data-raw", "SLS", "20mm Stations.csv"),
 #                                       col_types =
@@ -73,12 +73,12 @@ SLSTables <- bridgeAccess(db_path,
 #MWT data setup ----
 
 SLSTables$Catch <- SLSTables$Catch %>%
-  transmute(Date = as.Date(Date),
+  transmute(Date = parse_date_time(Date, "%Y-%m-%d", tz="America/Los_Angeles"),
             Station = as.character(Station),
             across(c(Tow, FishCode, Catch, CatchID), as.integer))
 
 SLSTables$Lengths <- SLSTables$Lengths %>%
-  transmute(Date = as.Date(Date),
+  transmute(Date = parse_date_time(Date, "%Y-%m-%d", tz="America/Los_Angeles"),
             Station = as.character(Station),
             across(c(Tow, FishCode, Length, entryorder), as.integer))
 
@@ -90,7 +90,7 @@ SLSTables$`Meter Corrections` <- SLSTables$`Meter Corrections` %>%
             Notes = as.character(Notes))
 
 SLSTables$`Tow Info` <- SLSTables$`Tow Info`%>%
-  transmute(Date = as.Date(Date),
+  transmute(Date = parse_date_time(Date, "%Y-%m-%d", tz="America/Los_Angeles"),
             Station = as.character(Station),
             Tow = as.integer(Tow),
             Time = as.POSIXct(Time),
@@ -105,7 +105,7 @@ SLSTables$`Tow Info` <- SLSTables$`Tow Info`%>%
 
 SLSTables$`Water Info` <- SLSTables$`Water Info`%>%
   transmute(Survey = as.integer(Survey),
-            Date = as.Date(Date),
+            Date = parse_date_time(Date, "%Y-%m-%d", tz="America/Los_Angeles"),
             Station = as.character(Station),
             Temp = as.double(Temp),
             across(c(TopEC, BottomEC, Secchi, Turbidity), as.integer),
@@ -131,7 +131,7 @@ waterInfo <- SLSTables$`Water Info` %>%
     # This is to take care of how the floats are read between Access and readr methods...
     Temp_surf = round(Temp, 2),
     # Changing Date to as.Date
-    Date = as.Date(Date))
+    Date = parse_date_time(Date, "%Y-%m-%d", tz="America/Los_Angeles"))
 
 towInfo <- SLSTables$`Tow Info` %>%
   # 1 parsing error because time was not recorded for that row
@@ -142,7 +142,7 @@ towInfo <- SLSTables$`Tow Info` %>%
   mutate(StudyYear = year(Date),
          # Changing Date from POSIXct format to simply Date for easy of use
          # Timezone data is still retained in the Datetime column
-         Date = as.Date(Date)) %>%
+         Date = parse_date_time(Date, "%Y-%m-%d", tz="America/Los_Angeles")) %>%
   left_join(SLSTables$`Meter Corrections` %>%
               # There are duplicated values here in this table; will simply distinct() them
               # Confirmed via email with Adam, ES of Native Fish unit as of 10-27-2021
@@ -163,10 +163,10 @@ towInfo <- SLSTables$`Tow Info` %>%
          Tow_volume = NetMeterCheck * kfactor * 0.37)
 
 catch <- SLSTables$Catch %>%
-  mutate(Date = as.Date(Date))
+  mutate(Date = parse_date_time(Date, "%Y-%m-%d", tz="America/Los_Angeles"))
 
 lengths <- SLSTables$Lengths %>%
-  mutate(Date = as.Date(Date)) %>%
+  mutate(Date = parse_date_time(Date, "%Y-%m-%d", tz="America/Los_Angeles")) %>%
   # Calculating total number of fish measured (across all lengths) and # of fish measured
   # per Date, Station, Tow, and FishCode
   # This is to calculate plus counts later in dfFin

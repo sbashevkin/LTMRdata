@@ -3,6 +3,8 @@ require(tidyr)
 require(LTMRdata)
 require(DBI)
 require(odbc)
+require(lubridate)
+require(LTMRdata)
 
 options(timeout = 999999)
 Path<-file.path(tempdir(), "Salvage_data_FTP.accdb")
@@ -62,8 +64,8 @@ rowsToRemove <- SalvageJoined %>%
 
 # Fixes to the dataset to pass package tests
 # After joining, calculate and keep only relevant columns
-Salvage <- SalvageJoined %>%
-  filter(Description == "Normal count",
+SalvageStart <- SalvageJoined %>%
+  filter(Description %in% c("Normal count", "Second flush"),
          !(OrganismCode %in% c(98, 99) & SampleRowID %in% rowsToRemove)) %>%
   mutate(Facility = case_when(SampleMethod == 1 ~ "SWP",
                               SampleMethod == 2 ~ "CVP",
@@ -83,6 +85,15 @@ Salvage <- SalvageJoined %>%
               filter(!grepl("Age", Taxa),
                      !is.na(OrganismCode)),
             by = "OrganismCode") %>%
+  # Instances in which LengthRowID is the only thing differentiating samples. Some of these
+  # will have the same fork length and taxa, meaning there will be duplications once LengthRowID
+  # is removed (as in the final table here). As such, will add up these values in a summary
+  # group_by(across(-c(LengthRowID, AdiposeClip))) %>%
+  group_by(Facility, Station, Location, Comments_StationsLookUp, SampleDate, SampleTime, SampleRowID,
+           Description, AcreFeet, WaterTemperature, CatchRowID, Taxa, TotalMeasured, Count,
+           ForkLength, MinutesPumping, SampleTimeLength, FishCaught, StudyRowID, OrganismCode,
+           Comments_Sample) %>%
+  summarise(LengthFrequency = sum(LengthFrequency), .groups = "drop") %>%
   transmute(Source = "Salvage",
             Facility,
             Station,
@@ -91,7 +102,7 @@ Salvage <- SalvageJoined %>%
                                  Comments_StationsLookUp == "CVP" ~ 37.81667106195238),
             Longitude = case_when(Comments_StationsLookUp == "SWP" ~ -121.59584120116043,
                                   Comments_StationsLookUp == "CVP" ~ -121.55857777929133),
-            Date = as.Date(SampleDate),
+            Date = parse_date_time(SampleDate, "%Y-%m-%d", tz="America/Los_Angeles"),
             Datetime = as.POSIXct(paste0(Date, " ", SampleTime),
                                   format = "%Y-%m-%d %H:%M:%S",
                                   tz = "America/Los_Angeles"),
@@ -100,8 +111,8 @@ Salvage <- SalvageJoined %>%
             Method = Description,
             # MethodSalvageDescription = Description, # I don't know a good name for this
             # Changing acre feet volume to cubic meter
-            Salvage_volume = AcreFeet * 1233.48,
-            MinutesPumping, SampleTimeLength,
+            Tow_volume = AcreFeet * 1233.48,
+            # MinutesPumping, SampleTimeLength,
             Temp_surf = (WaterTemperature - 32) * 5/9, # Is this really surface temperature? It's well mixed
             # PrimaryDepth, PrimaryFlow, BayPump1, BayPump2, BayPump3, BayPump4,
             # BayPump5, Sampler, QCed,
@@ -124,7 +135,9 @@ Salvage <- SalvageJoined %>%
             # Otherwise (for most cases), the length frequency is used to calculate expandedCount
             ExpandedCount = ifelse(!is.na(TotalMeasured) & TotalMeasured != 0 & (Count1 >= TotalMeasured),
                                    (LengthFrequency/TotalMeasured) * Count1, Count1),
-            Length = ForkLength,
+            # This filter removes 12 rows (after all the filters before this). Simply change these 0s to NAs
+            # to be labeled as unknown lengths
+            Length = ifelse(ForkLength == 0, NA, ForkLength),
             Count = case_when(
               # In this specific sample, sample time length was not recorded. Imputing with 20 min, the median for all instances when MinutesPumping == 60
               SampleRowID == 29724 ~ ExpandedCount * (MinutesPumping/20),
@@ -137,7 +150,7 @@ Salvage <- SalvageJoined %>%
               OrganismCode %in% c(98, 99) ~ 0,
               TRUE ~ 0),
             # AdiposeClip, Sex,
-            Notes_Sample = Comments_Sample,
+            Notes_tow = Comments_Sample,
             # Comments_OrganismsLookUp,
             # Some additional flags
             Length_NA_flag = case_when(FishCaught != T ~ "No fish caught",
@@ -160,7 +173,9 @@ Salvage <- SalvageJoined %>%
   ungroup() %>%
   # 16 instances of NA counts from the CVP because
   # Removes just the four CatchRowID
-  filter(!(lengthNAs == 1 & (LengthFrequency == 0 | is.na(LengthFrequency)) & Method == "Normal count")) %>%
+  filter(!(lengthNAs == 1 & (LengthFrequency == 0 | is.na(LengthFrequency))
+           # & Method == "Normal count"
+           )) %>%
   # Creating a SampleID. Want to retain SampleRowID from database but also distinguish each building at the SWP
   {
     left_join(., distinct(.data = ., Source, Facility, Salvage_building, SampleRowID) %>%
@@ -170,19 +185,25 @@ Salvage <- SalvageJoined %>%
   } %>%
   relocate(SampleID, .after = SampleRowID)
 
-# When FishCatch != TRUE
-
-if (!isTRUE(Salvage %>% group_by(lengthNAs) %>% tally() %>% filter(lengthNAs > 0) %>% pull(n) == 49)) stop("Have there been additional entries to this filter? See comments for lengthNAs above.")
-
-Salvage_measured_lengths <- Salvage %>%
+Salvage_measured_lengths <- SalvageStart %>%
   select(SampleID, Taxa, Length, LengthFrequency) %>%
   filter(!is.na(LengthFrequency)) %>% # Remove fish that weren't measured
   rename(Count = LengthFrequency)
 
-Salvage <- Salvage %>%
+Salvage <- SalvageStart %>%
   select(-c(Facility, Salvage_building, SampleRowID,
             TotalMeasured, Subsampled, MoreMeasured, Count1, LengthFrequency, ExpandedCount,
-            lengthNAs, CatchRowID, FishCaught))
+            lengthNAs, CatchRowID, FishCaught)) %>%
+  # Because rows with 0 catch but has a taxa had their taxa changed to NAs,
+  # line ~124 in this script, this create some duplicates. removing here (6 rows as of 05-05-23)
+  # Without CatchRowID, these become duplicates
+  # SamplwRowID: 73711, 73767, 183239
+  distinct()
+
+# Final check
+if (nrow(SalvageStart) - nrow(Salvage) != 6) stop("The last distinct() step removed more rows than intended. Check.")
+
+# Final check
 
 # # This is the expansion of this dataset, checked against the CDFW website
 # SalvageFinal <- Salvage %>%
@@ -190,7 +211,7 @@ Salvage <- Salvage %>%
 #          originalData = T) %>%
 #   group_by(Date,
 #            Station = factor(Station, levels = c("SWP", "CVP")),
-#            Salvage_volume) %>%
+#            Tow_volume) %>%
 #   complete(Taxa) %>%
 #   ungroup() %>%
 #   filter(!(is.na(Station) & is.na(originalData)))
@@ -238,6 +259,5 @@ Salvage <- Salvage %>%
 #   full_join(Species, by = "ScientificName") %>%
 #   relocate(Salvage_Code, .after = "TMM_Code") %>%
 #   write_csv(file.path("data-raw", "Species codes.csv"))
-
 
 usethis::use_data(Salvage, Salvage_measured_lengths, overwrite=TRUE)
