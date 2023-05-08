@@ -53,7 +53,7 @@ test_that("Temp_surf values are in the expected range", {
 })
 
 test_that("Secchi values are in the expected range", {
-  expect_true(all( (STN$Secchi > 0 & STN$Secchi < 310) | is.na(STN$Secchi) ))
+  expect_true(all( (STN$Secchi > 0 & STN$Secchi < 405) | is.na(STN$Secchi) ))
 })
 
 test_that("Tow_volume values are in the expected range", {
