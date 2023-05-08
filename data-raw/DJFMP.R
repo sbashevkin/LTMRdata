@@ -131,7 +131,7 @@ DJFMP<-data%>%
   select(-Total, -TotalMeasured, -Group)%>%
   left_join(DJFMP_stations, by = c("Station"="StationCode")) %>%
   # Add species names
-  left_join(USFWS_Species),
+  left_join(USFWS_Species,
             by=c("OrganismCode"="USFWS_Code")) %>%
   mutate(SampleID=paste(Source, SampleID), # Add variable for unique (across all studies) sampleID
          #Taxa=str_remove(Taxa, " \\((.*)")

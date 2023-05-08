@@ -194,7 +194,7 @@ catch_comments_suisun <- read_excel(file.path("data-raw", "Suisun", "Suisun comm
            Lifestage=="Adult" & Taxa%in%c("Tridentiger bifasciatus", "Acanthogobius flavimanus") ~ "Age-1+",
            TRUE ~ Lifestage
          ),
-         Month=month(parse_date_time(Date, "%Y-%m-%d", tz="America/Los_Angeles")))%>%
+         Month=month(parse_date_time(Date, "%Y-%m-%d %H:%M:%S", tz="America/Los_Angeles")))%>%
   left_join(Species%>% # Add species names
               dplyr::select(OrganismCode=SMF_Code, Taxa)%>%
               dplyr::filter(!is.na(OrganismCode) & !is.na(Taxa)),
