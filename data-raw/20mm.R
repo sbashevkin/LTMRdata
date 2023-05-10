@@ -154,9 +154,6 @@ sample20mm <- Survey %>%
 ## Based on lengths, probably a matter of being ID'd in the field vs. in the lab.
 
 fish20mm_totalCatch <- FishSample %>%
-  ## 2023-05-05: awaiting answer from Vanessa mora about species code 100. For now
-  # will simply assume this is a typo and it should be code 10
-  mutate(FishCode = ifelse(FishCode == 100, 10, FishCode)) %>%
 	dplyr::select(GearID, FishSampleID, FishCode, Catch)
 
 fish20mm_individLength <- FishSample %>%
