@@ -1,0 +1,740 @@
+"Source","Year","Age","Count"
+"20mm",1995,"adult",2
+"20mm",1995,"juvenile",3699
+"20mm",1995,"larval",426
+"20mm",1996,"adult",12
+"20mm",1996,"juvenile",5841.06545637768
+"20mm",1996,"larval",11953.9345436223
+"20mm",1997,"adult",8
+"20mm",1997,"juvenile",9234.77333333333
+"20mm",1997,"larval",7194.22666666667
+"20mm",1998,"adult",1
+"20mm",1998,"juvenile",16243.7666666667
+"20mm",1998,"larval",8466.23333333333
+"20mm",1999,"adult",12.88
+"20mm",1999,"juvenile",29707.22
+"20mm",1999,"larval",24175.9
+"20mm",2000,"adult",14.2
+"20mm",2000,"juvenile",53403.2779490286
+"20mm",2000,"larval",89601.5220509714
+"20mm",2001,"adult",5.88
+"20mm",2001,"juvenile",18290.3388709677
+"20mm",2001,"larval",46251.7811290323
+"20mm",2002,"adult",4.44
+"20mm",2002,"juvenile",18899.7610645284
+"20mm",2002,"larval",26306.7989354716
+"20mm",2003,"adult",8.98
+"20mm",2003,"juvenile",7249.78850241546
+"20mm",2003,"larval",12146.2314975845
+"20mm",2004,"adult",5
+"20mm",2004,"juvenile",3127.79346938776
+"20mm",2004,"larval",7180.20653061224
+"20mm",2005,"adult",3
+"20mm",2005,"juvenile",1854.5
+"20mm",2005,"larval",5624.5
+"20mm",2006,"adult",4.84
+"20mm",2006,"juvenile",7305.54
+"20mm",2006,"larval",7200.62
+"20mm",2007,"adult",1
+"20mm",2007,"juvenile",816.4
+"20mm",2007,"larval",2085.6
+"20mm",2008,"juvenile",8965.30595396053
+"20mm",2008,"larval",10930.6940460395
+"20mm",2009,"juvenile",2120
+"20mm",2009,"larval",11457
+"20mm",2010,"adult",1
+"20mm",2010,"juvenile",4901.40862745098
+"20mm",2010,"larval",12251.591372549
+"20mm",2011,"juvenile",4603.68
+"20mm",2011,"larval",11209.32
+"20mm",2012,"juvenile",1258.2
+"20mm",2012,"larval",2284.8
+"20mm",2013,"adult",1
+"20mm",2013,"juvenile",19074.78
+"20mm",2013,"larval",23504.22
+"20mm",2014,"juvenile",1099.26
+"20mm",2014,"larval",839.74
+"20mm",2015,"juvenile",223
+"20mm",2015,"larval",228
+"20mm",2016,"juvenile",604.24
+"20mm",2016,"larval",508.76
+"20mm",2017,"juvenile",1689.48
+"20mm",2017,"larval",2447.52
+"20mm",2018,"juvenile",1048.28
+"20mm",2018,"larval",2328.72
+"20mm",2019,"juvenile",4038.75346938776
+"20mm",2019,"larval",4944.24653061224
+"20mm",2020,"juvenile",916
+"20mm",2020,"larval",318
+"20mm",2020,NA,1
+"20mm",2021,"juvenile",4807.5
+"20mm",2021,"larval",3248.5
+"20mm",2022,"adult",3
+"20mm",2022,"juvenile",10381.1
+"20mm",2022,"larval",2787.9
+"Bay Study",1980,"adult",156.885675764834
+"Bay Study",1980,"juvenile",18376.0252153243
+"Bay Study",1980,"larval",7.08910891089109
+"Bay Study",1981,"adult",623.938747549174
+"Bay Study",1981,"juvenile",3635.06125245083
+"Bay Study",1982,"adult",404.588682512456
+"Bay Study",1982,"juvenile",36778.0150910724
+"Bay Study",1982,"larval",1.39622641509434
+"Bay Study",1983,"adult",1499.54907224564
+"Bay Study",1983,"juvenile",14156.4509277544
+"Bay Study",1984,"adult",849.669056603774
+"Bay Study",1984,"juvenile",3809.33094339623
+"Bay Study",1985,"adult",618.14
+"Bay Study",1985,"juvenile",2293.86
+"Bay Study",1986,"adult",361.34
+"Bay Study",1986,"juvenile",2137.66
+"Bay Study",1987,"adult",746.14
+"Bay Study",1987,"juvenile",1142.86
+"Bay Study",1988,"adult",546
+"Bay Study",1988,"juvenile",749
+"Bay Study",1989,"adult",206
+"Bay Study",1989,"juvenile",223
+"Bay Study",1990,"adult",52
+"Bay Study",1990,"juvenile",109
+"Bay Study",1991,"adult",81
+"Bay Study",1991,"juvenile",77
+"Bay Study",1992,"adult",39
+"Bay Study",1992,"juvenile",56
+"Bay Study",1993,"adult",15.46
+"Bay Study",1993,"juvenile",545.54
+"Bay Study",1994,"adult",123
+"Bay Study",1994,"juvenile",319
+"Bay Study",1995,"adult",72.14
+"Bay Study",1995,"juvenile",12586.86
+"Bay Study",1996,"adult",703.695294117647
+"Bay Study",1996,"juvenile",1215.30470588235
+"Bay Study",1997,"adult",390.3
+"Bay Study",1997,"juvenile",1017.7
+"Bay Study",1998,"adult",110.32
+"Bay Study",1998,"juvenile",4784.68
+"Bay Study",1999,"adult",461.98
+"Bay Study",1999,"juvenile",6407.02
+"Bay Study",2000,"adult",438.34
+"Bay Study",2000,"juvenile",2612.66
+"Bay Study",2001,"adult",390.66
+"Bay Study",2001,"juvenile",763.34
+"Bay Study",2002,"adult",201
+"Bay Study",2002,"juvenile",831
+"Bay Study",2003,"adult",172.989473684211
+"Bay Study",2003,"juvenile",565.010526315789
+"Bay Study",2004,"adult",219.456043956044
+"Bay Study",2004,"juvenile",668.543956043956
+"Bay Study",2005,"adult",139
+"Bay Study",2005,"juvenile",499
+"Bay Study",2006,"adult",98
+"Bay Study",2006,"juvenile",1114
+"Bay Study",2007,"adult",103
+"Bay Study",2007,"juvenile",375
+"Bay Study",2008,"adult",52
+"Bay Study",2008,"juvenile",285
+"Bay Study",2009,"adult",130
+"Bay Study",2009,"juvenile",298
+"Bay Study",2010,"adult",42
+"Bay Study",2010,"juvenile",124
+"Bay Study",2011,"adult",137.789835082459
+"Bay Study",2011,"juvenile",918.210164917541
+"Bay Study",2012,"adult",152.083333333333
+"Bay Study",2012,"juvenile",445.916666666667
+"Bay Study",2013,"adult",118
+"Bay Study",2013,"juvenile",420
+"Bay Study",2014,"adult",19
+"Bay Study",2014,"juvenile",120
+"Bay Study",2015,"adult",24
+"Bay Study",2015,"juvenile",77
+"Bay Study",2016,"adult",1
+"Bay Study",2016,"juvenile",38
+"Bay Study",2017,"adult",15
+"Bay Study",2017,"juvenile",394
+"Bay Study",2018,"adult",20
+"Bay Study",2018,"juvenile",417
+"Bay Study",2019,"adult",19
+"Bay Study",2019,"juvenile",413
+"Bay Study",2020,"adult",19
+"Bay Study",2020,"juvenile",347
+"Bay Study",2021,"adult",54.12
+"Bay Study",2021,"juvenile",642.88
+"DJFMP",1976,"adult",1
+"DJFMP",1976,"juvenile",38
+"DJFMP",1976,NA,245
+"DJFMP",1977,"adult",78
+"DJFMP",1977,"juvenile",4
+"DJFMP",1977,NA,1
+"DJFMP",1978,"adult",29.5
+"DJFMP",1978,"juvenile",106.5
+"DJFMP",1978,NA,352
+"DJFMP",1979,"adult",21207.9316226741
+"DJFMP",1979,"juvenile",9624.0683773259
+"DJFMP",1979,NA,14622
+"DJFMP",1980,"adult",385.428571428571
+"DJFMP",1980,"juvenile",150.571428571429
+"DJFMP",1980,"larval",7
+"DJFMP",1980,NA,68563
+"DJFMP",1981,"adult",33459.443909522
+"DJFMP",1981,"juvenile",7046.55609047801
+"DJFMP",1981,NA,1200
+"DJFMP",1982,"adult",8
+"DJFMP",1982,"juvenile",2
+"DJFMP",1982,NA,12
+"DJFMP",1983,"adult",10
+"DJFMP",1983,"juvenile",5
+"DJFMP",1984,"adult",668.656565656566
+"DJFMP",1984,"juvenile",267.343434343434
+"DJFMP",1984,NA,57
+"DJFMP",1985,"adult",1367.98804785256
+"DJFMP",1985,"juvenile",3725.37064779961
+"DJFMP",1985,"larval",14.6413043478261
+"DJFMP",1985,NA,43
+"DJFMP",1986,"adult",17
+"DJFMP",1986,"juvenile",47
+"DJFMP",1987,"adult",163
+"DJFMP",1987,"juvenile",79
+"DJFMP",1988,"adult",982.494693877551
+"DJFMP",1988,"juvenile",3950.50530612245
+"DJFMP",1988,"larval",2
+"DJFMP",1989,"adult",157.28
+"DJFMP",1989,"juvenile",1426.72
+"DJFMP",1989,"larval",34
+"DJFMP",1990,"adult",150
+"DJFMP",1990,"juvenile",647
+"DJFMP",1990,"larval",5
+"DJFMP",1991,"adult",105
+"DJFMP",1991,"juvenile",66
+"DJFMP",1991,"larval",1
+"DJFMP",1992,"adult",12
+"DJFMP",1992,"juvenile",193
+"DJFMP",1992,"larval",3
+"DJFMP",1993,"adult",76.7
+"DJFMP",1993,"juvenile",884.5
+"DJFMP",1993,"larval",43.8
+"DJFMP",1993,NA,20
+"DJFMP",1994,"adult",1620.64146700506
+"DJFMP",1994,"juvenile",10003.3585329949
+"DJFMP",1994,"larval",3
+"DJFMP",1995,"adult",798.6
+"DJFMP",1995,"juvenile",2396.4
+"DJFMP",1996,"adult",7123.10215053763
+"DJFMP",1996,"juvenile",8817.89784946237
+"DJFMP",1997,"adult",7562.8
+"DJFMP",1997,"juvenile",1622.2
+"DJFMP",1997,NA,1
+"DJFMP",1998,"adult",730.466666666667
+"DJFMP",1998,"juvenile",2810.53333333333
+"DJFMP",1998,NA,1
+"DJFMP",1999,"adult",2267.57523809524
+"DJFMP",1999,"juvenile",9069.42476190476
+"DJFMP",2000,"adult",939.9
+"DJFMP",2000,"juvenile",7489.1
+"DJFMP",2001,"adult",4717.78428571429
+"DJFMP",2001,"juvenile",5835.21571428571
+"DJFMP",2001,NA,1
+"DJFMP",2002,"adult",4074.32010582011
+"DJFMP",2002,"juvenile",1210.67989417989
+"DJFMP",2003,"adult",4636.67204301075
+"DJFMP",2003,"juvenile",436.327956989247
+"DJFMP",2004,"adult",1763.73333333333
+"DJFMP",2004,"juvenile",742.266666666667
+"DJFMP",2005,"adult",1129.65
+"DJFMP",2005,"juvenile",459.35
+"DJFMP",2005,NA,1
+"DJFMP",2006,"adult",421.666666666667
+"DJFMP",2006,"juvenile",67.3333333333333
+"DJFMP",2007,"adult",343
+"DJFMP",2007,"juvenile",182
+"DJFMP",2008,"adult",626
+"DJFMP",2008,"juvenile",127
+"DJFMP",2009,"adult",257
+"DJFMP",2009,"juvenile",92
+"DJFMP",2010,"adult",540
+"DJFMP",2010,"juvenile",29
+"DJFMP",2011,"adult",111
+"DJFMP",2011,"juvenile",23
+"DJFMP",2012,"adult",548
+"DJFMP",2012,"juvenile",27
+"DJFMP",2013,"adult",508
+"DJFMP",2013,"juvenile",82
+"DJFMP",2014,"adult",55
+"DJFMP",2014,"juvenile",54
+"DJFMP",2015,"adult",67
+"DJFMP",2015,"juvenile",127
+"DJFMP",2016,"adult",33
+"DJFMP",2016,"juvenile",15
+"DJFMP",2017,"adult",51
+"DJFMP",2017,"juvenile",75
+"DJFMP",2018,"adult",108
+"DJFMP",2018,"juvenile",119
+"DJFMP",2019,"adult",88
+"DJFMP",2019,"juvenile",97
+"DJFMP",2020,"adult",39
+"DJFMP",2020,"juvenile",24
+"DJFMP",2021,"adult",207
+"DJFMP",2021,"juvenile",115
+"DJFMP",2022,"adult",142
+"DJFMP",2022,"juvenile",171
+"EDSM",2017,"adult",18
+"EDSM",2017,"juvenile",247
+"EDSM",2017,"larval",80
+"EDSM",2018,"adult",31
+"EDSM",2018,"juvenile",265
+"EDSM",2019,"adult",37
+"EDSM",2019,"juvenile",275
+"EDSM",2020,"adult",25
+"EDSM",2020,"juvenile",428
+"EDSM",2020,"larval",538
+"EDSM",2021,"adult",14
+"EDSM",2021,"juvenile",83
+"FMWT",1967,NA,33152
+"FMWT",1968,NA,18056
+"FMWT",1969,NA,34837
+"FMWT",1970,NA,9814
+"FMWT",1971,NA,12984
+"FMWT",1972,NA,6241
+"FMWT",1973,"adult",1
+"FMWT",1973,"juvenile",46
+"FMWT",1973,NA,5064
+"FMWT",1974,NA,1003
+"FMWT",1975,"adult",154.13293279705
+"FMWT",1975,"juvenile",1115.86706720295
+"FMWT",1975,NA,892
+"FMWT",1976,"adult",10
+"FMWT",1976,"juvenile",43
+"FMWT",1976,NA,10
+"FMWT",1977,"adult",93.042735042735
+"FMWT",1977,"juvenile",620.957264957265
+"FMWT",1977,NA,41
+"FMWT",1978,"adult",560.933333333333
+"FMWT",1978,"juvenile",4285.06666666667
+"FMWT",1978,NA,1
+"FMWT",1979,"adult",250.181818181818
+"FMWT",1979,"juvenile",1129.81818181818
+"FMWT",1980,"adult",1374.6
+"FMWT",1980,"juvenile",17053.4
+"FMWT",1980,NA,181
+"FMWT",1981,"adult",709.677955377955
+"FMWT",1981,"juvenile",670.322044622045
+"FMWT",1981,NA,189
+"FMWT",1982,"adult",2180.56486928105
+"FMWT",1982,"juvenile",11930.435130719
+"FMWT",1982,NA,26399
+"FMWT",1983,"adult",997.89691281128
+"FMWT",1983,"juvenile",3815.10308718872
+"FMWT",1983,NA,1275
+"FMWT",1984,"adult",293.987091503268
+"FMWT",1984,"juvenile",658.012908496732
+"FMWT",1984,NA,3573
+"FMWT",1985,"adult",245.133333333333
+"FMWT",1985,"juvenile",355.866666666667
+"FMWT",1985,NA,157
+"FMWT",1986,"adult",215.328571428571
+"FMWT",1986,"juvenile",427.671428571429
+"FMWT",1986,NA,4137
+"FMWT",1987,"adult",544.941666666667
+"FMWT",1987,"juvenile",314.058333333333
+"FMWT",1987,NA,104
+"FMWT",1988,"adult",291.779411764706
+"FMWT",1988,"juvenile",195.220588235294
+"FMWT",1989,"adult",140.538461538462
+"FMWT",1989,"juvenile",199.461538461538
+"FMWT",1990,"adult",67.9264705882353
+"FMWT",1990,"juvenile",110.073529411765
+"FMWT",1991,"adult",69
+"FMWT",1991,"juvenile",160
+"FMWT",1992,"adult",39
+"FMWT",1992,"juvenile",43
+"FMWT",1993,"adult",111
+"FMWT",1993,"juvenile",608
+"FMWT",1994,"adult",404
+"FMWT",1994,"juvenile",702
+"FMWT",1995,"adult",175.12
+"FMWT",1995,"juvenile",4510.88
+"FMWT",1996,"adult",630.32
+"FMWT",1996,"juvenile",1885.68
+"FMWT",1997,"adult",299
+"FMWT",1997,"juvenile",438
+"FMWT",1998,"adult",474.539607843137
+"FMWT",1998,"juvenile",5029.46039215686
+"FMWT",1999,"adult",122.34
+"FMWT",1999,"juvenile",3077.66
+"FMWT",2000,"adult",177.757647058824
+"FMWT",2000,"juvenile",2582.24235294118
+"FMWT",2000,"larval",1
+"FMWT",2001,"adult",330.22347826087
+"FMWT",2001,"juvenile",787.77652173913
+"FMWT",2001,NA,15
+"FMWT",2002,"adult",14
+"FMWT",2002,"juvenile",519
+"FMWT",2003,"adult",82
+"FMWT",2003,"juvenile",264
+"FMWT",2004,"adult",36
+"FMWT",2004,"juvenile",102
+"FMWT",2005,"adult",24
+"FMWT",2005,"juvenile",43
+"FMWT",2006,"adult",14
+"FMWT",2006,"juvenile",786
+"FMWT",2007,"adult",10
+"FMWT",2008,"adult",17
+"FMWT",2008,"juvenile",78
+"FMWT",2009,"adult",19
+"FMWT",2009,"juvenile",33
+"FMWT",2010,"adult",5
+"FMWT",2010,"juvenile",92
+"FMWT",2011,"adult",73
+"FMWT",2011,"juvenile",259
+"FMWT",2012,"adult",16
+"FMWT",2012,"juvenile",20
+"FMWT",2013,"adult",32
+"FMWT",2013,"juvenile",56
+"FMWT",2014,"adult",1
+"FMWT",2014,"juvenile",10
+"FMWT",2015,"adult",3
+"FMWT",2016,"adult",2
+"FMWT",2016,"juvenile",3
+"FMWT",2017,"adult",7
+"FMWT",2017,"juvenile",63
+"FMWT",2018,"adult",9
+"FMWT",2018,"juvenile",22
+"FMWT",2019,"adult",9
+"FMWT",2019,"juvenile",22
+"FMWT",2020,"adult",2
+"FMWT",2020,"juvenile",9
+"FMWT",2021,"adult",12
+"FMWT",2021,"juvenile",112
+"FMWT",2022,"adult",20.44
+"FMWT",2022,"juvenile",166.56
+"Salvage",1993,"juvenile",110
+"Salvage",1993,NA,538
+"Salvage",1994,"adult",2
+"Salvage",1994,"juvenile",1862
+"Salvage",1994,NA,4551
+"Salvage",1995,"adult",14
+"Salvage",1995,"juvenile",12
+"Salvage",1995,NA,76
+"Salvage",1996,"juvenile",43
+"Salvage",1996,NA,250
+"Salvage",1997,"juvenile",355
+"Salvage",1997,NA,831
+"Salvage",1998,"adult",12
+"Salvage",1998,"juvenile",480
+"Salvage",1998,NA,196
+"Salvage",1999,"juvenile",193
+"Salvage",1999,NA,611.571428571429
+"Salvage",2000,"adult",36
+"Salvage",2000,"juvenile",705
+"Salvage",2000,NA,1242
+"Salvage",2001,"adult",30
+"Salvage",2001,"juvenile",2307
+"Salvage",2001,NA,4242
+"Salvage",2002,"adult",54
+"Salvage",2002,"juvenile",37411
+"Salvage",2002,NA,60359
+"Salvage",2003,"adult",30
+"Salvage",2003,"juvenile",2103
+"Salvage",2003,NA,3135
+"Salvage",2004,"adult",24
+"Salvage",2004,"juvenile",348
+"Salvage",2004,NA,609
+"Salvage",2005,"adult",6
+"Salvage",2005,"juvenile",54
+"Salvage",2005,NA,159
+"Salvage",2007,"adult",12
+"Salvage",2007,"juvenile",51
+"Salvage",2007,NA,45
+"Salvage",2008,"adult",36
+"Salvage",2008,"juvenile",747
+"Salvage",2008,NA,686
+"Salvage",2009,"juvenile",78.8333333333333
+"Salvage",2009,NA,10
+"Salvage",2010,"juvenile",35.1666666666667
+"Salvage",2011,"adult",4
+"Salvage",2012,"juvenile",3726
+"Salvage",2012,NA,14
+"Salvage",2013,"adult",4
+"Salvage",2013,"juvenile",896.166666666667
+"Salvage",2014,"juvenile",40
+"Salvage",2015,"juvenile",130
+"Salvage",2016,"juvenile",10
+"Salvage",2018,"juvenile",4
+"Salvage",2019,"adult",4
+"Salvage",2019,"juvenile",8
+"Salvage",2020,"juvenile",2838.43333333333
+"Salvage",2020,NA,8
+"Salvage",2021,"juvenile",861
+"Salvage",2021,NA,8
+"Salvage",2022,"juvenile",7448
+"Salvage",2023,"adult",14
+"Salvage",2023,"juvenile",12
+"SKT",2002,"adult",75
+"SKT",2002,"juvenile",11
+"SKT",2002,NA,1
+"SKT",2003,"adult",13
+"SKT",2003,"juvenile",86
+"SKT",2004,"adult",13
+"SKT",2004,"juvenile",99
+"SKT",2004,NA,1
+"SKT",2005,"adult",7
+"SKT",2005,"juvenile",30
+"SKT",2006,"adult",3
+"SKT",2006,"juvenile",7
+"SKT",2007,"adult",3
+"SKT",2007,"juvenile",75
+"SKT",2008,"adult",7
+"SKT",2008,"juvenile",1770.24
+"SKT",2008,"larval",32.76
+"SKT",2009,"adult",5
+"SKT",2009,"juvenile",109
+"SKT",2009,"larval",1
+"SKT",2010,"adult",27
+"SKT",2010,"juvenile",47
+"SKT",2010,"larval",7
+"SKT",2011,"adult",8
+"SKT",2011,"juvenile",89.5333333333333
+"SKT",2011,"larval",22.4666666666667
+"SKT",2012,"adult",2
+"SKT",2012,"juvenile",49
+"SKT",2012,"larval",1
+"SKT",2013,"adult",4
+"SKT",2013,"juvenile",29
+"SKT",2013,"larval",2
+"SKT",2014,"adult",3
+"SKT",2014,"juvenile",39
+"SKT",2014,"larval",1
+"SKT",2015,"adult",4
+"SKT",2015,"juvenile",27
+"SKT",2016,"adult",1
+"SKT",2016,"juvenile",127
+"SKT",2017,"adult",5
+"SKT",2018,"adult",10
+"SKT",2018,"juvenile",139.72
+"SKT",2018,"larval",1.28
+"SKT",2019,"adult",7
+"SKT",2019,"juvenile",452
+"SKT",2019,"larval",12
+"SKT",2020,"adult",2
+"SKT",2020,"juvenile",4
+"SKT",2021,"adult",8
+"SKT",2021,"juvenile",652.98
+"SKT",2021,"larval",9.02
+"SKT",2022,"adult",1
+"SKT",2022,"juvenile",315.64
+"SKT",2022,"larval",4.36
+"SLS",2009,"juvenile",2
+"SLS",2009,"larval",7754
+"SLS",2010,"juvenile",11
+"SLS",2010,"larval",14230
+"SLS",2011,"larval",9099
+"SLS",2012,"larval",15107
+"SLS",2013,"juvenile",6.32
+"SLS",2013,"larval",22720.68
+"SLS",2014,"juvenile",7.72
+"SLS",2014,"larval",5623.28
+"SLS",2015,"juvenile",7
+"SLS",2015,"larval",959
+"SLS",2016,"juvenile",4
+"SLS",2016,"larval",735
+"SLS",2017,"juvenile",1
+"SLS",2017,"larval",78
+"SLS",2018,"larval",2041
+"SLS",2019,"larval",561
+"SLS",2020,"larval",2791
+"SLS",2021,"juvenile",4
+"SLS",2021,"larval",1601
+"SLS",2022,"juvenile",3
+"SLS",2022,"larval",3141
+"STN",1959,"juvenile",11
+"STN",1959,"larval",11
+"STN",1959,NA,67
+"STN",1960,NA,76
+"STN",1961,NA,226
+"STN",1962,NA,925
+"STN",1963,NA,14
+"STN",1964,NA,570
+"STN",1965,NA,601
+"STN",1969,NA,695
+"STN",1970,NA,447
+"STN",1971,NA,1221
+"STN",1972,NA,542
+"STN",1973,"juvenile",263
+"STN",1973,NA,41
+"STN",1974,"adult",19.625
+"STN",1974,"juvenile",1590.375
+"STN",1974,"larval",2
+"STN",1975,"adult",1
+"STN",1975,"juvenile",45
+"STN",1976,"adult",1
+"STN",1976,"juvenile",8
+"STN",1976,NA,14
+"STN",1977,"juvenile",200
+"STN",1978,"juvenile",32
+"STN",1979,"adult",3.5
+"STN",1979,"juvenile",492.5
+"STN",1980,"juvenile",686
+"STN",1981,"adult",4
+"STN",1981,"juvenile",165
+"STN",1981,NA,4
+"STN",1982,"juvenile",1251
+"STN",1982,"larval",1
+"STN",1983,"adult",6
+"STN",1983,"juvenile",25
+"STN",1983,NA,2
+"STN",1984,"adult",1
+"STN",1985,"adult",1
+"STN",1985,"juvenile",26
+"STN",1986,"juvenile",40
+"STN",1987,"adult",4
+"STN",1987,"juvenile",162
+"STN",1988,"adult",5
+"STN",1988,"juvenile",35
+"STN",1989,"juvenile",68
+"STN",1990,"juvenile",3
+"STN",1991,"juvenile",10
+"STN",1992,"adult",1
+"STN",1992,"juvenile",9
+"STN",1993,"juvenile",34
+"STN",1993,"larval",1
+"STN",1994,"adult",1
+"STN",1994,"juvenile",16
+"STN",1995,"juvenile",562
+"STN",1996,"juvenile",372
+"STN",1996,NA,95
+"STN",1997,"adult",1
+"STN",1997,"juvenile",23
+"STN",1998,"juvenile",188
+"STN",1999,"juvenile",571
+"STN",2000,"juvenile",1106
+"STN",2001,"juvenile",56
+"STN",2001,"larval",1
+"STN",2002,"juvenile",440
+"STN",2002,"larval",2
+"STN",2003,"adult",1
+"STN",2003,"juvenile",89
+"STN",2004,"juvenile",127
+"STN",2005,"adult",2
+"STN",2005,"juvenile",41
+"STN",2006,"juvenile",183
+"STN",2006,"larval",2
+"STN",2007,"juvenile",4
+"STN",2008,"juvenile",813
+"STN",2008,"larval",2
+"STN",2009,"adult",3
+"STN",2009,"juvenile",193
+"STN",2009,"larval",1
+"STN",2010,"juvenile",43
+"STN",2011,"adult",1
+"STN",2011,"juvenile",212
+"STN",2011,"larval",1
+"STN",2012,"juvenile",151
+"STN",2013,"juvenile",875
+"STN",2014,"juvenile",25
+"STN",2015,"juvenile",6
+"STN",2016,"juvenile",2
+"STN",2017,"juvenile",3
+"STN",2018,"juvenile",78
+"STN",2019,"adult",3
+"STN",2019,"juvenile",132
+"STN",2020,"juvenile",49
+"STN",2021,"juvenile",97
+"STN",2022,"juvenile",164
+"Suisun",1979,"adult",1
+"Suisun",1979,"juvenile",12
+"Suisun",1979,NA,1
+"Suisun",1980,"adult",35
+"Suisun",1980,"juvenile",1972
+"Suisun",1980,NA,1237
+"Suisun",1981,"adult",45
+"Suisun",1981,"juvenile",909
+"Suisun",1982,"adult",9
+"Suisun",1982,"juvenile",1692
+"Suisun",1983,"adult",11
+"Suisun",1983,"juvenile",268
+"Suisun",1984,"adult",2
+"Suisun",1984,"juvenile",551
+"Suisun",1985,"adult",11
+"Suisun",1985,"juvenile",128
+"Suisun",1985,"larval",2
+"Suisun",1985,NA,20
+"Suisun",1986,"adult",9
+"Suisun",1986,"juvenile",93
+"Suisun",1987,"adult",12.04
+"Suisun",1987,"juvenile",97.96
+"Suisun",1988,"adult",7
+"Suisun",1988,"juvenile",185
+"Suisun",1988,"larval",2
+"Suisun",1989,"juvenile",82
+"Suisun",1989,"larval",4
+"Suisun",1989,NA,45
+"Suisun",1990,"adult",1
+"Suisun",1990,"juvenile",18
+"Suisun",1990,NA,223
+"Suisun",1991,"juvenile",21
+"Suisun",1992,"juvenile",3
+"Suisun",1993,"juvenile",3
+"Suisun",1994,"adult",1
+"Suisun",1994,"juvenile",5
+"Suisun",1995,"juvenile",82
+"Suisun",1996,"juvenile",8
+"Suisun",1997,"juvenile",5
+"Suisun",1998,"juvenile",21
+"Suisun",1999,"adult",3
+"Suisun",1999,"juvenile",208
+"Suisun",1999,NA,920
+"Suisun",2000,"juvenile",183
+"Suisun",2000,NA,210
+"Suisun",2001,"adult",13
+"Suisun",2001,"juvenile",149
+"Suisun",2001,NA,128
+"Suisun",2002,"adult",6
+"Suisun",2002,"juvenile",571.5
+"Suisun",2002,"larval",5.5
+"Suisun",2002,NA,75
+"Suisun",2003,"adult",7
+"Suisun",2003,"juvenile",467
+"Suisun",2003,"larval",4
+"Suisun",2003,NA,12
+"Suisun",2004,"adult",2
+"Suisun",2004,"juvenile",126
+"Suisun",2004,NA,5
+"Suisun",2005,"adult",3
+"Suisun",2005,"juvenile",29
+"Suisun",2006,"adult",2
+"Suisun",2006,"juvenile",43
+"Suisun",2007,"adult",4
+"Suisun",2007,"juvenile",38
+"Suisun",2008,"adult",3
+"Suisun",2008,"juvenile",119
+"Suisun",2009,"adult",2
+"Suisun",2009,"juvenile",93
+"Suisun",2009,"larval",1
+"Suisun",2010,"juvenile",79
+"Suisun",2010,"larval",14
+"Suisun",2011,"adult",9
+"Suisun",2011,"juvenile",15
+"Suisun",2012,"adult",1
+"Suisun",2012,"juvenile",10
+"Suisun",2013,"adult",5
+"Suisun",2013,"juvenile",376.466666666667
+"Suisun",2013,"larval",15.5333333333333
+"Suisun",2014,"adult",3
+"Suisun",2014,"juvenile",62
+"Suisun",2014,"larval",1
+"Suisun",2015,"adult",1
+"Suisun",2015,"juvenile",7
+"Suisun",2016,"adult",1
+"Suisun",2016,"juvenile",1
+"Suisun",2017,"juvenile",13
+"Suisun",2018,"adult",6
+"Suisun",2018,"juvenile",19
+"Suisun",2019,"juvenile",3
+"Suisun",2020,"adult",1
+"Suisun",2020,"juvenile",254
+"Suisun",2020,"larval",1
+"Suisun",2021,"adult",4
+"Suisun",2021,"juvenile",514
+"Suisun",2021,NA,1
+"Suisun",2022,"adult",2
+"Suisun",2022,"juvenile",643
+"Suisun",2022,"larval",2
+"Suisun",2022,NA,44
