@@ -15,8 +15,8 @@ LazyData: true
 LazyDataCompression: xz
 Depends: 
      R (>= 3.5.0)
-URL: https://github.com/Tham-E/LTMRdata
-BugReports: https://github.com/Tham-E/LTMRdata/issues
+URL: https://github.com/sbashevkin/LTMRdata
+BugReports: https://github.com/sbashevkin/LTMRdata/issues
 Suggests: 
     ps,
     readr,
