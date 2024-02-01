@@ -72,11 +72,17 @@ if (!exists("Args")) {
 
   file <- Args[1]
   out <- Args[2]
-  tables <- Args[3:length(Args)]
+  rBit <- Args[4]
+  officeBit <- Args[5]
+  tables <- Args[6:length(Args)]
 
   con <- connectAccess(file)
 
+
+
   extractTables(con = con,
                 tables = tables,
-                out = out)
+                out = out,
+                rBit = rBit,
+                officeBit = officeBit)
 }
