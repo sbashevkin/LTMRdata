@@ -178,4 +178,4 @@ SKT<-SKT %>%
   distinct()
 
 # Save compressed data to /data
-usethis::use_data(SKT, SKT_measured_lengths, overwrite=TRUE, compress="xz")
+usethis::use_data(SKT, SKT_measured_lengths, overwrite=TRUE, compress="xz", compress="xz")

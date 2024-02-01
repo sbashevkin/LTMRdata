@@ -134,7 +134,7 @@ DJFMP<-data%>%
   left_join(USFWS_Species,
             by=c("OrganismCode"="USFWS_Code")) %>%
   mutate(SampleID=paste(Source, SampleID), # Add variable for unique (across all studies) sampleID
-         #Taxa=str_remove(Taxa, " \\((.*)")
+         Taxa=str_remove(Taxa, " \\((.*)")
          )%>% # Remove life stage info from Taxa names
   # dplyr::rename(Taxa=ScientificName)%>%
   select(-OrganismCode)%>%
@@ -148,4 +148,4 @@ DJFMP<-data%>%
          Temp_surf, Secchi, Tow_volume, Tow_direction, Taxa, Length, Count, Length_NA_flag)
 
 # Save compressed data to /data
-usethis::use_data(DJFMP, overwrite=TRUE)
+usethis::use_data(DJFMP, overwrite=TRUE, compress="xz")

@@ -260,4 +260,4 @@ if (nrow(SalvageStart) - nrow(Salvage) != 6) stop("The last distinct() step remo
 #   relocate(Salvage_Code, .after = "TMM_Code") %>%
 #   write_csv(file.path("data-raw", "Species codes.csv"))
 
-usethis::use_data(Salvage, Salvage_measured_lengths, overwrite=TRUE)
+usethis::use_data(Salvage, Salvage_measured_lengths, overwrite=TRUE, compress="xz")
