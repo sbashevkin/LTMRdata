@@ -231,11 +231,12 @@ TMM_measured_lengths <- TMM %>%
   dplyr::filter(!is.na(LengthFrequency))%>% # Remove fish that weren't measured
 	dplyr::rename(Count=LengthFrequency)
 
-
-
+## Renaming the turbidity field to be added. Name convention based on discussion
+## with Sam and Dave
 ## Now remove extra fields:
 TMM <- TMM %>%
-	dplyr::select(-GearID, -Duration, -Turbidity, -Comments, -Comments.x,
+  dplyr::rename(TurbidityNTU = Turbidity) %>%
+	dplyr::select(-GearID, -Duration, -Comments, -Comments.x,
 								-Comments.y, -FishCode, -Catch, -CatchNew,
 								-LengthFrequency)
 

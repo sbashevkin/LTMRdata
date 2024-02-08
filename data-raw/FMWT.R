@@ -143,12 +143,12 @@ FMWT<-FMWT_Tables$Sample%>% # Start with sample to ensure samples without any ca
          Count=if_else(Length_NA_flag=="No fish caught", 0, Count, missing=Count))%>% # Transform all counts for 'No fish caught' to 0.
   rename(Length=ForkLength, Temp_surf=WaterTemperature, Temp_bott=BottomTemperature,
          Secchi_estimated=SecchiEstimated, Survey=SurveyNumber, Cable_length=CableOut,
-         Wind_direction=WindDirection)%>%
-  select(-ConductivityTop, -ConductivityBottom, -LengthFrequency, -TotalMeasured,
-         -SampleRowID, -Time, -Catch, -Turbidity, -Microcystis,
-         -Wind_direction, -Temp_bott, -Weather, -Waves, -Sal_bott)%>% # Remove extra variables
+         Wind_direction=WindDirection, TurbidityNTU = Turbidity)%>%
+  # select(-ConductivityTop, -ConductivityBottom, -LengthFrequency, -TotalMeasured,
+  #        -SampleRowID, -Time, -Catch, -Turbidity, -Microcystis,
+  #        -Wind_direction, -Temp_bott, -Weather, -Waves, -Sal_bott)%>% # Remove extra variables
   select(Source, Station, Latitude, Longitude, Date, Datetime, Survey, # Reorder variables for consistency
-         Depth, SampleID, CatchRowID, Method, Tide, Sal_surf, Temp_surf, Secchi, Secchi_estimated,
+         Depth, SampleID, CatchRowID, Method, Tide, Sal_surf, Temp_surf, TurbidityNTU, Secchi, Secchi_estimated,
          Tow_volume, Tow_direction, Cable_length, Taxa, Length, Count, Length_NA_flag)
 
 # Just measured lengths

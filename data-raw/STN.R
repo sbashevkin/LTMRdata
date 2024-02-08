@@ -55,7 +55,8 @@ STNTables <- bridgeAccess(db_path,
 # STNTables$Sample <- read_csv(file.path("data-raw", "STN","Sample.csv"),
 #                    col_types=cols_only(SampleRowID="d", SampleDate="c", StationCode="c", Survey="d",
 #                                        TemperatureTop="d", Secchi="d", ConductivityTop="d",
-#                                        TideCode="d", DepthBottom="d", CableOut="d", TowDirection="d")) %>%
+#                                        TideCode="d", DepthBottom="d", CableOut="d", TowDirection="d",
+#                                        TurbidityTop = "d")) %>%
 #   mutate(SampleDate = parse_date_time(SampleDate, "%Y-%m-%d", tz="America/Los_Angeles"))
 #
 # STNTables$TowEffort <- read_csv(file.path("data-raw", "STN","TowEffort.csv"),
@@ -99,7 +100,7 @@ Sample <- STNTables$Sample %>%
   transmute(SampleRowID = as.double(SampleRowID),
             SampleDate = parse_date_time(SampleDate, "%Y-%m-%d", tz="America/Los_Angeles"),
             StationCode = as.character(StationCode),
-            across(c(Survey, TemperatureTop, Secchi, ConductivityTop, TideCode,
+            across(c(Survey, TemperatureTop, TurbidityTop, Secchi, ConductivityTop, TideCode,
                      DepthBottom, CableOut, TowDirection), as.double))
 
 TowEffort <- STNTables$TowEffort %>%
@@ -167,7 +168,8 @@ sampleSTN <- Sample %>%
   mutate(Tow_direction=recode(Tow_direction, `Against Current`="Against current", `With Current`="With current"))%>%
   select(TowRowID, Source, Station, Latitude, Longitude, Date, Datetime,
          Survey, TowNum, Depth, SampleID, Method, Tide, Sal_surf,
-         Temp_surf, Secchi, Tow_volume, Tow_direction, Cable_length)
+         Temp_surf, TurbidityNTU = TurbidityTop,
+         Secchi, Tow_volume, Tow_direction, Cable_length)
 
 
 fish_totalCatch <- Catch %>%
@@ -256,7 +258,6 @@ STN <- STN %>%
 nrow(STN)
 ncol(STN)
 names(STN)
-
 
 ## Save compressed data to /data:
 usethis::use_data(STN, STN_measured_lengths, overwrite=TRUE, compress="xz")

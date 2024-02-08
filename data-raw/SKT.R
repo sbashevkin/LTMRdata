@@ -23,7 +23,7 @@ db_path <- file.path(tempdir(),"Skt.accdb")
 
 source(file.path("data-raw", "bridgeAccess.R"))
 
-keepTables <- c("lktblStationsSKT", "tblSample", "tblCatch", "tblFishInfo")
+keepTables <- c("StationsSKT", "tblSample", "tblCatch", "tblFishInfo")
 
 SKT_Data <- bridgeAccess(db_path,
                          tables = keepTables,
@@ -38,7 +38,7 @@ SKT_Data <- bridgeAccess(db_path,
 #                                                      LongDec="d", LongMin="d", LongSec="d"))
 #
 # SKT_Data$tblSample <- read_csv(file.path("data-raw", "SKT", "tblSample.csv"),
-#                             col_types = cols_only(SampleRowID = "i", SampleDate = "c", StationCode = "c",
+#                             col_types = cols_only(SampleRowID = "i", SampleDate = "c", Station = "c",
 #                                                   SampleTimeStart = "c", SurveyNumber = "i",
 #                                                   WaterTemperature = "d", TideCode = "i", DepthBottom = "d",
 #                                                   Secchi = "d", ConductivityTop = "d",
@@ -56,7 +56,7 @@ SKT_Data <- bridgeAccess(db_path,
 
 # Station locations -------------------------------------------------------
 # read table with station latitude and longitude (one row per station)
-SKT_Data$StationsSKT <- SKT_Data$lktblStationsSKT%>%
+SKT_Data$StationsSKT <- SKT_Data$StationsSKT%>%
   select(Station,LatDeg,LatMin,LatSec,LongDec,LongMin,LongSec)
 {
   SKT_Data$StationsSKT$Station<-as.character(SKT_Data$StationsSKT$Station)
@@ -69,12 +69,16 @@ SKT_Data$StationsSKT <- SKT_Data$lktblStationsSKT%>%
 # Sample-level data -------------------------------------------------------
 # read sample data (one row per tow)
 SKT_Data$Sample <- SKT_Data$tblSample%>%
-  select(SampleRowID,SampleDate,StationCode,SampleTimeStart,SurveyNumber,
+  select(SampleRowID,SampleDate,Station,SampleTimeStart,SurveyNumber,
          WaterTemperature,TideCode,DepthBottom,Secchi,ConductivityTop,
-         TowDirectionCode,MeterStart,MeterEnd)
+         TowDirectionCode,MeterStart,MeterEnd,
+         NTU, FNU)
 {
-  SKT_Data$Sample$StationCode<-as.character(SKT_Data$Sample$StationCode)
-  SKT_Data$Sample<-SKT_Data$Sample%>%rename(Station = StationCode, Depth = DepthBottom, Temp_surf = WaterTemperature, Survey = SurveyNumber, Date=SampleDate, Time=SampleTimeStart)%>%
+  SKT_Data$Sample$Station<-as.character(SKT_Data$Sample$Station)
+  SKT_Data$Sample<-SKT_Data$Sample%>%
+    rename(Station = Station, Depth = DepthBottom, Temp_surf = WaterTemperature,
+           Survey = SurveyNumber, Date=SampleDate, Time=SampleTimeStart,
+           TurbidityNTU = NTU, TurbidityFNU = FNU)%>%
     mutate(Date = parse_date_time(Date, "%Y-%m-%d", tz="America/Los_Angeles"),
            Time = as.POSIXct(Time, format = "%m/%d/%Y %H:%M", tz = "America/Los_Angeles"),
            # Create a new field which is a Date-Time composite
@@ -156,9 +160,10 @@ SKT <- SKT_Data$Sample %>%
          # Remove life stage info from Taxa names
          Taxa = stringr::str_remove(Taxa, " \\((.*)")) %>%
   # Reorder variables for consistency
-  dplyr::select(Source, Station, Latitude, Longitude, Date, Datetime, Survey,
-         Depth, SampleID, CatchRowID, Method, Tide, Sal_surf, Temp_surf, Secchi,
-         Tow_volume, Tow_direction, Taxa, Length = ForkLength, Count, Length_NA_flag)
+  dplyr::transmute(Source, Station, Latitude, Longitude, Date, Datetime, Survey,
+         Depth, SampleID, CatchRowID, Method, Tide, Sal_surf, Temp_surf,
+         TurbidityNTU, TurbidityFNU, Secchi, Tow_volume, Tow_direction, Taxa,
+         Length = ForkLength, Count, Length_NA_flag)
 
 
 # Just measured lengths
@@ -178,4 +183,4 @@ SKT<-SKT %>%
   distinct()
 
 # Save compressed data to /data
-usethis::use_data(SKT, SKT_measured_lengths, overwrite=TRUE, compress="xz", compress="xz")
+usethis::use_data(SKT, SKT_measured_lengths, overwrite=TRUE, compress="xz")

@@ -207,12 +207,13 @@ SLS <- waterInfo %>%
   # Removing CatchID and entryorder as they are not relevant to the dataset
   # Removing TopEC, BottomEC as they have been converted over the salinity already
   # Removing CBMeterSerial, CBMeterStart, CBMeterEnd, CBMeterCheck as CB not ran on the SLS
-  select(Source, Station, Latitude, Longitude,
-         Date, Datetime, Survey, Depth, SampleID, Method,
-         Tide, Sal_surf, Sal_bot, Temp_surf, Secchi, NTU, FNU, Tow_volume,
-         Cable_length=CableOut, Tow_duration=Duration,
-         Taxa, Length, Count, Length_NA_flag,
-         Notes_tow, Notes_flowmeter = Notes)
+  transmute(Source, Station, Latitude, Longitude,
+            Date, Datetime, Survey, Depth, SampleID, Method,
+            Tide, Sal_surf, Sal_bot, Temp_surf, Secchi,
+            TurbidityNTU = NTU, TurbidityFNU = FNU, Tow_volume,
+            Cable_length=CableOut, Tow_duration=Duration,
+            Taxa, Length, Count, Length_NA_flag,
+            Notes_tow, Notes_flowmeter = Notes)
 
 # # Just to make sure that no duplications occurred; lengths should be the same
 # all.equal(lengths$Length %>% sum(na.rm = T),

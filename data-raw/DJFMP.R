@@ -49,8 +49,8 @@ data <- bind_rows(
     pull(url) %>%
     read_csv(col_types = cols_only(StationCode = "c", SampleDate = "c", SampleTime = "c",
                                    TowNumber = "c", MethodCode = "c", GearConditionCode = "i",
-                                   FlowDebris = "c",
-                                   SpecificConductance = "d", WaterTemp = "d", Secchi = "d",
+                                   FlowDebris = "c", SpecificConductance = "d",
+                                   WaterTemp = "d", Turbidity = "d", Secchi = "d",
                                    Volume = "d", SamplingDirection = "c", MarkCode="c", RaceByLength="c",
                                    OrganismCode = "c", ForkLength = "d", Count = "d")),
   # 2002-present trawl
@@ -59,8 +59,8 @@ data <- bind_rows(
     pull(url) %>%
     read_csv(col_types = cols_only(StationCode = "c", SampleDate = "c", SampleTime = "c",
                                    TowNumber = "c", MethodCode = "c", GearConditionCode = "i",
-                                   FlowDebris = "c",
-                                   SpecificConductance = "d", WaterTemp = "d", Secchi = "d",
+                                   FlowDebris = "c", SpecificConductance = "d",
+                                   WaterTemp = "d", Turbidity = "d", Secchi = "d",
                                    Volume = "d", SamplingDirection = "c", MarkCode="c", RaceByLength="c",
                                    OrganismCode = "c", ForkLength = "d", Count = "d")),
   # 1976-present beach seine
@@ -70,7 +70,8 @@ data <- bind_rows(
     read_csv(col_types = cols_only(StationCode = "c", SampleDate = "c", SampleTime = "c",
                                    TowNumber = "c", MethodCode = "c", SeineDepth = "d",
                                    GearConditionCode = "i", FlowDebris = "c",
-                                   SpecificConductance = "d", WaterTemp = "d", Secchi = "d",
+                                   SpecificConductance = "d", WaterTemp = "d",
+                                   Turbidity = "d", Secchi = "d",
                                    Volume = "d", SamplingDirection = "c", MarkCode="c", RaceByLength="c",
                                    OrganismCode = "c", ForkLength = "d", Count = "d"))
 )
@@ -93,7 +94,7 @@ if (nrow(New_Species) > 0) stop("New species entry, update the Species_Code.csv"
 
 DJFMP<-data%>%
   dplyr::rename(Station = StationCode, Date = SampleDate, Time = SampleTime, Temp_surf = WaterTemp,
-         Method = MethodCode, Tow_volume = Volume, Depth=SeineDepth,
+         TurbidityNTU = Turbidity, Method = MethodCode, Tow_volume = Volume, Depth=SeineDepth,
          Tow_direction = SamplingDirection, Length = ForkLength,Conductivity=SpecificConductance) %>%
   dplyr::filter(is.na(GearConditionCode) | !GearConditionCode%in%c(3,4,9))%>%
   mutate(Tow_volume = if_else(FlowDebris=="Y", NA_real_, Tow_volume, missing=Tow_volume),
@@ -145,7 +146,7 @@ DJFMP<-data%>%
   mutate(Count=if_else(Length_NA_flag=="No fish caught", 0, Count, missing=Count),
          Taxa = ifelse(Length_NA_flag == "No fish caught" & !is.na(Length_NA_flag), NA, Taxa))%>%
   select(Source, Station, Latitude, Longitude, Date, Datetime, Depth, SampleID, Method, Sal_surf,
-         Temp_surf, Secchi, Tow_volume, Tow_direction, Taxa, Length, Count, Length_NA_flag)
+         Temp_surf, TurbidityNTU, Secchi, Tow_volume, Tow_direction, Taxa, Length, Count, Length_NA_flag)
 
 # Save compressed data to /data
 usethis::use_data(DJFMP, overwrite=TRUE, compress="xz")
