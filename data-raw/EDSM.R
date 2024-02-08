@@ -124,7 +124,9 @@ EDSM <- bind_rows(
          Taxa=str_remove(Taxa, " \\((.*)"), # Remove life stage info from Taxa names
          Count=if_else(Length_NA_flag=="No fish caught", 0, Count, missing=Count))%>% # Transform all counts for 'No fish caught' to 0.
   select(Source, Station, Latitude, Longitude, Date, Datetime, Depth, SampleID, Method, Tide, Sal_surf,
-         Temp_surf, TurbidityNTU, TurbidityBottomNTU, Secchi, Tow_volume, Tow_direction, Taxa, Length, Count, Length_NA_flag)
+         Temp_surf, TurbidityNTU,
+         # TurbidityBottomNTU, # Can include this back in if in the future more than just EDSM collects this data
+         Secchi, Tow_volume, Tow_direction, Taxa, Length, Count, Length_NA_flag)
 
 # Save compressed data to /data
 usethis::use_data(EDSM, overwrite=TRUE, compress = "xz")
