@@ -9,15 +9,15 @@ require(readxl)
 require(tidyr)
 
 # Must still reach out to Teejay (taorear@ucdavis.edu) to get the Access db
-unzip(file.path("data-raw", "Suisun", "SuisunMarshFish2020_1_14_23.zip"), exdir = tempdir())
-db_path <- file.path(tempdir(), "SuisunMarshFish2020_1_14_23.accdb")
+unzip(file.path("data-raw", "Suisun", "SuisunMarshFish2020_1_29_24.accdb"), exdir = tempdir())
+db_path <- file.path(tempdir(), "SuisunMarshFish2020_1_29_24.accdb")
 
 source(file.path("data-raw", "bridgeAccess.R"))
 
 keepTables <- c("AgesBySizeMo", "Catch", "Depth",
                 "Sample", "StationsLookUp", "TrawlEffort")
 
-suisunMarshTables <- bridgeAccess(db_path,
+suisunMarshTables <- bridgeAccess(file.path("data-raw", "Suisun", "SuisunMarshFish2020_1_29_24.accdb"),
                           tables = keepTables,
                           script = file.path("data-raw", "connectAccess.R"))
 
@@ -194,7 +194,7 @@ catch_comments_suisun <- read_excel(file.path("data-raw", "Suisun", "Suisun comm
            Lifestage=="Adult" & Taxa%in%c("Tridentiger bifasciatus", "Acanthogobius flavimanus") ~ "Age-1+",
            TRUE ~ Lifestage
          ),
-         Month=month(parse_date_time(Date, "%Y-%m-%d %H:%M:%S", tz="America/Los_Angeles")))%>%
+         Month=month(parse_date_time(Datetime, "%Y-%m-%d %H:%M:%S", tz="America/Los_Angeles")))%>%
   left_join(Species%>% # Add species names
               dplyr::select(OrganismCode=SMF_Code, Taxa)%>%
               dplyr::filter(!is.na(OrganismCode) & !is.na(Taxa)),
