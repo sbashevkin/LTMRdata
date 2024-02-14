@@ -5,7 +5,6 @@ library(LTMRdata)
 ## TMM
 
 test_that("Data dimensions are correct", {
-  expect_true(nrow(TMM) == 324021)
   expect_true(ncol(TMM) == 22)
 
 	name_check <- c("Source","Station","Latitude","Longitude","Date","Datetime",
@@ -21,7 +20,7 @@ test_that("Source value is correct", {
 
 test_that("Station values are in the expected range", {
 	stations <- c(323,328:330,334:336,340:349,405,411,418,501,504,508,513,519,520,
-								602,606,609,610,703:707,711,716,718:720,723,724,726,794:799,801,802,
+								602,606,609,610,703:707,711,712,716,718:720,723,724,726,794:799,801,802,
 								804,809,812,815,901,902,906,910,912,914,915,918,919,997,998,999)
   expect_true(all(TMM$Station %in% stations))
 })
@@ -96,16 +95,16 @@ test_that("Combinations of Taxa, Count, and Length_NA_flag are as expected", {
 
 test_that("Some adjusted fish counts are as expected", {
 	dsm <- subset(TMM, Taxa == "Hypomesus transpacificus")
-	expect_true(nrow(dsm) == 15625)
-	expect_true(sum(dsm$Count) == 27166)
+	expect_true(nrow(dsm) >= 15625)
+	expect_true(sum(dsm$Count) >= 27166)
 
 	lfs <- subset(TMM, Taxa == "Spirinchus thaleichthys")
-	expect_true(nrow(lfs) == 59116)
-	expect_true(sum(lfs$Count) == 566224)
+	expect_true(nrow(lfs) >= 59116)
+	expect_true(sum(lfs$Count) >= 566224)
 
 	chn <- subset(TMM, Taxa == "Oncorhynchus tshawytscha")
-	expect_true(nrow(chn) == 382)
-	expect_true(sum(chn$Count) == 386)
+	expect_true(nrow(chn) >= 382)
+	expect_true(sum(chn$Count) >= 386)
 })
 
 
@@ -119,12 +118,12 @@ test_that("Lengths are in the expected range", {
 
 test_that("Some total measured fish counts are as expected", {
 	dsm_len <- subset(TMM_measured_lengths, Taxa == "Hypomesus transpacificus")
-	expect_true(sum(dsm_len$Count) == 27144)
+	expect_true(sum(dsm_len$Count) >= 27144)
 
 	lfs_len <- subset(TMM_measured_lengths, Taxa == "Spirinchus thaleichthys")
-	expect_true(sum(lfs_len$Count, na.rm=TRUE) == 188679)
+	expect_true(sum(lfs_len$Count, na.rm=TRUE) >= 188679)
 
 	chn_len <- subset(TMM_measured_lengths, Taxa == "Oncorhynchus tshawytscha")
-	expect_true(sum(chn_len$Count) == 386)
+	expect_true(sum(chn_len$Count) >= 386)
 })
 

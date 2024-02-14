@@ -44,3 +44,8 @@ data-raw/EDI/data_objects
 
 #shinyapps.io
 inst/shiny/deltafish/rsconnect
+failedTests.docx
+
+# Salvage comparison files
+data-raw/salvage/salvageCompare.html
+data-raw/salvage/discrepancies.csv

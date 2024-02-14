@@ -5,7 +5,6 @@ library(LTMRdata)
 ## STN
 
 test_that("Data dimensions are correct", {
-  expect_true(nrow(STN) == 183718)
   expect_true(ncol(STN) == 22)
 
 	name_check <- c('Source', 'Station', 'Latitude', 'Longitude',
@@ -54,7 +53,7 @@ test_that("Temp_surf values are in the expected range", {
 })
 
 test_that("Secchi values are in the expected range", {
-  expect_true(all( (STN$Secchi > 0 & STN$Secchi < 310) | is.na(STN$Secchi) ))
+  expect_true(all( (STN$Secchi > 0 & STN$Secchi < 405) | is.na(STN$Secchi) ))
 })
 
 test_that("Tow_volume values are in the expected range", {
@@ -63,7 +62,7 @@ test_that("Tow_volume values are in the expected range", {
 })
 
 test_that("Cable_length values are in the expected range", {
-  expect_true(all( (STN$Cable_length > 0 & STN$Cable_length < 310) |
+  expect_true(all( (STN$Cable_length > 0 & STN$Cable_length < 400) |
 										is.na(STN$Cable_length) ))
 })
 

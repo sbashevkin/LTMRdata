@@ -6,7 +6,7 @@
 \alias{EDSM}
 \title{EDSM dataset}
 \format{
-a tibble with 130,986 rows and 19 number of variables
+a tibble with 157,685 rows and 19 number of variables
 \describe{
   \item{Source}{Name of source dataset.}
   \item{Station}{Station where sample was collected.}

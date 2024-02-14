@@ -16,7 +16,7 @@ fish(
 )
 }
 \arguments{
-\item{sources}{Which data sources would you like included? Options include: "Baystudy", "Suisun", "FMWT", "SKT", "DJFMP", "EDSM", "TMM", "SLS", and "STN".}
+\item{sources}{Which data sources would you like included? Options include: "Baystudy", "Suisun", "FMWT", "SKT", "DJFMP", "EDSM", "TMM", "SLS", "STN", and "Salvage".}
 
 \item{species}{Character vector of species to include. Set \code{species=NULL} (the default) to include all species. It is recommended to filter to species of interest using this option.}
 

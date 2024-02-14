@@ -6,7 +6,7 @@
 \alias{FMWT}
 \title{FMWT dataset}
 \format{
-a tibble with 254,537 rows and 22 variables
+a tibble with 261,874 rows and 22 variables
 \describe{
   \item{Source}{Name of source dataset.}
   \item{Station}{Station where sample was collected.}

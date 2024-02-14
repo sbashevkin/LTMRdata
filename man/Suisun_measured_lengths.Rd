@@ -5,7 +5,7 @@
 \alias{Suisun_measured_lengths}
 \title{Suisun measured lengths}
 \format{
-a tibble with 162,198 rows and 5 variables
+a tibble with 167,785 rows and 5 variables
 \describe{
   \item{SampleID}{Unique sample identifier.}
   \item{Taxa}{Scientific name.}

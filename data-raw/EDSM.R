@@ -10,38 +10,73 @@ require(dplyr)
 require(lubridate)
 require(tidyr)
 require(stringr)
+require(utils)
+require(rvest)
+require(XML)
 
 # downloading data because the dataset is too huge to keep on file
+# start pipeline to edi
+# relational tables
 
-download.file("https://pasta.lternet.edu/package/data/eml/edi/415/5/d468c513fa69c4fc6ddc02e443785f28", file.path(tempdir(), "EDSM_20mm.csv"), mode="wb",method="libcurl")
-download.file("https://pasta.lternet.edu/package/data/eml/edi/415/5/4d7de6f0a38eff744a009a92083d37ae", file.path(tempdir(), "EDSM_KDTR.csv"), mode="wb",method="libcurl")
+# Find the newest revision
+# IF you want to pull a specific version of a package, which is a number
+version <- NA
 
+link <- ifelse(is.na(version), "https://pasta.lternet.edu/package/eml/edi/415/newest",
+               paste0("https://pasta.lternet.edu/package/eml/edi/415/", version))
 
+tableLinks <- read.delim(link, header = F) %>%
+  .[[1]] %>%
+  .[which(grepl("/data/", .))]
+
+tableNames <- lapply(tableLinks, function(x) {
+  entityName <- read_html(gsub("data", "name", x)) %>%
+    html_text()
+
+  data.frame(id = gsub(".*\\/", "", x),
+             name = entityName,
+             url = x)
+}) %>%
+  bind_rows()
+
+# Want only the 20mm and kdtr data
 EDSM <- bind_rows(
-  read_csv(file.path(tempdir(), "EDSM_20mm.csv"),
-           col_types = cols_only(Station = "c", Date = "c", Time = "c", Tide = "c",
-                                 StartLong = "d", StartLat = "d", Tow="d",
-                                 GearConditionCode = "i", Debris = "c",
-                                 TopEC = "d", TopTemp = "d", Scchi = "d", Depth = "d",
-                                 Volume = "d", Dir = "c", GearType = "c",
-                                 OrganismCode = "c", ForkLength = "d", SumOfCatchCount = "d",
-                                 MarkCode="c", RaceByLength="c")),
-  read_csv(file.path(tempdir(), "EDSM_KDTR.csv"),
-           col_types = cols_only(Station = "c", Date = "c", Time = "c", Tide = "c",
-                                 StartLong = "d", StartLat = "d", Tow="d",
-                                 EC = "d", Temp = "d", Scchi = "d", StartDepth = "d",
-                                 GearConditionCode = "i", Debris = "c",
-                                 Volume = "d", Dir = "c", GearType = "c",
-                                 OrganismCode = "c", ForkLength = "d", SumOfCatchCount = "d",
+  read_csv(tableNames %>%
+             filter(grepl("20mm", name)) %>%
+             pull(url),
+           col_types = cols_only(StationCode = "c", SampleDate = "c", SampleTime = "c", Tide = "c",
+                                 LongitudeStart = "d", LatitudeStart = "d", TowNumber="d",
+                                 GearConditionCode = "i", FlowDebris = "c",
+                                 SpecificConductanceTop = "d", WaterTempTop = "d",
+                                 TurbidityTop = "d", TurbidityBottom = "d", Secchi = "d",
+                                 BottomDepth = "d", Volume = "d", SamplingDirection = "c", MethodCode = "c",
+                                 OrganismCode = "c", ForkLength = "d", Count = "d",
+                                 MarkCode="c", RaceByLength="c")) %>%
+    mutate(SampleDate = parse_date_time(SampleDate, "%m-%d-%Y", tz = "America/Los_Angeles")) %>%
+    rename(Turbidity = TurbidityTop),
+  read_csv(tableNames %>%
+             filter(grepl("KDTR", name)) %>%
+             pull(url),
+           col_types = cols_only(StationCode = "c", SampleDate = "c", SampleTime = "c", Tide = "c",
+                                 LongitudeStart = "d", LatitudeStart = "d", TowNumber="d",
+                                 SpecificConductance = "d", WaterTemp = "d",
+                                 Turbidity = "d", Secchi = "d", BottomDepth = "d",
+                                 GearConditionCode = "i", FlowDebris = "c",
+                                 Volume = "d", SamplingDirection = "c", MethodCode = "c",
+                                 OrganismCode = "c", ForkLength = "d", Count = "d",
                                  MarkCode="c", RaceByLength="c"))%>%
-    rename(TopEC=EC, TopTemp=Temp, Depth=StartDepth))%>%
-  rename(Temp_surf = TopTemp, Tow_volume = Volume, Method = GearType, Secchi = Scchi,
-         Tow_direction = Dir, Length = ForkLength, Conductivity = TopEC, Count = SumOfCatchCount,
-         Latitude=StartLat, Longitude=StartLong) %>%
-  filter(is.na(GearConditionCode) | !GearConditionCode%in%c(3,4,9))%>%
-  mutate(Tow_volume = if_else(Debris%in%c("Y", "Yes"), NA_real_, Tow_volume, missing=Tow_volume),
+    mutate(SampleDate = parse_date_time(SampleDate, "%Y-%m-%d", tz = "America/Los_Angeles")) %>%
+    rename(SpecificConductanceTop=SpecificConductance, WaterTempTop=WaterTemp))%>%
+  rename(Temp_surf = WaterTempTop, Tow_volume = Volume, Method = MethodCode,
+         Tow_direction = SamplingDirection, Length = ForkLength,
+         TurbidityNTU = Turbidity, TurbidityBottomNTU = TurbidityBottom,
+         Conductivity = SpecificConductanceTop,
+         Latitude=LatitudeStart, Longitude=LongitudeStart,
+         Date = SampleDate, Time = SampleTime, Depth = BottomDepth, Station = StationCode, Tow = TowNumber) %>%
+  dplyr::filter(is.na(GearConditionCode) | !GearConditionCode%in%c(3,4,9))%>%
+  mutate(Tow_volume = if_else(FlowDebris%in%c("Y", "Yes"), NA_real_, Tow_volume, missing=Tow_volume),
          Source = "EDSM",
-         Date = parse_date_time(Date, "%Y-%m-%d", tz = "America/Los_Angeles"),
+         # Date = parse_date_time(Date, "%Y-%m-%d", tz = "America/Los_Angeles"),
          Time = parse_date_time(Time, "%H:%M:%S", tz = "America/Los_Angeles"),
          Datetime = parse_date_time(if_else(is.na(Time), NA_character_, paste0(Date, " ", hour(Time), ":", minute(Time))), "%Y-%m-%d %H:%M", tz="America/Los_Angeles"),
          # Removing conductivity data from dates before it was standardized
@@ -58,7 +93,7 @@ EDSM <- bind_rows(
                          MarkCode!="None" ~ paste("Tag", 1:nrow(.)),
                          TRUE ~ NA_character_),
          Count=if_else(OrganismCode=="NOFISH", NA_real_, Count))%>%
-  select(-Time, -MarkCode, -RaceByLength, -GearConditionCode, -Debris) %>%
+  select(-Time, -MarkCode, -RaceByLength, -GearConditionCode, -FlowDebris) %>%
   group_by(across(-Count))%>% # Some species are recorded with the same length multiple times
   summarise(Count=sum(Count), .groups="drop")%>%
   group_by(SampleID, OrganismCode, Group)%>%
@@ -72,24 +107,26 @@ EDSM <- bind_rows(
            is.na(Length)~ "No fish caught",
            TRUE ~ NA_character_), # Add reasoning for NA lengths
          Count=if_else(is.infinite(Count), Total, Count))%>% # These cases all represent the only row of that SamppleID, OrganismCode, and Group, so this doesn't result in over-counting, it just returns the value to the prior count
-  filter(Length!=0 | is.na(Length))%>%
-  filter(Count!=0 | is.na(Count))%>% # Remove 1 case of a 0 count of a striped bass, *****NEED TO CHECK IN UPDATES*****
+  dplyr::filter(Length!=0 | is.na(Length))%>%
+  dplyr::filter(Count!=0 | is.na(Count))%>% # Remove 1 case of a 0 count of a striped bass, *****NEED TO CHECK IN UPDATES*****
   select(-Total, -TotalMeasured, -Group)%>%
   group_by(across(-Count))%>% # Add up any new multiples after removing Group
   summarise(Count=sum(Count), .groups="drop")%>%
   group_by(SampleID)%>% # Now we need to remove any NOFISH records when there are actually fish counts in that sample (including next 3 lines)
   mutate(Valid=sum(Count, na.rm=T))%>%
   ungroup()%>%
-  filter(!(Valid>0 & OrganismCode=="NOFISH"))%>%
+  dplyr::filter(!(Valid>0 & OrganismCode=="NOFISH"))%>%
   left_join(Species %>%
               select(USFWS_Code, Taxa) %>%
-              filter(!is.na(USFWS_Code)),
+              dplyr::filter(!is.na(USFWS_Code)),
             by=c("OrganismCode"="USFWS_Code")) %>%
   mutate(SampleID=paste(Source, SampleID), # Add variable for unique (across all studies) sampleID
          Taxa=str_remove(Taxa, " \\((.*)"), # Remove life stage info from Taxa names
          Count=if_else(Length_NA_flag=="No fish caught", 0, Count, missing=Count))%>% # Transform all counts for 'No fish caught' to 0.
   select(Source, Station, Latitude, Longitude, Date, Datetime, Depth, SampleID, Method, Tide, Sal_surf,
-         Temp_surf, Secchi, Tow_volume, Tow_direction, Taxa, Length, Count, Length_NA_flag)
+         Temp_surf, TurbidityNTU,
+         # TurbidityBottomNTU, # Can include this back in if in the future more than just EDSM collects this data
+         Secchi, Tow_volume, Tow_direction, Taxa, Length, Count, Length_NA_flag)
 
 # Save compressed data to /data
 usethis::use_data(EDSM, overwrite=TRUE, compress = "xz")
