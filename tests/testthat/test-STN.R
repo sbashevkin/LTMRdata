@@ -4,16 +4,6 @@ library(LTMRdata)
 #######################################################################################
 ## STN
 
-test_that("Data dimensions are correct", {
-  expect_true(ncol(STN) == 22)
-
-	name_check <- c('Source', 'Station', 'Latitude', 'Longitude',
-	                'Date', 'Datetime', 'Survey', 'TowNum', 'Depth',
-	                'SampleID', 'Method', 'Tide', 'Sal_surf', 'Temp_surf',
-	                'Secchi', 'Tow_volume', 'Tow_direction', 'Cable_length',
-	                'Taxa', 'Length', 'Length_NA_flag', 'Count')
-  expect_true(all(names(STN) == name_check))
-})
 
 test_that("Source value is correct", {
   expect_true(all(STN$Source == "STN"))

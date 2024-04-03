@@ -89,8 +89,7 @@ data_integrate<-function(data_path,
     dplyr::select(tidyselect::any_of(fish_cols)) %>%
     dplyr::group_by(.data$Source) %>%
     tidyr::complete(.data$SampleID, .data$Taxa, fill=list(Count=0))%>%
-    dplyr::ungroup()%>%
-    dplyr::select(-"Source")
+    dplyr::ungroup()
 
 
   res_fish <- res_fish %>%

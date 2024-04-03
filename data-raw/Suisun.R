@@ -7,9 +7,10 @@ require(lubridate)
 require(LTMRdata)
 require(readxl)
 require(tidyr)
+library(archive)
 
 # Must still reach out to Teejay (taorear@ucdavis.edu) to get the Access db
-unzip(file.path("data-raw", "Suisun", "SuisunMarshFish2020_1_29_24.accdb"), exdir = tempdir())
+archive_extract(file.path("data-raw", "Suisun", "SuisunMarshFish2020_1_29_24.7z"), dir=tempdir())
 db_path <- file.path(tempdir(), "SuisunMarshFish2020_1_29_24.accdb")
 
 source(file.path("data-raw", "bridgeAccess.R"))
@@ -17,7 +18,7 @@ source(file.path("data-raw", "bridgeAccess.R"))
 keepTables <- c("AgesBySizeMo", "Catch", "Depth",
                 "Sample", "StationsLookUp", "TrawlEffort")
 
-suisunMarshTables <- bridgeAccess(file.path("data-raw", "Suisun", "SuisunMarshFish2020_1_29_24.accdb"),
+suisunMarshTables <- bridgeAccess(db_path,
                           tables = keepTables,
                           script = file.path("data-raw", "connectAccess.R"))
 

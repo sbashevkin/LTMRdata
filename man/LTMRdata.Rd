@@ -2,6 +2,7 @@
 % Please edit documentation in R/LTMRdata.R
 \docType{package}
 \name{LTMRdata}
+\alias{LTMRdata-package}
 \alias{LTMRdata}
 \title{LTMRdata: A package for integrating long-term monitoring datasets for the IEP long-term monitoring program review.}
 \description{
@@ -25,3 +26,15 @@ This package contains internal datasets and a function to bind them all together
   }
 }
 
+\seealso{
+Useful links:
+\itemize{
+  \item \url{https://github.com/sbashevkin/LTMRdata}
+  \item Report bugs at \url{https://github.com/sbashevkin/LTMRdata/issues}
+}
+
+}
+\author{
+\strong{Maintainer}: Sam Bashevkin \email{sam.bashevkin@waterboards.ca.gov} (\href{https://orcid.org/0000-0001-7406-7089}{ORCID})
+
+}
