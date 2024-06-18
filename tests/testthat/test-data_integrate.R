@@ -10,7 +10,7 @@ data_raw<-bind_rows(LTMRdata::Baystudy, LTMRdata::Suisun, LTMRdata::FMWT, LTMRda
   group_by(Source)%>%
   summarise(N=n(),
             N_0=length(which(Count==0)),
-            N_lengths=length(which(Length>0)),
+            N_lengths=length(which(Length>0 & !is.na(Taxa))),
             Samples=list(unique(SampleID)),
             Fish=list(sort(unique(Taxa))),
             .groups="drop")%>%
@@ -23,27 +23,29 @@ gc()
 data_integrate(data_dir)
 
 gc()
-deltafish:::create_fish_db_f(data_dir=data_dir, cache_dir, edi_pid="edi.1075.1", update=T)
+deltafish:::create_fish_db_f(data_dir=data_dir, cache_dir, edi_pid="edi.1075.2", update=T)
 gc()
 
-fish<-deltafish:::open_fish_f(cache_dir)
-surv<-deltafish:::open_survey_f(cache_dir)
+fish<-deltafish:::open_fish_f(cache_dir)%>%
+  select(SampleID, Length, Count, Taxa, Notes_catch)%>%
+  collect()
+surv<-deltafish:::open_survey_f(cache_dir)%>%
+  select(SampleID, Source)%>%
+  collect()
 
 data_integrated_surveys<-surv%>%
   left_join(fish, by="SampleID")%>%
   group_by(Source)%>%
   summarise(N=n(),
             N_0=sum(as.integer(Count==0), na.rm = TRUE),
-            N_lengths=sum(as.integer(Length>0), na.rm = TRUE),
+            N_lengths=length(which(Length>0)),
             N_length_NA=sum(as.integer(is.na(Length)), na.rm=TRUE),
             .groups="drop")%>%
-  arrange(Source)%>%
-  collect()
+  arrange(Source)
 
 gc()
 
 integrated_samples<-select(surv, SampleID)%>%
-  collect()%>%
   unlist()%>%
   unique()
 
@@ -52,7 +54,6 @@ gc()
 integrated_fishlength<-fish%>%
   mutate(ID=paste(SampleID, Length, Count, Taxa, Notes_catch))%>%
   select(ID)%>%
-  collect()%>%
   unlist()%>%
   unique()
 
@@ -60,7 +61,6 @@ gc()
 
 integrated_fish_rows<-fish%>%
   summarise(N=n())%>%
-  collect()%>%
   unlist()
 
 names(integrated_fish_rows)<-NULL
@@ -78,12 +78,9 @@ gc()
 
 data_integrated_samples<-surv%>%
   distinct(SampleID, Source)%>%
-  compute()%>%
   left_join(fish%>%
-              distinct(SampleID, Taxa)%>%
-              compute(),
+              distinct(SampleID, Taxa),
             by="SampleID")%>%
-  collect()%>%
   group_by(Source, SampleID)%>%
   summarise(Fish=list(sort(unique(Taxa))), .groups="drop")%>%
   distinct(Source, Fish)%>%
