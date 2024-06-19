@@ -4,12 +4,12 @@
 #'
 #' @param data_path Path to the folder where you wish the csv/rda files to be saved.
 #' @param sources Character vector of data sources to include
-#' @param rda Logical. Should the fish and survey tables also be saved as a combined .rda file?
+#' @param format Should the fish and survey tables be saved as a csv alone, a combined .rda file, or both? Defaults to 'rda' and other options are 'csv' or 'both'.
 #' @param write Logical. Should the files be written to disk, or would you just like them returned as an R object? Defaults to TRUE.
 #' @param quiet Logical. Set to TRUE if you wish to hide all status messages.
 #' @importFrom magrittr %>%
 #' @importFrom rlang .data
-#' @return Invisbly returns a list with the survey and fish tables.
+#' @return Invisibly returns a list with the survey and fish tables.
 #'
 #' @examples
 #' \dontrun{
@@ -19,10 +19,12 @@
 
 data_integrate<-function(data_path,
                          sources = c("Baystudy", "Suisun", "FMWT", "SKT", "DJFMP", "EDSM", "TMM", "SLS", "STN", "Salvage"),
-                         rda=TRUE,
+                         format='rda',
                          write=TRUE,
                          quiet=FALSE){
-
+if(!format%in%c("rda", "csv", "both")){
+  stop("format must be one of 'rda', 'csv', or 'both'")
+}
   survey_cols <- c("Source",
                    "Station",
                    "Latitude",
@@ -97,17 +99,28 @@ data_integrate<-function(data_path,
 
   if(!quiet){
     cat("\n\nFish table finished")
-    cat("\n\nWriting csvs...")
   }
   if(write){
+    if(!quiet){cat("\n\nWriting length conversions csv...")}
     utils::write.csv(LTMRdata::Length_conversions, file.path(data_path, "Length_conversions.csv"), row.names = F)
 
-    if(rda){
+    if(format=="rda"){
       if(!quiet){cat("\n\nWriting rda...")}
       save(res_survey, res_fish, file=file.path(data_path, "fishsurvey_compressed.rda"), compress = "xz")
     }else{
-      utils::write.csv(res_survey, file.path(data_path, "survey.csv"), row.names = F)
-      utils::write.csv(res_fish, file.path(data_path, "fish.csv"), row.names = F)
+      if(format=="both"){
+        if(!quiet){cat("\n\nWriting rda...")}
+        save(res_survey, res_fish, file=file.path(data_path, "fishsurvey_compressed.rda"), compress = "xz")
+        if(!quiet){cat("\n\nWriting survey csv...")}
+        utils::write.csv(res_survey, file.path(data_path, "survey.csv"), row.names = F)
+        if(!quiet){cat("\n\nWriting fish csv...")}
+        utils::write.csv(res_fish, file.path(data_path, "fish.csv"), row.names = F)
+      }else{
+        if(!quiet){cat("\n\nWriting survey csv...")}
+        utils::write.csv(res_survey, file.path(data_path, "survey.csv"), row.names = F)
+        if(!quiet){cat("\n\nWriting fish csv...")}
+        utils::write.csv(res_fish, file.path(data_path, "fish.csv"), row.names = F)
+      }
     }
   }
 

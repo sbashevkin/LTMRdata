@@ -1,0 +1,229 @@
+name	name_type	name_resolved	authority_system	authority_id
+Acanthogobius flavimanus		Acanthogobius flavimanus	ITIS	171882
+Acipenser		Acipenser	ITIS	161065
+Acipenser transmontanus		Acipenser transmontanus	ITIS	161068
+Alosa sapidissima		Alosa sapidissima	ITIS	161702
+Ameiurus catus		Ameiurus catus	ITIS	164037
+Ameiurus melas		Ameiurus melas	ITIS	164039
+Ameiurus nebulosus		Ameiurus nebulosus	ITIS	164043
+Atheriniformes		Atheriniformes	ITIS	165429
+Atherinops affinis		Atherinops affinis	ITIS	165986
+Atherinopsis californiensis		Atherinopsis californiensis	ITIS	166012
+Carassius auratus		Carassius auratus	ITIS	163350
+Catostomus occidentalis		Catostomus occidentalis	ITIS	163908
+Centrarchidae		Centrarchidae	ITIS	168093
+Citharichthys stigmaeus		Citharichthys stigmaeus	ITIS	172717
+Clevelandia ios		Clevelandia ios	ITIS	171748
+Clupea pallasii		Clupea pallasii	ITIS	551209
+Cottidae		Cottidae	ITIS	167196
+Cottus asper		Cottus asper	ITIS	167233
+Cymatogaster aggregata		Cymatogaster aggregata	ITIS	169739
+Cyprinidae		Cyprinidae	ITIS	163342
+Cyprinus carpio		Cyprinus carpio	ITIS	163344
+Dorosoma petenense		Dorosoma petenense	ITIS	161738
+Engraulis mordax		Engraulis mordax	ITIS	161828
+Gambusia affinis		Gambusia affinis	ITIS	165878
+Gasterosteus aculeatus		Gasterosteus aculeatus	ITIS	166365
+Genyonemus lineatus		Genyonemus lineatus	ITIS	169257
+Gillichthys mirabilis		Gillichthys mirabilis	ITIS	171967
+Gobiidae		Gobiidae	ITIS	171746
+Hypomesus nipponensis		Hypomesus nipponensis	ITIS	162033
+Hypomesus transpacificus		Hypomesus transpacificus	ITIS	162032
+Hysterocarpus traskii		Hysterocarpus traskii	ITIS	553322
+Ictaluridae		Ictaluridae	ITIS	163995
+Ictalurus punctatus		Ictalurus punctatus	ITIS	163998
+Ilypnus gilberti		Ilypnus gilberti	ITIS	171892
+Lampetra ayresii		Lampetra ayresii	ITIS	622248
+Lampetra tridentata		Lampetra tridentata	ITIS	159713
+Lavinia exilicauda		Lavinia exilicauda	ITIS	163569
+Lepidogobius lepidus		Lepidogobius lepidus	ITIS	171762
+Lepomis macrochirus		Lepomis macrochirus	ITIS	168141
+Lepomis microlophus		Lepomis microlophus	ITIS	168154
+Leptocottus armatus		Leptocottus armatus	ITIS	167302
+Lucania parva		Lucania parva	ITIS	165679
+Menidia audens		Menidia audens	ITIS	165998
+Micropterus dolomieu		Micropterus dolomieu	ITIS	550562
+Micropterus punctulatus		Micropterus punctulatus	ITIS	168161
+Micropterus salmoides		Micropterus salmoides	ITIS	168160
+Morone saxatilis		Morone saxatilis	ITIS	167680
+Notemigonus crysoleucas		Notemigonus crysoleucas	ITIS	163368
+Oncorhynchus tshawytscha		Oncorhynchus tshawytscha	ITIS	161980
+Orthodon microlepidotus		Orthodon microlepidotus	ITIS	163589
+Osmeridae		Osmeridae	ITIS	162028
+Parophrys vetulus		Parophrys vetulus	ITIS	172921
+Percina macrolepida		Percina macrolepida	ITIS	168487
+Petromyzontiformes		Petromyzontiformes	ITIS	159696
+Platichthys stellatus		Platichthys stellatus	ITIS	172893
+Pogonichthys macrolepidotus		Pogonichthys macrolepidotus	ITIS	163603
+Pomoxis annularis		Pomoxis annularis	ITIS	168166
+Pomoxis nigromaculatus		Pomoxis nigromaculatus	ITIS	168167
+Porichthys notatus		Porichthys notatus	ITIS	164414
+Ptychocheilus grandis		Ptychocheilus grandis	ITIS	163524
+Sebastes auriculatus		Sebastes auriculatus	ITIS	166708
+Spirinchus thaleichthys		Spirinchus thaleichthys	ITIS	162049
+Symphurus atricauda		Symphurus atricauda	ITIS	173077
+Syngnathus leptorhynchus		Syngnathus leptorhynchus	ITIS	166462
+Tridentiger		Tridentiger	ITIS	171911
+Tridentiger barbatus		Tridentiger barbatus	ITIS	638138
+Tridentiger bifasciatus		Tridentiger bifasciatus	ITIS	553361
+Tridentiger trigonocephalus		Tridentiger trigonocephalus	ITIS	171912
+Acipenser medirostris		Acipenser medirostris	ITIS	161067
+Allosmerus elongatus		Allosmerus elongatus	ITIS	162053
+Alopias vulpinus		Alopias vulpinus	ITIS	159916
+Alosinae		Alosinae	ITIS	551155
+Ammodytes hexapterus		Ammodytes hexapterus	ITIS	171672
+Amphistichus argenteus		Amphistichus argenteus	ITIS	169758
+Amphistichus koelzi		Amphistichus koelzi	ITIS	169759
+Amphistichus rhodoterus		Amphistichus rhodoterus	ITIS	169757
+Artedius fenestralis		Artedius fenestralis	ITIS	167212
+Artedius harringtoni		Artedius harringtoni	ITIS	167213
+Artedius notospilotus		Artedius notospilotus	ITIS	167215
+Atractoscion nobilis		Atractoscion nobilis	ITIS	169387
+Aulorhynchus flavidus		Aulorhynchus flavidus	ITIS	166404
+Bathymasteridae		Bathymasteridae	ITIS	170945
+Chilara taylori		Chilara taylori	ITIS	165006
+Citharichthys		Citharichthys	ITIS	172715
+Citharichthys sordidus		Citharichthys sordidus	ITIS	172716
+Cololabis saira		Cololabis saira	ITIS	165609
+Embiotoca jacksoni		Embiotoca jacksoni	ITIS	169745
+Embiotoca lateralis		Embiotoca lateralis	ITIS	169744
+Embiotocidae		Embiotocidae	ITIS	169735
+Enophrys bison		Enophrys bison	ITIS	167267
+Hemilepidotus hemilepidotus		Hemilepidotus hemilepidotus	ITIS	167279
+Hemilepidotus spinosus		Hemilepidotus spinosus	ITIS	167283
+Hexagrammos decagrammus		Hexagrammos decagrammus	ITIS	167110
+Hyperprosopon anale		Hyperprosopon anale	ITIS	169749
+Hyperprosopon argenteum		Hyperprosopon argenteum	ITIS	169747
+Hyperprosopon ellipticum		Hyperprosopon ellipticum	ITIS	169748
+Hypomesus pretiosus		Hypomesus pretiosus	ITIS	162030
+Hypsoblennius jenkinsi		Hypsoblennius jenkinsi	ITIS	171160
+Hypsurus caryi		Hypsurus caryi	ITIS	169761
+Ictalurus furcatus		Ictalurus furcatus	ITIS	163997
+Inopsetta ischyra		Inopsetta ischyra	ITIS	621021
+Lampetra richardsoni		Lampetra richardsoni	ITIS	159707
+Lepomis cyanellus		Lepomis cyanellus	ITIS	168132
+Lepomis gibbosus		Lepomis gibbosus	ITIS	168144
+Leuresthes tenuis		Leuresthes tenuis	ITIS	166014
+Liparis		Liparis	ITIS	43620
+Liparis fucensis		Liparis fucensis	ITIS	167560
+Liparis pulchellus		Liparis pulchellus	ITIS	167572
+Lumpenus sagitta		Lumpenus sagitta	ITIS	171583
+Medialuna californiensis		Medialuna californiensis	ITIS	169522
+Microgadus proximus		Microgadus proximus	ITIS	164719
+Micrometrus minimus		Micrometrus minimus	ITIS	169766
+Microstomus pacificus		Microstomus pacificus	ITIS	172887
+Mustelus henlei		Mustelus henlei	ITIS	160236
+Myliobatis californica		Myliobatis californica	ITIS	160981
+Mylopharodon conocephalus		Mylopharodon conocephalus	ITIS	163587
+Neoclinus uninotatus		Neoclinus uninotatus	ITIS	171480
+Notorynchus cepedianus		Notorynchus cepedianus	ITIS	159829
+Odontopyxis trispinosa		Odontopyxis trispinosa	ITIS	167460
+Oncorhynchus kisutch		Oncorhynchus kisutch	ITIS	161977
+Oncorhynchus mykiss		Oncorhynchus mykiss	ITIS	161989
+Ophichthus zophochir		Ophichthus zophochir	ITIS	161469
+Ophiodon elongatus		Ophiodon elongatus	ITIS	167116
+Paralichthys californicus		Paralichthys californicus	ITIS	172743
+Peprilus simillimus		Peprilus simillimus	ITIS	172565
+Phanerodon furcatus		Phanerodon furcatus	ITIS	169751
+Pholis ornata		Pholis ornata	ITIS	171642
+Pisces		Pisces	WORMS	11676
+Platyrhinoidis triseriata		Platyrhinoidis triseriata	ITIS	160824
+Pleuronectidae		Pleuronectidae	ITIS	172859
+Pleuronectiformes		Pleuronectiformes	ITIS	172702
+Pleuronichthys coenosus		Pleuronichthys coenosus	ITIS	172923
+Pleuronichthys decurrens		Pleuronichthys decurrens	ITIS	172924
+Pleuronichthys guttulatus		Pleuronichthys guttulatus	ITIS	616048
+Pleuronichthys verticalis		Pleuronichthys verticalis	ITIS	172926
+Psettichthys melanostictus		Psettichthys melanostictus	ITIS	172928
+Raja binoculata		Raja binoculata	ITIS	160848
+Rathbunella hypoplecta		Rathbunella hypoplecta	ITIS	170954
+Rhacochilus toxotes		Rhacochilus toxotes	ITIS	169755
+Rhacochilus vacca		Rhacochilus vacca	ITIS	169754
+Rhinobatos productus		Rhinobatos productus	ITIS	160818
+Sarda chiliensis		Sarda chiliensis	ITIS	172408
+Sardinops sagax		Sardinops sagax	ITIS	161729
+Scomber japonicus		Scomber japonicus	ITIS	172412
+Scorpaenichthys marmoratus		Scorpaenichthys marmoratus	ITIS	167353
+Sebastes		Sebastes	ITIS	166705
+Sebastes flavidus		Sebastes flavidus	ITIS	166720
+Sebastes melanops		Sebastes melanops	ITIS	166727
+Sebastes miniatus		Sebastes miniatus	ITIS	166729
+Sebastes mystinus		Sebastes mystinus	ITIS	166730
+Sebastes paucispinis		Sebastes paucispinis	ITIS	166733
+Seriphus politus		Seriphus politus	ITIS	169362
+Sphyraena argentea		Sphyraena argentea	ITIS	170426
+Spirinchus starksi		Spirinchus starksi	ITIS	162048
+Squalus acanthias		Squalus acanthias	ITIS	160617
+Synodus lucioceps		Synodus lucioceps	ITIS	162378
+Thaleichthys pacificus		Thaleichthys pacificus	ITIS	162051
+Torpedo californica		Torpedo californica	ITIS	160833
+Trachurus symmetricus		Trachurus symmetricus	ITIS	168586
+Triakis semifasciata		Triakis semifasciata	ITIS	160448
+Ameiurus natalis		Ameiurus natalis	ITIS	164041
+Anguilliformes		Anguilliformes	ITIS	161123
+Apodichthys flavidus		Apodichthys flavidus	ITIS	171634
+Archoplites interruptus		Archoplites interruptus	ITIS	168175
+Brachyistius frenatus		Brachyistius frenatus	ITIS	169737
+Catostomidae		Catostomidae	ITIS	163892
+Cyprinella lutrensis		Cyprinella lutrensis	ITIS	163792
+Gibbonsia metzi		Gibbonsia metzi	ITIS	171398
+Gibbonsia montereyensis		Gibbonsia montereyensis	ITIS	171399
+Hesperoleucus symmetricus		Hesperoleucus symmetricus	ITIS	163565
+Heterostichus rostratus		Heterostichus rostratus	ITIS	171476
+Isopsetta isolepis		Isopsetta isolepis	ITIS	172919
+Lepidopsetta bilineata		Lepidopsetta bilineata	ITIS	172917
+Lepomis gulosus		Lepomis gulosus	ITIS	168138
+Lucania goodei		Lucania goodei	ITIS	165680
+Micropterus		Micropterus	ITIS	168158
+Micropterus coosae		Micropterus coosae	ITIS	168163
+Mugil cephalus		Mugil cephalus	ITIS	170335
+Notropis rubellus		Notropis rubellus	ITIS	163409
+Oligocottus maculosus		Oligocottus maculosus	ITIS	167333
+Oligocottus rimensis		Oligocottus rimensis	ITIS	167334
+Percidae		Percidae	ITIS	168356
+Pholis schultzi		Pholis schultzi	ITIS	171644
+Pimephales promelas		Pimephales promelas	ITIS	163517
+Pomoxis		Pomoxis	ITIS	168165
+Pterygoplichthys disjunctivus		Pterygoplichthys disjunctivus	ITIS	680351
+Rhinichthys osculus		Rhinichthys osculus	ITIS	163387
+Salmo trutta		Salmo trutta	ITIS	161997
+Sebastes carnatus		Sebastes carnatus	ITIS	166767
+Siphateles bicolor		Siphateles bicolor	ITIS	913989
+Aurelia aurita		Aurelia aurita	ITIS	51701
+Blackfordia virginica		Blackfordia virginica	ITIS	49780
+Crangon		Crangon	ITIS	97107
+Decapoda		Decapoda	ITIS	95599
+Lepomis		Lepomis	ITIS	168130
+Maeotias marginata		Maeotias marginata	ITIS	719132
+Palaemon		Palaemon	ITIS	96449
+Palaemon macrodactylus		Palaemon macrodactylus	ITIS	96450
+Palaemon modestus		Palaemon modestus	GBIF	9526094
+Pandalus danae		Pandalus danae	ITIS	96982
+Pleurobrachia bachei		Pleurobrachia bachei	ITIS	53863
+Polyorchis penicillatus		Polyorchis penicillatus	ITIS	49255
+Scrippsia pacifica		Scrippsia pacifica	ITIS	49261
+Aequorea		Aequorea	ITIS	50623
+Anarrhichthys ocellatus		Anarrhichthys ocellatus	ITIS	171345
+Chrysaora fuscescens		Chrysaora fuscescens	ITIS	51658
+Cnidaria		Cnidaria	ITIS	48738
+Cottus gulosus		Cottus gulosus	ITIS	167234
+Hippoglossus stenolepis		Hippoglossus stenolepis	ITIS	172932
+Mustelus californicus		Mustelus californicus	ITIS	160235
+Palaemon kadiakensis		Palaemon kadiakensis	GBIF	8969832
+Upogebia		Upogebia	ITIS	98207
+Actinopteri		Actinopteri	WORMS	843664
+Atherinopsidae		Atherinopsidae	ITIS	630579
+Cancer magister		Cancer magister	ITIS	98675
+Clupeidae		Clupeidae	ITIS	161700
+Eucyclogobius newberryi		Eucyclogobius newberryi	ITIS	171916
+Exopalaemon modestus		Exopalaemon modestus	ITIS	96574
+Corbicula fluminea		Corbicula fluminea	ITIS	81387
+Crangon franciscorum		Crangon franciscorum	ITIS	97114
+Eriocheir sinensis		Eriocheir sinensis	ITIS	99058
+Macoma		Macoma	ITIS	81033
+Mysida		Mysida	ITIS	89855
+Potamocorbula amurensis		Potamocorbula amurensis	ITIS	81746
+Procambarus clarkii		Procambarus clarkii	ITIS	97491
+Rhithropanopeus harrisii		Rhithropanopeus harrisii	ITIS	98790
+UnID		UnID		
+Myoidae		Myoidae		

@@ -1,0 +1,17 @@
+dataPackageID	systemID	url	onlineDescription	title	givenName	middleInitial	surName	role	organizationName	email
+edi.244.12	EDI									
+edi.415.10	EDI									
+edi.535.4	EDI									
+edi.534.8	EDI									
+edi.527.4	EDI									
+edi.1290.6	EDI									
+		https://filelib.wildlife.ca.gov/Public/BayStudy/	This provenance metadata does not contain entity specific information.	Bay Study data	CDFW			creator	California Department of Fish and Wildlife	
+		https://filelib.wildlife.ca.gov/Public/BayStudy/	This provenance metadata does not contain entity specific information.	Bay Study data	Hieb		Kathy	contact	California Department of Fish and Wildlife	Kathy.Hieb@wildlife.ca.gov
+		https://watershed.ucdavis.edu/project/suisun-marsh-fish-study	This provenance metadata does not contain entity specific information.	Suisun Marsh Fish Study	O'Rear		Teejay	creator	"University of California, Davis"	taorear@ucdavis.edu
+		https://watershed.ucdavis.edu/project/suisun-marsh-fish-study	This provenance metadata does not contain entity specific information.	Suisun Marsh Fish Study	Durand		John	creator	"University of California, Davis"	
+		https://watershed.ucdavis.edu/project/suisun-marsh-fish-study	This provenance metadata does not contain entity specific information.	Suisun Marsh Fish Study	Moyle		Peter	creator	"University of California, Davis"	
+		https://watershed.ucdavis.edu/project/suisun-marsh-fish-study	This provenance metadata does not contain entity specific information.	Suisun Marsh Fish Study	O'Rear		Teejay	contact	"University of California, Davis"	taorear@ucdavis.edu
+		https://filelib.wildlife.ca.gov/Public/TownetFallMidwaterTrawl/FMWT%20Data/	This provenance metadata does not contain entity specific information.	Fall Midwater Trawl data	CDFW			creator	California Department of Fish and Wildlife	
+		https://filelib.wildlife.ca.gov/Public/TownetFallMidwaterTrawl/FMWT%20Data/	This provenance metadata does not contain entity specific information.	Fall Midwater Trawl data	White		James	contact	California Department of Fish and Wildlife	James.White@wildlife.ca.gov
+		https://filelib.wildlife.ca.gov/Public/TownetFallMidwaterTrawl/TNS%20MS%20Access%20Data/TNS%20data/	This provenance metadata does not contain entity specific information.	Summer Townet data	CDFW			creator	California Department of Fish and Wildlife	
+		https://filelib.wildlife.ca.gov/Public/TownetFallMidwaterTrawl/TNS%20MS%20Access%20Data/TNS%20data/	This provenance metadata does not contain entity specific information.	Summer Townet data	Malinich		Timothy	contact	California Department of Fish and Wildlife	Timothy.malinich@wildlife.ca.gov

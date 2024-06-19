@@ -49,3 +49,6 @@ failedTests.docx
 # Salvage comparison files
 data-raw/salvage/salvageCompare.html
 data-raw/salvage/discrepancies.csv
+
+#Data publication files
+publication/data_objects

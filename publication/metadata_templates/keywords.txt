@@ -1,0 +1,8 @@
+keyword	keywordThesaurus
+estuaries	https://vocab.lternet.edu/
+fishes	https://vocab.lternet.edu/
+species abundance	https://vocab.lternet.edu/
+community composition	https://vocab.lternet.edu/
+long term monitoring	https://vocab.lternet.edu/
+endangered species	https://vocab.lternet.edu/
+invasive species	https://vocab.lternet.edu/
