@@ -8,7 +8,7 @@ data_integrate(
   data_path,
   sources = c("Baystudy", "Suisun", "FMWT", "SKT", "DJFMP", "EDSM", "TMM", "SLS", "STN",
     "Salvage"),
-  rda = TRUE,
+  format = "rda",
   write = TRUE,
   quiet = FALSE
 )
@@ -18,14 +18,14 @@ data_integrate(
 
 \item{sources}{Character vector of data sources to include}
 
-\item{rda}{Logical. Should the fish and survey tables also be saved as a combined .rda file?}
+\item{format}{Should the fish and survey tables be saved as a csv alone, a combined .rda file, or both? Defaults to 'rda' and other options are 'csv' or 'both'.}
 
 \item{write}{Logical. Should the files be written to disk, or would you just like them returned as an R object? Defaults to TRUE.}
 
 \item{quiet}{Logical. Set to TRUE if you wish to hide all status messages.}
 }
 \value{
-Invisbly returns a list with the survey and fish tables.
+Invisibly returns a list with the survey and fish tables.
 }
 \description{
 Integrate datasets, add zeroes, divide into fish and survey tables, and export to csv and/or rda.
