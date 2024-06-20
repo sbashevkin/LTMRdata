@@ -8,7 +8,6 @@ cache_dir<-"LTMRdata-test"
 # First collect some stats on the raw mashed together data
 
 data_raw<-bind_rows(LTMRdata::Baystudy, LTMRdata::Suisun, LTMRdata::FMWT, LTMRdata::DJFMP, LTMRdata::EDSM, LTMRdata::TMM, LTMRdata::SLS, LTMRdata::STN, LTMRdata::SKT, LTMRdata::Salvage)%>%
-  lazy_dt()%>%
   group_by(Source)%>%
   summarise(N=n(),
             N_0=length(which(Count==0)),
@@ -16,7 +15,6 @@ data_raw<-bind_rows(LTMRdata::Baystudy, LTMRdata::Suisun, LTMRdata::FMWT, LTMRda
             Samples=list(unique(SampleID)),
             Fish=list(sort(unique(Taxa))),
             .groups="drop")%>%
-  as_tibble()%>%
   arrange(Source)
 
 raw_samples<-unique(unlist(data_raw$Samples))
