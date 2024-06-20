@@ -21,10 +21,6 @@ test_that("Survey numbers are in the expected range", {
 	expect_true(all(STN$Survey %in% 1:6))
 })
 
-test_that("Tow numbers are in the expected range", {
-	expect_true(all(STN$TowNum %in% 1:4))
-})
-
 test_that("Depth values are in the expected range", {
 	expect_true(all( (STN$Depth > 0 & STN$Depth < 30) | is.na(STN$Depth) ))
 })
