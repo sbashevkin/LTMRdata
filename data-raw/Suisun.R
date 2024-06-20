@@ -19,8 +19,8 @@ keepTables <- c("AgesBySizeMo", "Catch", "Depth",
                 "Sample", "StationsLookUp", "TrawlEffort")
 
 suisunMarshTables <- bridgeAccess(db_path,
-                          tables = keepTables,
-                          script = file.path("data-raw", "connectAccess.R"))
+                                  tables = keepTables,
+                                  script = file.path("data-raw", "connectAccess.R"))
 
 # # If you've chosen to read csv --------------------------------------------
 # suisunMarshTables <- list()
@@ -97,8 +97,8 @@ sample_suisun <- suisunMarshTables$Sample %>%
   mutate(Method=recode(Method, MWTR="Midwater trawl", OTR="Otter trawl"))%>% # Convert method codes to values
   dplyr::filter(Method=="Otter trawl")%>% #Only including otter trawl data because midwater trawl only used rarely and not currently
   #mutate(Date=parse_date_time(Date, "%m/%d/%Y %H:%M:%S", tz="America/Los_Angeles"),
-  # Time=parse_date_time(Time, "%m/%d/%Y %H:%M:%S", tz="America/Los_Angeles"))%>%
-  mutate(Datetime=lubridate::parse_date_time(if_else(is.na(Time), NA_character_, paste0(Date, " ", hour(Time), ":", minute(Time))), "%Y-%m-%d %H:%M", tz="America/Los_Angeles"))%>%
+  mutate(Time=parse_date_time(Time, "%Y-%m-%d/ %H:%M:%S", tz="America/Los_Angeles"),
+         Datetime=lubridate::parse_date_time(if_else(is.na(Time), NA_character_, paste0(Date, " ", hour(Time), ":", minute(Time))), "%Y-%m-%d %H:%M", tz="America/Los_Angeles"))%>%
   dplyr::select(-Time)%>% # Remove unneeded variable
   mutate(Tide=recode(Tide, flood="Flood", ebb="Ebb", low="Low Slack", high="High Slack", outgoing="Ebb", incoming="Flood"), # Rename tide codes for consistency
          Source="Suisun",
@@ -155,26 +155,26 @@ catch_suisun <- suisunMarshTables$Catch %>%
 #   write_csv("~/Suisun comments.csv")
 
 ## For future updates, create the csv files as follows
- #old<-read_excel(file.path("data-raw", "Suisun", "Suisun comments.xlsx"))%>%mutate(ID=paste(SampleID, Taxa, CatchComments))
- #new<-dplyr::filter(catch_suisun, StandardLength==0 & !is.na(CatchComments))%>%
- #mutate(SampleRowID=paste("{",SampleRowID,"}",sep=""),
-  #      SampleID=paste("Suisun",SampleRowID,sep=" "),
-  #      Min_length=ifelse(grepl(">",CatchComments),1,as.numeric(NA)),
-  #      Length=ifelse(grepl("~",CatchComments)|grepl("about",CatchComments),1,as.numeric(NA)),
-  #      Max_length=ifelse(grepl("<",CatchComments),1,as.numeric(NA)),
-  #      Lifestage=ifelse(grepl("YOY",CatchComments),"YOY",
-  #                       ifelse(grepl("larva",CatchComments),"Larval",
-  #                              ifelse(grepl("uvenile",CatchComments),"Juvenile",
-  #                                     ifelse(grepl("dult",CatchComments),"Adult",as.character(NA))))),
-  #      Lifestage=ifelse(grepl("age 0",CatchComments),"Age-0",
-  #                       ifelse(grepl("age 1",CatchComments),"Age-1",
-  #                              ifelse(grepl("age 2",CatchComments),"Age-2+",Lifestage))),
-  #      Ignore=ifelse(grepl("egg",CatchComments)|grepl("ovi",CatchComments)|grepl("OVI",CatchComments),1,as.numeric(NA)),
-  #      ID=paste(SampleID, Taxa, CatchComments)
-  #     )%>%
- #dplyr::filter(!ID%in%old$ID)%>%
- #dplyr::select(SampleRowID, Station, Date, Datetime, SampleID, TrawlComments, Taxa, Count, CatchComments,Min_length,Length,Max_length,Lifestage,Ignore)%>%
-  # write_csv("~/Suisun comments.csv")
+#old<-read_excel(file.path("data-raw", "Suisun", "Suisun comments.xlsx"))%>%mutate(ID=paste(SampleID, Taxa, CatchComments))
+#new<-dplyr::filter(catch_suisun, StandardLength==0 & !is.na(CatchComments))%>%
+#mutate(SampleRowID=paste("{",SampleRowID,"}",sep=""),
+#      SampleID=paste("Suisun",SampleRowID,sep=" "),
+#      Min_length=ifelse(grepl(">",CatchComments),1,as.numeric(NA)),
+#      Length=ifelse(grepl("~",CatchComments)|grepl("about",CatchComments),1,as.numeric(NA)),
+#      Max_length=ifelse(grepl("<",CatchComments),1,as.numeric(NA)),
+#      Lifestage=ifelse(grepl("YOY",CatchComments),"YOY",
+#                       ifelse(grepl("larva",CatchComments),"Larval",
+#                              ifelse(grepl("uvenile",CatchComments),"Juvenile",
+#                                     ifelse(grepl("dult",CatchComments),"Adult",as.character(NA))))),
+#      Lifestage=ifelse(grepl("age 0",CatchComments),"Age-0",
+#                       ifelse(grepl("age 1",CatchComments),"Age-1",
+#                              ifelse(grepl("age 2",CatchComments),"Age-2+",Lifestage))),
+#      Ignore=ifelse(grepl("egg",CatchComments)|grepl("ovi",CatchComments)|grepl("OVI",CatchComments),1,as.numeric(NA)),
+#      ID=paste(SampleID, Taxa, CatchComments)
+#     )%>%
+#dplyr::filter(!ID%in%old$ID)%>%
+#dplyr::select(SampleRowID, Station, Date, Datetime, SampleID, TrawlComments, Taxa, Count, CatchComments,Min_length,Length,Max_length,Lifestage,Ignore)%>%
+# write_csv("~/Suisun comments.csv")
 
 
 
@@ -283,9 +283,9 @@ Suisun <- Suisun1%>%
          StandardLength=if_else(is.na(Count), NA_real_, StandardLength),
          CatchComments=if_else(is.na(Count), NA_character_, CatchComments))%>%
   dplyr::select(Source, Station, Latitude, Longitude, Date, Datetime, Depth, SampleID, Method, Tide, # Re-order variables
-         Sal_surf, Temp_surf=Temperature, Secchi,
-         Tow_duration=TowDuration, Tow_area, Taxa,
-         Length=StandardLength, Count, Length_NA_flag, Notes_catch=CatchComments, Notes_tow=TrawlComments)%>%
+                Sal_surf, Temp_surf=Temperature, Secchi,
+                Tow_duration=TowDuration, Tow_area, Taxa,
+                Length=StandardLength, Count, Length_NA_flag, Notes_catch=CatchComments, Notes_tow=TrawlComments)%>%
   group_by(across(-Count))%>% # Add up any new multiples after removing lifestages
   summarise(Count=sum(Count), .groups="drop")%>%
   group_by(SampleID)%>%

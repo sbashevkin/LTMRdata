@@ -25,7 +25,7 @@ keepTables <- c("Tow","FishSample","FishLength","Survey","Station",
                 "20mmStations","Gear","GearCodesLkp","MeterCorrections","SampleCode")
 
 ## Open connection to the database:
-data <- bridgeAccess(localDbFile,
+data <- bridgeAccess(file.path(tempdir(), dbName),
                      tables = keepTables,
                      script = file.path("data-raw", "connectAccess.R"))
 
@@ -66,13 +66,13 @@ Survey <- data$Survey %>%
 
 Station <- data$Station %>%
   mutate(across(c(StationID, SurveyID, Station), as.integer),
-         across(c(LatDeg, LatMin, LatSec, LonDeg, LonMin, LonSec, Temp, TopEC, BottomEC, Secchi, Turbidity),
+         across(c(StartLatDeg, StartLatMin, StartLatSec, StartLonDeg, StartLonMin, StartLonSec, Temp, TopEC, BottomEC, Secchi, FNU, NTU),
                 as.numeric),
          Comments = as.character(Comments))
 
 Tow <- data$Tow %>%
   mutate(across(c(TowID, StationID, TowNum, Tide), as.integer),
-         TowTime = as.POSIXct(TowTime, format = "%Y-%m-%d %H:%M:%S", tz = "America/Los_Angeles"),
+         TowTime = force_tz(as.POSIXct(TowTime, format = "%Y-%m-%d %H:%M:%S", tz = "UTC"), "America/Los_Angeles"),
          across(c(BottomDepth, CableOut, Duration), as.numeric))
 
 Gear <- data$Gear %>%
@@ -92,7 +92,7 @@ MeterCorrections <- data$MeterCorrections %>%
          Notes = as.character(Notes))
 
 TmmStations <- data$`20mmStations` %>%
-  mutate(across(c(Station, AreaCode), as.integer),
+  mutate(across(c(Station), as.integer),
          across(c(LatD, LatM, LatS, LonD, LonM, LonS), as.numeric),
          across(c(RKI, Location, Notes), as.character))
 
@@ -128,7 +128,7 @@ sample20mm <- Survey %>%
 				 Tow_direction=NA,
 				 ## Tide codes from 20mmDataFileFormat_New_102621.pdf on the CDFW ftp site:
 				 Tide=dplyr::recode(Tide, `1`="High Slack", `2`="Ebb", `3`="Low Slack", `4`="Flood"),
-				 TowTime=substring(TowTime,12),
+				 TowTime=paste(hour(TowTime), minute(TowTime), second(TowTime), sep=":"),
 				 Datetime=paste(SampleDate, TowTime),
 				 Date=lubridate::parse_date_time(SampleDate, "%Y-%m-%d", tz="America/Los_Angeles"),
 				 Datetime=lubridate::parse_date_time(dplyr::if_else(is.na(TowTime), NA_character_, Datetime),
@@ -145,7 +145,7 @@ sample20mm <- Survey %>%
 	dplyr::select(GearID, Source, Station, Latitude, Longitude, Date, Datetime, Survey,
 								TowNum, Depth, SampleID, Method, Tide, Sal_surf, Temp_surf,
 								Secchi, Tow_volume, Tow_direction, Cable_length,
-								Duration, Turbidity, Comments, Comments.x, Comments.y)
+								Duration, FNU, NTU, Comments, Comments.x, Comments.y)
 
 
 ## Note:
@@ -235,10 +235,11 @@ TMM_measured_lengths <- TMM %>%
 ## with Sam and Dave
 ## Now remove extra fields:
 TMM <- TMM %>%
-  dplyr::rename(TurbidityNTU = Turbidity) %>%
+  dplyr::rename(TurbidityNTU = NTU,
+                TurbidityFNU = FNU) %>%
 	dplyr::select(-GearID, -Duration, -Comments, -Comments.x,
 								-Comments.y, -FishCode, -Catch, -CatchNew,
-								-LengthFrequency)
+								-LengthFrequency, -TowNum)
 
 ## Save compressed data to /data:
 usethis::use_data(TMM, TMM_measured_lengths, overwrite=TRUE, compress="xz")

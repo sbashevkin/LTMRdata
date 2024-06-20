@@ -22,9 +22,9 @@ data_integrate<-function(data_path,
                          format='rda',
                          write=TRUE,
                          quiet=FALSE){
-if(!format%in%c("rda", "csv", "both")){
-  stop("format must be one of 'rda', 'csv', or 'both'")
-}
+  if(!format%in%c("rda", "csv", "both")){
+    stop("format must be one of 'rda', 'csv', or 'both'")
+  }
   survey_cols <- c("Source",
                    "Station",
                    "Latitude",
@@ -39,6 +39,8 @@ if(!format%in%c("rda", "csv", "both")){
                    "Sal_surf",
                    "Sal_bot",
                    "Temp_surf",
+                   "TurbidityNTU",
+                   "TurbidityFNU",
                    "Secchi",
                    "Secchi_estimated",
                    "Tow_duration",
@@ -49,8 +51,8 @@ if(!format%in%c("rda", "csv", "both")){
                    "Notes_tow",
                    "Notes_flowmeter")
 
-  fish_cols <- c("SampleID",
-                 "Source",
+  fish_cols <- c("Source",
+                 "SampleID",
                  "Taxa",
                  "Length",
                  "Count",
@@ -91,7 +93,8 @@ if(!format%in%c("rda", "csv", "both")){
     dplyr::select(tidyselect::any_of(fish_cols)) %>%
     dplyr::group_by(.data$Source) %>%
     tidyr::complete(.data$SampleID, .data$Taxa, fill=list(Count=0))%>%
-    dplyr::ungroup()
+    dplyr::ungroup()%>%
+    dplyr::relocate(tidyselect::any_of(fish_cols))
 
 
   res_fish <- res_fish %>%

@@ -1,0 +1,3 @@
+id	unitType	parentSI	multiplierToSI	description
+nephelometricTurbidityUnit	dimensionless	dimensionless	dimensionless	The intensity of white or broadband light scattered at 90 degrees incident to a beam of light projected through the sample
+formazinNephelometricUnit	dimensionless	dimensionless	dimensionless	The intensity of Infrared light scattered at 90 degrees incident to a beam of light projected through the sample

@@ -1,0 +1,11 @@
+attributeName	code	definition
+Source	20mm	CDFW 20mm Survey
+Source	Bay Study	CDFW Bay Study
+Source	DJFMP	USFWS Delta Juvenile Fish Monitoring Program
+Source	EDSM	USFWS Enhanced Delta Smelt Monitoring
+Source	FMWT	CDFW Fall Midwater Trawl
+Source	SKT	CDFW Spring Kodiak Trawl
+Source	SLS	CDFW Smelt Larva Survey
+Source	STN	CDFW Summer Townet
+Source	Suisun	UC Davis Suisun Marsh Fish Study
+Source	Salvage	California Department of Fish and Wildlife Fish Salvage datase

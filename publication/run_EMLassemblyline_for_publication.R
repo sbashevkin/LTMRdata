@@ -80,7 +80,7 @@ EMLassemblyline::template_taxonomic_coverage(
 ID<-"" # Sandbox EDI
 #ID<-'edi.1075.2' # Real EDI
 
-make_eml(
+eml <- make_eml(
   path = path_templates,
   dataset.title = 'Fish abundance in the San Francisco Estuary (1959-2024), an integration of 9 monitoring surveys.',
   temporal.coverage = c('1959-06-14', '2024-02-06'),
@@ -98,5 +98,19 @@ make_eml(
                                This file can be read into R using the "load" function.',
   user.id = 'sbashevkin',
   user.domain = 'EDI',
-  package.id = ID
+  package.id = ID,
+  return.obj = TRUE
 )
+
+changelog<-list(list(changeScope="Metadata and data",
+                     oldValue="See previous version (1)",
+                     changeDate="2024-07-01",
+                     comment="1) Updated all datasets to what was available as of at least February 2024.
+                              2) Added Turbidity in NTU or FNU.
+                              3) Added Salvage dataset"),
+                )
+class(changelog)<-c("emld", "list")
+
+eml$dataset$maintenance$changeHistory<-changelog
+write_eml(eml, file.path(path_eml, paste0(ID, ".xml")))
+eml_validate(file.path(path_eml, paste0(ID, ".xml")))

@@ -1,229 +1,247 @@
 name	name_type	name_resolved	authority_system	authority_id
-Acanthogobius flavimanus		Acanthogobius flavimanus	ITIS	171882
-Acipenser		Acipenser	ITIS	161065
-Acipenser transmontanus		Acipenser transmontanus	ITIS	161068
-Alosa sapidissima		Alosa sapidissima	ITIS	161702
-Ameiurus catus		Ameiurus catus	ITIS	164037
-Ameiurus melas		Ameiurus melas	ITIS	164039
-Ameiurus nebulosus		Ameiurus nebulosus	ITIS	164043
-Atheriniformes		Atheriniformes	ITIS	165429
-Atherinops affinis		Atherinops affinis	ITIS	165986
-Atherinopsis californiensis		Atherinopsis californiensis	ITIS	166012
-Carassius auratus		Carassius auratus	ITIS	163350
-Catostomus occidentalis		Catostomus occidentalis	ITIS	163908
-Centrarchidae		Centrarchidae	ITIS	168093
-Citharichthys stigmaeus		Citharichthys stigmaeus	ITIS	172717
-Clevelandia ios		Clevelandia ios	ITIS	171748
-Clupea pallasii		Clupea pallasii	ITIS	551209
-Cottidae		Cottidae	ITIS	167196
-Cottus asper		Cottus asper	ITIS	167233
-Cymatogaster aggregata		Cymatogaster aggregata	ITIS	169739
-Cyprinidae		Cyprinidae	ITIS	163342
-Cyprinus carpio		Cyprinus carpio	ITIS	163344
-Dorosoma petenense		Dorosoma petenense	ITIS	161738
-Engraulis mordax		Engraulis mordax	ITIS	161828
-Gambusia affinis		Gambusia affinis	ITIS	165878
-Gasterosteus aculeatus		Gasterosteus aculeatus	ITIS	166365
-Genyonemus lineatus		Genyonemus lineatus	ITIS	169257
-Gillichthys mirabilis		Gillichthys mirabilis	ITIS	171967
-Gobiidae		Gobiidae	ITIS	171746
-Hypomesus nipponensis		Hypomesus nipponensis	ITIS	162033
-Hypomesus transpacificus		Hypomesus transpacificus	ITIS	162032
-Hysterocarpus traskii		Hysterocarpus traskii	ITIS	553322
-Ictaluridae		Ictaluridae	ITIS	163995
-Ictalurus punctatus		Ictalurus punctatus	ITIS	163998
-Ilypnus gilberti		Ilypnus gilberti	ITIS	171892
-Lampetra ayresii		Lampetra ayresii	ITIS	622248
-Lampetra tridentata		Lampetra tridentata	ITIS	159713
-Lavinia exilicauda		Lavinia exilicauda	ITIS	163569
-Lepidogobius lepidus		Lepidogobius lepidus	ITIS	171762
-Lepomis macrochirus		Lepomis macrochirus	ITIS	168141
-Lepomis microlophus		Lepomis microlophus	ITIS	168154
-Leptocottus armatus		Leptocottus armatus	ITIS	167302
-Lucania parva		Lucania parva	ITIS	165679
-Menidia audens		Menidia audens	ITIS	165998
-Micropterus dolomieu		Micropterus dolomieu	ITIS	550562
-Micropterus punctulatus		Micropterus punctulatus	ITIS	168161
-Micropterus salmoides		Micropterus salmoides	ITIS	168160
-Morone saxatilis		Morone saxatilis	ITIS	167680
-Notemigonus crysoleucas		Notemigonus crysoleucas	ITIS	163368
-Oncorhynchus tshawytscha		Oncorhynchus tshawytscha	ITIS	161980
-Orthodon microlepidotus		Orthodon microlepidotus	ITIS	163589
-Osmeridae		Osmeridae	ITIS	162028
-Parophrys vetulus		Parophrys vetulus	ITIS	172921
-Percina macrolepida		Percina macrolepida	ITIS	168487
-Petromyzontiformes		Petromyzontiformes	ITIS	159696
-Platichthys stellatus		Platichthys stellatus	ITIS	172893
-Pogonichthys macrolepidotus		Pogonichthys macrolepidotus	ITIS	163603
-Pomoxis annularis		Pomoxis annularis	ITIS	168166
-Pomoxis nigromaculatus		Pomoxis nigromaculatus	ITIS	168167
-Porichthys notatus		Porichthys notatus	ITIS	164414
-Ptychocheilus grandis		Ptychocheilus grandis	ITIS	163524
-Sebastes auriculatus		Sebastes auriculatus	ITIS	166708
-Spirinchus thaleichthys		Spirinchus thaleichthys	ITIS	162049
-Symphurus atricauda		Symphurus atricauda	ITIS	173077
-Syngnathus leptorhynchus		Syngnathus leptorhynchus	ITIS	166462
-Tridentiger		Tridentiger	ITIS	171911
-Tridentiger barbatus		Tridentiger barbatus	ITIS	638138
-Tridentiger bifasciatus		Tridentiger bifasciatus	ITIS	553361
-Tridentiger trigonocephalus		Tridentiger trigonocephalus	ITIS	171912
-Acipenser medirostris		Acipenser medirostris	ITIS	161067
-Allosmerus elongatus		Allosmerus elongatus	ITIS	162053
-Alopias vulpinus		Alopias vulpinus	ITIS	159916
-Alosinae		Alosinae	ITIS	551155
-Ammodytes hexapterus		Ammodytes hexapterus	ITIS	171672
-Amphistichus argenteus		Amphistichus argenteus	ITIS	169758
-Amphistichus koelzi		Amphistichus koelzi	ITIS	169759
-Amphistichus rhodoterus		Amphistichus rhodoterus	ITIS	169757
-Artedius fenestralis		Artedius fenestralis	ITIS	167212
-Artedius harringtoni		Artedius harringtoni	ITIS	167213
-Artedius notospilotus		Artedius notospilotus	ITIS	167215
-Atractoscion nobilis		Atractoscion nobilis	ITIS	169387
-Aulorhynchus flavidus		Aulorhynchus flavidus	ITIS	166404
-Bathymasteridae		Bathymasteridae	ITIS	170945
-Chilara taylori		Chilara taylori	ITIS	165006
-Citharichthys		Citharichthys	ITIS	172715
-Citharichthys sordidus		Citharichthys sordidus	ITIS	172716
-Cololabis saira		Cololabis saira	ITIS	165609
-Embiotoca jacksoni		Embiotoca jacksoni	ITIS	169745
-Embiotoca lateralis		Embiotoca lateralis	ITIS	169744
-Embiotocidae		Embiotocidae	ITIS	169735
-Enophrys bison		Enophrys bison	ITIS	167267
-Hemilepidotus hemilepidotus		Hemilepidotus hemilepidotus	ITIS	167279
-Hemilepidotus spinosus		Hemilepidotus spinosus	ITIS	167283
-Hexagrammos decagrammus		Hexagrammos decagrammus	ITIS	167110
-Hyperprosopon anale		Hyperprosopon anale	ITIS	169749
-Hyperprosopon argenteum		Hyperprosopon argenteum	ITIS	169747
-Hyperprosopon ellipticum		Hyperprosopon ellipticum	ITIS	169748
-Hypomesus pretiosus		Hypomesus pretiosus	ITIS	162030
-Hypsoblennius jenkinsi		Hypsoblennius jenkinsi	ITIS	171160
-Hypsurus caryi		Hypsurus caryi	ITIS	169761
-Ictalurus furcatus		Ictalurus furcatus	ITIS	163997
-Inopsetta ischyra		Inopsetta ischyra	ITIS	621021
-Lampetra richardsoni		Lampetra richardsoni	ITIS	159707
-Lepomis cyanellus		Lepomis cyanellus	ITIS	168132
-Lepomis gibbosus		Lepomis gibbosus	ITIS	168144
-Leuresthes tenuis		Leuresthes tenuis	ITIS	166014
-Liparis		Liparis	ITIS	43620
-Liparis fucensis		Liparis fucensis	ITIS	167560
-Liparis pulchellus		Liparis pulchellus	ITIS	167572
-Lumpenus sagitta		Lumpenus sagitta	ITIS	171583
-Medialuna californiensis		Medialuna californiensis	ITIS	169522
-Microgadus proximus		Microgadus proximus	ITIS	164719
-Micrometrus minimus		Micrometrus minimus	ITIS	169766
-Microstomus pacificus		Microstomus pacificus	ITIS	172887
-Mustelus henlei		Mustelus henlei	ITIS	160236
-Myliobatis californica		Myliobatis californica	ITIS	160981
-Mylopharodon conocephalus		Mylopharodon conocephalus	ITIS	163587
-Neoclinus uninotatus		Neoclinus uninotatus	ITIS	171480
-Notorynchus cepedianus		Notorynchus cepedianus	ITIS	159829
-Odontopyxis trispinosa		Odontopyxis trispinosa	ITIS	167460
-Oncorhynchus kisutch		Oncorhynchus kisutch	ITIS	161977
-Oncorhynchus mykiss		Oncorhynchus mykiss	ITIS	161989
-Ophichthus zophochir		Ophichthus zophochir	ITIS	161469
-Ophiodon elongatus		Ophiodon elongatus	ITIS	167116
-Paralichthys californicus		Paralichthys californicus	ITIS	172743
-Peprilus simillimus		Peprilus simillimus	ITIS	172565
-Phanerodon furcatus		Phanerodon furcatus	ITIS	169751
-Pholis ornata		Pholis ornata	ITIS	171642
-Pisces		Pisces	WORMS	11676
-Platyrhinoidis triseriata		Platyrhinoidis triseriata	ITIS	160824
-Pleuronectidae		Pleuronectidae	ITIS	172859
-Pleuronectiformes		Pleuronectiformes	ITIS	172702
-Pleuronichthys coenosus		Pleuronichthys coenosus	ITIS	172923
-Pleuronichthys decurrens		Pleuronichthys decurrens	ITIS	172924
-Pleuronichthys guttulatus		Pleuronichthys guttulatus	ITIS	616048
-Pleuronichthys verticalis		Pleuronichthys verticalis	ITIS	172926
-Psettichthys melanostictus		Psettichthys melanostictus	ITIS	172928
-Raja binoculata		Raja binoculata	ITIS	160848
-Rathbunella hypoplecta		Rathbunella hypoplecta	ITIS	170954
-Rhacochilus toxotes		Rhacochilus toxotes	ITIS	169755
-Rhacochilus vacca		Rhacochilus vacca	ITIS	169754
-Rhinobatos productus		Rhinobatos productus	ITIS	160818
-Sarda chiliensis		Sarda chiliensis	ITIS	172408
-Sardinops sagax		Sardinops sagax	ITIS	161729
-Scomber japonicus		Scomber japonicus	ITIS	172412
-Scorpaenichthys marmoratus		Scorpaenichthys marmoratus	ITIS	167353
-Sebastes		Sebastes	ITIS	166705
-Sebastes flavidus		Sebastes flavidus	ITIS	166720
-Sebastes melanops		Sebastes melanops	ITIS	166727
-Sebastes miniatus		Sebastes miniatus	ITIS	166729
-Sebastes mystinus		Sebastes mystinus	ITIS	166730
-Sebastes paucispinis		Sebastes paucispinis	ITIS	166733
-Seriphus politus		Seriphus politus	ITIS	169362
-Sphyraena argentea		Sphyraena argentea	ITIS	170426
-Spirinchus starksi		Spirinchus starksi	ITIS	162048
-Squalus acanthias		Squalus acanthias	ITIS	160617
-Synodus lucioceps		Synodus lucioceps	ITIS	162378
-Thaleichthys pacificus		Thaleichthys pacificus	ITIS	162051
-Torpedo californica		Torpedo californica	ITIS	160833
-Trachurus symmetricus		Trachurus symmetricus	ITIS	168586
-Triakis semifasciata		Triakis semifasciata	ITIS	160448
-Ameiurus natalis		Ameiurus natalis	ITIS	164041
-Anguilliformes		Anguilliformes	ITIS	161123
-Apodichthys flavidus		Apodichthys flavidus	ITIS	171634
-Archoplites interruptus		Archoplites interruptus	ITIS	168175
-Brachyistius frenatus		Brachyistius frenatus	ITIS	169737
-Catostomidae		Catostomidae	ITIS	163892
-Cyprinella lutrensis		Cyprinella lutrensis	ITIS	163792
-Gibbonsia metzi		Gibbonsia metzi	ITIS	171398
-Gibbonsia montereyensis		Gibbonsia montereyensis	ITIS	171399
-Hesperoleucus symmetricus		Hesperoleucus symmetricus	ITIS	163565
-Heterostichus rostratus		Heterostichus rostratus	ITIS	171476
-Isopsetta isolepis		Isopsetta isolepis	ITIS	172919
-Lepidopsetta bilineata		Lepidopsetta bilineata	ITIS	172917
-Lepomis gulosus		Lepomis gulosus	ITIS	168138
-Lucania goodei		Lucania goodei	ITIS	165680
-Micropterus		Micropterus	ITIS	168158
-Micropterus coosae		Micropterus coosae	ITIS	168163
-Mugil cephalus		Mugil cephalus	ITIS	170335
-Notropis rubellus		Notropis rubellus	ITIS	163409
-Oligocottus maculosus		Oligocottus maculosus	ITIS	167333
-Oligocottus rimensis		Oligocottus rimensis	ITIS	167334
-Percidae		Percidae	ITIS	168356
-Pholis schultzi		Pholis schultzi	ITIS	171644
-Pimephales promelas		Pimephales promelas	ITIS	163517
-Pomoxis		Pomoxis	ITIS	168165
-Pterygoplichthys disjunctivus		Pterygoplichthys disjunctivus	ITIS	680351
-Rhinichthys osculus		Rhinichthys osculus	ITIS	163387
-Salmo trutta		Salmo trutta	ITIS	161997
-Sebastes carnatus		Sebastes carnatus	ITIS	166767
-Siphateles bicolor		Siphateles bicolor	ITIS	913989
-Aurelia aurita		Aurelia aurita	ITIS	51701
-Blackfordia virginica		Blackfordia virginica	ITIS	49780
-Crangon		Crangon	ITIS	97107
-Decapoda		Decapoda	ITIS	95599
-Lepomis		Lepomis	ITIS	168130
-Maeotias marginata		Maeotias marginata	ITIS	719132
-Palaemon		Palaemon	ITIS	96449
-Palaemon macrodactylus		Palaemon macrodactylus	ITIS	96450
-Palaemon modestus		Palaemon modestus	GBIF	9526094
-Pandalus danae		Pandalus danae	ITIS	96982
-Pleurobrachia bachei		Pleurobrachia bachei	ITIS	53863
-Polyorchis penicillatus		Polyorchis penicillatus	ITIS	49255
-Scrippsia pacifica		Scrippsia pacifica	ITIS	49261
-Aequorea		Aequorea	ITIS	50623
-Anarrhichthys ocellatus		Anarrhichthys ocellatus	ITIS	171345
-Chrysaora fuscescens		Chrysaora fuscescens	ITIS	51658
-Cnidaria		Cnidaria	ITIS	48738
-Cottus gulosus		Cottus gulosus	ITIS	167234
-Hippoglossus stenolepis		Hippoglossus stenolepis	ITIS	172932
-Mustelus californicus		Mustelus californicus	ITIS	160235
-Palaemon kadiakensis		Palaemon kadiakensis	GBIF	8969832
-Upogebia		Upogebia	ITIS	98207
-Actinopteri		Actinopteri	WORMS	843664
-Atherinopsidae		Atherinopsidae	ITIS	630579
-Cancer magister		Cancer magister	ITIS	98675
-Clupeidae		Clupeidae	ITIS	161700
-Eucyclogobius newberryi		Eucyclogobius newberryi	ITIS	171916
-Exopalaemon modestus		Exopalaemon modestus	ITIS	96574
-Corbicula fluminea		Corbicula fluminea	ITIS	81387
-Crangon franciscorum		Crangon franciscorum	ITIS	97114
-Eriocheir sinensis		Eriocheir sinensis	ITIS	99058
-Macoma		Macoma	ITIS	81033
-Mysida		Mysida	ITIS	89855
-Potamocorbula amurensis		Potamocorbula amurensis	ITIS	81746
-Procambarus clarkii		Procambarus clarkii	ITIS	97491
-Rhithropanopeus harrisii		Rhithropanopeus harrisii	ITIS	98790
-UnID		UnID		
-Myoidae		Myoidae		
+Acanthogobius flavimanus	scientific	Acanthogobius flavimanus	World Register of Marine Species	279475
+Acipenser	scientific	Acipenser	World Register of Marine Species	125618
+Acipenser transmontanus	scientific	Acipenser transmontanus	World Register of Marine Species	238345
+Alosa sapidissima	scientific	Alosa sapidissima	World Register of Marine Species	158670
+Ameiurus catus	scientific	Ameiurus catus	World Register of Marine Species	1023048
+Ameiurus melas	scientific	Ameiurus melas	ITIS	164039
+Ameiurus nebulosus	scientific	Ameiurus nebulosus	ITIS	164043
+Atheriniformes	scientific	Atheriniformes	World Register of Marine Species	10318
+Atherinops affinis	scientific	Atherinops affinis	World Register of Marine Species	279812
+Atherinopsis californiensis	scientific	Atherinopsis californiensis	World Register of Marine Species	279813
+Carassius auratus	scientific	Carassius auratus	World Register of Marine Species	154298
+Catostomus occidentalis	scientific	Catostomus occidentalis	ITIS	163908
+Centrarchidae	scientific	Centrarchidae	World Register of Marine Species	151288
+Citharichthys stigmaeus	scientific	Citharichthys stigmaeus	World Register of Marine Species	275696
+Clevelandia ios	scientific	Clevelandia ios	World Register of Marine Species	280215
+Clupea pallasii	scientific	Clupea pallasii	World Register of Marine Species	151159
+Cottidae	scientific	Cottidae	World Register of Marine Species	125589
+Cottus asper	scientific	Cottus asper	World Register of Marine Species	274368
+Cymatogaster aggregata	scientific	Cymatogaster aggregata	World Register of Marine Species	280461
+Cyprinidae	scientific	Cyprinidae	World Register of Marine Species	154163
+Cyprinus carpio	scientific	Cyprinus carpio	World Register of Marine Species	154582
+Dorosoma petenense	scientific	Dorosoma petenense	World Register of Marine Species	276310
+Engraulis mordax	scientific	Engraulis mordax	World Register of Marine Species	272286
+Gambusia affinis	scientific	Gambusia affinis	World Register of Marine Species	159325
+Gasterosteus aculeatus	scientific	Gasterosteus aculeatus	World Register of Marine Species	126505
+Genyonemus lineatus	scientific	Genyonemus lineatus	World Register of Marine Species	280830
+Gillichthys mirabilis	scientific	Gillichthys mirabilis	World Register of Marine Species	280851
+Gobiidae	scientific	Gobiidae	World Register of Marine Species	125537
+Hypomesus nipponensis	scientific	Hypomesus nipponensis	World Register of Marine Species	279421
+Hypomesus transpacificus	scientific	Hypomesus transpacificus	World Register of Marine Species	279423
+Hysterocarpus traskii	scientific	Hysterocarpus traskii	World Register of Marine Species	293619
+Ictaluridae	scientific	Ictaluridae	World Register of Marine Species	154197
+Ictalurus punctatus	scientific	Ictalurus punctatus	ITIS	163998
+Ilypnus gilberti	scientific	Ilypnus gilberti	World Register of Marine Species	281174
+Lampetra ayresii	scientific	Lampetra ayresii	World Register of Marine Species	271316
+Lampetra tridentata	scientific	Lampetra tridentata	World Register of Marine Species	1623764
+Lavinia exilicauda	scientific	Lavinia exilicauda	ITIS	163569
+Lepidogobius lepidus	scientific	Lepidogobius lepidus	World Register of Marine Species	281292
+Lepomis macrochirus	scientific	Lepomis macrochirus	ITIS	168141
+Lepomis microlophus	scientific	Lepomis microlophus	ITIS	168154
+Leptocottus armatus	scientific	Leptocottus armatus	World Register of Marine Species	254345
+Lucania goodei	scientific	Lucania goodei	ITIS	165680
+Lucania parva	scientific	Lucania parva	World Register of Marine Species	159310
+Menidia audens	scientific	Menidia audens	ITIS	165998
+Micropterus dolomieu	scientific	Micropterus dolomieu	ITIS	550562
+Micropterus punctulatus	scientific	Micropterus punctulatus	ITIS	168161
+Micropterus salmoides	scientific	Micropterus salmoides	ITIS	168160
+Morone saxatilis	scientific	Morone saxatilis	World Register of Marine Species	151179
+Notemigonus crysoleucas	scientific	Notemigonus crysoleucas	ITIS	163368
+Oncorhynchus tshawytscha	scientific	Oncorhynchus tshawytscha	World Register of Marine Species	158075
+Orthodon microlepidotus	scientific	Orthodon microlepidotus	World Register of Marine Species	281934
+Osmeridae	scientific	Osmeridae	World Register of Marine Species	125513
+Parophrys vetulus	scientific	Parophrys vetulus	World Register of Marine Species	254393
+Percina macrolepida	scientific	Percina macrolepida	ITIS	168487
+Petromyzontiformes	scientific	Petromyzontiformes	World Register of Marine Species	10201
+Pimephales promelas	scientific	Pimephales promelas	ITIS	163517
+Platichthys stellatus	scientific	Platichthys stellatus	World Register of Marine Species	154781
+Pogonichthys macrolepidotus	scientific	Pogonichthys macrolepidotus	World Register of Marine Species	282310
+Pomoxis annularis	scientific	Pomoxis annularis	ITIS	168166
+Pomoxis nigromaculatus	scientific	Pomoxis nigromaculatus	ITIS	168167
+Porichthys notatus	scientific	Porichthys notatus	World Register of Marine Species	275658
+Ptychocheilus grandis	scientific	Ptychocheilus grandis	ITIS	163524
+Sebastes auriculatus	scientific	Sebastes auriculatus	World Register of Marine Species	274773
+Spirinchus thaleichthys	scientific	Spirinchus thaleichthys	World Register of Marine Species	282844
+Stichaeidae	scientific	Stichaeidae	World Register of Marine Species	125566
+Symphurus atricauda	scientific	Symphurus atricauda	World Register of Marine Species	305635
+Syngnathus leptorhynchus	scientific	Syngnathus leptorhynchus	World Register of Marine Species	275226
+Tridentiger	scientific	Tridentiger	World Register of Marine Species	271146
+Tridentiger barbatus	scientific	Tridentiger barbatus	World Register of Marine Species	283044
+Tridentiger bifasciatus	scientific	Tridentiger bifasciatus	World Register of Marine Species	283045
+Tridentiger trigonocephalus	scientific	Tridentiger trigonocephalus	World Register of Marine Species	283049
+UnID	scientific	UnID	NA	NA
+Acipenser medirostris	scientific	Acipenser medirostris	World Register of Marine Species	271695
+Allosmerus elongatus	scientific	Allosmerus elongatus	World Register of Marine Species	279564
+Alopias vulpinus	scientific	Alopias vulpinus	World Register of Marine Species	105836
+Alosinae	scientific	Alosinae	ITIS	551155
+Ammodytes hexapterus	scientific	Ammodytes hexapterus	World Register of Marine Species	254510
+Amphistichus argenteus	scientific	Amphistichus argenteus	World Register of Marine Species	279594
+Amphistichus koelzi	scientific	Amphistichus koelzi	World Register of Marine Species	279595
+Amphistichus rhodoterus	scientific	Amphistichus rhodoterus	World Register of Marine Species	279596
+Artedius fenestralis	scientific	Artedius fenestralis	World Register of Marine Species	279700
+Artedius harringtoni	scientific	Artedius harringtoni	World Register of Marine Species	279701
+Artedius notospilotus	scientific	Artedius notospilotus	World Register of Marine Species	279703
+Atractoscion nobilis	scientific	Atractoscion nobilis	World Register of Marine Species	278535
+Aulorhynchus flavidus	scientific	Aulorhynchus flavidus	World Register of Marine Species	279839
+Bathymasteridae	scientific	Bathymasteridae	World Register of Marine Species	151388
+Chilara taylori	scientific	Chilara taylori	World Register of Marine Species	280146
+Citharichthys	scientific	Citharichthys	World Register of Marine Species	158786
+Citharichthys sordidus	scientific	Citharichthys sordidus	World Register of Marine Species	275694
+Cololabis saira	scientific	Cololabis saira	World Register of Marine Species	280366
+Embiotoca jacksoni	scientific	Embiotoca jacksoni	World Register of Marine Species	240746
+Embiotoca lateralis	scientific	Embiotoca lateralis	World Register of Marine Species	240740
+Embiotocidae	scientific	Embiotocidae	World Register of Marine Species	151386
+Enophrys bison	scientific	Enophrys bison	World Register of Marine Species	275355
+Hemilepidotus hemilepidotus	scientific	Hemilepidotus hemilepidotus	World Register of Marine Species	254521
+Hemilepidotus spinosus	scientific	Hemilepidotus spinosus	World Register of Marine Species	279413
+Hexagrammos decagrammus	scientific	Hexagrammos decagrammus	World Register of Marine Species	240732
+Hyperprosopon anale	scientific	Hyperprosopon anale	World Register of Marine Species	281097
+Hyperprosopon argenteum	scientific	Hyperprosopon argenteum	World Register of Marine Species	281098
+Hyperprosopon ellipticum	scientific	Hyperprosopon ellipticum	World Register of Marine Species	281099
+Hypomesus pretiosus	scientific	Hypomesus pretiosus	World Register of Marine Species	279422
+Hypsoblennius jenkinsi	scientific	Hypsoblennius jenkinsi	World Register of Marine Species	276328
+Hypsurus caryi	scientific	Hypsurus caryi	World Register of Marine Species	240717
+Ictalurus furcatus	scientific	Ictalurus furcatus	World Register of Marine Species	275329
+Inopsetta ischyra	scientific	Inopsetta ischyra	World Register of Marine Species	584348
+Lampetra richardsoni	scientific	Lampetra richardsoni	ITIS	159707
+Lepomis cyanellus	scientific	Lepomis cyanellus	ITIS	168132
+Lepomis gibbosus	scientific	Lepomis gibbosus	World Register of Marine Species	151290
+Leuresthes tenuis	scientific	Leuresthes tenuis	World Register of Marine Species	281344
+Liparis	scientific	Liparis	World Register of Marine Species	126160
+Liparis fucensis	scientific	Liparis fucensis	World Register of Marine Species	274515
+Liparis pulchellus	scientific	Liparis pulchellus	World Register of Marine Species	274533
+Lumpenus sagitta	scientific	Lumpenus sagitta	World Register of Marine Species	254579
+Medialuna californiensis	scientific	Medialuna californiensis	World Register of Marine Species	281541
+Microgadus proximus	scientific	Microgadus proximus	World Register of Marine Species	275873
+Micrometrus minimus	scientific	Micrometrus minimus	World Register of Marine Species	281562
+Microstomus pacificus	scientific	Microstomus pacificus	World Register of Marine Species	274294
+Mustelus henlei	scientific	Mustelus henlei	World Register of Marine Species	271386
+Myliobatis californica	scientific	Myliobatis californica	World Register of Marine Species	271485
+Mylopharodon conocephalus	scientific	Mylopharodon conocephalus	ITIS	163587
+Neoclinus uninotatus	scientific	Neoclinus uninotatus	World Register of Marine Species	281687
+Notorynchus cepedianus	scientific	Notorynchus cepedianus	World Register of Marine Species	217628
+Odontopyxis trispinosa	scientific	Odontopyxis trispinosa	World Register of Marine Species	281836
+Oncorhynchus kisutch	scientific	Oncorhynchus kisutch	World Register of Marine Species	127184
+Oncorhynchus mykiss	scientific	Oncorhynchus mykiss	World Register of Marine Species	127185
+Ophichthus zophochir	scientific	Ophichthus zophochir	World Register of Marine Species	271991
+Ophiodon elongatus	scientific	Ophiodon elongatus	World Register of Marine Species	240745
+Paralichthys californicus	scientific	Paralichthys californicus	World Register of Marine Species	275809
+Peprilus simillimus	scientific	Peprilus simillimus	World Register of Marine Species	276563
+Phanerodon furcatus	scientific	Phanerodon furcatus	World Register of Marine Species	240730
+Pholis ornata	scientific	Pholis ornata	World Register of Marine Species	273692
+Pisces	scientific	Pisces	World Register of Marine Species	11676
+Platyrhinoidis triseriata	scientific	Platyrhinoidis triseriata	World Register of Marine Species	282280
+Pleuronectidae	scientific	Pleuronectidae	World Register of Marine Species	125579
+Pleuronectiformes	scientific	Pleuronectiformes	World Register of Marine Species	10331
+Pleuronichthys coenosus	scientific	Pleuronichthys coenosus	World Register of Marine Species	282290
+Pleuronichthys decurrens	scientific	Pleuronichthys decurrens	World Register of Marine Species	282292
+Pleuronichthys guttulatus	scientific	Pleuronichthys guttulatus	World Register of Marine Species	293680
+Pleuronichthys verticalis	scientific	Pleuronichthys verticalis	World Register of Marine Species	282295
+Psettichthys melanostictus	scientific	Psettichthys melanostictus	World Register of Marine Species	282396
+Raja binoculata	scientific	Raja binoculata	World Register of Marine Species	271572
+Rathbunella hypoplecta	scientific	Rathbunella hypoplecta	World Register of Marine Species	282556
+Rhacochilus toxotes	scientific	Rhacochilus toxotes	World Register of Marine Species	282575
+Rhacochilus vacca	scientific	Rhacochilus vacca	World Register of Marine Species	282576
+Rhinobatos productus	scientific	Rhinobatos productus	World Register of Marine Species	271608
+Sarda chiliensis	scientific	Sarda chiliensis	World Register of Marine Species	293729
+Sardinops sagax	scientific	Sardinops sagax	World Register of Marine Species	217452
+Scomber japonicus	scientific	Scomber japonicus	World Register of Marine Species	127022
+Scorpaenichthys marmoratus	scientific	Scorpaenichthys marmoratus	World Register of Marine Species	282726
+Sebastes	scientific	Sebastes	World Register of Marine Species	126175
+Sebastes flavidus	scientific	Sebastes flavidus	World Register of Marine Species	274795
+Sebastes melanops	scientific	Sebastes melanops	World Register of Marine Species	274817
+Sebastes miniatus	scientific	Sebastes miniatus	World Register of Marine Species	274820
+Sebastes mystinus	scientific	Sebastes mystinus	World Register of Marine Species	274823
+Sebastes paucispinis	scientific	Sebastes paucispinis	World Register of Marine Species	274833
+Seriphus politus	scientific	Seriphus politus	World Register of Marine Species	282761
+Sphyraena argentea	scientific	Sphyraena argentea	World Register of Marine Species	273978
+Spirinchus starksi	scientific	Spirinchus starksi	World Register of Marine Species	282843
+Squalus acanthias	scientific	Squalus acanthias	World Register of Marine Species	105923
+Synodus lucioceps	scientific	Synodus lucioceps	World Register of Marine Species	272132
+Thaleichthys pacificus	scientific	Thaleichthys pacificus	World Register of Marine Species	282959
+Torpedo californica	scientific	Torpedo californica	World Register of Marine Species	271680
+Trachurus symmetricus	scientific	Trachurus symmetricus	World Register of Marine Species	273305
+Triakis semifasciata	scientific	Triakis semifasciata	World Register of Marine Species	279060
+Ameiurus natalis	scientific	Ameiurus natalis	ITIS	164041
+Anguilliformes	scientific	Anguilliformes	World Register of Marine Species	10295
+Apodichthys flavidus	scientific	Apodichthys flavidus	World Register of Marine Species	279664
+Archoplites interruptus	scientific	Archoplites interruptus	ITIS	168175
+Aurelia aurita	scientific	Aurelia aurita	World Register of Marine Species	135306
+Aurelia labiata	scientific	Aurelia labiata	World Register of Marine Species	287213
+Blackfordia virginica	scientific	Blackfordia virginica	World Register of Marine Species	117313
+Brachyistius frenatus	scientific	Brachyistius frenatus	World Register of Marine Species	240721
+Catostomidae	scientific	Catostomidae	World Register of Marine Species	154179
+Chrysaora fuscescens	scientific	Chrysaora fuscescens	World Register of Marine Species	287206
+Cnidaria	scientific	Cnidaria	World Register of Marine Species	1267
+Crangon	scientific	Crangon	World Register of Marine Species	107007
+Cyprinella lutrensis	scientific	Cyprinella lutrensis	ITIS	163792
+Decapoda	scientific	Decapoda	World Register of Marine Species	1130
+Eriocheir sinensis	scientific	Eriocheir sinensis	World Register of Marine Species	107451
+Gibbonsia metzi	scientific	Gibbonsia metzi	World Register of Marine Species	280835
+Gibbonsia montereyensis	scientific	Gibbonsia montereyensis	World Register of Marine Species	280836
+Heptacarpus	scientific	Heptacarpus	World Register of Marine Species	248339
+Hesperoleucus symmetricus	scientific	Hesperoleucus symmetricus	ITIS	163565
+Heterostichus rostratus	scientific	Heterostichus rostratus	World Register of Marine Species	281075
+Isopsetta isolepis	scientific	Isopsetta isolepis	World Register of Marine Species	281189
+Lepidopsetta bilineata	scientific	Lepidopsetta bilineata	World Register of Marine Species	281305
+Lepomis	scientific	Lepomis	World Register of Marine Species	151289
+Lepomis gulosus	scientific	Lepomis gulosus	ITIS	168138
+Maeotias marginata	scientific	Maeotias marginata	World Register of Marine Species	234026
+Micropterus	scientific	Micropterus	World Register of Marine Species	151294
+Micropterus coosae	scientific	Micropterus coosae	ITIS	168163
+Moerisia	scientific	Moerisia	World Register of Marine Species	117166
+Mugil cephalus	scientific	Mugil cephalus	World Register of Marine Species	126983
+Notropis rubellus	scientific	Notropis rubellus	ITIS	163409
+Oligocottus maculosus	scientific	Oligocottus maculosus	World Register of Marine Species	281872
+Oligocottus rimensis	scientific	Oligocottus rimensis	World Register of Marine Species	281873
+Palaemon	scientific	Palaemon	World Register of Marine Species	107032
+Palaemon macrodactylus	scientific	Palaemon macrodactylus	World Register of Marine Species	181372
+Palaemon modestus	scientific	Palaemon modestus	World Register of Marine Species	932372
+Pandalus danae	scientific	Pandalus danae	World Register of Marine Species	515462
+Percidae	scientific	Percidae	World Register of Marine Species	151300
+Phacellophora camtschatica	scientific	Phacellophora camtschatica	World Register of Marine Species	135309
+Pholis schultzi	scientific	Pholis schultzi	World Register of Marine Species	273693
+Pleurobrachia bachei	scientific	Pleurobrachia bachei	World Register of Marine Species	265191
+Polyorchis haplus	scientific	Polyorchis haplus	World Register of Marine Species	290840
+Polyorchis penicillatus	scientific	Polyorchis penicillatus	World Register of Marine Species	290843
+Pomoxis	scientific	Pomoxis	ITIS	168165
+Pterygoplichthys disjunctivus	scientific	Pterygoplichthys disjunctivus	ITIS	680351
+Rhinichthys osculus	scientific	Rhinichthys osculus	ITIS	163387
+Salmo trutta	scientific	Salmo trutta	World Register of Marine Species	127187
+Scrippsia pacifica	scientific	Scrippsia pacifica	World Register of Marine Species	291041
+Sebastes carnatus	scientific	Sebastes carnatus	World Register of Marine Species	274779
+Siphateles bicolor	scientific	Siphateles bicolor	ITIS	913989
+Upogebia	scientific	Upogebia	World Register of Marine Species	107079
+Cottus gulosus	scientific	Cottus gulosus	ITIS	167234
+Aequorea	scientific	Aequorea	World Register of Marine Species	116998
+Anarrhichthys ocellatus	scientific	Anarrhichthys ocellatus	World Register of Marine Species	279605
+Hippoglossus stenolepis	scientific	Hippoglossus stenolepis	World Register of Marine Species	274290
+Mustelus californicus	scientific	Mustelus californicus	World Register of Marine Species	271381
+Palaemon kadiakensis	scientific	Palaemon kadiakensis	ITIS	1192096
+Actinopteri	scientific	Actinopteri	World Register of Marine Species	843664
+Atherinopsidae	scientific	Atherinopsidae	World Register of Marine Species	266995
+Cancer magister	scientific	Cancer magister	World Register of Marine Species	452271
+Clupeidae	scientific	Clupeidae	World Register of Marine Species	125464
+Eucyclogobius newberryi	scientific	Eucyclogobius newberryi	World Register of Marine Species	280737
+Exopalaemon modestus	scientific	Exopalaemon modestus	World Register of Marine Species	587030
+Anguilla rostrata	scientific	Anguilla rostrata	World Register of Marine Species	158562
+Chinese Mitten Crab Temp	scientific	Chinese Mitten Crab Temp	NA	NA
+Esox lucius	scientific	Esox lucius	World Register of Marine Species	154210
+Ictalurus natalis	scientific	Ictalurus natalis	ITIS	164042
+Lampetra	scientific	Lampetra	World Register of Marine Species	101167
+Lampetra pacifica	scientific	Lampetra pacifica	ITIS	159712
+Menidia beryllina	scientific	Menidia beryllina	World Register of Marine Species	159227
+Morone chrysops	scientific	Morone chrysops	ITIS	167682
+Oncorhynchus gorbuscha	scientific	Oncorhynchus gorbuscha	World Register of Marine Species	127182
+Paramisgurnus dabryanus	scientific	Paramisgurnus dabryanus	World Register of Marine Species	1020151
+Perca flavescens	scientific	Perca flavescens	World Register of Marine Species	275313
+Total Fish Count	scientific	Total Fish Count	NA	NA
+Corbicula fluminea	scientific	Corbicula fluminea	ITIS	81387
+Crangon franciscorum	scientific	Crangon franciscorum	World Register of Marine Species	241261
+Macoma	scientific	Macoma	World Register of Marine Species	138531
+Myoidae	scientific	Myoidae	NA	NA
+Mysida	scientific	Mysida	World Register of Marine Species	149668
+Potamocorbula amurensis	scientific	Potamocorbula amurensis	World Register of Marine Species	397175
+Procambarus clarkii	scientific	Procambarus clarkii	World Register of Marine Species	465540
+Rhithropanopeus harrisii	scientific	Rhithropanopeus harrisii	World Register of Marine Species	107414
