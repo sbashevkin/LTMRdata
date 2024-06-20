@@ -184,10 +184,10 @@ SLS <- waterInfo %>%
             by = c("Date", "Station", "Tow", "FishCode"),multiple="all") %>%
   # Adding in taxa name based on Species Code.csv file
   left_join(Species %>%
-              select(TMM_Code,
+              select(SLS_Code,
                      Taxa) %>%
-              dplyr::filter(!is.na(TMM_Code)),
-            by = c("FishCode"="TMM_Code")) %>%
+              dplyr::filter(!is.na(SLS_Code)),
+            by = c("FishCode"="SLS_Code")) %>%
   left_join(SLSTables$`SLS Stations`,
             by="Station")%>%
   # Merging the two comment columns together; they both have data in them

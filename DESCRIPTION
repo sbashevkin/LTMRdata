@@ -30,7 +30,8 @@ Suggests:
     stringr,
     tibble,
     spelling,
-    deltafish (>= 0.1.0)
+    deltafish (>= 0.1.0),
+    dtplyr
 RoxygenNote: 7.3.1
 Imports: 
     dplyr,

@@ -1,5 +1,6 @@
 require(dplyr)
 require(LTMRdata)
+require(dtplyr)
 data_dir<-tempdir()
 # data_dir<-file.path("data-raw", "EDI", "data_objects")
 cache_dir<-"LTMRdata-test"
@@ -7,6 +8,7 @@ cache_dir<-"LTMRdata-test"
 # First collect some stats on the raw mashed together data
 
 data_raw<-bind_rows(LTMRdata::Baystudy, LTMRdata::Suisun, LTMRdata::FMWT, LTMRdata::DJFMP, LTMRdata::EDSM, LTMRdata::TMM, LTMRdata::SLS, LTMRdata::STN, LTMRdata::SKT, LTMRdata::Salvage)%>%
+  lazy_dt()%>%
   group_by(Source)%>%
   summarise(N=n(),
             N_0=length(which(Count==0)),
@@ -14,6 +16,7 @@ data_raw<-bind_rows(LTMRdata::Baystudy, LTMRdata::Suisun, LTMRdata::FMWT, LTMRda
             Samples=list(unique(SampleID)),
             Fish=list(sort(unique(Taxa))),
             .groups="drop")%>%
+  as_tibble()%>%
   arrange(Source)
 
 raw_samples<-unique(unlist(data_raw$Samples))
@@ -34,13 +37,16 @@ surv<-deltafish:::open_survey_f(cache_dir)%>%
   collect()
 
 data_integrated_surveys<-surv%>%
-  left_join(fish, by="SampleID")%>%
+  lazy_dt()%>%
+  left_join(fish%>%
+              lazy_dt(), by="SampleID")%>%
   group_by(Source)%>%
   summarise(N=n(),
             N_0=sum(as.integer(Count==0), na.rm = TRUE),
             N_lengths=length(which(Length>0)),
             N_length_NA=sum(as.integer(is.na(Length)), na.rm=TRUE),
             .groups="drop")%>%
+  as_tibble()%>%
   arrange(Source)
 
 gc()
@@ -52,9 +58,10 @@ integrated_samples<-select(surv, SampleID)%>%
 gc()
 
 integrated_fishlength<-fish%>%
+  lazy_dt()%>%
   mutate(ID=paste(SampleID, Length, Count, Taxa, Notes_catch))%>%
-  select(ID)%>%
-  unlist()%>%
+  as_tibble()%>%
+  pull(ID)%>%
   unique()
 
 gc()
@@ -77,12 +84,15 @@ names(integrated_surv_rows)<-NULL
 gc()
 
 data_integrated_samples<-surv%>%
+  lazy_dt()%>%
   distinct(SampleID, Source)%>%
   left_join(fish%>%
+              lazy_dt()%>%
               distinct(SampleID, Taxa),
             by="SampleID")%>%
   group_by(Source, SampleID)%>%
   summarise(Fish=list(sort(unique(Taxa))), .groups="drop")%>%
+  as_tibble()%>%
   distinct(Source, Fish)%>%
   arrange(Source)
 

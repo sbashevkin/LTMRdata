@@ -39,6 +39,29 @@ test_that("Length_NA_flag 'Unknown length' is applied correctly", {
   expect_equal(nrow(filter(data, !(is.na(Length) & Count>0) & Length_NA_flag=="Unknown length")), 0) # 'Unknown length' should only be applied when length is NA and Count>0
 })
 
+test_that("Combinations of Taxa, Count, and Length_NA_flag are as expected", {
+  len_flag_values <- c("No fish caught","Unknown length", "Missing catch value")
+  expect_true(all(data$Length_NA_flag %in% len_flag_values | is.na(data$Length_NA_flag)))
+
+  ## If Length_NA_flag is NA, Count and Taxa should be present:
+  sub_1 <- subset(data, is.na(Length_NA_flag))
+  expect_true(sum(is.na(sub_1$Count)) == 0)
+  expect_true(sum(is.na(sub_1$Taxa)) == 0)
+
+  ## If Count is greater than 0, Taxa should be present:
+  sub_2 <- subset(data, Count>0)
+  expect_true(sum(is.na(sub_2$Taxa)) == 0)
+
+  ## If Count is present, check Length_NA_flag:
+  sub_3 <- subset(data, !is.na(Count))
+  expect_true(all( (sub_3$Length_NA_flag %in% len_flag_values[1:2]) |
+                     is.na(sub_3$Length_NA_flag) ))
+
+  ## If Length_NA_flag is not missing, it should have one of the three values:
+  sub_4 <- subset(data, !is.na(Length_NA_flag))
+  expect_true(all(sub_4$Length_NA_flag %in% len_flag_values))
+})
+
 test_that("No zero counts exist in the dataset, except for instances of 'No fish caught'", {
   expect_equal(filter(data, Count==0), filter(data, Length_NA_flag=="No fish caught"))
 })
@@ -51,3 +74,6 @@ test_that("No Tow volumes or Tow areas are negative", {
   expect_equal(nrow(filter(data, Tow_volume<0)), 0)
   expect_equal(nrow(filter(data, Tow_area<0)), 0)
 })
+
+rm(data)
+gc()

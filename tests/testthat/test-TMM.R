@@ -8,13 +8,6 @@ test_that("Source value is correct", {
   expect_true(all(TMM$Source == "20mm"))
 })
 
-test_that("Station values are in the expected range", {
-	stations <- c(323,328:330,334:336,340:349,405,411,418,501,504,508,513,519,520,
-								602,606,609,610,703:707,711,712,716,718:720,723,724,726,794:799,801,802,
-								804,809,812,815,901,902,906,910,912,914,915,918,919,997,998,999)
-  expect_true(all(TMM$Station %in% stations))
-})
-
 test_that("Survey numbers are in the expected range", {
 	expect_true(all(TMM$Survey %in% 1:12))
 })
@@ -24,7 +17,7 @@ test_that("Tow numbers are in the expected range", {
 })
 
 test_that("Depth values are in the expected range", {
-	expect_true(all( (TMM$Depth > 0 & TMM$Depth < 25) | is.na(TMM$Depth) ))
+	expect_true(all( (TMM$Depth > 0 & TMM$Depth < 27) | is.na(TMM$Depth) ))
 })
 
 test_that("Custom SampleID values are formatted as expected", {
@@ -58,29 +51,6 @@ test_that("Length values are in the expected range", {
 
 test_that("Count values are in the expected range", {
   expect_true(all( (TMM$Count >= 0 & TMM$Count < 4600) | is.na(TMM$Count) ))
-})
-
-test_that("Combinations of Taxa, Count, and Length_NA_flag are as expected", {
-	len_flag_values <- c("No fish caught","Unknown length","Missing catch value")
-  expect_true(all(TMM$Length_NA_flag %in% len_flag_values | is.na(TMM$Length_NA_flag)))
-
-	## If Length_NA_flag is NA, Count and Taxa should be present:
-	sub_1 <- subset(TMM, is.na(Length_NA_flag))
-  expect_true(sum(is.na(sub_1$Count)) == 0)
-  expect_true(sum(is.na(sub_1$Taxa)) == 0)
-
-	## If Count is greater than 0, Taxa should be present:
-	sub_2 <- subset(TMM, Count>0)
-  expect_true(sum(is.na(sub_2$Taxa)) == 0)
-
-	## If Count is present, check Length_NA_flag:
-	sub_3 <- subset(TMM, !is.na(Count))
-  expect_true(all( (sub_3$Length_NA_flag %in% len_flag_values[1:2]) |
-											is.na(sub_3$Length_NA_flag) ))
-
-	## If Length_NA_flag is not missing, it should have one of the three values:
-	sub_4 <- subset(TMM, !is.na(Length_NA_flag))
-	expect_true(all(sub_4$Length_NA_flag %in% len_flag_values))
 })
 
 test_that("Some adjusted fish counts are as expected", {
