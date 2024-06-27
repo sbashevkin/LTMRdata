@@ -80,7 +80,7 @@ SKT_Data$Sample <- SKT_Data$tblSample%>%
            Survey = SurveyNumber, Date=SampleDate, Time=SampleTimeStart,
            TurbidityNTU = NTU, TurbidityFNU = FNU)%>%
     mutate(Date = parse_date_time(Date, "%Y-%m-%d", tz="America/Los_Angeles"),
-           Time = as.POSIXct(Time, format = "%m/%d/%Y %H:%M", tz = "America/Los_Angeles"),
+           Time = force_tz(as.POSIXct(Time, format = "%m/%d/%Y %H:%M", tz="UTC"), tz = "America/Los_Angeles"),
            # Create a new field which is a Date-Time composite
            Datetime = parse_date_time(if_else(is.na(Time), NA_character_, paste(Date, paste(hour(Time), minute(Time), sep=":"))),
                                       "%Y-%m-%d %H:%M", tz="America/Los_Angeles"),

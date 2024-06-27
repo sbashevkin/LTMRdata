@@ -42,6 +42,10 @@ vignettes/*.pdf
 # EDI data objects
 data-raw/EDI/data_objects
 
+# Suisun marsh database
+data-raw/Suisun/SuisunMarshFish*.7z
+data-raw/Suisun/SuisunMarshFish*.accdb
+
 #shinyapps.io
 inst/shiny/deltafish/rsconnect
 failedTests.docx
@@ -52,3 +56,4 @@ data-raw/salvage/discrepancies.csv
 
 #Data publication files
 publication/data_objects
+publication/eml

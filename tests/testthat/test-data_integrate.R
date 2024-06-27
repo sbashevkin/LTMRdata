@@ -41,7 +41,7 @@ data_integrated_surveys<-surv%>%
   group_by(Source)%>%
   summarise(N=n(),
             N_0=sum(as.integer(Count==0), na.rm = TRUE),
-            N_lengths=length(which(Length>0)),
+            N_lengths=sum(as.integer(Length>0)),
             N_length_NA=sum(as.integer(is.na(Length)), na.rm=TRUE),
             .groups="drop")%>%
   as_tibble()%>%

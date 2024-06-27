@@ -6,6 +6,7 @@
 
 library(EMLassemblyline)
 library(LTMRdata)
+library(EML)
 
 # Define paths for your metadata templates, data, and EML
 
@@ -77,21 +78,21 @@ EMLassemblyline::template_taxonomic_coverage(
 # Once all your metadata templates are complete call this function to create
 # the EML.
 
-ID<-"" # Sandbox EDI
+ID<-"edi.1118.1" # Sandbox EDI
 #ID<-'edi.1075.2' # Real EDI
 
 eml <- make_eml(
   path = path_templates,
+  data.path = path_data,
+  eml.path = path_eml,
   dataset.title = 'Fish abundance in the San Francisco Estuary (1959-2024), an integration of 9 monitoring surveys.',
   temporal.coverage = c('1959-06-14', '2024-02-06'),
   maintenance.description = 'ongoing',
   data.table = c('survey.csv', 'fish.csv', 'Length_conversions.csv'),
-  data.table.url = c("https://app.box.com/s/9hbc4unysh09nz7kwp6gk7rd1hqmwyoh", "", "https://app.box.com/s/chvsh7rdm6rhl8iz3nnbug97pl441yr1"),
   data.table.name = c('Sample-level table', 'Fish-level data', 'Length conversion equations'),
   data.table.description = c('Sample-level environmental and effort data. Can be joined to the fish table with the SampleID column.', 'Fish-level length and abundance data. Can be joined to the survey table with the SampleID column.', 'Length conversion equations for 20 fishes, of the form fork or total length = intercept + slope * standard length.'),
   data.table.quote.character = c('"', '"', '"'),
   other.entity = 'fishsurvey_compressed.rda',
-  other.entity.url = 'https://app.box.com/s/zxf0tr1yqudi2ml57jlhwa3vpkb5w1j0',
   other.entity.name = 'Compressed fish and survey data.',
   other.entity.description = 'The fish and survey tables compressed into an rda file (compressed file format for the R programming language).
                                These data are exactly identical to their csv analogs. They are provided to reduce download time for R-users.
@@ -107,7 +108,7 @@ changelog<-list(list(changeScope="Metadata and data",
                      changeDate="2024-07-01",
                      comment="1) Updated all datasets to what was available as of at least February 2024.
                               2) Added Turbidity in NTU or FNU.
-                              3) Added Salvage dataset"),
+                              3) Added Salvage dataset")
                 )
 class(changelog)<-c("emld", "list")
 
