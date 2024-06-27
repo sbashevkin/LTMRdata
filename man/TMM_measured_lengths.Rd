@@ -5,7 +5,7 @@
 \alias{TMM_measured_lengths}
 \title{20mm measured lengths}
 \format{
-a tibble with 333,127 rows and 4 variables
+a tibble with 351,699 rows and 4 variables
 \describe{
   \item{SampleID}{Unique sample identifier.}
   \item{Taxa}{Scientific name.}

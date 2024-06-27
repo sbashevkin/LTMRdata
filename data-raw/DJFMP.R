@@ -34,9 +34,28 @@ tableNames <- lapply(tableLinks, function(x) {
 }) %>%
   bind_rows()
 
+stationtable<-tableNames %>%
+  filter(grepl("Site_Locations", name))
+
+earlytrawltable<-tableNames %>%
+  filter(grepl("1976.*trawl", name))
+
+presenttrawltable<-tableNames %>%
+  filter(grepl("2002.*trawl", name))
+
+seinetable<-tableNames %>%
+  filter(grepl("beach_seine", name))
+
+# Make sure URLs exist for each table
+if(any(nrow(stationtable)==0,
+   nrow(earlytrawltable)==0,
+   nrow(presenttrawltable)==0,
+   nrow(seinetable)==0)){
+  stop("regex for URLs isn't working right")
+}
+
 # Want the trawl/seine data and the site locations
-DJFMP_stations <- tableNames %>%
-  filter(grepl("Site_Locations", name)) %>%
+DJFMP_stations <- stationtable %>%
   pull(url) %>%
   read_csv(col_types = cols_only(StationCode="c",
                                  Latitude="d",
@@ -44,8 +63,7 @@ DJFMP_stations <- tableNames %>%
 
 data <- bind_rows(
   # 1976-2001 trawl data
-  tableNames %>%
-    filter(grepl("1976.*trawl", name)) %>%
+  earlytrawltable %>%
     pull(url) %>%
     read_csv(col_types = cols_only(StationCode = "c", SampleDate = "c", SampleTime = "c",
                                    TowNumber = "c", MethodCode = "c", GearConditionCode = "i",
@@ -54,8 +72,7 @@ data <- bind_rows(
                                    Volume = "d", SamplingDirection = "c", MarkCode="c", RaceByLength="c",
                                    OrganismCode = "c", ForkLength = "d", Count = "d")),
   # 2002-present trawl
-  tableNames %>%
-    filter(grepl("2022.*trawl", name)) %>%
+  presenttrawltable%>%
     pull(url) %>%
     read_csv(col_types = cols_only(StationCode = "c", SampleDate = "c", SampleTime = "c",
                                    TowNumber = "c", MethodCode = "c", GearConditionCode = "i",
@@ -64,8 +81,7 @@ data <- bind_rows(
                                    Volume = "d", SamplingDirection = "c", MarkCode="c", RaceByLength="c",
                                    OrganismCode = "c", ForkLength = "d", Count = "d")),
   # 1976-present beach seine
-  tableNames %>%
-    filter(grepl("beach_seine", name)) %>%
+  seinetable%>%
     pull(url) %>%
     read_csv(col_types = cols_only(StationCode = "c", SampleDate = "c", SampleTime = "c",
                                    TowNumber = "c", MethodCode = "c", SeineDepth = "d",
@@ -102,7 +118,10 @@ DJFMP<-data%>%
          Source = "DJFMP",
          Date = parse_date_time(Date, "%Y-%m-%d", tz = "America/Los_Angeles"),
          Time = parse_date_time(Time, "%H:%M:%S", tz = "America/Los_Angeles"),
-         Datetime = parse_date_time(ifelse(is.na(Time), NA_character_, paste0(Date, " ", hour(Time), ":", minute(Time))), "%Y-%m-%d %H:%M", tz="America/Los_Angeles"),
+         # Setting midnight Times to 0 per conversation with Jonathan Speegle
+         Datetime = parse_date_time(ifelse(is.na(Time) | (hour(Time)==0 & minute(Time)==0 & second(Time)==0),
+                                           NA_character_,
+                                           paste0(Date, " ", hour(Time), ":", minute(Time))), "%Y-%m-%d %H:%M", tz="America/Los_Angeles"),
          # Removing conductivity data from dates before it was standardized
          Conductivity = ifelse(Date<as.Date("2019-06-01"), NA_real_, Conductivity),
          Sal_surf = ec2pss(Conductivity/1000, t=25),

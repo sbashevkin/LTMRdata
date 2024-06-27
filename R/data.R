@@ -3,7 +3,7 @@
 #' California Department of Fish and Wildlife Bay Study data.
 #'
 #' @encoding UTF-8
-#' @format a tibble with 785,257 rows and 23 variables
+#' @format a tibble with 805,858 rows and 23 variables
 #' \describe{
 #'   \item{Source}{Name of source dataset.}
 #'   \item{Station}{Station where sample was collected.}
@@ -35,7 +35,7 @@
 #' Baystudy measured lengths
 #'
 #' Only measured lengths from the Baystudy data
-#' @format a tibble with 781,679 rows and 5 variables
+#' @format a tibble with 802,128 rows and 5 variables
 #' \describe{
 #'   \item{SampleID}{Unique sample identifier.}
 #'   \item{Taxa}{Scientific name.}
@@ -50,7 +50,7 @@
 #' US Fish and Wildlife Service Delta Juvenile Fish Monitoring Program data.
 #'
 #' @encoding UTF-8
-#' @format a tibble with 2,569,140 rows and 18 variables
+#' @format a tibble with 2,248,153 rows and 19 variables
 #' \describe{
 #'   \item{Source}{Name of source dataset.}
 #'   \item{Station}{Station where sample was collected.}
@@ -63,6 +63,7 @@
 #'   \item{Method}{Sampling method (Otter Trawl or Midwater Trawl).}
 #'   \item{Sal_surf}{Surface salinity.}
 #'   \item{Temp_surf}{Surface temperature in °C.}
+#'   \item{TurbidityNTU}{Turbidity (NTU).}
 #'   \item{Secchi}{Secchi depth (cm).}
 #'   \item{Tow_volume}{Volume towed (\ifelse{html}{\out{m<sup>3</sup>}}{\eqn{m^{3}}}).}
 #'   \item{Tow_direction}{Tow direction relative to current.}
@@ -79,7 +80,7 @@
 #' US Fish and Wildlife Service Enhanced Delta Smelt Monitoring (EDSM) data.
 #'
 #' @encoding UTF-8
-#' @format a tibble with 157,685 rows and 19 number of variables
+#' @format a tibble with 190,057 rows and 20 number of variables
 #' \describe{
 #'   \item{Source}{Name of source dataset.}
 #'   \item{Station}{Station where sample was collected.}
@@ -93,6 +94,7 @@
 #'   \item{Tide}{Tidal stage.}
 #'   \item{Sal_surf}{Surface salinity.}
 #'   \item{Temp_surf}{Surface temperature in °C.}
+#'   \item{TurbidityNTU}{Turbidity (NTU).}
 #'   \item{Secchi}{Secchi depth (cm).}
 #'   \item{Tow_volume}{Volume towed (\ifelse{html}{\out{m<sup>3</sup>}}{\eqn{m^{3}}}).}
 #'   \item{Tow_direction}{Tow direction relative to current.}
@@ -109,7 +111,7 @@
 #' California Department of Fish and Wildlife Fall Midwater Trawl data.
 #'
 #' @encoding UTF-8
-#' @format a tibble with 261,874 rows and 22 variables
+#' @format a tibble with 266,694 rows and 23 variables
 #' \describe{
 #'   \item{Source}{Name of source dataset.}
 #'   \item{Station}{Station where sample was collected.}
@@ -124,6 +126,7 @@
 #'   \item{Tide}{Tidal stage.}
 #'   \item{Sal_surf}{Surface salinity.}
 #'   \item{Temp_surf}{Surface temperature in °C.}
+#'   \item{TurbidityNTU}{Turbidity (NTU).}
 #'   \item{Secchi}{Secchi depth (cm).}
 #'   \item{Secchi_estimated}{Was Secchi depth estimated?}
 #'   \item{Tow_volume}{Volume towed (\ifelse{html}{\out{m<sup>3</sup>}}{\eqn{m^{3}}}).}
@@ -140,7 +143,7 @@
 #' FMWT measured lengths
 #'
 #' Only measured lengths from the FMWT data
-#' @format a tibble with 229,461 rows and 4 variables
+#' @format a tibble with 233,902 rows and 4 variables
 #' \describe{
 #'   \item{SampleID}{Unique sample identifier.}
 #'   \item{Taxa}{Scientific name.}
@@ -166,7 +169,7 @@
 #' California Department of Fish and Wildlife Spring Kodiac Trawl (SKT) data.
 #'
 #' @encoding UTF-8
-#' @format a tibble with 41,263 rows and 20 variables
+#' @format a tibble with 42,909 rows and 20 variables
 #' \describe{
 #'   \item{Source}{Name of source dataset.}
 #'   \item{Station}{Station where sample was collected.}
@@ -181,6 +184,8 @@
 #'   \item{Tide}{Tidal stage.}
 #'   \item{Sal_surf}{Surface salinity.}
 #'   \item{Temp_surf}{Surface temperature in °C.}
+#'   \item{TurbidityNTU}{Turbidity (NTU).}
+#'   \item{TurbidityFNU}{Turbidity (FNU).}
 #'   \item{Secchi}{Secchi depth (cm).}
 #'   \item{Tow_volume}{Volume towed (\ifelse{html}{\out{m<sup>3</sup>}}{\eqn{m^{3}}}).}
 #'   \item{Tow_direction}{Tow direction relative to current.}
@@ -197,7 +202,7 @@
 #' Only measured lengths from the SKT data
 #'
 #' @encoding UTF-8
-#' @format a tibble with 39,738 rows and 4 variables
+#' @format a tibble with 41,295 rows and 4 variables
 #' \describe{
 #'   \item{SampleID}{Unique sample identifier.}
 #'   \item{Taxa}{Scientific name.}
@@ -211,7 +216,7 @@
 #' California Department of Fish and Wildlife Smelt Larva Survey data.
 #'
 #' @encoding UTF-8
-#' @format a tibble with 21,486 rows and 25 variables
+#' @format a tibble with 24,826 rows and 26 variables
 #' \describe{
 #'   \item{Source}{Name of source dataset.}
 #'   \item{Station}{Station where sample was collected.}
@@ -228,7 +233,8 @@
 #'   \item{Sal_bot}{Bottom salinity.}
 #'   \item{Temp_surf}{Surface temperature in °C.}
 #'   \item{Secchi}{Secchi depth (cm).}
-#'   \item{Turbidity}{Turbidity (units).}
+#'   \item{TurbidityNTU}{Turbidity (NTU).}
+#'   \item{TurbidityFNU}{Turbidity (FNU).}
 #'   \item{Tow_volume}{Volume towed (\ifelse{html}{\out{m<sup>3</sup>}}{\eqn{m^{3}}}).}
 #'   \item{Cable_length}{Length of cable released when net deployed (m).}
 #'   \item{Tow_duration}{Duration of tow (minutes).}
@@ -246,19 +252,21 @@
 #'
 #' Crosswalk table of species codes to common and scientific names
 #'
-#' @format a tibble with 262 rows and 11 variables
+#' @format a tibble with 287 rows and 13 variables
 #' \describe{
+#'   \item{ScientificName}{Scientific Name.}
 #'   \item{Baystudy_Code}{Bay Study code.}
 #'   \item{CommonName}{Common name.}
-#'   \item{SMF_Code}{Suisun Marsh Fish Study code.}
+#'   \item{USFWS_Code}{EDSM and DJFMP codes.}
 #'   \item{SKT_Code}{Spring Kodiak Trawl code.}
+#'   \item{STN_Code}{Summer Townet Survey code.}
+#'   \item{SMF_Code}{Suisun Marsh Fish Study code.}
 #'   \item{FMWT_Code}{Fall Midwater Trawl code.}
 #'   \item{TMM_Code}{20-mm Survey code.}
-#'   \item{STN_Code}{Summer Townet Survey code.}
-#'   \item{ScientificName}{Scientific name.}
-#'   \item{Taxa}{Scientific name and life stage.}
+#'   \item{SLS_Code}{SLS Survey code.}
+#'   \item{Salvage_Code}{Salvage Survey code.}
 #'   \item{Lifestage}{Lifestage if specified.}
-#'   \item{USFWS_Code}{EDSM and DJFMP codes.}
+#'   \item{Taxa}{Scientific name and life stage.}
 #'   }
 "Species"
 
@@ -267,7 +275,7 @@
 #' California Department of Fish and Wildlife Summer Townet Survey (STN) data.
 #'
 #' @encoding UTF-8
-#' @format a tibble with 187,708 rows and 22 variables
+#' @format a tibble with 191,547 rows and 22 variables
 #' \describe{
 #'   \item{Source}{Name of source dataset.}
 #'   \item{Station}{Station where sample was collected.}
@@ -276,13 +284,13 @@
 #'   \item{Date}{Date sample was collected.}
 #'   \item{Datetime}{Date and time sample was collected.}
 #'   \item{Survey}{Survey number, roughly corresponding to month.}
-#'   \item{TowNum}{Tow number, unique to a given station visit.}
 #'   \item{Depth}{Bottom depth (m).}
 #'   \item{SampleID}{Unique sample identifier.}
 #'   \item{Method}{Sampling method (STN trawl).}
 #'   \item{Tide}{Tidal stage.}
 #'   \item{Sal_surf}{Surface salinity.}
 #'   \item{Temp_surf}{Surface temperature in °C.}
+#'   \item{TurbidityNTU}{Turbidity (NTU).}
 #'   \item{Secchi}{Secchi depth (cm).}
 #'   \item{Tow_volume}{Volume towed (\ifelse{html}{\out{m<sup>3</sup>}}{\eqn{m^{3}}}).}
 #'   \item{Tow_direction}{Tow direction relative to current.}
@@ -298,7 +306,7 @@
 #' STN measured lengths
 #'
 #' Only measured lengths from the STN data
-#' @format a tibble with 170,651 rows and 4 variables
+#' @format a tibble with 173,981 rows and 4 variables
 #' \describe{
 #'   \item{SampleID}{Unique sample identifier.}
 #'   \item{Taxa}{Scientific name.}
@@ -312,7 +320,7 @@
 #' UC Davis Suisun Marsh Fish Study data.
 #'
 #' @encoding UTF-8
-#' @format a tibble with 196,479 rows and 21 variables
+#' @format a tibble with 202,676 rows and 21 variables
 #' \describe{
 #'   \item{Source}{Name of source dataset.}
 #'   \item{Station}{Station where sample was collected.}
@@ -341,7 +349,7 @@
 #' Suisun measured lengths
 #'
 #' Only measured lengths from the Suisun data
-#' @format a tibble with 167,785 rows and 5 variables
+#' @format a tibble with 173,209 rows and 5 variables
 #' \describe{
 #'   \item{SampleID}{Unique sample identifier.}
 #'   \item{Taxa}{Scientific name.}
@@ -356,7 +364,7 @@
 #' California Department of Fish and Wildlife 20-mm Survey data.
 #'
 #' @encoding UTF-8
-#' @format a tibble with 336,446 rows and 22 variables
+#' @format a tibble with 355,228 rows and 23 variables
 #' \describe{
 #'   \item{Source}{Name of source dataset.}
 #'   \item{Station}{Station where sample was collected.}
@@ -365,13 +373,14 @@
 #'   \item{Date}{Date sample was collected.}
 #'   \item{Datetime}{Date and time sample was collected.}
 #'   \item{Survey}{Survey number, roughly corresponding to month.}
-#'   \item{TowNum}{Tow number, unique to a given site (typically 3 tows per site).}
 #'   \item{Depth}{Bottom depth (m).}
 #'   \item{SampleID}{Unique sample identifier.}
 #'   \item{Method}{Sampling method (20mm Net).}
 #'   \item{Tide}{Tidal stage.}
 #'   \item{Sal_surf}{Surface salinity.}
 #'   \item{Temp_surf}{Surface temperature in °C.}
+#'   \item{TurbidityNTU}{Turbidity (NTU).}
+#'   \item{TurbidityFNU}{Turbidity (FNU).}
 #'   \item{Secchi}{Secchi depth (cm).}
 #'   \item{Tow_volume}{Volume towed (\ifelse{html}{\out{m<sup>3</sup>}}{\eqn{m^{3}}}).}
 #'   \item{Tow_direction}{Tow direction relative to current. Not recorded but field is included here for consistency.}
@@ -387,7 +396,7 @@
 #' 20mm measured lengths
 #'
 #' Only measured lengths from the 20-mm Survey data
-#' @format a tibble with 333,127 rows and 4 variables
+#' @format a tibble with 351,699 rows and 4 variables
 #' \describe{
 #'   \item{SampleID}{Unique sample identifier.}
 #'   \item{Taxa}{Scientific name.}
@@ -401,7 +410,7 @@
 #' California Department of Fish and Wildlife Fish Salvage dataset.
 #'
 #' @encoding UTF-8
-#' @format a tibble with 2,514,681 rows and 20 variables
+#' @format a tibble with 2,560,446 rows and 15 variables
 #' \describe{
 #'   \item{Source}{Name of source dataset.}
 #'   \item{Station}{State or federal facility buildings (of the SWP or CVP).}
@@ -425,7 +434,7 @@
 #' Salvage measured lengths
 #'
 #' Only measured lengths from the Salvage data
-#' @format a tibble with 1,748,384 rows and 4 variables
+#' @format a tibble with 1,782,210 rows and 4 variables
 #' \describe{
 #'   \item{SampleID}{Unique sample identifier.}
 #'   \item{Taxa}{Scientific name.}

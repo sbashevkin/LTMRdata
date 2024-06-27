@@ -6,7 +6,7 @@
 \alias{FMWT}
 \title{FMWT dataset}
 \format{
-a tibble with 261,874 rows and 22 variables
+a tibble with 266,694 rows and 23 variables
 \describe{
   \item{Source}{Name of source dataset.}
   \item{Station}{Station where sample was collected.}
@@ -21,6 +21,7 @@ a tibble with 261,874 rows and 22 variables
   \item{Tide}{Tidal stage.}
   \item{Sal_surf}{Surface salinity.}
   \item{Temp_surf}{Surface temperature in °C.}
+  \item{TurbidityNTU}{Turbidity (NTU).}
   \item{Secchi}{Secchi depth (cm).}
   \item{Secchi_estimated}{Was Secchi depth estimated?}
   \item{Tow_volume}{Volume towed (\ifelse{html}{\out{m<sup>3</sup>}}{\eqn{m^{3}}}).}

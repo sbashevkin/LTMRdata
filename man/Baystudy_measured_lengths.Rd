@@ -5,7 +5,7 @@
 \alias{Baystudy_measured_lengths}
 \title{Baystudy measured lengths}
 \format{
-a tibble with 781,679 rows and 5 variables
+a tibble with 802,128 rows and 5 variables
 \describe{
   \item{SampleID}{Unique sample identifier.}
   \item{Taxa}{Scientific name.}

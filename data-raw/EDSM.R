@@ -39,10 +39,21 @@ tableNames <- lapply(tableLinks, function(x) {
 }) %>%
   bind_rows()
 
+TMMtable<-tableNames %>%
+  filter(grepl("20mm", name))
+
+KDTRtable<-tableNames %>%
+  filter(grepl("KDTR", name))
+
+# Make sure URLs exist for each table
+if(any(nrow(TMMtable)==0,
+       nrow(KDTRtable)==0)){
+  stop("regex for URLs isn't working right")
+}
+
 # Want only the 20mm and kdtr data
 EDSM <- bind_rows(
-  read_csv(tableNames %>%
-             filter(grepl("20mm", name)) %>%
+  read_csv(TMMtable%>%
              pull(url),
            col_types = cols_only(StationCode = "c", SampleDate = "c", SampleTime = "c", Tide = "c",
                                  LongitudeStart = "d", LatitudeStart = "d", TowNumber="d",
@@ -54,8 +65,7 @@ EDSM <- bind_rows(
                                  MarkCode="c", RaceByLength="c")) %>%
     mutate(SampleDate = parse_date_time(SampleDate, "%m-%d-%Y", tz = "America/Los_Angeles")) %>%
     rename(Turbidity = TurbidityTop),
-  read_csv(tableNames %>%
-             filter(grepl("KDTR", name)) %>%
+  read_csv(KDTRtable%>%
              pull(url),
            col_types = cols_only(StationCode = "c", SampleDate = "c", SampleTime = "c", Tide = "c",
                                  LongitudeStart = "d", LatitudeStart = "d", TowNumber="d",

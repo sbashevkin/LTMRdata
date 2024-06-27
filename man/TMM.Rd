@@ -6,7 +6,7 @@
 \alias{TMM}
 \title{20mm dataset}
 \format{
-a tibble with 336,446 rows and 22 variables
+a tibble with 355,228 rows and 23 variables
 \describe{
   \item{Source}{Name of source dataset.}
   \item{Station}{Station where sample was collected.}
@@ -15,13 +15,14 @@ a tibble with 336,446 rows and 22 variables
   \item{Date}{Date sample was collected.}
   \item{Datetime}{Date and time sample was collected.}
   \item{Survey}{Survey number, roughly corresponding to month.}
-  \item{TowNum}{Tow number, unique to a given site (typically 3 tows per site).}
   \item{Depth}{Bottom depth (m).}
   \item{SampleID}{Unique sample identifier.}
   \item{Method}{Sampling method (20mm Net).}
   \item{Tide}{Tidal stage.}
   \item{Sal_surf}{Surface salinity.}
   \item{Temp_surf}{Surface temperature in °C.}
+  \item{TurbidityNTU}{Turbidity (NTU).}
+  \item{TurbidityFNU}{Turbidity (FNU).}
   \item{Secchi}{Secchi depth (cm).}
   \item{Tow_volume}{Volume towed (\ifelse{html}{\out{m<sup>3</sup>}}{\eqn{m^{3}}}).}
   \item{Tow_direction}{Tow direction relative to current. Not recorded but field is included here for consistency.}

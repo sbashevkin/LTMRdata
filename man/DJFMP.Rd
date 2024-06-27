@@ -6,7 +6,7 @@
 \alias{DJFMP}
 \title{DJFMP dataset}
 \format{
-a tibble with 2,569,140 rows and 18 variables
+a tibble with 2,248,153 rows and 19 variables
 \describe{
   \item{Source}{Name of source dataset.}
   \item{Station}{Station where sample was collected.}
@@ -19,6 +19,7 @@ a tibble with 2,569,140 rows and 18 variables
   \item{Method}{Sampling method (Otter Trawl or Midwater Trawl).}
   \item{Sal_surf}{Surface salinity.}
   \item{Temp_surf}{Surface temperature in °C.}
+  \item{TurbidityNTU}{Turbidity (NTU).}
   \item{Secchi}{Secchi depth (cm).}
   \item{Tow_volume}{Volume towed (\ifelse{html}{\out{m<sup>3</sup>}}{\eqn{m^{3}}}).}
   \item{Tow_direction}{Tow direction relative to current.}

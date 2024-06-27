@@ -114,11 +114,13 @@ data_integrate<-function(data_path,
       if(format=="both"){
         if(!quiet){cat("\n\nWriting rda...")}
         save(res_survey, res_fish, file=file.path(data_path, "fishsurvey_compressed.rda"), compress = "xz")
+        res_survey$Datetime<-format(res_survey$Datetime, format="%Y-%m-%d %H:%M:%S", tz="America/Los_Angeles")
         if(!quiet){cat("\n\nWriting survey csv...")}
         utils::write.csv(res_survey, file.path(data_path, "survey.csv"), row.names = F)
         if(!quiet){cat("\n\nWriting fish csv...")}
         utils::write.csv(res_fish, file.path(data_path, "fish.csv"), row.names = F)
       }else{
+        res_survey$Datetime<-format(res_survey$Datetime, format="%Y-%m-%d %H:%M:%S", tz="America/Los_Angeles")
         if(!quiet){cat("\n\nWriting survey csv...")}
         utils::write.csv(res_survey, file.path(data_path, "survey.csv"), row.names = F)
         if(!quiet){cat("\n\nWriting fish csv...")}

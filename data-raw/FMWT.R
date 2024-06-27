@@ -61,8 +61,9 @@ FMWT_Tables$Station <- FMWT_Tables$StationsLookUp%>%
 # Sample-level data -------------------------------------------------------
 FMWT_Tables$Sample <- FMWT_Tables$Sample %>%
     transmute(SampleRowID = as.integer(SampleRowID),
-              across(c(StationCode, MethodCode, SampleTimeStart), as.character),
-              SampleDate = parse_date_time(SampleDate, "%Y-%m-%d", tz="America/Los_Angeles"),
+              across(c(StationCode, MethodCode), as.character),
+              SampleTimeStart = force_tz(parse_date_time(SampleTimeStart, "%Y-%m-%d %H:%M:%S", tz="UTC"), tz="America/Los_Angeles"),
+              SampleDate = force_tz(parse_date_time(SampleDate, "%Y-%m-%d", tz="UTC"), tz="America/Los_Angeles"),
               SurveyNumber = as.integer(SurveyNumber),
               across(c(WaterTemperature, Turbidity, Secchi), as.double),
               SecchiEstimated = as.logical(SecchiEstimated),
@@ -80,7 +81,7 @@ FMWT_Tables$Sample <- FMWT_Tables$Sample %>%
          Weather=recode(WeatherCode, `1` = "Cloud (0-33%)", `2` = "Cloud (33-66%)", `3` = "Cloud (66-100%)", `4` = "Rain"), # Convert weather codes to values
          Waves=recode(WaveCode, `1` = "Calm", `2` = "Waves w/o whitecaps", `3` = "Waves w/ whitecaps"), # Convert wave codes to values
          WindDirection=toupper(WindDirection), # Make Wind direction codes consistent
-         Datetime=parse_date_time(if_else(is.na(Time), NA_character_, paste0(Date, " ", hour(Time), ":", minute(Time))), "%Y-%m-%d %%H:%M", tz="America/Los_Angeles"),
+         Datetime=parse_date_time(if_else(is.na(Time) | (hour(Time)==0 & minute(Time)==0 & second(Time)==0), NA_character_, paste0(Date, " ", hour(Time), ":", minute(Time))), "%Y-%m-%d %%H:%M", tz="America/Los_Angeles"),
          Meter_total=MeterEnd-MeterStart)%>% # Calculate flowmeter total difference
   mutate(Tow_volume = Meter_total*0.02687*10.7, # Calculate tow volume using formula provided by Steve Slater / James White
          WindDirection=recode(WindDirection, "NA"=NA_character_, "N/A"=NA_character_))%>% # Convert NA codes to NA

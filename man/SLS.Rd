@@ -6,7 +6,7 @@
 \alias{SLS}
 \title{SLS dataset}
 \format{
-a tibble with 21,486 rows and 25 variables
+a tibble with 24,826 rows and 26 variables
 \describe{
   \item{Source}{Name of source dataset.}
   \item{Station}{Station where sample was collected.}
@@ -23,7 +23,8 @@ a tibble with 21,486 rows and 25 variables
   \item{Sal_bot}{Bottom salinity.}
   \item{Temp_surf}{Surface temperature in °C.}
   \item{Secchi}{Secchi depth (cm).}
-  \item{Turbidity}{Turbidity (units).}
+  \item{TurbidityNTU}{Turbidity (NTU).}
+  \item{TurbidityFNU}{Turbidity (FNU).}
   \item{Tow_volume}{Volume towed (\ifelse{html}{\out{m<sup>3</sup>}}{\eqn{m^{3}}}).}
   \item{Cable_length}{Length of cable released when net deployed (m).}
   \item{Tow_duration}{Duration of tow (minutes).}

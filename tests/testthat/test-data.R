@@ -1,4 +1,5 @@
 require(dplyr)
+require(lubridate)
 data<-bind_rows(LTMRdata::Baystudy, LTMRdata::Suisun, LTMRdata::FMWT, LTMRdata::DJFMP, LTMRdata::EDSM, LTMRdata::TMM, LTMRdata::SLS, LTMRdata::STN, LTMRdata::SKT, LTMRdata::Salvage)
 
 test_that("All Lats are between 37 and 39 and all Longs are between -123 and -121", {
@@ -39,6 +40,7 @@ test_that("Length_NA_flag 'Unknown length' is applied correctly", {
   expect_equal(nrow(filter(data, !(is.na(Length) & Count>0) & Length_NA_flag=="Unknown length")), 0) # 'Unknown length' should only be applied when length is NA and Count>0
 })
 
+# This is mostly checking for new species added to datasets
 test_that("Combinations of Taxa, Count, and Length_NA_flag are as expected", {
   len_flag_values <- c("No fish caught","Unknown length", "Missing catch value")
   expect_true(all(data$Length_NA_flag %in% len_flag_values | is.na(data$Length_NA_flag)))
@@ -73,6 +75,10 @@ test_that("No NA counts exist in the datast", {
 test_that("No Tow volumes or Tow areas are negative", {
   expect_equal(nrow(filter(data, Tow_volume<0)), 0)
   expect_equal(nrow(filter(data, Tow_area<0)), 0)
+})
+
+test_that("No sample times are midnight, ignoring Salvage", {
+  expect_equal(nrow(filter(data, Source!="Salvage" & hour(Datetime)==0 & minute(Datetime)==0)), 0)
 })
 
 rm(data)
