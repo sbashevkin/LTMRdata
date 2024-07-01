@@ -103,9 +103,15 @@ SalvageStart <- SalvageJoined %>%
             Longitude = case_when(Comments_StationsLookUp == "SWP" ~ -121.59584120116043,
                                   Comments_StationsLookUp == "CVP" ~ -121.55857777929133),
             Date = parse_date_time(SampleDate, "%Y-%m-%d", tz="America/Los_Angeles"),
-            Datetime = as.POSIXct(paste0(Date, " ", SampleTime),
-                                  format = "%Y-%m-%d %H:%M:%S",
-                                  tz = "America/Los_Angeles"),
+            SampleTime,
+            # Will produce a warning about failed parses. Due to daylight saving times;
+            # There are entries in which the observer did not properly jump times entering
+            # in entries that cannot exist, e.g., 2 AM when jumping forward since that is
+            # automatically 3 AM.
+            # 638 failed parses as of 07-01-24
+            Datetime = parse_date_time(paste0(Date, " ", SampleTime),
+                                       orders = "%Y-%m-%d %H:%M:%S",
+                                       tz = "America/Los_Angeles"),
             SampleRowID,
             # Here, 0000 = normal count, 9999 = second flush, 7777 = traveling screen count, and 8888 = special study
             Method = Description,
@@ -203,7 +209,38 @@ Salvage <- SalvageStart %>%
 # Final check
 if (nrow(SalvageStart) - nrow(Salvage) != 6) stop("The last distinct() step removed more rows than intended. Check.")
 
-# Final check
+# Now, removing periods where there was no fish sampling; this is because
+# water quality sampling may still occur with no fish sampling--we don't want those in this dataset
+# These values appears to be comprehensive for now. Tested to see if they yield correct results.
+noSamplingStrings <- c(
+  "NO.*PUMPING",
+  "SHUT DOWN",
+  "SHUTDOWN",
+  "NO FLOW",
+  "^0+ CFS",
+  "NO.*COUNT",
+  "SHUTDOWN",
+  "NO [0-9]{4}/[0-9]{4} COUNTS",
+  "Power outage",
+  "Power out",
+  "no salvage",
+  "louver cleaning",
+  "fish lost",
+  "trash rack failure",
+  "hoist down",
+  "hoist failure",
+  "screen failure"
+)
+
+# This is a conservative filter as it also requires Count == 0
+Salvage <- Salvage %>%
+  mutate(
+    noSampling = grepl(paste(noSamplingStrings, collapse = "|"), Notes_tow, ignore.case = T)
+    # noSamplingTime = grepl("[0-9]{2,4}([:][0-9]{2})?([ ]?(HRS))?", Notes_tow, ignore.case = T) & noSampling,
+    # didNotShutDown = grepl("did not shut down", Notes_tow, ignore.case = T) & noSampling
+  ) %>%
+  # This removes 932 records as of 06-28-24
+  filter(!(noSampling & Count == 0))
 
 # # This is the expansion of this dataset, checked against the CDFW website
 # SalvageFinal <- Salvage %>%
