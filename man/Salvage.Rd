@@ -6,7 +6,7 @@
 \alias{Salvage}
 \title{Salvage dataset}
 \format{
-a tibble with 2,560,446 rows and 15 variables
+a tibble with 2,596,933 rows and 15 variables
 \describe{
   \item{Source}{Name of source dataset.}
   \item{Station}{State or federal facility buildings (of the SWP or CVP).}
@@ -16,7 +16,7 @@ a tibble with 2,560,446 rows and 15 variables
   \item{Datetime}{Date and time sample was collected.}
   \item{SampleID}{Unique sample identifier.}
   \item{Method}{Sampling period (0000 = Normal count, 9999 = Second flush)}
-  \item{Tow_volume}{The amount of water export in cubic meter.}
+  \item{Tow_volume}{Daily export volume for the sampled facility(\ifelse{html}{\out{m<sup>3</sup>}}{\eqn{m^{3}}}).}
   \item{Temp_surf}{Surface temperature in °C.}
   \item{Taxa}{Scientific name.}
   \item{Length}{Fork length from tip of the snout to a point at the fork of the caudal fin (mm) or total length for species without a forked tail.}

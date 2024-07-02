@@ -103,7 +103,6 @@ SalvageStart <- SalvageJoined %>%
             Longitude = case_when(Comments_StationsLookUp == "SWP" ~ -121.59584120116043,
                                   Comments_StationsLookUp == "CVP" ~ -121.55857777929133),
             Date = parse_date_time(SampleDate, "%Y-%m-%d", tz="America/Los_Angeles"),
-            SampleTime,
             # Will produce a warning about failed parses. Due to daylight saving times;
             # There are entries in which the observer did not properly jump times entering
             # in entries that cannot exist, e.g., 2 AM when jumping forward since that is
@@ -112,6 +111,12 @@ SalvageStart <- SalvageJoined %>%
             Datetime = parse_date_time(paste0(Date, " ", SampleTime),
                                        orders = "%Y-%m-%d %H:%M:%S",
                                        tz = "America/Los_Angeles"),
+            # Fix nonexistent daylight savings times by setting them to 3AM
+            Datetime = if_else(is.na(Datetime) & SampleTime=="02:00:00.0000000",
+                               parse_date_time(paste0(Date, " 03:00:00"),
+                                               orders = "%Y-%m-%d %H:%M:%S",
+                                               tz = "America/Los_Angeles"),
+                               Datetime),
             SampleRowID,
             # Here, 0000 = normal count, 9999 = second flush, 7777 = traveling screen count, and 8888 = special study
             Method = Description,
@@ -240,7 +245,8 @@ Salvage <- Salvage %>%
     # didNotShutDown = grepl("did not shut down", Notes_tow, ignore.case = T) & noSampling
   ) %>%
   # This removes 932 records as of 06-28-24
-  filter(!(noSampling & Count == 0))
+  filter(!(noSampling & Count == 0))%>%
+  select(-noSampling)
 
 # # This is the expansion of this dataset, checked against the CDFW website
 # SalvageFinal <- Salvage %>%

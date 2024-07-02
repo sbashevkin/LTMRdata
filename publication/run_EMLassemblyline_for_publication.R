@@ -7,7 +7,8 @@
 library(EMLassemblyline)
 library(LTMRdata)
 library(EML)
-
+library(readr)
+library(dplyr)
 # Define paths for your metadata templates, data, and EML
 
 path <- "publication"
@@ -51,13 +52,25 @@ EMLassemblyline::template_categorical_variables(
 # Create geographic coverage (required when more than one geographic location
 # is to be reported in the metadata).
 
+coords<-read_csv(file.path(path_data, 'survey.csv'),
+                 col_types=cols_only(Latitude="d", Longitude="d"))%>%
+  summarise(Lat_min=min(Latitude, na.rm = T),
+            Lat_max=max(Latitude, na.rm = T),
+            Lon_min=min(Longitude, na.rm = T),
+            Lon_max=max(Longitude, na.rm = T))
+Bounds<-tibble(Bound=c("NE", "NW", "SE", "SW"),
+         Latitude=c(coords$Lat_max, coords$Lat_max, coords$Lat_min, coords$Lat_min),
+         Longitude=c(coords$Lon_max, coords$Lon_min, coords$Lon_max, coords$Lon_min))
+
+write_csv(Bounds, file=file.path(path_data, "Bounds.csv"))
+
 EMLassemblyline::template_geographic_coverage(
   path = path_templates,
   data.path = path_data,
-  data.table = 'survey.csv',
+  data.table = 'Bounds.csv',
   lat.col = "Latitude",
   lon.col = "Longitude",
-  site.col = "Station")
+  site.col = "Bound")
 
 # Create taxonomic coverage template (Not-required. Use this to report
 # taxonomic entities in the metadata)
