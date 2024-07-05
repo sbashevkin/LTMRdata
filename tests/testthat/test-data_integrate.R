@@ -25,7 +25,6 @@ data_integrate(data_dir)
 
 gc()
 deltafish:::create_fish_db_f(data_dir=data_dir, cache_dir, edi_pid="edi.1075.2", update=T)
-gc()
 
 fish<-deltafish:::open_fish_f(cache_dir)%>%
   select(SampleID, Source, Length, Count, Taxa, Notes_catch)%>%
@@ -47,21 +46,11 @@ integrated_samples<-select(surv, SampleID)%>%
   unlist()%>%
   unique()
 
-# not working right
 integrated_fishlength<-unique(paste(fish$SampleID, fish$Length, fish$Count, fish$Taxa, fish$Notes_catch))
 
-integrated_fish_rows<-fish%>%
-  summarise(N=n())%>%
-  unlist()
+integrated_fish_rows<-nrow(fish)
 
-names(integrated_fish_rows)<-NULL
-
-integrated_surv_rows<-surv%>%
-  summarise(N=n())%>%
-  collect()%>%
-  unlist()
-
-names(integrated_surv_rows)<-NULL
+integrated_surv_rows<-nrow(surv)
 
 data_integrated_samples<-fish%>%
   distinct(SampleID, Source, Taxa)%>%
@@ -81,15 +70,15 @@ test_that("All samples are retained when zeroes are filled", {
 
 test_that("SampleID is not replicated in the survey table", {
   expect_equal(length(raw_samples), integrated_surv_rows)
-}) # DJFMP having issues
+})
 
 test_that("No fish-length combinations are replicated in the fish table", {
   expect_equal(length(integrated_fishlength), integrated_fish_rows)
-}) # Fail
+})
 
 test_that("Length data are not lost", {
   expect_equal(data_integrated_surveys$N_lengths, data_raw$N_lengths)
-}) # Fail
+})
 
 test_that("For each survey, the zero-filled dataset has a record (whether 0 or >0) in every sample for every species ever recorded by that survey", {
   expect_equal(data_integrated_samples, select(data_raw, Source, Fish))

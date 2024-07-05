@@ -127,7 +127,7 @@ DJFMP<-data%>%
          Sal_surf = ec2pss(Conductivity/1000, t=25),
          Method = recode(Method, MWTR="Midwater trawl", KDTR="Kodiak trawl", SEIN="Beach seine"),
          Tow_direction = recode(Tow_direction, U="Upstream", D="Downstream", X="Neither"),
-         SampleID=paste(Datetime, Station, TowNumber, Method),
+         SampleID=paste(if_else(is.na(Datetime), Date, Datetime), Station, TowNumber, Method), ############################## Some datetimes and tow numbers are showing as NA, resulting in duplicate sampleIDs
          MarkCode=ifelse(OrganismCode=="NOFISH", "None", MarkCode),
          # Set up code for sub-groups to apply plus counts. Untagged Chinook Salmon are grouped by RaceByLength and any tagged fish are not incorporated into the process
          Group=case_when(MarkCode=="None" & OrganismCode=="CHN" ~ RaceByLength,
