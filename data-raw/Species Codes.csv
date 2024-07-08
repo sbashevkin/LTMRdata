@@ -76,8 +76,8 @@ Chinese Mitten Crab Temp,NA,NA,NA,NA,NA,NA,NA,NA,NA,81,NA,Chinese Mitten Crab Te
 UnID,NA,UnID,UNID,88,NA,UNK,120,99,99,90,NA,UnID
 UnID,NA,UnID invertebrate,NA,NA,192,NA,NA,NA,NA,90,NA,UnID
 UnID,NA,UnID damaged,NA,NA,193,NA,NA,NA,NA,90,NA,UnID
-Total Fish Count,NA,NA,NA,NA,NA,NA,NA,NA,NA,98,NA,Total Fish Count
-Total Fish Estimate,NA,NA,NA,NA,NA,NA,NA,NA,NA,99,NA,Total Fish Estimate
+NA,Total Fish Count,NA,NA,NA,NA,NA,NA,NA,NA,98,NA,NA
+NA,Total Fish Estimate,NA,NA,NA,NA,NA,NA,NA,NA,99,NA,NA
 Mugil cephalus,STRMUL,Striped Mullet,SMU,112,142,SMUL,NA,NA,NA,117,NA,Mugil cephalus
 Syngnathus leptorhynchus,BAYPIP,Bay Pipefish,BPF,71,35,BYP,71,35,35,127,NA,Syngnathus leptorhynchus
 Paralichthys californicus,CALHAL,California Halibut,CAH,78,107,CHA,78,78,78,133,NA,Paralichthys californicus
@@ -85,7 +85,7 @@ Crangon franciscorum,NA,California Bay Shrimp,NA,NA,NA,CRANGON,NA,NA,NA,137,NA,C
 Gillichthys mirabilis,LONMUD,Longjaw Mudsucker,LMS,NA,69,LJM,NA,69,69,150,NA,Gillichthys mirabilis
 Maeotias inexpectata,NA,NA,NA,NA,NA,NA,NA,NA,NA,151,NA,Maeotias inexpectata
 Porichthys notatus,PLAMID,Plainfin Midshipman,PMP,14,50,MID,14,50,50,152,NA,Porichthys notatus
-neomysis,NA,NA,NA,NA,NA,NA,NA,NA,NA,154,NA,neomysis
+Neomysis,NA,NA,NA,NA,NA,NA,NA,NA,NA,154,NA,neomysis
 Engraulis mordax,NORANC,Northern Anchovy,NAN,13,14,NAC,13,14,14,155,NA,Engraulis mordax
 Palaemon macrodactylus,NA,Korean Grass Shrimp,ORSH,NA,109,PALAEMON,NA,NA,NA,156,NA,Palaemon macrodactylus
 Lampetra tridentata,PACLAM,Pacific Lamprey,PL,10,61,PL,10,61,61,158,NA,Lampetra tridentata

@@ -1,6 +1,5 @@
 require(dplyr)
 require(LTMRdata)
-require(dtplyr)
 data_dir<-tempdir()
 # data_dir<-file.path("data-raw", "EDI", "data_objects")
 cache_dir<-"LTMRdata-test"

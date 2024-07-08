@@ -410,7 +410,7 @@
 #' California Department of Fish and Wildlife Fish Salvage dataset.
 #'
 #' @encoding UTF-8
-#' @format a tibble with 2,596,933 rows and 15 variables
+#' @format a tibble with 2,599,135 rows and 15 variables
 #' \describe{
 #'   \item{Source}{Name of source dataset.}
 #'   \item{Station}{State or federal facility buildings (of the SWP or CVP).}
@@ -434,7 +434,7 @@
 #' Salvage measured lengths
 #'
 #' Only measured lengths from the Salvage data
-#' @format a tibble with 1,782,210 rows and 4 variables
+#' @format a tibble with 1,810,472 rows and 4 variables
 #' \describe{
 #'   \item{SampleID}{Unique sample identifier.}
 #'   \item{Taxa}{Scientific name.}
