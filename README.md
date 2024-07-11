@@ -12,9 +12,9 @@ coverage](https://codecov.io/gh/sbashevkin/LTMRdata/branch/master/graph/badge.sv
 [![DOI](https://zenodo.org/badge/250588599.svg)](https://zenodo.org/badge/latestdoi/250588599)
 [![Data
 DOI](https://img.shields.io/badge/Data%20publication%20DOI-10.6073/pasta/0cdf7e5e954be1798ab9bf4f23816e83-blue.svg)](https://portal.edirepository.org/nis/mapbrowse?scope=edi&identifier=1075)
-<!-- badges: end --> 
+<!-- badges: end -->
 
-Integration of 9 fish surveys in the San Francisco Estuary.
+Integration of 10 fish surveys in the San Francisco Estuary.
 
 You are *strongly* recommended to use the
 [deltafish](https://github.com/Delta-Stewardship-Council/deltafish)
