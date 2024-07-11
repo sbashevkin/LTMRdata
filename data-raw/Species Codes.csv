@@ -76,8 +76,8 @@ Chinese Mitten Crab Temp,NA,NA,NA,NA,NA,NA,NA,NA,NA,81,NA,Chinese Mitten Crab Te
 UnID,NA,UnID,UNID,88,NA,UNK,120,99,99,90,NA,UnID
 UnID,NA,UnID invertebrate,NA,NA,192,NA,NA,NA,NA,90,NA,UnID
 UnID,NA,UnID damaged,NA,NA,193,NA,NA,NA,NA,90,NA,UnID
-NA,Total Fish Count,NA,NA,NA,NA,NA,NA,NA,NA,98,NA,NA
-NA,Total Fish Estimate,NA,NA,NA,NA,NA,NA,NA,NA,99,NA,NA
+UnID,NA,Total Fish Count,NA,NA,NA,NA,NA,NA,NA,98,NA,UnID
+UnID,NA,Total Fish Estimate,NA,NA,NA,NA,NA,NA,NA,99,NA,UnID
 Mugil cephalus,STRMUL,Striped Mullet,SMU,112,142,SMUL,NA,NA,NA,117,NA,Mugil cephalus
 Syngnathus leptorhynchus,BAYPIP,Bay Pipefish,BPF,71,35,BYP,71,35,35,127,NA,Syngnathus leptorhynchus
 Paralichthys californicus,CALHAL,California Halibut,CAH,78,107,CHA,78,78,78,133,NA,Paralichthys californicus

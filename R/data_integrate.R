@@ -94,11 +94,13 @@ data_integrate<-function(data_path,
     dplyr::group_by(.data$Source) %>%
     tidyr::complete(.data$SampleID, .data$Taxa, fill=list(Count=0))%>%
     dplyr::ungroup()%>%
-    dplyr::relocate(tidyselect::any_of(fish_cols))
+    dplyr::relocate(tidyselect::any_of(fish_cols))%>%
+    dplyr::select(-"Source")
 
 
   res_fish <- res_fish %>%
-    dplyr::filter(!is.na(.data$Taxa))
+    dplyr::filter(!is.na(.data$Taxa))%>%
+    dplyr::filter(!(.data$Taxa=="UnID" & .data$Count==0))
 
   if(!quiet){
     cat("\n\nFish table finished")

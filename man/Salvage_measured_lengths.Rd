@@ -5,7 +5,7 @@
 \alias{Salvage_measured_lengths}
 \title{Salvage measured lengths}
 \format{
-a tibble with 1,782,210 rows and 4 variables
+a tibble with 1,810,781 rows and 4 variables
 \describe{
   \item{SampleID}{Unique sample identifier.}
   \item{Taxa}{Scientific name.}

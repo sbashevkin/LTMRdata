@@ -1,5 +1,4 @@
 attributeName	attributeDefinition	class	unit	dateTimeFormatString	missingValueCode	missingValueCodeExplanation
-Source	Name of the source survey. This column is also present in the survey table	categorical				
 SampleID	Unique identifier for each sample (i.e. tow). This is the key to join the fish and sample tables together.	character				
 Taxa	Scientific name for the sampled taxa	character				
 Length	"Fish length in fork length or total length for species with no fork for all studies except Suisun study, for which lengths are recorded as standard length. See the Length_conversion table for equations to convert standard length to fork/total length."	numeric	millimeter		NA	The length is unknown

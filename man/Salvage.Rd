@@ -6,7 +6,7 @@
 \alias{Salvage}
 \title{Salvage dataset}
 \format{
-a tibble with 2,596,933 rows and 15 variables
+a tibble with 2,599,578 rows and 15 variables
 \describe{
   \item{Source}{Name of source dataset.}
   \item{Station}{State or federal facility buildings (of the SWP or CVP).}
