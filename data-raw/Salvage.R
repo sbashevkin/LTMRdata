@@ -59,7 +59,13 @@ rowsToRemove <- SalvageJoined %>%
   distinct(SampleRowID, OrganismCode) %>%
   group_by(SampleRowID) %>%
   add_tally(name = "nTotalCount") %>%
-  filter(OrganismCode %in% c(98, 99) & nTotalCount != 1) %>%
+  filter((OrganismCode %in% c(98, 99) & nTotalCount != 1) |
+           # Removing OrganismCode == 81, Chinese Mitten Crab Temp
+           # These were collected using a different sampling methods than
+           # Salvage at the CVP facility mainly in 1999. Although the number of
+           # crabs is significant, these catches are not comparable to regular
+           # salvage and is being removed.
+           OrganismCode == 81) %>%
   pull(SampleRowID)
 
 # Fixes to the dataset to pass package tests
