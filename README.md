@@ -5,8 +5,7 @@
 
 <!-- badges: start -->
 
-[![R build
-status](https://github.com/sbashevkin/LTMRdata/workflows/R-CMD-check/badge.svg)](https://github.com/sbashevkin/LTMRdata/actions)
+[![R-CMD-check](https://github.com/sbashevkin/LTMRdata/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/sbashevkin/LTMRdata/actions/workflows/R-CMD-check.yaml)
 [![Codecov test
 coverage](https://codecov.io/gh/sbashevkin/LTMRdata/branch/master/graph/badge.svg)](https://codecov.io/gh/sbashevkin/LTMRdata?branch=master)
 [![DOI](https://zenodo.org/badge/250588599.svg)](https://zenodo.org/badge/latestdoi/250588599)
