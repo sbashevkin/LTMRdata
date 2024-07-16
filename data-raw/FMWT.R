@@ -83,7 +83,7 @@ FMWT_Tables$Sample <- FMWT_Tables$Sample %>%
          WindDirection=toupper(WindDirection), # Make Wind direction codes consistent
          Datetime=parse_date_time(if_else(is.na(Time) | (hour(Time)==0 & minute(Time)==0 & second(Time)==0), NA_character_, paste0(Date, " ", hour(Time), ":", minute(Time))), "%Y-%m-%d %%H:%M", tz="America/Los_Angeles"),
          Meter_total=MeterEnd-MeterStart)%>% # Calculate flowmeter total difference
-  mutate(Tow_volume = Meter_total*0.02687*10.7, # Calculate tow volume using formula provided by Steve Slater / James White
+  mutate(Tow_volume = if_else(Meter_total==0, NA_real_, Meter_total*0.02687*10.7), # Calculate tow volume using formula provided by Steve Slater / James White
          WindDirection=recode(WindDirection, "NA"=NA_character_, "N/A"=NA_character_))%>% # Convert NA codes to NA
   dplyr::filter(Method=="MWTR")%>% # Select only Midwater Trawl. All rows are MWTR but just in case the data change
   mutate(Method=recode(Method, MWTR="Midwater trawl"), # Recode method for consistency
