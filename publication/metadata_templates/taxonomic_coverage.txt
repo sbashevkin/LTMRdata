@@ -51,16 +51,21 @@ Notemigonus crysoleucas	scientific	Notemigonus crysoleucas	ITIS	163368
 Oncorhynchus tshawytscha	scientific	Oncorhynchus tshawytscha	World Register of Marine Species	158075
 Orthodon microlepidotus	scientific	Orthodon microlepidotus	World Register of Marine Species	281934
 Osmeridae	scientific	Osmeridae	World Register of Marine Species	125513
+Paralichthys californicus	scientific	Paralichthys californicus	World Register of Marine Species	275809
 Parophrys vetulus	scientific	Parophrys vetulus	World Register of Marine Species	254393
 Percina macrolepida	scientific	Percina macrolepida	ITIS	168487
 Petromyzontiformes	scientific	Petromyzontiformes	World Register of Marine Species	10201
+Pholidae	scientific	Pholidae	World Register of Marine Species	125550
+Pholis ornata	scientific	Pholis ornata	World Register of Marine Species	273692
 Pimephales promelas	scientific	Pimephales promelas	ITIS	163517
 Platichthys stellatus	scientific	Platichthys stellatus	World Register of Marine Species	154781
 Pogonichthys macrolepidotus	scientific	Pogonichthys macrolepidotus	World Register of Marine Species	282310
 Pomoxis annularis	scientific	Pomoxis annularis	ITIS	168166
 Pomoxis nigromaculatus	scientific	Pomoxis nigromaculatus	ITIS	168167
 Porichthys notatus	scientific	Porichthys notatus	World Register of Marine Species	275658
+Psettichthys melanostictus	scientific	Psettichthys melanostictus	World Register of Marine Species	282396
 Ptychocheilus grandis	scientific	Ptychocheilus grandis	ITIS	163524
+Sebastes	scientific	Sebastes	World Register of Marine Species	126175
 Sebastes auriculatus	scientific	Sebastes auriculatus	World Register of Marine Species	274773
 Spirinchus thaleichthys	scientific	Spirinchus thaleichthys	World Register of Marine Species	282844
 Stichaeidae	scientific	Stichaeidae	World Register of Marine Species	125566
@@ -85,6 +90,7 @@ Artedius notospilotus	scientific	Artedius notospilotus	World Register of Marine 
 Atractoscion nobilis	scientific	Atractoscion nobilis	World Register of Marine Species	278535
 Aulorhynchus flavidus	scientific	Aulorhynchus flavidus	World Register of Marine Species	279839
 Bathymasteridae	scientific	Bathymasteridae	World Register of Marine Species	151388
+Caulolatilus princeps	scientific	Caulolatilus princeps	World Register of Marine Species	276217
 Chilara taylori	scientific	Chilara taylori	World Register of Marine Species	280146
 Citharichthys	scientific	Citharichthys	World Register of Marine Species	158786
 Citharichthys sordidus	scientific	Citharichthys sordidus	World Register of Marine Species	275694
@@ -93,6 +99,7 @@ Embiotoca jacksoni	scientific	Embiotoca jacksoni	World Register of Marine Specie
 Embiotoca lateralis	scientific	Embiotoca lateralis	World Register of Marine Species	240740
 Embiotocidae	scientific	Embiotocidae	World Register of Marine Species	151386
 Enophrys bison	scientific	Enophrys bison	World Register of Marine Species	275355
+Galeorhinus galeus	scientific	Galeorhinus galeus	World Register of Marine Species	105820
 Hemilepidotus hemilepidotus	scientific	Hemilepidotus hemilepidotus	World Register of Marine Species	254521
 Hemilepidotus spinosus	scientific	Hemilepidotus spinosus	World Register of Marine Species	279413
 Hexagrammos decagrammus	scientific	Hexagrammos decagrammus	World Register of Marine Species	240732
@@ -126,10 +133,8 @@ Oncorhynchus kisutch	scientific	Oncorhynchus kisutch	World Register of Marine Sp
 Oncorhynchus mykiss	scientific	Oncorhynchus mykiss	World Register of Marine Species	127185
 Ophichthus zophochir	scientific	Ophichthus zophochir	World Register of Marine Species	271991
 Ophiodon elongatus	scientific	Ophiodon elongatus	World Register of Marine Species	240745
-Paralichthys californicus	scientific	Paralichthys californicus	World Register of Marine Species	275809
 Peprilus simillimus	scientific	Peprilus simillimus	World Register of Marine Species	276563
 Phanerodon furcatus	scientific	Phanerodon furcatus	World Register of Marine Species	240730
-Pholis ornata	scientific	Pholis ornata	World Register of Marine Species	273692
 Pisces	scientific	Pisces	World Register of Marine Species	11676
 Platyrhinoidis triseriata	scientific	Platyrhinoidis triseriata	World Register of Marine Species	282280
 Pleuronectidae	scientific	Pleuronectidae	World Register of Marine Species	125579
@@ -138,7 +143,6 @@ Pleuronichthys coenosus	scientific	Pleuronichthys coenosus	World Register of Mar
 Pleuronichthys decurrens	scientific	Pleuronichthys decurrens	World Register of Marine Species	282292
 Pleuronichthys guttulatus	scientific	Pleuronichthys guttulatus	World Register of Marine Species	293680
 Pleuronichthys verticalis	scientific	Pleuronichthys verticalis	World Register of Marine Species	282295
-Psettichthys melanostictus	scientific	Psettichthys melanostictus	World Register of Marine Species	282396
 Raja binoculata	scientific	Raja binoculata	World Register of Marine Species	271572
 Rathbunella hypoplecta	scientific	Rathbunella hypoplecta	World Register of Marine Species	282556
 Rhacochilus toxotes	scientific	Rhacochilus toxotes	World Register of Marine Species	282575
@@ -148,12 +152,12 @@ Sarda chiliensis	scientific	Sarda chiliensis	World Register of Marine Species	29
 Sardinops sagax	scientific	Sardinops sagax	World Register of Marine Species	217452
 Scomber japonicus	scientific	Scomber japonicus	World Register of Marine Species	127022
 Scorpaenichthys marmoratus	scientific	Scorpaenichthys marmoratus	World Register of Marine Species	282726
-Sebastes	scientific	Sebastes	World Register of Marine Species	126175
 Sebastes flavidus	scientific	Sebastes flavidus	World Register of Marine Species	274795
 Sebastes melanops	scientific	Sebastes melanops	World Register of Marine Species	274817
 Sebastes miniatus	scientific	Sebastes miniatus	World Register of Marine Species	274820
 Sebastes mystinus	scientific	Sebastes mystinus	World Register of Marine Species	274823
 Sebastes paucispinis	scientific	Sebastes paucispinis	World Register of Marine Species	274833
+Sebastes rastrelliger	scientific	Sebastes rastrelliger	World Register of Marine Species	274839
 Seriphus politus	scientific	Seriphus politus	World Register of Marine Species	282761
 Sphyraena argentea	scientific	Sphyraena argentea	World Register of Marine Species	273978
 Spirinchus starksi	scientific	Spirinchus starksi	World Register of Marine Species	282843
@@ -236,7 +240,6 @@ Morone chrysops	scientific	Morone chrysops	ITIS	167682
 Oncorhynchus gorbuscha	scientific	Oncorhynchus gorbuscha	World Register of Marine Species	127182
 Paramisgurnus dabryanus	scientific	Paramisgurnus dabryanus	World Register of Marine Species	1020151
 Perca flavescens	scientific	Perca flavescens	World Register of Marine Species	275313
-Total Fish Count	scientific	Total Fish Count	NA	NA
 Corbicula fluminea	scientific	Corbicula fluminea	ITIS	81387
 Crangon franciscorum	scientific	Crangon franciscorum	World Register of Marine Species	241261
 Macoma	scientific	Macoma	World Register of Marine Species	138531

@@ -75,7 +75,7 @@ EMLassemblyline::template_geographic_coverage(
 # Create taxonomic coverage template (Not-required. Use this to report
 # taxonomic entities in the metadata)
 
-remotes::install_github("EDIorg/taxonomyCleanr")
+#remotes::install_github("EDIorg/taxonomyCleanr")
 library(taxonomyCleanr)
 
 EMLassemblyline::template_taxonomic_coverage(
