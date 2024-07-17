@@ -24,6 +24,13 @@ test_that("Tide has the expected value", {
                     is.na(data$Tide)))
 })
 
+test_that("Method has the expected value", {
+  expect_setequal(unique(data$Method),
+                    c('Midwater trawl', 'Otter trawl', 'Kodiak trawl',
+                      'Beach seine', '20mm net', 'Oblique tow', 'STN net',
+                      'Normal count', 'Second flush'))
+})
+
 test_that("Length_NA_flag has correct unique values", {
   expect_setequal(unique(data$Length_NA_flag), c(NA_character_, "Unknown length", "No fish caught"))
 })
@@ -75,6 +82,11 @@ test_that("No NA counts exist in the datast", {
 test_that("No Tow volumes or Tow areas are negative", {
   expect_equal(nrow(filter(data, Tow_volume<0)), 0)
   expect_equal(nrow(filter(data, Tow_area<0)), 0)
+})
+
+test_that("No Tow volumes or Tow areas are 0", {
+  expect_equal(nrow(filter(data, Tow_volume==0)), 0)
+  expect_equal(nrow(filter(data, Tow_area==0)), 0)
 })
 
 test_that("No sample times are midnight, ignoring Salvage", {
