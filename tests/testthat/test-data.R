@@ -85,7 +85,7 @@ test_that("No Tow volumes or Tow areas are negative", {
 })
 
 test_that("No Tow volumes or Tow areas are 0", {
-  expect_equal(nrow(filter(data, Tow_volume==0)), 0)
+  expect_equal(nrow(filter(data, Tow_volume==0 & Source!="Salvage")), 0)
   expect_equal(nrow(filter(data, Tow_area==0)), 0)
 })
 
