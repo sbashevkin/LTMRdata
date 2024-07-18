@@ -85,6 +85,7 @@ EDSM <- bind_rows(
          Date = SampleDate, Time = SampleTime, Depth = BottomDepth, Station = StationCode, Tow = TowNumber) %>%
   dplyr::filter(is.na(GearConditionCode) | !GearConditionCode%in%c(3,4,9))%>%
   mutate(Tow_volume = if_else(FlowDebris%in%c("Y", "Yes"), NA_real_, Tow_volume, missing=Tow_volume),
+         Tow_volume = if_else(Tow_volume==0, NA_real_, Tow_volume),
          Source = "EDSM",
          # Date = parse_date_time(Date, "%Y-%m-%d", tz = "America/Los_Angeles"),
          Time = parse_date_time(Time, "%H:%M:%S", tz = "America/Los_Angeles"),
