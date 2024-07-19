@@ -93,7 +93,11 @@ EDSM <- bind_rows(
          # Removing conductivity data from dates before it was standardized
          Conductivity = if_else(Date<parse_date_time("2019-06-01", "%Y-%m-%d", tz="America/Los_Angeles"), NA_real_, Conductivity),
          Sal_surf = ec2pss(Conductivity/1000, t=25),
-         Method = recode(Method, KDTR="Kodiak trawl", `20mm`="20mm net"),
+         # Updating recode (superseded as of dplyr 1.1.2) to case_when()
+         # Using regex to make it more generic
+         Method = case_when(grepl("^K(D)?T(R|S\\d+)", Method) ~ "Kodiak trawl",
+                            Method %in% "20mm" ~ "20mm net"),
+         # recode(Method, KDTR="Kodiak trawl", `20mm`="20mm net"),
          Tow_direction = recode(Tow_direction, U="Upstream", D="Downstream"),
          Depth = if_else(Method=="20mm net", Depth*0.3048, Depth), # Convert feet to meters for 20mm (KDTR already in meters)
          Secchi = Secchi*100, # convert Secchi to cm
@@ -138,6 +142,12 @@ EDSM <- bind_rows(
          Temp_surf, TurbidityNTU,
          # TurbidityBottomNTU, # Can include this back in if in the future more than just EDSM collects this data
          Secchi, Tow_volume, Tow_direction, Taxa, Length, Count, Length_NA_flag)
+
+# Remove NA gear types
+# As of 07/19/2024, there are two instances in the KDTR dataset. Claudia MacFarlane
+# could not confirm which gear type was used for these instances. Removing for now
+EDSM <- EDSM %>%
+  filter(!is.na(Method))
 
 # Save compressed data to /data
 usethis::use_data(EDSM, overwrite=TRUE, compress = "xz")

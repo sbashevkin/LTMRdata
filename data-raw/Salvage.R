@@ -220,38 +220,64 @@ Salvage <- SalvageStart %>%
 # Final check
 if (nrow(SalvageStart) - nrow(Salvage) != 6) stop("The last distinct() step removed more rows than intended. Check.")
 
+# When are periods of no sampling? May occur when:
+# Pumping minutes is NA or 0
+# Count is NA or 0
+# Tow volume is NA or 0
+# Taxa is NA
+noSamplingMaybe <- Salvage %>%
+  filter((is.na(Count) | Count == 0) |
+           (is.na(Tow_volume | Tow_volume == 0)) |
+           is.na(Taxa))
+# Unique string of all the potential comments used here
+
 # Now, removing periods where there was no fish sampling; this is because
 # water quality sampling may still occur with no fish sampling--we don't want those in this dataset
 # These values appears to be comprehensive for now. Tested to see if they yield correct results.
-noSamplingStrings <- c(
-  "NO.*PUMPING",
-  "SHUT DOWN",
-  "SHUTDOWN",
-  "NO FLOW",
-  "^0+ CFS",
-  "NO.*COUNT",
-  "SHUTDOWN",
-  "NO [0-9]{4}/[0-9]{4} COUNTS",
-  "Power outage",
-  "Power out",
-  "no salvage",
-  "louver cleaning",
-  "fish lost",
-  "trash rack failure",
-  "hoist down",
-  "hoist failure",
-  "screen failure"
-)
+
+noSamplingRegex <- c(
+  "no\\s*(count|cnt|fish\\s*(count|cnt|salvage))",
+  "(shut\\s*down|shutdown|facilityshutdown)",
+  "down\\s*for\\s*(maintenance|repairs)",
+  "no\\s*(pumping|water|flow|salvage|export|TFF.*salvage)",
+  "(zero|0)\\s*(count|slvg|export|flow|pumping|salvage|units|bapp)",
+  # "facility\\s*(shut\\s*down|shutdown)",
+  "(power\\s*outage|equipment\\s*failure)",
+  # "trash\\s*rack\\s*failure",
+  # "hoist\\s*(down|failure)",
+  # "screen\\s*failure",
+  # "vamp",
+  # "no\\s*data",
+  "stopped\\s*pumping\\s*water",
+  # "(bjpp|jpp)\\s*shutdown",
+  # "no\\s*tracy\\s*pumps",
+  # "pump\\s*not\\s*working",
+  "no\\s+(fish\\s+|10\\s+(min(ute)?\\.?\\s+)?)?(count)"
+  # "^0+\\s*cfs"
+) # 1072
+# Not all of these are required; I've commented out the redundant ones
+# Not deleting them though in case they are useful in the future
 
 # This is a conservative filter as it also requires Count == 0
 Salvage <- Salvage %>%
   mutate(
-    noSampling = grepl(paste(noSamplingStrings, collapse = "|"), Notes_tow, ignore.case = T)
+    noSampling = grepl(paste(noSamplingRegex, collapse = "|"), Notes_tow, ignore.case = T)
     # noSamplingTime = grepl("[0-9]{2,4}([:][0-9]{2})?([ ]?(HRS))?", Notes_tow, ignore.case = T) & noSampling,
     # didNotShutDown = grepl("did not shut down", Notes_tow, ignore.case = T) & noSampling
   ) %>%
-  # This removes 932 records as of 06-28-24
-  filter(!(noSampling & Count == 0))%>%
+  # This removes 1072 records as of 7-18-2024
+  filter(!(noSampling & Count == 0 & Method == "Normal count"),
+         # Remove Sampling from the CVP between 2021-06-11 to 2021-06-16. No pumping at this facility
+         # No comments written for these entries though. Confirmed via datasheet provided by
+         # Kyle Griffiths on 2024-07-16. This should be only 66 rows for this specific filter
+         !(between(Date, as.Date("2021-06-11"), as.Date("2021-06-16")) &
+             Station == "CVP Federal Facility" & Tow_volume == 0 & Count == 0),
+         # This singular row too specific to match with regex without false matches
+         !SampleID %in% "Salvage 219623 1",
+         # Kyle Griffiths confirmed that on these dates, the SWP was not sampling
+         !(Date %in% as.POSIXct(c("2022-05-17", "2022-05-18", "2022-05-19", "2022-06-07",
+                     "2022-06-29", "2022-06-30", "2022-07-01")) &
+            Station == "SWP NA")) %>%
   select(-noSampling)
 
 # # This is the expansion of this dataset, checked against the CDFW website
