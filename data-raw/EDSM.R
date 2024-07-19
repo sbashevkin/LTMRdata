@@ -141,12 +141,10 @@ EDSM <- bind_rows(
   select(Source, Station, Latitude, Longitude, Date, Datetime, Depth, SampleID, Method, Tide, Sal_surf,
          Temp_surf, TurbidityNTU,
          # TurbidityBottomNTU, # Can include this back in if in the future more than just EDSM collects this data
-         Secchi, Tow_volume, Tow_direction, Taxa, Length, Count, Length_NA_flag)
-
-# Remove NA gear types
-# As of 07/19/2024, there are two instances in the KDTR dataset. Claudia MacFarlane
-# could not confirm which gear type was used for these instances. Removing for now
-EDSM <- EDSM %>%
+         Secchi, Tow_volume, Tow_direction, Taxa, Length, Count, Length_NA_flag)%>%
+  # Remove NA gear types
+  # As of 07/19/2024, there are two instances in the KDTR dataset. Claudia MacFarlane
+  # could not confirm which gear type was used for these instances. Removing for now
   filter(!is.na(Method))
 
 # Save compressed data to /data

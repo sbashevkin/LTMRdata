@@ -80,7 +80,7 @@
 #' US Fish and Wildlife Service Enhanced Delta Smelt Monitoring (EDSM) data.
 #'
 #' @encoding UTF-8
-#' @format a tibble with 190,057 rows and 20 number of variables
+#' @format a tibble with 190,055 rows and 20 number of variables
 #' \describe{
 #'   \item{Source}{Name of source dataset.}
 #'   \item{Station}{Station where sample was collected.}
@@ -169,7 +169,7 @@
 #' California Department of Fish and Wildlife Spring Kodiac Trawl (SKT) data.
 #'
 #' @encoding UTF-8
-#' @format a tibble with 42,909 rows and 20 variables
+#' @format a tibble with 42,909 rows and 22 variables
 #' \describe{
 #'   \item{Source}{Name of source dataset.}
 #'   \item{Station}{Station where sample was collected.}
@@ -216,7 +216,7 @@
 #' California Department of Fish and Wildlife Smelt Larva Survey data.
 #'
 #' @encoding UTF-8
-#' @format a tibble with 24,826 rows and 26 variables
+#' @format a tibble with 27,851 rows and 26 variables
 #' \describe{
 #'   \item{Source}{Name of source dataset.}
 #'   \item{Station}{Station where sample was collected.}
@@ -252,7 +252,7 @@
 #'
 #' Crosswalk table of species codes to common and scientific names
 #'
-#' @format a tibble with 287 rows and 13 variables
+#' @format a tibble with 288 rows and 13 variables
 #' \describe{
 #'   \item{ScientificName}{Scientific Name.}
 #'   \item{Baystudy_Code}{Bay Study code.}
@@ -410,7 +410,7 @@
 #' California Department of Fish and Wildlife Fish Salvage dataset.
 #'
 #' @encoding UTF-8
-#' @format a tibble with 2,599,578 rows and 15 variables
+#' @format a tibble with 2,602,069 rows and 15 variables
 #' \describe{
 #'   \item{Source}{Name of source dataset.}
 #'   \item{Station}{State or federal facility buildings (of the SWP or CVP).}
@@ -434,7 +434,7 @@
 #' Salvage measured lengths
 #'
 #' Only measured lengths from the Salvage data
-#' @format a tibble with 1,810,781 rows and 4 variables
+#' @format a tibble with 1,812,466 rows and 4 variables
 #' \describe{
 #'   \item{SampleID}{Unique sample identifier.}
 #'   \item{Taxa}{Scientific name.}

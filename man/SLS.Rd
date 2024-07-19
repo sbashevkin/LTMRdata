@@ -6,7 +6,7 @@
 \alias{SLS}
 \title{SLS dataset}
 \format{
-a tibble with 24,826 rows and 26 variables
+a tibble with 27,851 rows and 26 variables
 \describe{
   \item{Source}{Name of source dataset.}
   \item{Station}{Station where sample was collected.}

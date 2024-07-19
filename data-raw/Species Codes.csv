@@ -78,7 +78,7 @@ UnID,NA,UnID invertebrate,NA,NA,192,NA,NA,NA,NA,90,NA,UnID
 UnID,NA,UnID damaged,NA,NA,193,NA,NA,NA,NA,90,NA,UnID
 UnID,NA,Total Fish Count,NA,NA,NA,NA,NA,NA,NA,98,NA,UnID
 UnID,NA,Total Fish Estimate,NA,NA,NA,NA,NA,NA,NA,99,NA,UnID
-Mugil cephalus,STRMUL,Striped Mullet,SMU,112,142,SMUL,NA,NA,NA,117,NA,Mugil cephalus
+Mugil cephalus,STRMUL,Striped Mullet,SMU,112,142,SMUL,NA,102,102,117,NA,Mugil cephalus
 Syngnathus leptorhynchus,BAYPIP,Bay Pipefish,BPF,71,35,BYP,71,35,35,127,NA,Syngnathus leptorhynchus
 Paralichthys californicus,CALHAL,California Halibut,CAH,78,107,CHA,78,78,78,133,NA,Paralichthys californicus
 Crangon franciscorum,NA,California Bay Shrimp,NA,NA,NA,CRANGON,NA,NA,NA,137,NA,Crangon franciscorum
@@ -172,12 +172,12 @@ Atractoscion nobilis,WHISEB,White Seabass,NA,99,NA,NA,99,NA,NA,NA,NA,Atractoscio
 Aulorhynchus flavidus,TUBESN,Tubesnout,NA,NA,NA,NA,NA,NA,NA,NA,NA,Aulorhynchus flavidus
 Aurelia aurita,NA,Moon Jelly,AAURIT,100,159,NA,100,NA,NA,NA,NA,Aurelia aurita
 Aurelia labiata,NA,Moon Jelly L,ALABIA,NA,NA,NA,NA,NA,NA,NA,NA,Aurelia labiata
-Bathymasteridae,RONSPP,Unidentified Ronquil,NA,NA,NA,NA,NA,NA,NA,NA,NA,Bathymasteridae
+Bathymasteridae,RONSPP,Unidentified Ronquil,NA,NA,NA,NA,NA,200,200,NA,NA,Bathymasteridae
 Blackfordia virginica,NA,Black Sea Jellyfish N,BVIRGI,102,189,NA,NA,NA,NA,NA,NA,Blackfordia virginica
 Brachyistius frenatus,KELPER,Kelp Perch,KSP,NA,NA,NA,NA,NA,NA,NA,NA,Brachyistius frenatus
 Cancer magister,NA,Cancer magister,NA,NA,182,NA,NA,NA,NA,NA,NA,Cancer magister
 Cebidichthys violaceus,MONPRI,Monkeyface Prickleback,NA,NA,NA,NA,NA,2775,2775,NA,NA,Cebidichthys violaceus
-Lepomis,NA,Unidentified Lepomis,CTU,NA,190,NA,NA,NA,NA,NA,NA,Lepomis
+Lepomis,NA,Unidentified Lepomis,CTU,NA,190,NA,NA,103,103,NA,NA,Lepomis
 Chilara taylori,SPOCEE,Spotted Cusk-Eel,NA,NA,NA,NA,NA,NA,NA,NA,NA,Chilara taylori
 Chrysaora fuscescens,NA,Pacific Sea Nettle,CFUSCE,NA,NA,NA,115,NA,NA,NA,NA,Chrysaora fuscescens
 Citharichthys,SANSPP,Unidentified Sanddab,NA,NA,NA,NA,NA,NA,NA,NA,NA,Citharichthys
@@ -211,7 +211,7 @@ Leuresthes tenuis,CALGRU,California Grunion,NA,NA,NA,NA,108,NA,NA,NA,NA,Leuresth
 Liparis,SNASPP,Unidentified Snailfish,NA,NA,NA,NA,NA,NA,NA,NA,NA,Liparis
 Liparis fucensis,SLISNA,Slipskin Snailfish,NA,NA,NA,NA,NA,NA,NA,NA,NA,Liparis fucensis
 Liparis pulchellus,SHOSNA,Showy Snailfish,NA,NA,NA,NA,NA,NA,NA,NA,NA,Liparis pulchellus
-Lucania goodei,BLUKIL,Bluefin Killifish,BFK,116,116,NA,NA,100,116,NA,NA,Lucania goodei
+Lucania goodei,BLUKIL,Bluefin Killifish,BFK,116,116,NA,NA,100,100,NA,NA,Lucania goodei
 Lumpenus sagitta,SNAPRI,Snake Prickleback,NA,NA,NA,NA,NA,NA,NA,NA,NA,Lumpenus sagitta
 Stichaeidae,NA,Unidentified Prickleback,NA,NA,NA,NA,NA,2813,2813,NA,NA,Stichaeidae
 Macoma,NA,Macoma Clam,NA,NA,NA,MACOMA,NA,NA,NA,NA,NA,Macoma
@@ -261,7 +261,7 @@ Sarda chiliensis,PACBON,Pacific Bonito,NA,NA,NA,NA,NA,NA,NA,NA,NA,Sarda chiliens
 Scomber japonicus,PACCMA,Pacific Chub Mackeral,NA,NA,NA,NA,NA,NA,NA,NA,NA,Scomber japonicus
 Scorpaenichthys marmoratus,CABEZO,Cabezon,CBZ,NA,NA,NA,NA,NA,NA,NA,NA,Scorpaenichthys marmoratus
 Scrippsia pacifica,NA,Giant Bell Jelly,SPACIF,107,186,NA,106,NA,NA,NA,NA,Scrippsia pacifica
-Sebastes,ROCSPP,Unidentified Rockfish,ROC,NA,NA,ROCK,NA,81,100,NA,NA,Sebastes
+Sebastes,ROCSPP,Unidentified Rockfish,ROC,NA,NA,ROCK,NA,81,81,NA,NA,Sebastes
 Sebastes auriculatus,BROROC,Brown Rockfish,BRF,NA,185,NA,NA,96,96,NA,NA,Sebastes auriculatus
 Sebastes carnatus,NA,Gopher Rockfish,GRF,NA,NA,NA,NA,NA,NA,NA,NA,Sebastes carnatus
 Sebastes flavidus,YELROC,Yellowtail Rockfish,NA,NA,NA,NA,NA,NA,NA,NA,NA,Sebastes flavidus
@@ -284,5 +284,6 @@ Pholidae,NA,Gunnel (Unid),NA,NA,NA,NA,NA,101,101,NA,NA,Pholidae
 Galeorhinus galeus,SOUSHA,Soupfin Shark,NA,NA,NA,NA,NA,NA,NA,NA,NA,Galeorhinus galeus
 Caulolatilus princeps,OCEWHI,Ocean Whitefish,NA,NA,NA,NA,NA,NA,NA,NA,NA,Caulolatilus princeps
 Sebastes rastrelliger,GRAROC,Grass Rockfish,NA,NA,NA,NA,NA,NA,NA,NA,NA,Sebastes rastrelliger
+Hypomesus,,Hypomesus spp.,NA,NA,NA,NA,NA,300,300,NA,NA,Hypomesus
 NA,NOCATC,No Catch,NOFISH,0,NA,NOCATCH,NA,NA,NA,NA,NA,NA
 NA,NA,No Trawl,NA,NA,NA,NOTRAWL,NA,NA,NA,NA,NA,NA

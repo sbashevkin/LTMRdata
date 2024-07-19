@@ -5,7 +5,7 @@
 \alias{Species}
 \title{Species codes}
 \format{
-a tibble with 287 rows and 13 variables
+a tibble with 288 rows and 13 variables
 \describe{
   \item{ScientificName}{Scientific Name.}
   \item{Baystudy_Code}{Bay Study code.}
