@@ -119,7 +119,7 @@ eml <- make_eml(
 changelog<-list(list(changeScope="Metadata and data",
                      oldValue="See previous version (1)",
                      changeDate="2024-07-01",
-                     comment="1) Updated all datasets to what was available as of at least February 2024.
+                     comment="1) Updated all datasets to what was available as of July 19, 2024 except Suisun, which was updated earlier.
                               2) Added Turbidity in NTU or FNU.
                               3) Added Salvage dataset")
                 )
