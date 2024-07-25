@@ -1,7 +1,7 @@
 givenName	middleInitial	surName	organizationName	electronicMailAddress	userId	role	projectTitle	fundingAgency	fundingNumber
 Samuel	M	Bashevkin	State Water Board	sam.bashevkin@waterboards.ca.gov	https://orcid.org/0000-0001-7406-7089	creator			
 Trinh	X	Nguyen	California Department of Fish and Wildlife and the Interagency Ecological Program	Trinh.Nguyen@Wildlife.ca.gov	https://orcid.org/0000-0001-9523-1466	creator			
-Enoch	 J	Tham	CDFW – Water Branch	Enoch.Tham@Wildlife.ca.gov		creator			
+Enoch	 J	Tham	CDFW Water Branch	Enoch.Tham@Wildlife.ca.gov		creator			
 Jereme	W	Gaeta	California Department of Fish and Wildlife and the Interagency Ecological Program	Jereme.Gaeta@Wildlife.ca.gov	https://orcid.org/0000-0002-6925-6907	creator			
 Lara		Mitchell	U.S. Fish and Wildlife Service	lara_mitchell@fws.gov	https://orcid.org/0000-0002-8439-8508	creator			
 Shruti		Khanna	California Department of Fish and Wildlife and the Interagency Ecological Program	Shruti.Khanna@Wildlife.ca.gov	https://orcid.org/0000-0003-1724-248X	creator			

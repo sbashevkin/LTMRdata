@@ -1,5 +1,5 @@
 attributeName	attributeDefinition	class	unit	dateTimeFormatString	missingValueCode	missingValueCodeExplanation
-Source	Name of the source survey. This column is also prsent in the fish table	categorical				
+Source	Name of the source survey. 	categorical				
 Station	Unique name of each sampling location	character				
 Latitude	Latitude of the sampling location	numeric	degree		NA	No coordinates available
 Longitude	Longitude of the sampling location	numeric	degree		NA	No coordinates available
