@@ -1,5 +1,8 @@
-# LTMRdata (development version)
+# LTMRdata 2.1.0
 
+* Added separate columns for Turbidity in NTU or FNU
+* Updated all datasets
+* Added Salvage
 * Corrected SKT data to fix negative tow volumes, and adding a test to ensure that doesn't happen again. 
 * Add exported function to wrangle and save the integrated dataset for EDI publication: `data_integrate`
 

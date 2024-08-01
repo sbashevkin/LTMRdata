@@ -93,6 +93,9 @@ EDSM <- bind_rows(
          # Removing conductivity data from dates before it was standardized
          Conductivity = if_else(Date<parse_date_time("2019-06-01", "%Y-%m-%d", tz="America/Los_Angeles"), NA_real_, Conductivity),
          Sal_surf = ec2pss(Conductivity/1000, t=25),
+         Sal_surf = case_when(Sal_surf<0 & Sal_surf>(-0.1)~ 0,
+                              Sal_surf>40 ~ NA_real_,
+                              TRUE ~ Sal_surf),
          # Updating recode (superseded as of dplyr 1.1.2) to case_when()
          # Using regex to make it more generic
          Method = case_when(grepl("^K(D)?T(R|S\\d+)", Method) ~ "Kodiak trawl",

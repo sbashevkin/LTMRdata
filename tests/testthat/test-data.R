@@ -93,5 +93,23 @@ test_that("No sample times are midnight, ignoring Salvage", {
   expect_equal(nrow(filter(data, Source!="Salvage" & hour(Datetime)==0 & minute(Datetime)==0)), 0)
 })
 
+test_that("No salinities are negative", {
+  expect_equal(nrow(filter(data, Sal_surf<0)), 0)
+  expect_equal(nrow(filter(data, Sal_bot<0)), 0)
+})
+
+test_that("No salinities are too high", {
+  expect_equal(nrow(filter(data, Sal_surf>40)), 0)
+  expect_equal(nrow(filter(data, Sal_bot>40)), 0)
+})
+
+test_that("No temperatures are negative", {
+  expect_equal(nrow(filter(data, Temp_surf<0)), 0)
+})
+
+test_that("No temperatures are too high", {
+  expect_equal(nrow(filter(data, Temp_surf>40)), 0)
+})
+
 rm(data)
 gc()

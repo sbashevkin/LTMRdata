@@ -154,6 +154,7 @@ sampleSTN <- Sample %>%
          ## ConductivityTop is in micro-S/cm at 25 degrees Celsius.
          ## Input for ec2pss should be in milli-S/cm.
          Sal_surf=wql::ec2pss(ConductivityTop/1000, t=25),
+         Sal_surf=if_else(Sal_surf>40, NA_real_, Sal_surf),
          Latitude=(LatD + LatM/60 + LatS/3600),
          Longitude= -(LonD + LonM/60 + LonS/3600)) %>%
   left_join(luTide, by=c("TideCode"="TideRowID")) %>%

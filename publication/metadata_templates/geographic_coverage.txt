@@ -1,5 +1,0 @@
-geographicDescription	northBoundingCoordinate	southBoundingCoordinate	eastBoundingCoordinate	westBoundingCoordinate
-NE	39.21999207	39.21999207	-121.00969	-121.00969
-NW	39.21999207	39.21999207	-122.4984841	-122.4984841
-SE	37.50185	37.50185	-121.00969	-121.00969
-SW	37.50185	37.50185	-122.4984841	-122.4984841

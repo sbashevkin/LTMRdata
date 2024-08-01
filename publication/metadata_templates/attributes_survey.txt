@@ -1,14 +1,14 @@
 attributeName	attributeDefinition	class	unit	dateTimeFormatString	missingValueCode	missingValueCodeExplanation
-Source	Name of the source survey. 	categorical				
-Station	Unique name of each sampling location	character				
+Source	Name of the source survey. 	categorical
+Station	Unique name of each sampling location	character
 Latitude	Latitude of the sampling location	numeric	degree		NA	No coordinates available
 Longitude	Longitude of the sampling location	numeric	degree		NA	No coordinates available
-Date	Date sample was collected	Date		YYYY-MM-DD		
+Date	Date sample was collected	Date		YYYY-MM-DD
 Datetime	Date and time sample was collected	Date		YYYY-MM-DD hh:mm:ss	NA	Not recorded
 Survey	Cumulative survey number in the source dataset	numeric	dimensionless		NA	The source dataset does not record survey numbers
 Depth	"Bottom depth. Sometimes this is recorded at the time of the tow, and sometimes it's an average depth for the sampling location."	numeric	meter		NA	Not recorded
-SampleID	Unique identifier for each sample (i.e. tow). This is the key to join the fish and sample tables together.	character				
-Method	Gear type	categorical				
+SampleID	Unique identifier for each sample (i.e. tow). This is the key to join the fish and sample tables together.	character
+Method	Gear type	categorical
 Tide	Tidal stage	categorical			NA	Not recorded
 Sal_surf	Surface salinity	numeric	dimensionless		NA	Not recorded
 Sal_bot	Bottom salinity	numeric	dimensionless		NA	Not recorded
@@ -17,7 +17,7 @@ TurbidityNTU	Surface water turbidity in NTU	numeric	nephelometricTurbidityUnit		
 TurbidityFNU	Surface water turbidity in FNU	numeric	formazinNephelometricUnit		NA	Not recorded
 Secchi	Secchi depth	numeric	centimeter		NA	Not recorded
 Secchi_estimated	Was Secchi depth estimated? This is only used for FMWT data.	categorical			NA	Not recorded (only used for FMWT data)
-Tow_duration	Duration of tow	numeric	minute		NA	Not recorded
+Tow_duration	Duration of tow. For Salvage this is the duration of sampling.	numeric	minute		NA	Not recorded
 Tow_area	Area sampled by tow	numeric	squareMeter		NA	Not recorded or this effort metric not used for this gear type
 Tow_volume	"Volume sampled by tow. For Salvage, this value represents the daily export volume for the sampled facility. "	numeric	meterCubed		NA	Not recorded or this effort metric not used for this gear type
 Cable_length	Length of cable released when net deployed	numeric	meter		NA	Not recorded

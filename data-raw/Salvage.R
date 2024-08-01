@@ -131,6 +131,7 @@ SalvageStart <- SalvageJoined %>%
             Tow_volume = AcreFeet * 1233.48,
             # MinutesPumping, SampleTimeLength,
             Temp_surf = (WaterTemperature - 32) * 5/9, # Is this really surface temperature? It's well mixed
+            Temp_surf = if_else(Temp_surf<0, NA_real_, Temp_surf), # Salvage seems to use 0F to indicate broken temp gage. This turns into negative values in C.
             # PrimaryDepth, PrimaryFlow, BayPump1, BayPump2, BayPump3, BayPump4,
             # BayPump5, Sampler, QCed,
             # BuildingCode,

@@ -8,7 +8,7 @@ Source	SKT	CDFW Spring Kodiak Trawl
 Source	SLS	CDFW Smelt Larva Survey
 Source	STN	CDFW Summer Townet
 Source	Suisun	UC Davis Suisun Marsh Fish Study
-Source	Salvage	California Department of Fish and Wildlife Fish Salvage datase
+Source	Salvage	California Department of Fish and Wildlife Fish Salvage database
 Method	20mm net	20mm net
 Method	Beach seine	Beach seine
 Method	Kodiak trawl	Kodiak trawl

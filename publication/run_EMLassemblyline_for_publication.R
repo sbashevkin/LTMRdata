@@ -49,49 +49,44 @@ EMLassemblyline::template_categorical_variables(
   path = path_templates,
   data.path = path_data)
 
+# Create taxonomic coverage template (Not-required. Use this to report
+# taxonomic entities in the metadata)
+
+#remotes::install_github("EDIorg/taxonomyCleanr")
+tax<-FALSE
+
+if(tax){
+  library(taxonomyCleanr)
+
+  EMLassemblyline::template_taxonomic_coverage(
+    path = path_templates,
+    data.path = path_data,
+    taxa.table = "fish.csv",
+    taxa.col = "Taxa",
+    taxa.name.type = "scientific",
+    taxa.authority = c(9,3,11))
+}
+
 # Create geographic coverage (required when more than one geographic location
 # is to be reported in the metadata).
 
 coords<-read_csv(file.path(path_data, 'survey.csv'),
                  col_types=cols_only(Latitude="d", Longitude="d"))%>%
-  summarise(Lat_min=min(Latitude, na.rm = T),
-            Lat_max=max(Latitude, na.rm = T),
-            Lon_min=min(Longitude, na.rm = T),
-            Lon_max=max(Longitude, na.rm = T))
-Bounds<-tibble(Bound=c("NE", "NW", "SE", "SW"),
-         Latitude=c(coords$Lat_max, coords$Lat_max, coords$Lat_min, coords$Lat_min),
-         Longitude=c(coords$Lon_max, coords$Lon_min, coords$Lon_max, coords$Lon_min))
+  summarise(South=min(Latitude, na.rm = T),
+            North=max(Latitude, na.rm = T),
+            West=min(Longitude, na.rm = T),
+            East=max(Longitude, na.rm = T))
 
-write_csv(Bounds, file=file.path(path_data, "Bounds.csv"))
-
-EMLassemblyline::template_geographic_coverage(
-  path = path_templates,
-  data.path = path_data,
-  data.table = 'Bounds.csv',
-  lat.col = "Latitude",
-  lon.col = "Longitude",
-  site.col = "Bound")
-
-# Create taxonomic coverage template (Not-required. Use this to report
-# taxonomic entities in the metadata)
-
-#remotes::install_github("EDIorg/taxonomyCleanr")
-library(taxonomyCleanr)
-
-EMLassemblyline::template_taxonomic_coverage(
-  path = path_templates,
-  data.path = path_data,
-  taxa.table = "fish.csv",
-  taxa.col = "Taxa",
-  taxa.name.type = "scientific",
-  taxa.authority = c(9,3,11))
-
+date_range<-read_csv(file.path(path_data, 'survey.csv'),
+                 col_types=cols_only(Date="D"))%>%
+  pull(Date)%>%
+  range()
 # Make EML from metadata templates --------------------------------------------
 
 # Once all your metadata templates are complete call this function to create
 # the EML.
 
-ID<-"edi.1118.1" # Sandbox EDI
+ID<-"edi.1118.2" # Sandbox EDI
 #ID<-'edi.1075.2' # Real EDI
 
 eml <- make_eml(
@@ -99,8 +94,10 @@ eml <- make_eml(
   data.path = path_data,
   eml.path = path_eml,
   dataset.title = 'Fish abundance in the San Francisco Estuary (1959-2024), an integration of 10 monitoring surveys.',
-  temporal.coverage = c('1959-06-13', '2024-07-17'),
+  temporal.coverage = date_range,
   maintenance.description = 'ongoing',
+  geographic.description = "Data were collected in the San Francisco Estuary, including San Francisco Bay, Suisun Bay and Marsh, and the Sacramento San Joaquin Delta.",
+  geographic.coordinates = c(coords$North, coords$East, coords$South, coords$West),
   data.table = c('survey.csv', 'fish.csv', 'Length_conversions.csv'),
   data.table.name = c('Sample-level table', 'Fish-level data', 'Length conversion equations'),
   data.table.description = c('Sample-level environmental and effort data. Can be joined to the fish table with the SampleID column.', 'Fish-level length and abundance data. Can be joined to the survey table with the SampleID column.', 'Length conversion equations for 20 fishes, of the form fork or total length = intercept + slope * standard length.'),
@@ -118,8 +115,8 @@ eml <- make_eml(
 
 changelog<-list(list(changeScope="Metadata and data",
                      oldValue="See previous version (1)",
-                     changeDate="2024-07-01",
-                     comment="1) Updated all datasets to what was available as of July 19, 2024 except Suisun, which was updated earlier.
+                     changeDate="2024-07-30",
+                     comment="1) Updated all datasets to what was available as of at least July 19, 2024 except Suisun, which was updated earlier.
                               2) Added Turbidity in NTU or FNU.
                               3) Added Salvage dataset")
                 )
