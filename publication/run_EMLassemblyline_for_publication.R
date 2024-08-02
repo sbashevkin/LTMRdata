@@ -86,8 +86,8 @@ date_range<-read_csv(file.path(path_data, 'survey.csv'),
 # Once all your metadata templates are complete call this function to create
 # the EML.
 
-ID<-"edi.1118.2" # Sandbox EDI
-#ID<-'edi.1075.2' # Real EDI
+#ID<-"edi.1118.2" # Sandbox EDI
+ID<-'edi.1075.2' # Real EDI
 
 eml <- make_eml(
   path = path_templates,
