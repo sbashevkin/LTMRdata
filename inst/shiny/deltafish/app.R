@@ -17,13 +17,13 @@ require(readr)
 
 create_fish_db()
 cat("finished creating fish database")
-surv<-open_survey()%>%
+con<-open_database()
+surv<-open_survey(con)%>%
   mutate(StationID=paste(Source, Station),
-         Date=as_date(Date),
          Year=as.integer(year(Date)),
          Month=as.integer(month(Date)))
 
-fish<-open_fish()
+fish<-open_fish(con)
 
 surveys<-surv%>%
   distinct(Source)%>%
@@ -160,7 +160,7 @@ server <- function(input, output, session) {
                    text = tags$span(tags$p("This app works best if you select a subset of the data, rather than trying to obtain the full dataset.
                                            You will not be allowed to select more than 10 fish species, since that will crash the app.
                                            If you wish to access the full dataset, you can do so at the",
-                                           a("data publication.", href="https://www.doi.org/10.6073/pasta/0cdf7e5e954be1798ab9bf4f23816e83")),
+                                           a("data publication.", href="https://doi.org/10.6073/pasta/a29a6e674b0f8797e13fbc4b08b92e5b")),
                                     tags$p("If you are an R user, you can access the database with more advanced options using the R package",
                                            a("deltafish.", href="https://delta-stewardship-council.github.io/deltafish/")),
                                     tags$p("The 'sum counts over all lengths' option allows you to decide whether to keep the data as length frequency
@@ -168,7 +168,7 @@ server <- function(input, output, session) {
                                            total number of each species captured in each trawl. If you decide to sum counts over all lengths,
                                            you are given the option to only select fish within a given size range, so you can get the total number
                                            of fish in your desired length range. This can be helpful to exclude small fish that are not always counted in the surveys."),
-                                    tags$p(tags$b("Please read the full documentation in the", a("data publication", href="https://www.doi.org/10.6073/pasta/0cdf7e5e954be1798ab9bf4f23816e83"),
+                                    tags$p(tags$b("Please read the full documentation in the", a("data publication", href="https://doi.org/10.6073/pasta/a29a6e674b0f8797e13fbc4b08b92e5b"),
                                                   "before using these data. There are important details to take into account, such as the inconsistency in the fish length unit.")),
                                     "------------------------------------------",
                                     tags$p(tags$b("App created and maintained by Sam Bashevkin.
