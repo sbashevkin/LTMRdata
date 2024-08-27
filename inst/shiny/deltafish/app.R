@@ -322,7 +322,7 @@ server <- function(input, output, session) {
   ModalDownloadData<-function(){
     modalDialog(
       h1("Data info"),
-      p("Please see the", a("data publication.", href="https://www.doi.org/10.6073/pasta/0cdf7e5e954be1798ab9bf4f23816e83"),
+      p("Please see the", a("data publication.", href="https://doi.org/10.6073/pasta/a29a6e674b0f8797e13fbc4b08b92e5b"),
         "for all metadata associated with this dataset, as well as the citation information."),
       footer = tagList(modalButton("Cancel"),
                        downloadBttn("Downloaddata", "Download data", style="bordered", color = "primary", size="sm")),
