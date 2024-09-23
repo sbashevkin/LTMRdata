@@ -10,10 +10,11 @@
 library(shiny)
 library(shinyWidgets)
 library(dplyr)
-require(lubridate)
+library(lubridate)
 library(ggplot2)
 library(deltafish)
-require(readr)
+library(readr)
+library(shinybusy)
 
 create_fish_db()
 cat("finished creating fish database")
@@ -56,11 +57,6 @@ suisun_samples<-surv%>%
   pull(SampleID)
 gc()
 
-#Settings for the "data crunching" message.
-info_loading <- "Crunching data"
-progress_color <- "black"
-progress_background <- "#c5c5c9"
-
 # Define UI for application that draws a histogram
 ui <- fluidPage(
 
@@ -71,6 +67,10 @@ ui <- fluidPage(
                        h5("If you encounter any issues, please email ", a("sam.bashevkin@waterboards.ca.gov.",
                                                                           href="mailto:sam.bashevkin@waterboards.ca.gov?subject=Fish%20data%20Shiny%20app"))),
              windowTitle = "Delta fish database"),
+
+  add_busy_spinner(spin = "fading-circle", position = c("top-right"),
+                   height = "200px",
+                   width = "200px"),
 
   # Sidebar with a slider input for number of bins
   sidebarLayout(
@@ -97,7 +97,7 @@ ui <- fluidPage(
                   step=1,
                   sep=""),
       pickerInput("Species",
-                  "Select species:",
+                  "Select species (up to 10):",
                   choices = species,
                   selected = species[1],
                   multiple = TRUE,
@@ -130,29 +130,7 @@ ui <- fluidPage(
     mainPanel(
       plotOutput("dataPlot")
     )
-  ),
-  # Display the "data crunching" message.
-  tags$head(tags$style(type="text/css",
-                       paste0("
-                                             #loadmessage {
-                                             position: fixed;
-                                             top: 25%;
-                                             left: 25%;
-                                             width: 50%;
-                                             padding: 30px 0px 30px 0px;
-                                             text-align: center;
-                                             font-weight: bold;
-                                             font-size: 200%;
-                                             color: ", progress_color,";
-                                             background-color: ", progress_background,";
-                                             z-index: 105;
-                                             border: 2px solid black;
-                                             border-radius: 50px;
-                                             }
-                                             "))),
-  conditionalPanel(condition="$('html').hasClass('shiny-busy')",
-                   tags$div(tags$i(class = "fa fa-spinner", style = "color: black"), info_loading, tags$i(class = "fa fa-spinner", style = "color: black"), id="loadmessage")),
-  tags$style(type="text/css", ".recalculating {opacity: 1.0;}")
+  )
 )
 
 # Define server logic required to draw a histogram
