@@ -99,6 +99,7 @@ ui <- fluidPage(
       pickerInput("Species",
                   "Select species:",
                   choices = species,
+                  selected = species[1],
                   multiple = TRUE,
                   options=list("selected-text-format" = "count > 3",
                                "live-search" = TRUE,
@@ -112,14 +113,17 @@ ui <- fluidPage(
                        h4("Fork length cutoff (mm; all other surveys)"),
                        fluidRow(column(6, numericInput("Forkmin", "Min", value = 0, min=0, max=length_max, step = 1)),
                                 column(6, numericInput("Forkmax", "Max", value = length_max, min=0, max=length_max, step = 1)))),
-      actionBttn("Run", "Run/Update", style="bordered", icon = icon("play"), color="danger", size="sm"),
-      h2("Rows:"),
-      textOutput("rows"),
-      h2("Can you safely open this in excel?"),
-      textOutput("excel"),
-      h2("Estimated CSV size:"),
-      textOutput("size"),
-      actionBttn("Download", "Download data", style="simple", color="royal", icon=icon("file-download"))
+      conditionalPanel(condition="input.Surveys.length > 0 && input.Months.length > 0 && input.Years.length > 0 && input.Species.length > 0",
+                       actionBttn("Run", "Run/Update", style="bordered", icon = icon("play"), color="danger", size="sm")),
+      conditionalPanel(condition="output.download_ready == true",
+                       h2("Rows:"),
+                       textOutput("rows"),
+                       h2("Can you safely open this in excel?"),
+                       textOutput("excel"),
+                       h2("Estimated CSV size:"),
+                       textOutput("size")),
+      conditionalPanel(condition="output.download_ready == true",
+                       actionBttn("Download", "Download data", style="simple", color="royal", icon=icon("file-download")))
     ),
 
     # Show a plot of the generated distribution
@@ -268,6 +272,12 @@ server <- function(input, output, session) {
       collect()%>%
       nrow
   })
+
+  # Is download appropriate (i.e., are there any rows?)
+  output$download_ready<-reactive({
+    !is.null(rows()) & rows()>0
+  })
+  outputOptions(output, "download_ready", suspendWhenHidden = FALSE)
 
   # Format row number for display
   output$rows <- renderText({
