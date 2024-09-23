@@ -191,7 +191,6 @@ Decapoda,NA,Unidentified Shrimp,SHRIMP,NA,187,NA,118,NA,NA,NA,NA,Decapoda
 Embiotoca lateralis,STRSEA,Striped Seaperch,STSP,NA,NA,NA,NA,NA,NA,NA,NA,Embiotoca lateralis
 Embiotocidae,SURSPP,Unidentified Surfperch,NA,NA,45,PRU,NA,45,45,NA,NA,Embiotocidae
 Enophrys bison,BUFSCU,Buffalo Sculpin,NA,NA,NA,NA,NA,NA,NA,NA,NA,Enophrys bison
-Exopalaemon modestus,NA,Exopalaemon modestus,NA,NA,156,NA,NA,NA,NA,NA,NA,Exopalaemon modestus
 Gibbonsia metzi,STRKEL,Striped Kelpfish,SKP,NA,NA,NA,NA,NA,NA,NA,NA,Gibbonsia metzi
 Gibbonsia montereyensis,CREKEL,Crevice Kelpfish,CRKF,NA,NA,NA,NA,NA,NA,NA,NA,Gibbonsia montereyensis
 Hemilepidotus hemilepidotus,REDILO,Red Irish Lord,NA,NA,NA,NA,NA,NA,NA,NA,NA,Hemilepidotus hemilepidotus
@@ -231,7 +230,7 @@ Oligocottus rimensis,SADSCU,Saddleback Sculpin,SBS,NA,NA,NA,NA,NA,NA,NA,NA,Oligo
 Ophichthus zophochir,YELSEE,Yellow Snake Eel,NA,NA,NA,NA,NA,NA,NA,NA,NA,Ophichthus zophochir
 Palaemon,NA,Palaemon Shrimp,Pspp,23,NA,NA,23,NA,NA,NA,NA,Palaemon
 Palaemon kadiakensis,NA,Mississippi Grass Shrimp,NA,115,NA,NA,117,NA,NA,NA,NA,Palaemon kadiakensis
-Palaemon modestus,NA,Siberian Prawn,EXP,103,NA,EXOPAL,103,NA,NA,NA,NA,Palaemon modestus
+Palaemon modestus,NA,Siberian Prawn,EXP,103,156,EXOPAL,103,NA,NA,NA,NA,Palaemon modestus
 Pandalus danae,NA,Dock Shrimp,DSH,NA,NA,NA,NA,NA,NA,NA,NA,Pandalus danae
 Parophrys vetulus,ENGSOL,English Sole,ELS,83,120,ESL,83,83,83,NA,NA,Parophrys vetulus
 Pelagia colorata,NA,Purple-striped Jelly,PCOLOR,NA,NA,NA,NA,NA,NA,NA,NA,Pelagia colorata
