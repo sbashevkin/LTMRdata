@@ -69,8 +69,9 @@ ui <- fluidPage(
              windowTitle = "Delta fish database"),
 
   add_busy_spinner(spin = "fading-circle", position = c("top-right"),
-                   height = "200px",
-                   width = "200px"),
+                   height = "400px",
+                   width = "400px",
+                   margins=c(200, 200)),
 
   # Sidebar with a slider input for number of bins
   sidebarLayout(
@@ -151,7 +152,9 @@ server <- function(input, output, session) {
                                            you are given the option to only select fish within a given size range, so you can get the total number
                                            of fish in your desired length range. This can be helpful to exclude small fish that are not always counted in the surveys."),
                                     tags$p(tags$b("Please read the full documentation in the", a("data publication", href="https://doi.org/10.6073/pasta/a29a6e674b0f8797e13fbc4b08b92e5b"),
-                                                  "before using these data. There are important details to take into account, such as the inconsistency in the fish length unit.")),
+                                                  "before using these data. There are important details to take into account, such as the inconsistency in the fish length unit.
+                                                  In addition, more information on the component surveys can be found on the",
+                                                  a("IEP webpage.", href="https://iep.ca.gov/Data/IEP-Survey-Data"))),
                                     "------------------------------------------",
                                     tags$p(tags$b("App created and maintained by Sam Bashevkin.
                                                   Please email", a("Sam", href="mailto:sam.bashevkin@waterboards.ca.gov?subject=Fish%20data%20Shiny%20app"), "with any questions."))),
