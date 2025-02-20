@@ -6,6 +6,8 @@ library(tidyr)
 library(stringr)
 require(LTMRdata)
 
+# Test this change, for conflicting merge example
+
 # Setting up path for SLS files----
 Path<-file.path(tempdir(), "SLS.zip")
 Path_origin<-file.path(tempdir())
