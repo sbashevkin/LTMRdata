@@ -5,28 +5,23 @@ library(lubridate)
 library(tidyr)
 library(stringr)
 require(LTMRdata)
+library(deltadata)
 
-# Test this change, for conflicting merge example
-
-# Setting up path for SLS files----
-Path<-file.path(tempdir(), "SLS.zip")
-Path_origin<-file.path(tempdir())
-#Downloading MWT_data.zip----
-download.file("https://filelib.wildlife.ca.gov/Public/Delta%20Smelt/SLS.zip", Path, mode="wb",method="libcurl")
-unzip(Path,files="SLS.mdb",exdir=Path_origin)
+# Keeping previous code where the internal bridgeAccess is used in case deltadata breaks
+#
+# # Setting up path for SLS files----
+# Path<-file.path(tempdir(), "SLS.zip")
+# Path_origin<-file.path(tempdir())
+# #Downloading MWT_data.zip----
+# download.file("https://filelib.wildlife.ca.gov/Public/Delta%20Smelt/SLS.zip", Path, mode="wb",method="libcurl")
+# unzip(Path,files="SLS.mdb",exdir=Path_origin)
 
 # MS access database set up----
-# File path to Access database (Salvage)
-db_path <- file.path(tempdir(),"SLS.mdb")
-
-source(file.path("data-raw", "bridgeAccess.R"))
-
 keepTables <- c("Catch","FishCodes","Lengths",
                 "Tow Info","Water Info","Meter Corrections", "SLS Stations")
 
-SLSTables <- bridgeAccess(db_path,
-                            tables = keepTables,
-                            script = file.path("data-raw", "connectAccess.R"))
+SLSTables <- bridgeAccess("https://filelib.wildlife.ca.gov/Public/Delta%20Smelt/SLS.zip",
+                            tables = keepTables)
 
 # # If you've chosen to read csv --------------------------------------------
 # SLSTables <- list()
