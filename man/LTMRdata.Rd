@@ -2,8 +2,8 @@
 % Please edit documentation in R/LTMRdata.R
 \docType{package}
 \name{LTMRdata}
-\alias{LTMRdata-package}
 \alias{LTMRdata}
+\alias{LTMRdata-package}
 \title{LTMRdata: A package for integrating long-term monitoring datasets for the IEP long-term monitoring program review.}
 \description{
 This package contains internal datasets and a function (\code{\link{data_integrate}}) to bind them all together.
