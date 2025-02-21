@@ -102,8 +102,7 @@ FishSample <- data$FishSample %>%
 FishLength <- data$FishLength %>%
   mutate(across(c(FishLengthID, FishSampleID), as.integer),
          Length = as.numeric(Length),
-         across(c(AdFinPresent, ReleasedAlive), as.logical),
-         across(c(FieldRace, FinalRace), as.character))
+         across(c(AdFinPresent, ReleasedAlive), as.logical))
 
 MeterCorrections_avg <- MeterCorrections %>%
 	dplyr::group_by(MeterSerial) %>%

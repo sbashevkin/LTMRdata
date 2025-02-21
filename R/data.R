@@ -364,7 +364,7 @@
 #' California Department of Fish and Wildlife 20-mm Survey data.
 #'
 #' @encoding UTF-8
-#' @format a tibble with 355,228 rows and 23 variables
+#' @format a tibble with 369,550 rows and 23 variables
 #' \describe{
 #'   \item{Source}{Name of source dataset.}
 #'   \item{Station}{Station where sample was collected.}
