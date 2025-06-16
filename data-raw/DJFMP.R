@@ -84,13 +84,19 @@ data <- bind_rows(
   seinetable%>%
     pull(url) %>%
     read_csv(col_types = cols_only(StationCode = "c", SampleDate = "c", SampleTime = "c",
-                                   TowNumber = "c", MethodCode = "c", SeineDepth = "d",
-                                   GearConditionCode = "i", FlowDebris = "c",
+                                   MethodCode = "c", SeineDepth = "d",
+                                   GearConditionCode = "i",
                                    SpecificConductance = "d", WaterTemp = "d",
-                                   Turbidity = "d", Secchi = "d",
-                                   Volume = "d", SamplingDirection = "c", MarkCode="c", RaceByLength="c",
+                                   Turbidity = "d",
+                                   Volume = "d", MarkCode="c", RaceByLength="c",
                                    OrganismCode = "c", ForkLength = "d", Count = "d"))
 )
+
+
+#Change Date Class and remove unwanted organism code
+data <- data %>%
+  mutate(SampleDate = mdy(SampleDate)) %>%  # Convert SampleDate using lubridate
+  filter(OrganismCode != "CYU")
 
 # Check to see if there are new Taxa added to the dataset:
 USFWS_Species <- Species %>%
@@ -169,3 +175,5 @@ DJFMP<-data%>%
 
 # Save compressed data to /data
 usethis::use_data(DJFMP, overwrite=TRUE, compress="xz")
+
+
