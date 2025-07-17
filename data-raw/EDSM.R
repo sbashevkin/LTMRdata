@@ -14,6 +14,9 @@ require(utils)
 require(rvest)
 require(XML)
 
+
+
+
 # downloading data because the dataset is too huge to keep on file
 # start pipeline to edi
 # relational tables
@@ -59,27 +62,30 @@ EDSM <- bind_rows(
                                  LongitudeStart = "d", LatitudeStart = "d", TowNumber="d",
                                  GearConditionCode = "i", FlowDebris = "c",
                                  SpecificConductanceTop = "d", WaterTempTop = "d",
-                                 TurbidityTop = "d", TurbidityBottom = "d", Secchi = "d",
+                                 TurbidityTopFNU = "d",TurbidityTopNTU = "d", TurbidityBottom = "d", Secchi = "d",
                                  BottomDepth = "d", Volume = "d", SamplingDirection = "c", MethodCode = "c",
                                  OrganismCode = "c", ForkLength = "d", Count = "d",
                                  MarkCode="c", RaceByLength="c")) %>%
-    mutate(SampleDate = parse_date_time(SampleDate, "%m-%d-%Y", tz = "America/Los_Angeles")) %>%
-    rename(Turbidity = TurbidityTop),
+    mutate(SampleDate = parse_date_time(SampleDate, "%Y-%m-%d", tz = "America/Los_Angeles"),
+           SampleTime = hms::as_hms(parse_date_time(SampleTime, "%H:%M:%S", tz = "America/Los_Angeles"))) %>%
+    rename(TurbidityNTU = TurbidityTopNTU,
+           TurbidityFNU = TurbidityTopFNU),
+
   read_csv(KDTRtable%>%
              pull(url),
            col_types = cols_only(StationCode = "c", SampleDate = "c", SampleTime = "c", Tide = "c",
                                  LongitudeStart = "d", LatitudeStart = "d", TowNumber="d",
                                  SpecificConductance = "d", WaterTemp = "d",
-                                 Turbidity = "d", Secchi = "d", BottomDepth = "d",
+                                 TurbidityFNU = "d", TurbidityNTU = "d", Secchi = "d", BottomDepth = "d",
                                  GearConditionCode = "i", FlowDebris = "c",
                                  Volume = "d", SamplingDirection = "c", MethodCode = "c",
                                  OrganismCode = "c", ForkLength = "d", Count = "d",
                                  MarkCode="c", RaceByLength="c"))%>%
-    mutate(SampleDate = parse_date_time(SampleDate, "%Y-%m-%d", tz = "America/Los_Angeles")) %>%
+    mutate(SampleDate = parse_date_time(SampleDate, "%Y-%m-%d", tz = "America/Los_Angeles"),
+           SampleTime = hms::as_hms(parse_date_time(SampleTime, "%H:%M", tz = "America/Los_Angeles"))) %>%
     rename(SpecificConductanceTop=SpecificConductance, WaterTempTop=WaterTemp))%>%
   rename(Temp_surf = WaterTempTop, Tow_volume = Volume, Method = MethodCode,
-         Tow_direction = SamplingDirection, Length = ForkLength,
-         TurbidityNTU = Turbidity, TurbidityBottomNTU = TurbidityBottom,
+         Tow_direction = SamplingDirection, Length = ForkLength,TurbidityBottomNTU = TurbidityBottom,
          Conductivity = SpecificConductanceTop,
          Latitude=LatitudeStart, Longitude=LongitudeStart,
          Date = SampleDate, Time = SampleTime, Depth = BottomDepth, Station = StationCode, Tow = TowNumber) %>%
@@ -88,7 +94,7 @@ EDSM <- bind_rows(
          Tow_volume = if_else(Tow_volume==0, NA_real_, Tow_volume),
          Source = "EDSM",
          # Date = parse_date_time(Date, "%Y-%m-%d", tz = "America/Los_Angeles"),
-         Time = parse_date_time(Time, "%H:%M:%S", tz = "America/Los_Angeles"),
+         Time = hms::as_hms(parse_date_time(Time, "%H:%M:%S", tz = "America/Los_Angeles")),
          Datetime = parse_date_time(if_else(is.na(Time), NA_character_, paste0(Date, " ", hour(Time), ":", minute(Time))), "%Y-%m-%d %H:%M", tz="America/Los_Angeles"),
          # Removing conductivity data from dates before it was standardized
          Conductivity = if_else(Date<parse_date_time("2019-06-01", "%Y-%m-%d", tz="America/Los_Angeles"), NA_real_, Conductivity),
@@ -142,13 +148,15 @@ EDSM <- bind_rows(
          Taxa=str_remove(Taxa, " \\((.*)"), # Remove life stage info from Taxa names
          Count=if_else(Length_NA_flag=="No fish caught", 0, Count, missing=Count))%>% # Transform all counts for 'No fish caught' to 0.
   select(Source, Station, Latitude, Longitude, Date, Datetime, Depth, SampleID, Method, Tide, Sal_surf,
-         Temp_surf, TurbidityNTU,
+         Temp_surf, TurbidityNTU,TurbidityFNU,
          # TurbidityBottomNTU, # Can include this back in if in the future more than just EDSM collects this data
          Secchi, Tow_volume, Tow_direction, Taxa, Length, Count, Length_NA_flag)%>%
   # Remove NA gear types
   # As of 07/19/2024, there are two instances in the KDTR dataset. Claudia MacFarlane
   # could not confirm which gear type was used for these instances. Removing for now
   filter(!is.na(Method))
+
+
 
 # Save compressed data to /data
 usethis::use_data(EDSM, overwrite=TRUE, compress = "xz")
