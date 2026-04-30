@@ -70,7 +70,9 @@ Lucania parva,RAIKIL,Rainwater Killifish,RFK,111,65,RWK,114,65,65,67,NA,Lucania 
 Esox lucius,NORPIK,Northern Pike,NPK,NA,NA,NPK,NA,NA,NA,68,NA,Esox lucius
 Tridentiger barbatus,SHOGOB,Shokihaze Goby,SHG,97,97,SKG,97,74,74,69,NA,Tridentiger barbatus
 Micropterus punctulatus,SPOBAS,Spotted Bass,SPB,106,NA,SPB,113,77,77,70,NA,Micropterus punctulatus
-Paramisgurnus dabryanus,NA,NA,NA,NA,NA,NA,NA,NA,NA,71,NA,Paramisgurnus dabryanus
+Misgurnus dabryanus,,Large-scale Loach,NA,NA,NA,NA,NA,NA,NA,71,NA,Misgurnus dabryanus
+Misgurnus,,Loach (all spp.),,,,,,,,72,NA,Misgurnus
+Misgurnus anguillicaudatus,,Pond Loach,,,,,,,,73,NA,Misgurnus anguillicaudatus
 Eriocheir sinensis,NA,Chinese Mitten Crab,CMC,NA,NA,ERIOCHR,NA,NA,NA,80,NA,Eriocheir sinensis
 Chinese Mitten Crab Temp,NA,NA,NA,NA,NA,NA,NA,NA,NA,81,NA,Chinese Mitten Crab Temp
 UnID,NA,UnID,UNID,88,NA,UNK,120,99,99,90,NA,UnID

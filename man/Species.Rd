@@ -5,22 +5,22 @@
 \alias{Species}
 \title{Species codes}
 \format{
-a tibble with 288 rows and 13 variables
+a tibble with 289 rows and 13 variables
 \describe{
-  \item{ScientificName}{Scientific Name.}
-  \item{Baystudy_Code}{Bay Study code.}
-  \item{CommonName}{Common name.}
-  \item{USFWS_Code}{EDSM and DJFMP codes.}
-  \item{SKT_Code}{Spring Kodiak Trawl code.}
-  \item{STN_Code}{Summer Townet Survey code.}
-  \item{SMF_Code}{Suisun Marsh Fish Study code.}
-  \item{FMWT_Code}{Fall Midwater Trawl code.}
-  \item{TMM_Code}{20-mm Survey code.}
-  \item{SLS_Code}{SLS Survey code.}
-  \item{Salvage_Code}{Salvage Survey code.}
-  \item{Lifestage}{Lifestage if specified.}
-  \item{Taxa}{Scientific name and life stage.}
-  }
+\item{ScientificName}{Scientific Name.}
+\item{Baystudy_Code}{Bay Study code.}
+\item{CommonName}{Common name.}
+\item{USFWS_Code}{EDSM and DJFMP codes.}
+\item{SKT_Code}{Spring Kodiak Trawl code.}
+\item{STN_Code}{Summer Townet Survey code.}
+\item{SMF_Code}{Suisun Marsh Fish Study code.}
+\item{FMWT_Code}{Fall Midwater Trawl code.}
+\item{TMM_Code}{20-mm Survey code.}
+\item{SLS_Code}{SLS Survey code.}
+\item{Salvage_Code}{Salvage Survey code.}
+\item{Lifestage}{Lifestage if specified.}
+\item{Taxa}{Scientific name and life stage.}
+}
 }
 \usage{
 Species

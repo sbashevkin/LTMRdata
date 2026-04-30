@@ -5,29 +5,36 @@ require(DBI)
 require(odbc)
 require(lubridate)
 require(LTMRdata)
+# Going to use deltadata to bypass SSL errors
+# devtools::install_github("trinhxuann/deltadata")
+library(deltadata)
 
 options(timeout = 999999)
 Path<-file.path(tempdir(), "Salvage_data_FTP.accdb")
 Path_origin<-file.path(tempdir())
 #Downloading MWT_data.zip----
-download.file("https://filelib.wildlife.ca.gov/Public/Salvage/Salvage_data_FTP.accdb", Path, mode="wb",method="libcurl")
-
+# # SSL error as of 2026
+# download.file("https://filelib.wildlife.ca.gov/Public/Salvage/Salvage_data_FTP.accdb",
+#               Path, mode="wb",method="libcurl")
+# Using `deltadata` to bypass these errors.
 
 # MS access database set up----
 # File path to Access database (Salvage)
-db_path <- file.path(tempdir(),"Salvage_data_FTP.accdb")
-
-source(file.path("data-raw", "bridgeAccess.R"))
-
-keepTables <- c("Building", "DNAandCWTRace", "LarvalFishLength", "Length",
+# db_path <- file.path(tempdir(),"Salvage_data_FTP.accdb")
+#
+# source(file.path("data-raw", "bridgeAccess.R"))
+#
+keepTables <- c("Building", "LarvalFishLength", "Length",
                 "OrganismsLookUp", "Sample", "StationsLookUp", "Catch",
                 "StudiesLookUp", "VariableCodesLookUp", "VariablesLookUp")
+#
+# SalvageTables <- bridgeAccess(db_path,
+#                               tables = keepTables,
+#                               script = file.path("data-raw", "connectAccess.R"))
 
-SalvageTables <- bridgeAccess(db_path,
+SalvageTables <- bridgeAccess("https://filelib.wildlife.ca.gov/Public/Salvage/Salvage_data_FTP.accdb",
                               tables = keepTables,
-                              script = file.path("data-raw", "connectAccess.R"))
-
-
+                              path32 = path.expand(file.path("~", "R/R-4.1.3/bin/i386/Rscript.exe")))
 # ----
 # Changing some names to avoid duplicated names when joining
 SalvageTables$Sample <- SalvageTables$Sample %>%
@@ -101,13 +108,14 @@ SalvageStart <- SalvageJoined %>%
            Comments_Sample) %>%
   summarise(LengthFrequency = sum(LengthFrequency), .groups = "drop") %>%
   transmute(Source = "Salvage",
+            # OrganismCode,
             Facility,
             Station,
             Salvage_building = Location,
-            Latitude = case_when(Comments_StationsLookUp == "SWP" ~ 37.825612769565474,
-                                 Comments_StationsLookUp == "CVP" ~ 37.81667106195238),
-            Longitude = case_when(Comments_StationsLookUp == "SWP" ~ -121.59584120116043,
-                                  Comments_StationsLookUp == "CVP" ~ -121.55857777929133),
+            Latitude = case_when(Facility == "SWP" ~ 37.825612769565474,
+                                 Facility == "CVP" ~ 37.81667106195238),
+            Longitude = case_when(Facility == "SWP" ~ -121.59584120116043,
+                                  Facility == "CVP" ~ -121.55857777929133),
             Date = parse_date_time(SampleDate, "%Y-%m-%d", tz="America/Los_Angeles"),
             # Will produce a warning about failed parses. Due to daylight saving times;
             # There are entries in which the observer did not properly jump times entering
@@ -262,7 +270,10 @@ noSamplingRegex <- c(
 # This is a conservative filter as it also requires Count == 0
 Salvage <- Salvage %>%
   mutate(
-    noSampling = grepl(paste(noSamplingRegex, collapse = "|"), Notes_tow, ignore.case = T)
+    # Weird encoding issues. This converts to a singular encoding that makes parsing easier
+    Notes_tow = iconv(Notes_tow, from = "", to = "UTF-8", sub = ""),
+    noSampling = grepl(paste(noSamplingRegex, collapse = "|"), Notes_tow, ignore.case = TRUE),
+    # noSampling = grepl(paste(noSamplingRegex, collapse = "|"), Notes_tow, ignore.case = T, useBytes = T)
     # noSamplingTime = grepl("[0-9]{2,4}([:][0-9]{2})?([ ]?(HRS))?", Notes_tow, ignore.case = T) & noSampling,
     # didNotShutDown = grepl("did not shut down", Notes_tow, ignore.case = T) & noSampling
   ) %>%
@@ -336,4 +347,32 @@ Salvage <- Salvage %>%
 #   relocate(Salvage_Code, .after = "TMM_Code") %>%
 #   write_csv(file.path("data-raw", "Species codes.csv"))
 
-usethis::use_data(Salvage, Salvage_measured_lengths, overwrite=TRUE, compress="xz")
+# --- Check previous data ---
+# Check existing data with the newest data filtered to the same dates. Theoretically,
+# there shouldn't be any changes; if there are, why?
+source(file.path("data-raw", "comparison.R"))
+
+# Run before updating the data object to the new data
+compareSalvage <- create_comparison_report(Salvage, LTMRdata::Salvage,
+                                           id_cols = c("SampleID", "Taxa", "Length", "Count"))
+# 2025, previous data changes:
+# 10419 rows different:
+# 16 rows @ Temp_surf: SampleID 272566, Changed in database from 86 to 76F.
+# Confirmed with Kyle (Walter.Griffiths@Wildlife.ca.gov) standard data correction
+# 10403 rows @ Notes_tow: database change. `Data Type` field in Access database for
+# "Comments" in the "Sample" table from "Short Text" with a field size of 50 to
+# "Long Text". This is the correct data type to allow more than 50 characters
+
+# Run before updating the data object to the new data
+compareLengths <- create_comparison_report(Salvage_measured_lengths, LTMRdata::Salvage_measured_lengths,
+                                           id_cols = c("SampleID", "Taxa", "Length", "Count"))
+# No changed records found for length, 2025 data
+
+# --- Run check on singular database ---
+# devtools::load_all(".") should load this helper function for use
+tests <- test_dataset(Salvage, return_failures = T)
+
+if (length(tests) == 0) {
+  message("Tests passed, saving the data.\n")
+  usethis::use_data(Salvage, Salvage_measured_lengths, overwrite=TRUE, compress="xz")
+}
