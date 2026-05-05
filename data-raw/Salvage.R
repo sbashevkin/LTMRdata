@@ -26,7 +26,7 @@ Path_origin<-file.path(tempdir())
 #
 keepTables <- c("Building", "LarvalFishLength", "Length",
                 "OrganismsLookUp", "Sample", "StationsLookUp", "Catch",
-                "StudiesLookUp", "VariableCodesLookUp", "VariablesLookUp")
+                "StudiesLookUp", "DNAandCWTRun")
 #
 # SalvageTables <- bridgeAccess(db_path,
 #                               tables = keepTables,
