@@ -159,7 +159,7 @@ Aequorea,NA,Crystal Jellies,NA,NA,183,NA,111,NA,NA,NA,NA,Aequorea
 Alopias vulpinus,THRSHR,Thresher Shark,NA,NA,NA,NA,NA,NA,NA,NA,NA,Alopias vulpinus
 Alosinae,SHASPP,Unidentified Shad,NA,NA,NA,NA,NA,NA,NA,NA,NA,Alosinae
 Ameiurus natalis,YELBUL,Yellow Bullhead,YEB,NA,141,YB,NA,NA,NA,NA,NA,Ameiurus natalis
-Ammodytes hexapterus,PACSLA,Pacific Sand Lance,NA,NA,NA,NA,NA,NA,NA,NA,NA,Ammodytes hexapterus
+Ammodytes hexapterus,PACSLA,Pacific Sand Lance,PSL,NA,NA,NA,NA,NA,NA,NA,NA,Ammodytes hexapterus
 Amphistichus rhodoterus,REDSUR,Redtail Surfperch,RSP,46,134,NA,46,NA,NA,NA,NA,Amphistichus rhodoterus
 Anguilliformes,NA,Unidentified Eel,EEL,NA,NA,NA,NA,NA,NA,NA,NA,Anguilliformes
 Apodichthys flavidus,PENGUN,Penpoint Gunnel,PTG,NA,NA,NA,NA,2826,2826,NA,NA,Apodichthys flavidus
@@ -199,7 +199,7 @@ Heptacarpus,NA,Heptacarpus Shrimp,Hspp,NA,NA,NA,NA,NA,NA,NA,NA,Heptacarpus
 Heterostichus rostratus,GIAKEL,Giant Kelpfish,GKF,NA,NA,NA,NA,NA,NA,NA,NA,Heterostichus rostratus
 Hexagrammos decagrammus,KELGRE,Kelp Greenling,NA,NA,NA,NA,NA,NA,NA,NA,NA,Hexagrammos decagrammus
 Hippoglossina stomata,BMOSOL,Bigmouth Sole,BMS,NA,NA,NA,NA,NA,NA,NA,NA,Hippoglossina stomata
-Hypomesus transpacificus/nipponensis,DELWAK,Delta/Wakasagi Hybrid,NA,NA,NA,OSMERHYBRI,NA,NA,NA,NA,NA,Hypomesus transpacificus/nipponensis
+Hypomesus transpacificus/nipponensis,DELWAK,Delta/Wakasagi Hybrid,DELWAK,NA,NA,OSMERHYBRI,NA,NA,NA,NA,NA,Hypomesus transpacificus/nipponensis
 Hypsoblennius jenkinsi,MUSBLE,Mussel Blenny,NA,NA,NA,NA,NA,NA,NA,NA,NA,Hypsoblennius jenkinsi
 Hypsurus caryi,RAISEA,Rainbow Seaperch,NA,NA,NA,NA,NA,NA,NA,NA,NA,Hypsurus caryi
 Ilypnus gilberti,CHEGOB,Cheekspot Goby,CSG,75,70,CSGB,75,70,70,NA,NA,Ilypnus gilberti
@@ -239,7 +239,7 @@ Petromyzontiformes,NA,Unidentified Lamprey,NA,NA,NA,NA,NA,NA,NA,NA,Larva,Petromy
 Phacellophora camtschatica,NA,Egg yolk Jelly,PCAMTS,NA,NA,NA,NA,NA,NA,NA,NA,Phacellophora camtschatica
 Pholis ornata,SADGUN,Saddleback Gunnel,SBG,NA,NA,NA,NA,2829,2829,NA,NA,Pholis ornata
 Pholis schultzi,REDGUN,Red Gunnel,RDG,NA,NA,NA,NA,NA,NA,NA,NA,Pholis schultzi
-Pisces,FISHUN,Unidentified Fish,NA,NA,99,NA,NA,NA,NA,NA,NA,Pisces
+Pisces,FISHUN,Unidentified Fish,NOID,NA,99,NA,NA,NA,NA,NA,NA,Pisces
 Pisces,NA,Unidentified Fish,NA,NA,NA,UKNLARV,NA,NA,NA,NA,Larva,Pisces (Larva)
 Platyrhinoidis triseriata,THORNB,Thornback,THORNB,NA,NA,NA,NA,NA,NA,NA,NA,Platyrhinoidis triseriata
 Pleurobrachia bachei,NA,Sea Gooseberry,PBACHE,114,184,NA,107,NA,NA,NA,NA,Pleurobrachia bachei
@@ -283,6 +283,7 @@ Pholidae,NA,Gunnel (Unid),NA,NA,NA,NA,NA,101,101,NA,NA,Pholidae
 Galeorhinus galeus,SOUSHA,Soupfin Shark,NA,NA,NA,NA,NA,NA,NA,NA,NA,Galeorhinus galeus
 Caulolatilus princeps,OCEWHI,Ocean Whitefish,NA,NA,NA,NA,NA,NA,NA,NA,NA,Caulolatilus princeps
 Sebastes rastrelliger,GRAROC,Grass Rockfish,NA,NA,NA,NA,NA,NA,NA,NA,NA,Sebastes rastrelliger
-Hypomesus,,Hypomesus spp.,NA,NA,NA,NA,NA,300,300,NA,NA,Hypomesus
+Hypomesus,NA,Hypomesus spp.,HYPOM,NA,NA,NA,NA,300,300,NA,NA,Hypomesus
 NA,NOCATC,No Catch,NOFISH,0,NA,NOCATCH,NA,NA,NA,NA,NA,NA
 NA,NA,No Trawl,NA,NA,NA,NOTRAWL,NA,NA,NA,NA,NA,NA
+Sebastes dallii,NA,Calico Rockfish,CRF,NA,NA,NA,NA,NA,NA,NA,NA,Sebastes dallii
