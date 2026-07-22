@@ -52,6 +52,8 @@ if(any(nrow(TMMtable)==0,
 }
 
 # Want only the 20mm and kdtr data
+#moved time formatting earlier in script
+#added Turb FNU
 EDSM <- bind_rows(
   read_csv(TMMtable%>%
              pull(url),
@@ -59,18 +61,19 @@ EDSM <- bind_rows(
                                  LongitudeStart = "d", LatitudeStart = "d", TowNumber="d",
                                  GearConditionCode = "i", FlowDebris = "c",
                                  SpecificConductanceTop = "d", WaterTempTop = "d",
-                                 TurbidityTop = "d", TurbidityBottom = "d", Secchi = "d",
+                                 TurbidityTopFNU = "d",TurbidityTopNTU = "d", TurbidityBottom = "d", Secchi = "d",
                                  BottomDepth = "d", Volume = "d", SamplingDirection = "c", MethodCode = "c",
                                  OrganismCode = "c", ForkLength = "d", Count = "d",
                                  MarkCode="c", RaceByLength="c")) %>%
-    mutate(SampleDate = parse_date_time(SampleDate, "%m-%d-%Y", tz = "America/Los_Angeles")) %>%
-    rename(Turbidity = TurbidityTop),
+    mutate(SampleDate = parse_date_time(SampleDate, "%Y-%m-%d", tz = "America/Los_Angeles")) %>%
+    rename(TurbidityNTU = TurbidityTopNTU,
+           TurbidityFNU = TurbidityTopFNU),
   read_csv(KDTRtable%>%
              pull(url),
            col_types = cols_only(StationCode = "c", SampleDate = "c", SampleTime = "c", Tide = "c",
                                  LongitudeStart = "d", LatitudeStart = "d", TowNumber="d",
                                  SpecificConductance = "d", WaterTemp = "d",
-                                 Turbidity = "d", Secchi = "d", BottomDepth = "d",
+                                 TurbidityFNU = "d", TurbidityNTU = "d", Secchi = "d", BottomDepth = "d",
                                  GearConditionCode = "i", FlowDebris = "c",
                                  Volume = "d", SamplingDirection = "c", MethodCode = "c",
                                  OrganismCode = "c", ForkLength = "d", Count = "d",
@@ -79,7 +82,6 @@ EDSM <- bind_rows(
     rename(SpecificConductanceTop=SpecificConductance, WaterTempTop=WaterTemp))%>%
   rename(Temp_surf = WaterTempTop, Tow_volume = Volume, Method = MethodCode,
          Tow_direction = SamplingDirection, Length = ForkLength,
-         TurbidityNTU = Turbidity, TurbidityBottomNTU = TurbidityBottom,
          Conductivity = SpecificConductanceTop,
          Latitude=LatitudeStart, Longitude=LongitudeStart,
          Date = SampleDate, Time = SampleTime, Depth = BottomDepth, Station = StationCode, Tow = TowNumber) %>%
@@ -142,7 +144,7 @@ EDSM <- bind_rows(
          Taxa=str_remove(Taxa, " \\((.*)"), # Remove life stage info from Taxa names
          Count=if_else(Length_NA_flag=="No fish caught", 0, Count, missing=Count))%>% # Transform all counts for 'No fish caught' to 0.
   select(Source, Station, Latitude, Longitude, Date, Datetime, Depth, SampleID, Method, Tide, Sal_surf,
-         Temp_surf, TurbidityNTU,
+         Temp_surf, TurbidityNTU,TurbidityFNU,
          # TurbidityBottomNTU, # Can include this back in if in the future more than just EDSM collects this data
          Secchi, Tow_volume, Tow_direction, Taxa, Length, Count, Length_NA_flag)%>%
   # Remove NA gear types
@@ -150,5 +152,61 @@ EDSM <- bind_rows(
   # could not confirm which gear type was used for these instances. Removing for now
   filter(!is.na(Method))
 
-# Save compressed data to /data
-usethis::use_data(EDSM, overwrite=TRUE, compress = "xz")
+# Check for new species to add to Species.CSV
+# 1. Clean the species lookup table
+USFWS_Species <- Species %>%
+  select(USFWS_Code, Taxa) %>%
+  dplyr::filter(!is.na(USFWS_Code))
+
+# 2. Find new species in the EDSM dataset
+New_Species <- EDSM %>%
+  group_by(Taxa) %>%
+  slice(1) %>%
+  transmute(Year = year(Datetime),
+            Taxa) %>%
+  full_join(USFWS_Species,
+            by = "Taxa") %>%
+  filter(is.na(USFWS_Code), Taxa != "NOFISH")
+
+
+
+# --- Check previous data ---
+
+source(file.path("data-raw", "comparison.R"))
+
+
+
+# Run before updating the data object to the new data
+####Mutate added to deal with new TurbidityColumn added to df in new EDI publication
+compareEDSM <- create_comparison_report(
+  EDSM, LTMRdata::EDSM %>%
+    mutate(TurbidityFNU=NA),
+  id_cols = c("SampleID", "Taxa", "Length", "Count")
+)
+
+###105525 new datapoints to add
+#189248 changed records all verified as valid QC efforts, or small edits that will be fixed and are minimal
+
+
+#adding Tide Tow_area, Sal_bot as NA columns for testing
+EDSM<- EDSM %>%
+  mutate(Tow_area=NA,
+         Sal_bot=NA)
+
+#testing
+# --- Run check on singular database ---
+# devtools::load_all(".") should load this helper function for use
+tests <- test_dataset(EDSM, return_failures = T)
+
+if (length(tests) == 0) {
+  message("Tests passed, saving the data.\n")
+  usethis::use_data(EDSM,overwrite=TRUE, compress="xz")
+}
+
+#
+# # Save compressed data to /data
+
+
+#
+# # Save compressed data to /data
+# usethis::use_data(EDSM, overwrite=TRUE, compress = "xz")
