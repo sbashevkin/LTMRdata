@@ -26,21 +26,21 @@ The following outlines the protocol for updating datasets in the LTMRdata packag
 
         i.  20mm.R (CDFW)
         
-        ii. Baystudy.R (CDFW)
+        ii.  Baystudy.R (CDFW)
         
-        iii. DJFMP.R (USFWS)
+        iii.  DJFMP.R (USFWS)
         
-        iv. EDSM.R (USFWS)
+        iv.  EDSM.R (USFWS)
         
         v.  FMWT.R (CDFW)
         
-        vi. Salvage.R (CDFW)
+        vi.  Salvage.R (CDFW)
         
-        vii. SKT.R (CDFW)
+        vii.  SKT.R (CDFW)
         
-        viii. STN.R (CDFW)
+        viii.  STN.R (CDFW)
         
-        ix. SLS.R (CDFW)
+        ix.  SLS.R (CDFW)
         
         x.  Suisun.R (UCDAVIS)
 
