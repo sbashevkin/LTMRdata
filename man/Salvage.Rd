@@ -6,24 +6,24 @@
 \alias{Salvage}
 \title{Salvage dataset}
 \format{
-a tibble with 2,602,069 rows and 15 variables
+a tibble with 2,734,547 rows and 15 variables
 \describe{
-  \item{Source}{Name of source dataset.}
-  \item{Station}{State or federal facility buildings (of the SWP or CVP).}
-  \item{Latitude}{Latitude (decimal degrees) of the full facility.}
-  \item{Longitude}{Longitude (decimal degrees) of the full facility.}
-  \item{Date}{Date sample was collected.}
-  \item{Datetime}{Date and time sample was collected.}
-  \item{SampleID}{Unique sample identifier.}
-  \item{Method}{Sampling period (0000 = Normal count, 9999 = Second flush)}
-  \item{Tow_volume}{Daily export volume for the sampled facility(\ifelse{html}{\out{m<sup>3</sup>}}{\eqn{m^{3}}}).}
-  \item{Temp_surf}{Surface temperature in °C.}
-  \item{Taxa}{Scientific name.}
-  \item{Length}{Fork length from tip of the snout to a point at the fork of the caudal fin (mm) or total length for species without a forked tail.}
-  \item{Count}{Estimated count for each sample, taxa, and length.}
-  \item{Notes_tow}{Comments or notes of the sampling period.}
-  \item{Length_NA_flag}{Why is the length NA?}
-  }
+\item{Source}{Name of source dataset.}
+\item{Station}{State or federal facility buildings (of the SWP or CVP).}
+\item{Latitude}{Latitude (decimal degrees) of the full facility.}
+\item{Longitude}{Longitude (decimal degrees) of the full facility.}
+\item{Date}{Date sample was collected.}
+\item{Datetime}{Date and time sample was collected.}
+\item{SampleID}{Unique sample identifier.}
+\item{Method}{Sampling period (0000 = Normal count, 9999 = Second flush)}
+\item{Tow_volume}{Daily export volume for the sampled facility(\ifelse{html}{\out{m<sup>3</sup>}}{\eqn{m^{3}}}).}
+\item{Temp_surf}{Surface temperature in °C.}
+\item{Taxa}{Scientific name.}
+\item{Length}{Fork length from tip of the snout to a point at the fork of the caudal fin (mm) or total length for species without a forked tail.}
+\item{Count}{Estimated count for each sample, taxa, and length.}
+\item{Notes_tow}{Comments or notes of the sampling period.}
+\item{Length_NA_flag}{Why is the length NA?}
+}
 }
 \usage{
 Salvage
