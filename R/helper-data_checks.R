@@ -149,7 +149,7 @@ test_dataset <- function(data, source_name = NULL, return_failures = FALSE) {
 
   # Unknown length logic (ul)
   # ul flag should have a count and an NA length
-  fail_ul_missing <- dplyr::filter(data, (is.na(.data$Length) & .data$Count > 0) & (is.na(.data$Length_NA_flag) | .data$Length_NA_flag != "Unknown length"))
+  fail_ul_missing <- dplyr::filter(data, is.na(.data$Length) & .data$Count > 0 & !.data$Length_NA_flag %in% "Unknown length")
   # If has ul flag, must have no length (but has a count)
   fail_ul_wrong <- dplyr::filter(data, .data$Length_NA_flag == "Unknown length" & !(is.na(.data$Length) & .data$Count > 0))
 
@@ -158,13 +158,13 @@ test_dataset <- function(data, source_name = NULL, return_failures = FALSE) {
 
   # No fish caught logic
   # nfc occurs when catch is 0 and length is NA
-  fail_nfc_missing <- dplyr::filter(data, is.na(.data$Length) & .data$Count == 0 & (is.na(.data$Length_NA_flag) | .data$Length_NA_flag != "No fish caught"))
+  fail_nfc_missing <- dplyr::filter(data, is.na(.data$Length) & .data$Count == 0 & !.data$Length_NA_flag %in% "No fish caught")
   # If there is a length, shouldn't be labeled as nfc
   fail_nfc_wrong <- dplyr::filter(data, !(is.na(.data$Length) & .data$Count == 0) & .data$Length_NA_flag == "No fish caught")
   # Taxa should be NA if there is a nfc label
   fail_nfc_taxa_not_na <- dplyr::filter(data, .data$Length_NA_flag == "No fish caught" & !is.na(.data$Taxa))
-  # nfc should have an NA taxa
-  fail_nfc_taxa_na <- dplyr::filter(data, is.na(.data$Taxa) & (is.na(.data$Length_NA_flag) | .data$Length_NA_flag != "No fish caught"))
+  # All rows with NA taxa should have a nfc label
+  fail_nfc_taxa_na <- dplyr::filter(data, is.na(.data$Taxa) & !.data$Length_NA_flag %in% "No fish caught")
 
   if (nrow(fail_nfc_missing) > 0) failures$NFC_Missing <- fail_nfc_missing
   if (nrow(fail_nfc_wrong) > 0) failures$NFC_Incorrectly_Applied <- fail_nfc_wrong
