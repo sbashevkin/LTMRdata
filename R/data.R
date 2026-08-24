@@ -254,7 +254,8 @@
 #'
 #' Crosswalk table of species codes to common and scientific names
 #'
-#' @format a tibble with 288 rows and 13 variables
+#' @md
+#' @format a tibble with `r nrow(Species)` rows and `r ncol(Species)` variables
 #' \describe{
 #'   \item{ScientificName}{Scientific Name.}
 #'   \item{Baystudy_Code}{Bay Study code.}
@@ -412,7 +413,8 @@
 #' California Department of Fish and Wildlife Fish Salvage dataset.
 #'
 #' @encoding UTF-8
-#' @format a tibble with 2,602,069 rows and 15 variables
+#' @md
+#' @format a tibble with `r prettyNum(nrow(Salvage), big.mark = ",")` rows and `r ncol(Salvage)` variables
 #' \describe{
 #'   \item{Source}{Name of source dataset.}
 #'   \item{Station}{State or federal facility buildings (of the SWP or CVP).}
@@ -436,7 +438,8 @@
 #' Salvage measured lengths
 #'
 #' Only measured lengths from the Salvage data
-#' @format a tibble with 1,812,466 rows and 4 variables
+#' @md
+#' @format a tibble with `r prettyNum(nrow(Salvage_measured_lengths), big.mark = ",")` rows and `r ncol(Salvage_measured_lengths)` variables
 #' \describe{
 #'   \item{SampleID}{Unique sample identifier.}
 #'   \item{Taxa}{Scientific name.}

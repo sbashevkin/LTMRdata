@@ -70,7 +70,9 @@ Lucania parva,RAIKIL,Rainwater Killifish,RFK,111,65,RWK,114,65,65,67,NA,Lucania 
 Esox lucius,NORPIK,Northern Pike,NPK,NA,NA,NPK,NA,NA,NA,68,NA,Esox lucius
 Tridentiger barbatus,SHOGOB,Shokihaze Goby,SHG,97,97,SKG,97,74,74,69,NA,Tridentiger barbatus
 Micropterus punctulatus,SPOBAS,Spotted Bass,SPB,106,NA,SPB,113,77,77,70,NA,Micropterus punctulatus
-Paramisgurnus dabryanus,NA,NA,NA,NA,NA,NA,NA,NA,NA,71,NA,Paramisgurnus dabryanus
+Misgurnus dabryanus,,Large-scale Loach,NA,NA,NA,NA,NA,NA,NA,71,NA,Misgurnus dabryanus
+Misgurnus,,Loach (all spp.),,,,,,,,72,NA,Misgurnus
+Misgurnus anguillicaudatus,,Pond Loach,,,,,,,,73,NA,Misgurnus anguillicaudatus
 Eriocheir sinensis,NA,Chinese Mitten Crab,CMC,NA,NA,ERIOCHR,NA,NA,NA,80,NA,Eriocheir sinensis
 Chinese Mitten Crab Temp,NA,NA,NA,NA,NA,NA,NA,NA,NA,81,NA,Chinese Mitten Crab Temp
 UnID,NA,UnID,UNID,88,NA,UNK,120,99,99,90,NA,UnID
@@ -175,7 +177,7 @@ Aurelia labiata,NA,Moon Jelly L,ALABIA,NA,NA,NA,NA,NA,NA,NA,NA,Aurelia labiata
 Bathymasteridae,RONSPP,Unidentified Ronquil,NA,NA,NA,NA,NA,200,200,NA,NA,Bathymasteridae
 Blackfordia virginica,NA,Black Sea Jellyfish N,BVIRGI,102,189,NA,NA,NA,NA,NA,NA,Blackfordia virginica
 Brachyistius frenatus,KELPER,Kelp Perch,KSP,NA,NA,NA,NA,NA,NA,NA,NA,Brachyistius frenatus
-Cancer magister,NA,Cancer magister,NA,NA,182,NA,NA,NA,NA,NA,NA,Cancer magister
+Metacarcinus magister,NA,Dungeness Crab,NA,NA,182,NA,124,NA,NA,NA,NA,Metacarcinus magister
 Cebidichthys violaceus,MONPRI,Monkeyface Prickleback,NA,NA,NA,NA,NA,2775,2775,NA,NA,Cebidichthys violaceus
 Lepomis,NA,Unidentified Lepomis,CTU,NA,190,NA,NA,103,103,NA,NA,Lepomis
 Chilara taylori,SPOCEE,Spotted Cusk-Eel,NA,NA,NA,NA,NA,NA,NA,NA,NA,Chilara taylori
@@ -210,7 +212,7 @@ Leuresthes tenuis,CALGRU,California Grunion,NA,NA,NA,NA,108,NA,NA,NA,NA,Leuresth
 Liparis,SNASPP,Unidentified Snailfish,NA,NA,NA,NA,NA,NA,NA,NA,NA,Liparis
 Liparis fucensis,SLISNA,Slipskin Snailfish,NA,NA,NA,NA,NA,NA,NA,NA,NA,Liparis fucensis
 Liparis pulchellus,SHOSNA,Showy Snailfish,NA,NA,NA,NA,NA,NA,NA,NA,NA,Liparis pulchellus
-Lucania goodei,BLUKIL,Bluefin Killifish,BFK,116,116,NA,NA,100,100,75,NA,Lucania goodei
+Lucania goodei,BLUKIL,Bluefin Killifish,BFK,116,71,NA,NA,100,100,75,NA,Lucania goodei
 Lumpenus sagitta,SNAPRI,Snake Prickleback,NA,NA,NA,NA,NA,NA,NA,NA,NA,Lumpenus sagitta
 Stichaeidae,NA,Unidentified Prickleback,NA,NA,NA,NA,NA,2813,2813,NA,NA,Stichaeidae
 Macoma,NA,Macoma Clam,NA,NA,NA,MACOMA,NA,NA,NA,NA,NA,Macoma
@@ -286,4 +288,6 @@ Sebastes rastrelliger,GRAROC,Grass Rockfish,NA,NA,NA,NA,NA,NA,NA,NA,NA,Sebastes 
 Hypomesus,NA,Hypomesus spp.,HYPOM,NA,NA,NA,NA,300,300,NA,NA,Hypomesus
 NA,NOCATC,No Catch,NOFISH,0,NA,NOCATCH,NA,NA,NA,NA,NA,NA
 NA,NA,No Trawl,NA,NA,NA,NOTRAWL,NA,NA,NA,NA,NA,NA
+Macrobrachium,NA,Macrobrachium spp.,NA,NA,195,NA,NA,NA,NA,NA,NA,Macrobrachium
+Brachyura,NA,Crab UnID,NA,NA,196,NA,NA,NA,NA,NA,NA,Brachyura
 Sebastes dallii,NA,Calico Rockfish,CRF,NA,NA,NA,NA,NA,NA,NA,NA,Sebastes dallii

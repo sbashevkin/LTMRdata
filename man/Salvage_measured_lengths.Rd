@@ -5,13 +5,13 @@
 \alias{Salvage_measured_lengths}
 \title{Salvage measured lengths}
 \format{
-a tibble with 1,812,466 rows and 4 variables
+a tibble with 1,904,345 rows and 4 variables
 \describe{
-  \item{SampleID}{Unique sample identifier.}
-  \item{Taxa}{Scientific name.}
-  \item{Length}{Fork length from tip of the snout to a point at the fork of the caudal fin (mm) or total length for species without a forked tail.}
-  \item{Count}{Number of fish measured to this length.}
-  }
+\item{SampleID}{Unique sample identifier.}
+\item{Taxa}{Scientific name.}
+\item{Length}{Fork length from tip of the snout to a point at the fork of the caudal fin (mm) or total length for species without a forked tail.}
+\item{Count}{Number of fish measured to this length.}
+}
 }
 \usage{
 Salvage_measured_lengths

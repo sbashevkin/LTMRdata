@@ -58,11 +58,15 @@ FMWT_Tables$Station <- FMWT_Tables$StationsLookUp%>%
             Latitude = as.double(DD_Latitude), Longitude = as.double(DD_Longitude)) %>%
   drop_na()
 
+# Are any stations missing from the Station table?
+# Should only return station 718, which has an NA location
+setdiff(FMWT_Tables$Sample$StationCode, FMWT_Tables$Station$Station)
+
 # Sample-level data -------------------------------------------------------
-FMWT_Tables$Sample <- FMWT_Tables$Sample %>%
+FMWTSample <- FMWT_Tables$Sample %>%
     transmute(SampleRowID = as.integer(SampleRowID),
               across(c(StationCode, MethodCode), as.character),
-              SampleTimeStart = force_tz(parse_date_time(SampleTimeStart, "%Y-%m-%d %H:%M:%S", tz="UTC"), tz="America/Los_Angeles"),
+              SampleTimeStart = force_tz(SampleTimeStart, tz="America/Los_Angeles"),
               SampleDate = force_tz(parse_date_time(SampleDate, "%Y-%m-%d", tz="UTC"), tz="America/Los_Angeles"),
               SurveyNumber = as.integer(SurveyNumber),
               across(c(WaterTemperature, Turbidity, Secchi), as.double),
@@ -76,8 +80,7 @@ FMWT_Tables$Sample <- FMWT_Tables$Sample %>%
               WindDirection = as.character(WindDirection),
               BottomTemperature = as.double(BottomTemperature)) %>%
   rename(Station=StationCode, Method=MethodCode, Tide=TideCode, Time=SampleTimeStart, Depth=DepthBottom, Date=SampleDate)%>%
-  mutate(Station=ifelse(Station<100,as.character(paste("0",as.character(Station),sep="")),as.character(Station)), # Setting Station
-         Tide=recode(Tide, `1` = "High Slack", `2` = "Ebb", `3` = "Low Slack", `4` = "Flood"), # Convert tide codes to values
+  mutate(Tide=recode(Tide, `1` = "High Slack", `2` = "Ebb", `3` = "Low Slack", `4` = "Flood"), # Convert tide codes to values
          Weather=recode(WeatherCode, `1` = "Cloud (0-33%)", `2` = "Cloud (33-66%)", `3` = "Cloud (66-100%)", `4` = "Rain"), # Convert weather codes to values
          Waves=recode(WaveCode, `1` = "Calm", `2` = "Waves w/o whitecaps", `3` = "Waves w/ whitecaps"), # Convert wave codes to values
          WindDirection=toupper(WindDirection), # Make Wind direction codes consistent
@@ -87,25 +90,34 @@ FMWT_Tables$Sample <- FMWT_Tables$Sample %>%
          WindDirection=recode(WindDirection, "NA"=NA_character_, "N/A"=NA_character_))%>% # Convert NA codes to NA
   dplyr::filter(Method=="MWTR")%>% # Select only Midwater Trawl. All rows are MWTR but just in case the data change
   mutate(Method=recode(Method, MWTR="Midwater trawl"), # Recode method for consistency
-         Microcystis=recode(Microcystis, `1`="Absent", `2`="Low", `6`="Low", `3`="Medium", `4`="High", `5`="Very high"), #Convert Microcystis codes to values
+         Microcystis=recode(Microcystis, `1`="Absent", `2`="Low", `6`="Low", `3`="Medium", `4`="High", `5`="Very high", `18`="Absent"), #Convert Microcystis codes to values
          Tow_direction = recode(TowDirectionCode, `1`="With current", `2`="Against current", `3`="Unknown"))%>% # Convert tow direction codes to values
   select(-TowDirectionCode, -WeatherCode, -WaveCode, -MeterEnd, -MeterStart, -Meter_total)%>% # Remove unneeded variables
-  left_join(FMWT_Tables$Station, by="Station")%>% # Add station coordinates
-  mutate(SampleID=1:nrow(.)) # Add unique identifier for each sample (net tow)
+  left_join(FMWT_Tables$Station, by="Station", relationship = "many-to-one")%>% # Add station coordinates
+  mutate(SampleID=paste(Station, Date, Datetime))%>% # Add unique identifier for each sample (net tow)
+
+  ########!!!!!!!!REMOVE THIS AFTER FMWT FIXES DUPLICATE SAMPLE!!!!!!!##############
+
+  filter(SampleRowID!=27877)
+
+
+# Check for new species ---------------------------------------------------
+
+setdiff(FMWT_Tables$Catch$OrganismCode, Species$FMWT_Code)
 
 # Catch data --------------------------------------------------------------
-FMWT_Tables$Catch<- FMWT_Tables$Catch%>%
+FMWTCatch<- FMWT_Tables$Catch%>%
   transmute(across(c(CatchRowID, SampleRowID, OrganismCode), as.integer),
             Catch = as.double(Catch)) %>%
   dplyr::filter(!is.na(OrganismCode))%>% # Remove any records with an NA organism code
   left_join(Species%>% # Add species names
               select(OrganismCode=FMWT_Code, Taxa)%>%
               dplyr::filter(!is.na(OrganismCode)),
-            by="OrganismCode")%>%
+            by="OrganismCode", relationship = "many-to-one")%>%
   select(-OrganismCode) # Remove unneeded variable
 
 # Length data -------------------------------------------------------------
-FMWT_Tables$Length<- FMWT_Tables$Length%>%
+FMWTLength<- FMWT_Tables$Length%>%
   mutate(across(everything(), ~replace(.x, .x %in% c("n/p", "NA", ""), NA))) %>%
   transmute(CatchRowID = as.integer(CatchRowID),
             across(c(ForkLength, LengthFrequency), as.double)) %>%
@@ -115,20 +127,20 @@ FMWT_Tables$Length<- FMWT_Tables$Length%>%
   summarise(LengthFrequency=sum(LengthFrequency), .groups="drop")%>%
   as.data.frame()
 
-FMWT_Tables$CatchLength<- FMWT_Tables$Catch%>%
-  left_join(FMWT_Tables$Length%>%
+FMWTCatchLength<- FMWTCatch%>%
+  left_join(FMWTLength%>%
               group_by(CatchRowID)%>%
               mutate(TotalMeasured=sum(LengthFrequency, na.rm=T))%>% # Calculate total number of fish measured for each species in each sample
               ungroup(),
-            by="CatchRowID")%>% # Add catch numbers and species names
+            by="CatchRowID", relationship = "one-to-many")%>% # Add catch numbers and species names
   mutate(Count = ifelse(is.na(ForkLength), Catch, (LengthFrequency/TotalMeasured)*Catch))%>% # Calculate adjusted count
   dplyr::filter(!is.na(Count))
 
 # Create final datasets ---------------------------------------------------
 
 
-FMWT<-FMWT_Tables$Sample%>% # Start with sample to ensure samples without any catch (empty nets) are included
-  left_join(FMWT_Tables$CatchLength, by="SampleRowID")%>% # Join to catch/length data
+FMWT_interim<-FMWTSample%>% # Start with sample to ensure samples without any catch (empty nets) are included
+  left_join(FMWTCatchLength, by="SampleRowID", relationship = "one-to-many")%>% # Join to catch/length data
   mutate(Sal_surf=ec2pss(ConductivityTop/1000, t=25), # Convert conductivity to salinity
          Sal_bott=ec2pss(ConductivityBottom/1000, t=25),
          Secchi=Secchi*100, # Convert Secchi to cm from m
@@ -154,19 +166,29 @@ FMWT<-FMWT_Tables$Sample%>% # Start with sample to ensure samples without any ca
 
 # Just measured lengths
 
-FMWT_measured_lengths<-FMWT_Tables$Length%>%
-  left_join(FMWT%>% # Join species names and sampleID
+FMWT_measured_lengths<-FMWTLength%>%
+  left_join(FMWT_interim%>% # Join species names and sampleID
               select(CatchRowID, SampleID, Taxa)%>%
               distinct(),
-            by="CatchRowID")%>%
+            by="CatchRowID", relationship="many-to-one")%>%
   select(-CatchRowID)%>%
   group_by(across(-LengthFrequency))%>% # Add up any new multiples after removing lifestages
   summarise(Count=sum(LengthFrequency), .groups="drop")%>%
   select(SampleID, Taxa, Length=ForkLength, Count) # Reorder variables for consistency
 
-FMWT<-FMWT%>%
+FMWT<-FMWT_interim%>%
   select(-CatchRowID)%>% # Remove unneeded variable
   group_by(across(-Count))%>% # Add up any new multiples after removing lifestages
   summarise(Count=sum(Count), .groups="drop")
+
+source(file.path("data-raw", "comparison.R"))
+compareFMWT <- create_comparison_report(FMWT, LTMRdata::FMWT,
+                                       id_cols = c("SampleID", "Taxa", "Length", "Count"))
+
+compareFMWTLengths <- create_comparison_report(FMWT_measured_lengths, LTMRdata::FMWT_measured_lengths,
+                                           id_cols = c("SampleID", "Taxa", "Length", "Count"))
+
+devtools::load_all()
+tests <- test_dataset(FMWT, return_failures = T)
 
 usethis::use_data(FMWT, FMWT_measured_lengths, overwrite=TRUE, compress="xz") # Save compressed data to /data
