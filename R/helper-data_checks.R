@@ -60,18 +60,18 @@ test_dataset <- function(data, source_name = NULL, return_failures = FALSE) {
 
   # --- Spatial tests ---
   # Do all data points have a lat/lon? Are those lat/lon coordinates within expected area?
-  fail_lat <- dplyr::filter(data, !(Latitude > 37 & Latitude < 39.3) | is.na(Latitude))
+  fail_lat <- dplyr::filter(data, (.data$Latitude < 37 | .data$Latitude > 39.3) & !is.na(.data$Latitude))
   if (nrow(fail_lat) > 0) failures$Latitude_OutOfBounds <- fail_lat
 
-  fail_lon <- dplyr::filter(data, !(Longitude > -123 & Longitude < -121) | is.na(Longitude))
+  fail_lon <- dplyr::filter(data, (.data$Longitude < -123 | .data$Longitude > -121) & !is.na(.data$Longitude))
   if (nrow(fail_lon) > 0) failures$Longitude_OutOfBounds <- fail_lon
 
   if (!return_failures) {
-    testthat::test_that(desc("Latitudes are between 37 and 39.3 or has a value."), {
+    testthat::test_that(desc("Latitudes are between 37 and 39.3 or is NA."), {
       testthat::expect_equal(nrow(fail_lat), 0, info = "Rows failing latitude check")
     })
 
-    testthat::test_that(desc("Longitudes are between -123 and -121 or has a value."), {
+    testthat::test_that(desc("Longitudes are between -123 and -121 or is NA."), {
       testthat::expect_equal(nrow(fail_lon), 0, info = "Rows failing longitude check")
     })
   }
@@ -81,7 +81,8 @@ test_dataset <- function(data, source_name = NULL, return_failures = FALSE) {
   pass_date_class <- all(class(data$Date) %in% c("POSIXct", "POSIXt"))
   if (!pass_date_class) failures$Date_Class_Invalid <- "Date column is not POSIXct/POSIXt"
 
-  fail_date_fmt <- dplyr::filter(data, !grepl("[0-9]{4}-[0-9]{2}-[0-9]{2}", as.character(Date)) | is.na(Date))
+  fail_date_fmt <- dplyr::filter(data, !grepl("[0-9]{4}-[0-9]{2}-[0-9]{2}",
+                                              as.character(.data$Date)) | is.na(.data$Date))
   if (nrow(fail_date_fmt) > 0) failures$Date_Format_Invalid <- fail_date_fmt
 
   pass_dt_class <- all(class(data$Datetime) %in% c("POSIXct", "POSIXt"))
@@ -100,13 +101,13 @@ test_dataset <- function(data, source_name = NULL, return_failures = FALSE) {
 
   if (!is_salvage) {
     # Strange midnight database error; Salvage can have midnight sampling though
-    fail_midnight <- dplyr::filter(data, lubridate::hour(Datetime) == 0 & lubridate::minute(Datetime) == 0)
+    fail_midnight <- dplyr::filter(data, lubridate::hour(.data$Datetime) == 0 & lubridate::minute(.data$Datetime) == 0)
     if (nrow(fail_midnight) > 0) failures$Midnight_Samples <- fail_midnight
 
     # --- Field categorial values ---
     # Tide data should follow pre-defined categories, if data was recorded (can be NA)
     # Salvage does not collect tide data
-    fail_tide <- dplyr::filter(data, !(Tide %in% valid_tides) & !is.na(Tide))
+    fail_tide <- dplyr::filter(data, !(.data$Tide %in% valid_tides) & !is.na(.data$Tide))
     if (nrow(fail_tide) > 0) failures$Invalid_Tide <- fail_tide
 
     if (!return_failures) {
@@ -121,7 +122,7 @@ test_dataset <- function(data, source_name = NULL, return_failures = FALSE) {
   }
 
   # All rows should have a sampling method; should follow pre-defined categories
-  fail_method <- dplyr::filter(data, !(Method %in% valid_methods | is.na(Method)))
+  fail_method <- dplyr::filter(data, !(.data$Method %in% valid_methods))
   if (nrow(fail_method) > 0) failures$Invalid_Method <- fail_method
 
   if (!return_failures) {
@@ -132,7 +133,7 @@ test_dataset <- function(data, source_name = NULL, return_failures = FALSE) {
 
   # --- Lengths ---
   # All lengths needs to have a taxa label; can occur if new species caught
-  fail_len_taxa <- dplyr::filter(data, !is.na(Length) & is.na(Taxa))
+  fail_len_taxa <- dplyr::filter(data, !is.na(.data$Length) & is.na(.data$Taxa))
   if (nrow(fail_len_taxa) > 0) failures$Length_Without_Taxa <- fail_len_taxa
 
   if (!return_failures) {
@@ -143,27 +144,27 @@ test_dataset <- function(data, source_name = NULL, return_failures = FALSE) {
 
   # Length_NA_flag logic
   # All rows without a length measurement must have a flag and follow pre-defined categories
-  fail_len_flag <- dplyr::filter(data, is.na(Length) & !(Length_NA_flag %in% valid_length_flags))
+  fail_len_flag <- dplyr::filter(data, is.na(.data$Length) & !(.data$Length_NA_flag %in% valid_length_flags))
   if (nrow(fail_len_flag) > 0) failures$Invalid_Length_NA_flag <- fail_len_flag
 
   # Unknown length logic (ul)
   # ul flag should have a count and an NA length
-  fail_ul_missing <- dplyr::filter(data, (is.na(Length) & Count > 0) & (is.na(Length_NA_flag) | Length_NA_flag != "Unknown length"))
+  fail_ul_missing <- dplyr::filter(data, is.na(.data$Length) & .data$Count > 0 & !.data$Length_NA_flag %in% "Unknown length")
   # If has ul flag, must have no length (but has a count)
-  fail_ul_wrong <- dplyr::filter(data, Length_NA_flag == "Unknown length" & !(is.na(Length) & Count > 0))
+  fail_ul_wrong <- dplyr::filter(data, .data$Length_NA_flag == "Unknown length" & !(is.na(.data$Length) & .data$Count > 0))
 
   if (nrow(fail_ul_missing) > 0) failures$UnknownLength_Missing <- fail_ul_missing
   if (nrow(fail_ul_wrong) > 0) failures$UnknownLength_Incorrectly_Applied <- fail_ul_wrong
 
   # No fish caught logic
   # nfc occurs when catch is 0 and length is NA
-  fail_nfc_missing <- dplyr::filter(data, is.na(Length) & Count == 0 & (is.na(Length_NA_flag) | Length_NA_flag != "No fish caught"))
+  fail_nfc_missing <- dplyr::filter(data, is.na(.data$Length) & .data$Count == 0 & !.data$Length_NA_flag %in% "No fish caught")
   # If there is a length, shouldn't be labeled as nfc
-  fail_nfc_wrong <- dplyr::filter(data, !(is.na(Length) & Count == 0) & Length_NA_flag == "No fish caught")
+  fail_nfc_wrong <- dplyr::filter(data, !(is.na(.data$Length) & .data$Count == 0) & .data$Length_NA_flag == "No fish caught")
   # Taxa should be NA if there is a nfc label
-  fail_nfc_taxa_not_na <- dplyr::filter(data, Length_NA_flag == "No fish caught" & !is.na(Taxa))
-  # nfc should have an NA taxa
-  fail_nfc_taxa_na <- dplyr::filter(data, is.na(Taxa) & (is.na(Length_NA_flag) | Length_NA_flag != "No fish caught"))
+  fail_nfc_taxa_not_na <- dplyr::filter(data, .data$Length_NA_flag == "No fish caught" & !is.na(.data$Taxa))
+  # All rows with NA taxa should have a nfc label
+  fail_nfc_taxa_na <- dplyr::filter(data, is.na(.data$Taxa) & !.data$Length_NA_flag %in% "No fish caught")
 
   if (nrow(fail_nfc_missing) > 0) failures$NFC_Missing <- fail_nfc_missing
   if (nrow(fail_nfc_wrong) > 0) failures$NFC_Incorrectly_Applied <- fail_nfc_wrong
@@ -190,29 +191,29 @@ test_dataset <- function(data, source_name = NULL, return_failures = FALSE) {
 
   # --- Count / taxa coherence check ---
   # If there is no Length_NA_flag, there SHOULD be a Count
-  fail_coh_no_count <- dplyr::filter(data, is.na(Length_NA_flag) & is.na(Count))
+  fail_coh_no_count <- dplyr::filter(data, is.na(.data$Length_NA_flag) & is.na(.data$Count))
   if (nrow(fail_coh_no_count) > 0) failures$Coh_NoFlag_NA_Count <- fail_coh_no_count
   # If there is no Length_NA_flag, there SHOULD be a Taxa (as there should be a count)
-  fail_coh_no_taxa <- dplyr::filter(data, is.na(Length_NA_flag) & is.na(Taxa))
+  fail_coh_no_taxa <- dplyr::filter(data, is.na(.data$Length_NA_flag) & is.na(.data$Taxa))
   if (nrow(fail_coh_no_taxa) > 0) failures$Coh_NoFlag_NA_Taxa <- fail_coh_no_taxa
 
   # If Count is greater than 0, there should be a Taxa
-  fail_coh_pos_no_taxa <- dplyr::filter(data, Count > 0 & is.na(Taxa))
+  fail_coh_pos_no_taxa <- dplyr::filter(data, .data$Count > 0 & is.na(.data$Taxa))
   if (nrow(fail_coh_pos_no_taxa) > 0) failures$Coh_PosCount_NA_Taxa <- fail_coh_pos_no_taxa
 
   # If Length_NA_flag is not missing, should follow predefined categories
-  fail_coh_invalid_flag <- dplyr::filter(data, !is.na(Length_NA_flag) & !(Length_NA_flag %in% valid_length_flags))
+  fail_coh_invalid_flag <- dplyr::filter(data, !is.na(.data$Length_NA_flag) & !(.data$Length_NA_flag %in% valid_length_flags))
   if (nrow(fail_coh_invalid_flag) > 0) failures$Coh_HasCount_InvalidFlag <- fail_coh_invalid_flag
 
   # No zero counts exist in the dataset, except for instances of 'No fish caught'
   fail_zero_mismatch <- dplyr::filter(data,
-                                      (Count == 0 & !(Length_NA_flag %in% "No fish caught")) |
-                                        (Length_NA_flag %in% "No fish caught" & !(Count == 0))
+                                      (.data$Count == 0 & !(.data$Length_NA_flag %in% "No fish caught")) |
+                                        (.data$Length_NA_flag %in% "No fish caught" & !(.data$Count == 0))
   )
   if (nrow(fail_zero_mismatch) > 0) failures$ZeroCount_Mismatch <- fail_zero_mismatch
 
   # No NA counts can exist in the dataset
-  fail_na_count <- dplyr::filter(data, is.na(Count))
+  fail_na_count <- dplyr::filter(data, is.na(.data$Count))
   if (nrow(fail_na_count) > 0) failures$NA_Count <- fail_na_count
 
   if (!return_failures) {
@@ -234,81 +235,103 @@ test_dataset <- function(data, source_name = NULL, return_failures = FALSE) {
 
   # --- Tow effort ---
   # No tow volume or area can be negative
-  fail_tow_vol_neg <- dplyr::filter(data, Tow_volume < 0)
-  if (nrow(fail_tow_vol_neg) > 0) failures$Negative_Tow_volume <- fail_tow_vol_neg
+  if("Tow_volume"%in%names(data)){
+    fail_tow_vol_neg <- dplyr::filter(data, .data$Tow_volume < 0)
+    if (nrow(fail_tow_vol_neg) > 0) failures$Negative_Tow_volume <- fail_tow_vol_neg
+  }
 
   if (!is_salvage) {
-    # No tow volume can be 0
-    # Salvage can also have 0 tow volume during secondary flushes (tow volume already accounted for)
-    fail_tow_vol_zero <- dplyr::filter(data, Tow_volume == 0)
-    if (nrow(fail_tow_vol_zero) > 0) failures$Zero_Tow_volume <- fail_tow_vol_zero
+    if("Tow_volume"%in%names(data)){
+      # No tow volume can be 0
+      # Salvage can also have 0 tow volume during secondary flushes (tow volume already accounted for)
+      fail_tow_vol_zero <- dplyr::filter(data, .data$Tow_volume == 0)
+      if (nrow(fail_tow_vol_zero) > 0) failures$Zero_Tow_volume <- fail_tow_vol_zero
+    }
 
-    # No tow area can be negative
-    # Salvage does not collect tow area data
-    fail_tow_area_neg <- dplyr::filter(data, Tow_area < 0)
-    if (nrow(fail_tow_area_neg) > 0) failures$Negative_Tow_area <- fail_tow_area_neg
+    if("Tow_area"%in%names(data)){
+      # No tow area can be negative
+      # Salvage does not collect tow area data
+      fail_tow_area_neg <- dplyr::filter(data, .data$Tow_area < 0)
+      if (nrow(fail_tow_area_neg) > 0) failures$Negative_Tow_area <- fail_tow_area_neg
 
-    # No tow area can be 0
-    fail_tow_area_zero <- dplyr::filter(data, Tow_area == 0)
-    if (nrow(fail_tow_area_zero) > 0) failures$Zero_Tow_area <- fail_tow_area_zero
+      # No tow area can be 0
+      fail_tow_area_zero <- dplyr::filter(data, .data$Tow_area == 0)
+      if (nrow(fail_tow_area_zero) > 0) failures$Zero_Tow_area <- fail_tow_area_zero
+    }
   }
 
   if (!return_failures) {
     testthat::test_that(desc("No Tow_volume or Tow_area values are negative"), {
-      testthat::expect_equal(nrow(fail_tow_vol_neg), 0, info = "Negative Tow_volume rows")
-      if (!is_salvage) {
+      if("Tow_volume"%in%names(data)){
+        testthat::expect_equal(nrow(fail_tow_vol_neg), 0, info = "Negative Tow_volume rows")
+      }
+      if (!is_salvage & "Tow_area"%in%names(data)) {
         testthat::expect_equal(nrow(fail_tow_area_neg), 0, info = "Negative Tow_area rows")
       }
     })
 
     # Salvage legitimately records zero tow volumes; skip that sub-check.
     if (!is_salvage) {
-      testthat::test_that(desc("No Tow_area values are zero"), {
-        testthat::expect_equal(nrow(fail_tow_area_zero), 0, info = "Zero Tow_area rows")
-      })
-
-      testthat::test_that(desc("No Tow_volume values are zero"), {
-        testthat::expect_equal(nrow(fail_tow_vol_zero), 0, info = "Zero Tow_volume rows")
-      })
+      if("Tow_area"%in%names(data)){
+        testthat::test_that(desc("No Tow_area values are zero"), {
+          testthat::expect_equal(nrow(fail_tow_area_zero), 0, info = "Zero Tow_area rows")
+        })
+      }
+      if("Tow_volume"%in%names(data)){
+        testthat::test_that(desc("No Tow_volume values are zero"), {
+          testthat::expect_equal(nrow(fail_tow_vol_zero), 0, info = "Zero Tow_volume rows")
+        })
+      }
     }
   }
 
   # --- Water quality ---
   if (!is_salvage) {
-    # Salinity cannot be negative
     # Salvage does not collect salinity
-    fail_sal_surf_neg <- dplyr::filter(data, Sal_surf < 0)
-    fail_sal_bot_neg <- dplyr::filter(data, Sal_bot < 0)
+    # Salinity cannot be negative
     # Salinity cannot be above 40, too high
-    fail_sal_surf_hi <- dplyr::filter(data, Sal_surf > 40)
-    fail_sal_bot_hi <- dplyr::filter(data, Sal_bot > 40)
 
-    if (nrow(fail_sal_surf_neg) > 0) failures$Negative_Sal_surf <- fail_sal_surf_neg
-    if (nrow(fail_sal_bot_neg) > 0) failures$Negative_Sal_bot <- fail_sal_bot_neg
-    if (nrow(fail_sal_surf_hi) > 0) failures$High_Sal_surf <- fail_sal_surf_hi
-    if (nrow(fail_sal_bot_hi) > 0) failures$High_Sal_bot <- fail_sal_bot_hi
+    if("Sal_surf"%in%names(data)) {
+      fail_sal_surf_neg <- dplyr::filter(data, .data$Sal_surf < 0)
+      fail_sal_surf_hi <- dplyr::filter(data, .data$Sal_surf > 40)
+      if (nrow(fail_sal_surf_neg) > 0) failures$Negative_Sal_surf <- fail_sal_surf_neg
+      if (nrow(fail_sal_surf_hi) > 0) failures$High_Sal_surf <- fail_sal_surf_hi
+    }
+    if("Sal_bot"%in%names(data)) {
+      fail_sal_bot_neg <- dplyr::filter(data, .data$Sal_bot < 0)
+      fail_sal_bot_hi <- dplyr::filter(data, .data$Sal_bot > 40)
+      if (nrow(fail_sal_bot_neg) > 0) failures$Negative_Sal_bot <- fail_sal_bot_neg
+      if (nrow(fail_sal_bot_hi) > 0) failures$High_Sal_bot <- fail_sal_bot_hi
+    }
   }
 
   # Temperature cananot be negative or too high (above 40)
-  fail_temp_surf_neg <- dplyr::filter(data, Temp_surf < 0)
-  fail_temp_surf_hi <- dplyr::filter(data, Temp_surf > 40)
-  if (nrow(fail_temp_surf_neg) > 0) failures$Negative_Temp_surf <- fail_temp_surf_neg
-  if (nrow(fail_temp_surf_hi) > 0)  failures$High_Temp_surf <- fail_temp_surf_hi
+  if ("Temp_surf"%in%names(data)) {
+    fail_temp_surf_neg <- dplyr::filter(data, .data$Temp_surf < 0)
+    fail_temp_surf_hi <- dplyr::filter(data, .data$Temp_surf > 40)
+    if (nrow(fail_temp_surf_neg) > 0) failures$Negative_Temp_surf <- fail_temp_surf_neg
+    if (nrow(fail_temp_surf_hi) > 0)  failures$High_Temp_surf <- fail_temp_surf_hi
+  }
 
   if (!return_failures) {
     if (!is_salvage) {
       testthat::test_that(desc("No salinity values are negative or above 40"), {
-        testthat::expect_equal(nrow(fail_sal_surf_neg), 0, info = "Negative Sal_surf rows")
-        testthat::expect_equal(nrow(fail_sal_bot_neg), 0, info = "Negative Sal_bot rows")
-        testthat::expect_equal(nrow(fail_sal_surf_hi), 0, info = "Sal_surf > 40 rows")
-        testthat::expect_equal(nrow(fail_sal_bot_hi), 0, info = "Sal_bot > 40 rows")
+        if ("Sal_surf"%in%names(data)) {
+          testthat::expect_equal(nrow(fail_sal_surf_neg), 0, info = "Negative Sal_surf rows")
+          testthat::expect_equal(nrow(fail_sal_surf_hi), 0, info = "Sal_surf > 40 rows")
+        }
+        if ("Sal_bot"%in%names(data)) {
+          testthat::expect_equal(nrow(fail_sal_bot_neg), 0, info = "Negative Sal_bot rows")
+          testthat::expect_equal(nrow(fail_sal_bot_hi), 0, info = "Sal_bot > 40 rows")
+        }
       })
     }
-
-    testthat::test_that(desc("No surface temperature values are negative or above 40"), {
-      testthat::expect_equal(nrow(fail_temp_surf_neg), 0, info = "Negative Temp_surf rows")
-      testthat::expect_equal(nrow(fail_temp_surf_hi), 0, info = "Temp_surf > 40 rows")
-    })
+    if ("Temp_surf"%in%names(data)) {
+      testthat::test_that(desc("No surface temperature values are negative or above 40"), {
+        testthat::expect_equal(nrow(fail_temp_surf_neg), 0, info = "Negative Temp_surf rows")
+        testthat::expect_equal(nrow(fail_temp_surf_hi), 0, info = "Temp_surf > 40 rows")
+      })
+    }
   }
 
   # --- Return ---
