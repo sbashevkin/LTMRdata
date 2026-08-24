@@ -95,6 +95,9 @@ FMWTSample <- FMWT_Tables$Sample %>%
   select(-TowDirectionCode, -WeatherCode, -WaveCode, -MeterEnd, -MeterStart, -Meter_total)%>% # Remove unneeded variables
   left_join(FMWT_Tables$Station, by="Station", relationship = "many-to-one")%>% # Add station coordinates
   mutate(SampleID=paste(Station, Date, Datetime))%>% # Add unique identifier for each sample (net tow)
+
+  ########!!!!!!!!REMOVE THIS AFTER FMWT FIXES DUPLICATE SAMPLE!!!!!!!##############
+
   filter(SampleRowID!=27877)
 
 
