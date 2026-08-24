@@ -115,15 +115,21 @@ Web_Local_Meter_Corrections <- STNTables$Web_Local_Meter_Corrections %>%
 suspect_fm_TowRowID <- c(6612,12815,2551,12786,8031,1857)
 # subset(TowEffort, TowRowID %in% suspect_fm_TowRowID)
 
+#Are any stations missing from luStation?
+setdiff(Sample$StationCode, luStation$StationCodeSTN)
 
 sampleSTN <- Sample %>%
-  inner_join(TowEffort, by="SampleRowID",multiple="all") %>%
-  left_join(luStation, by=c("StationCode"="StationCodeSTN")) %>%
+  inner_join(TowEffort, by="SampleRowID",
+             multiple="all",
+             relationship="one-to-many") %>%
+  left_join(luStation, by=c("StationCode"="StationCodeSTN"),
+            relationship="many-to-one") %>%
   mutate(#Date=parse_date_time(SampleDate, "%m/%d/%Y %H:%M:%S",
                              # tz="America/Los_Angeles"),
          Year= year(SampleDate)) %>%
   left_join(Web_Local_Meter_Corrections,
-            by=c("Year"="Study.Year","MeterSerial"="Meter.Serial")) %>%
+            by=c("Year"="Study.Year","MeterSerial"="Meter.Serial"),
+            relationship="many-to-one") %>%
   mutate(MeterTotal=ifelse((MeterOut - MeterIn) < 0,
                            (MeterOut + 1000000 - MeterIn),
                            (MeterOut - MeterIn)),
@@ -157,9 +163,11 @@ sampleSTN <- Sample %>%
          Sal_surf=if_else(Sal_surf>40, NA_real_, Sal_surf),
          Latitude=(LatD + LatM/60 + LatS/3600),
          Longitude= -(LonD + LonM/60 + LonS/3600)) %>%
-  left_join(luTide, by=c("TideCode"="TideRowID")) %>%
+  left_join(luTide, by=c("TideCode"="TideRowID"),
+            relationship="many-to-one") %>%
   mutate(TideDesc=recode(TideDesc, `High Tide`="High Slack", `Low Tide`="Low Slack"))%>%
-  left_join(luTowDirection, by=c("TowDirection"="TowDirectionID")) %>%
+  left_join(luTowDirection, by=c("TowDirection"="TowDirectionID"),
+            relationship="many-to-one") %>%
   rename(Tide=TideDesc,
          Tow_direction=TowDirection.y,
          TowNum=TowNumber,
@@ -184,7 +192,9 @@ Length_measured<-Length%>%
 
 fish_adjustedCount <- fish_totalCatch %>%
   left_join(Length_measured,
-            by="CatchRowID",multiple="all") %>%
+            by="CatchRowID",
+            multiple="all",
+            relationship="one-to-many") %>%
   group_by(TowRowID, CatchRowID, OrganismCode) %>%
   mutate(TotalMeasured=sum(LengthFrequency, na.rm=TRUE)) %>%
   ungroup() %>%
@@ -197,7 +207,8 @@ fish_adjustedCount <- fish_totalCatch %>%
   left_join(Species %>% ## Add species names
               select(STN_Code, Taxa) %>%
               dplyr::filter(!is.na(STN_Code)),
-            by=c("OrganismCode"="STN_Code"))
+            by=c("OrganismCode"="STN_Code"),
+            relationship="many-to-one")
 
 
 ## Examine the cases where number measured > catch:
@@ -215,7 +226,9 @@ STN <- sampleSTN %>%
               select(TowRowID, OrganismCode, Taxa,
                      ForkLength, LengthFrequency,
                      Catch, CatchNew, Count),
-            by="TowRowID",multiple="all") %>%
+            by="TowRowID",
+            multiple="all",
+            relationship="one-to-many") %>%
   ## Add reasoning for any NA lengths:
   mutate(Length_NA_flag=if_else(is.na(Catch), "No fish caught",
                                 NA_character_),
@@ -259,6 +272,16 @@ STN <- STN %>%
 nrow(STN)
 ncol(STN)
 names(STN)
+
+source(file.path("data-raw", "comparison.R"))
+compareSTN <- create_comparison_report(STN, LTMRdata::STN,
+                                           id_cols = c("SampleID", "Taxa", "Length", "Count"))
+
+compareSTNLengths <- create_comparison_report(STN_measured_lengths, LTMRdata::STN_measured_lengths,
+                                           id_cols = c("SampleID", "Taxa", "Length", "Count"))
+
+devtools::load_all()
+tests <- test_dataset(STN, return_failures = T)
 
 ## Save compressed data to /data:
 usethis::use_data(STN, STN_measured_lengths, overwrite=TRUE, compress="xz")

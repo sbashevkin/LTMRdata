@@ -1,3 +1,11 @@
+# LTMRdata development
+
+* Fixed issue resulting from duplication of code 116 for STN in the Species dataset. 
+  This caused any records for Black Perch (*Embiotoca jacksoni*) to be duplicated and 
+  assigned to Bluefin Killifish (*Lucania goodei*) and vice versa. 
+* Edited FMWT `SampleID` column to be more informative (a combination of station, date, datetime instead of a simple row number that depends on the order of the data)
+* Renamed "*Cancer magister*" to "*Metacarcinus magister*"
+
 # LTMRdata 2.1.0
 
 * Added separate columns for Turbidity in NTU or FNU
