@@ -39,7 +39,7 @@ test_that("Length_NA_flag 'No fish caught' is applied correctly", {
   expect_setequal(filter(data, is.na(Length) & Count==0)$Length_NA_flag, "No fish caught") # 'No fish caught' should only be applied to cases where Length and Count are both NA
   expect_equal(nrow(filter(data, !(is.na(Length) & Count==0) & Length_NA_flag=="No fish caught")), 0) # 'No fish caught' should only be applied to cases where Length and Count are both NA
   expect_equal(nrow(filter(data, !is.na(Taxa) & Length_NA_flag=="No fish caught")), 0) # Taxa should be NA for all 'No fish caught'
-  expect_equal(nrow(filter(data, is.na(Taxa) & Length_NA_flag!="No fish caught")), 0) # NA taxa rows should only exist when 'No fish caught'
+  expect_equal(nrow(filter(data, is.na(Taxa) & !Length_NA_flag%in%"No fish caught")), 0) # NA taxa rows should only exist when 'No fish caught'
 })
 
 test_that("Length_NA_flag 'Unknown length' is applied correctly", {
@@ -85,12 +85,12 @@ test_that("No Tow volumes or Tow areas are negative", {
 })
 
 test_that("No Tow volumes or Tow areas are 0", {
-  expect_equal(nrow(filter(data, Tow_volume==0 & Source!="Salvage")), 0)
+  expect_equal(nrow(filter(data, Tow_volume==0 & !Source%in%"Salvage")), 0)
   expect_equal(nrow(filter(data, Tow_area==0)), 0)
 })
 
 test_that("No sample times are midnight, ignoring Salvage", {
-  expect_equal(nrow(filter(data, Source!="Salvage" & hour(Datetime)==0 & minute(Datetime)==0)), 0)
+  expect_equal(nrow(filter(data, !Source%in%"Salvage" & hour(Datetime)==0 & minute(Datetime)==0)), 0)
 })
 
 test_that("No salinities are negative", {

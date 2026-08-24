@@ -2,7 +2,7 @@
 ###################################################################
 ## code to prepare `EDSM` dataset as prepared by Sam Bashevkin   ##
 ###################################################################
-install.packages()
+
 require(wql)
 require(LTMRdata)
 require(readr)
