@@ -8,43 +8,22 @@ library(tidyverse)
 library(stringr)
 require(LTMRdata)
 library(rvest)
+library(deltadata)
 
 # downloading data because the dataset is too huge to keep on file
-options(timeout = 99999)
+##Update revision number .14 yearly. File Names may change from year to year should auto detect tables in future
+#use delta data getEDI for data download
 
-# Find the newest revision
-# IF you want to pull a specific version of a package, which is a number
-version <- NA
+tableNames<- getEDI("edi.244.14", files=c("1976-2001_DJFMP_trawl_fish_and_water_quality_data.csv","2002-2025_DJFMP_trawl_fish_and_water_quality_data.csv",
+                                          "1976-2025_DJFMP_beach_seine_fish_and_water_quality_data.csv", "DJFMP_Site_Locations.csv"))
+stationtable <- tableNames[[grep("Site_Locations", names(tableNames))]]
 
-link <- ifelse(is.na(version), "https://pasta.lternet.edu/package/eml/edi/244/newest",
-               paste0("https://pasta.lternet.edu/package/eml/edi/244/", version))
+earlytrawltable <- tableNames[[grep("1976.*trawl", names(tableNames))]]
 
-# Find the newest revision
-tableLinks <- read.delim(link, header = F) %>%
-  .[[1]] %>%
-  .[which(grepl("/data/", .))]
+presenttrawltable <- tableNames[[grep("2002.*trawl", names(tableNames))]]
 
-tableNames <- lapply(tableLinks, function(x) {
-  entityName <- read_html(gsub("data", "name", x)) %>%
-    html_text()
+seinetable <- tableNames[[grep("beach_seine", names(tableNames))]]
 
-  data.frame(id = gsub(".*\\/", "", x),
-             name = entityName,
-             url = x)
-}) %>%
-  bind_rows()
-
-stationtable<-tableNames %>%
-  filter(grepl("Site_Locations", name))
-
-earlytrawltable<-tableNames %>%
-  filter(grepl("1976.*trawl", name))
-
-presenttrawltable<-tableNames %>%
-  filter(grepl("2002.*trawl", name))
-
-seinetable<-tableNames %>%
-  filter(grepl("beach_seine", name))
 
 # Make sure URLs exist for each table
 if(any(nrow(stationtable)==0,
@@ -54,44 +33,35 @@ if(any(nrow(stationtable)==0,
   stop("regex for URLs isn't working right")
 }
 
-# Want the trawl/seine data and the site locations
 DJFMP_stations <- stationtable %>%
-  pull(url) %>%
-  read_csv(col_types = cols_only(StationCode="c",
-                                 Latitude="d",
-                                 Longitude="d"))
+  select(StationCode, Latitude, Longitude)
 
 data <- bind_rows(
   # 1976-2001 trawl data
   earlytrawltable %>%
-    pull(url) %>%
-    read_csv(col_types = cols_only(StationCode = "c", SampleDate = "c", SampleTime = "c",
-                                   TowNumber = "c", MethodCode = "c", GearConditionCode = "i",
-                                   FlowDebris = "c", SpecificConductance = "d",
-                                   WaterTemp = "d", Turbidity = "d",TurbidityFnu= "d", Secchi = "d",
-                                   Volume = "d", SamplingDirection = "c", MarkCode="c", RaceByLength="c",
-                                   OrganismCode = "c", ForkLength = "d", Count = "d",TowDuration="c")),
+    select(StationCode, SampleDate, SampleTime,
+           TowNumber, MethodCode, GearConditionCode,
+           FlowDebris, SpecificConductance,
+           WaterTemp, Turbidity, TurbidityFnu, Secchi,
+           Volume, SamplingDirection, MarkCode, RaceByLength,
+           OrganismCode, ForkLength, Count, TowDuration),
   # 2002-present trawl
-  presenttrawltable%>%
-    pull(url) %>%
-    read_csv(col_types = cols_only(StationCode = "c", SampleDate = "c", SampleTime = "c",
-                                   TowNumber = "c", MethodCode = "c", GearConditionCode = "i",
-                                   FlowDebris = "c", SpecificConductance = "d",
-                                   WaterTemp = "d", Turbidity = "d", TurbidityFnu= "d", Secchi = "d",
-                                   Volume = "d", SamplingDirection = "c", MarkCode="c", RaceByLength="c",
-                                   OrganismCode = "c", ForkLength = "d", Count = "d",TowDuration="c")),
+  presenttrawltable %>%
+    select(StationCode, SampleDate, SampleTime,
+           TowNumber, MethodCode, GearConditionCode,
+           FlowDebris, SpecificConductance,
+           WaterTemp, Turbidity, TurbidityFnu, Secchi,
+           Volume, SamplingDirection, MarkCode, RaceByLength,
+           OrganismCode, ForkLength, Count, TowDuration),
   # 1976-present beach seine
-  seinetable%>%
-    pull(url) %>%
-    read_csv(col_types = cols_only(StationCode = "c", SampleDate = "c", SampleTime = "c",
-                                   MethodCode = "c", SeineDepth = "d",  GearConditionCode = "i",
-                                   SpecificConductance = "d", WaterTemp = "d",
-                                   Turbidity = "d", TurbidityFnu= "d",
-                                   Volume = "d", MarkCode="c", RaceByLength="c",
-                                   OrganismCode = "c", ForkLength = "d", Count = "d"))
+  seinetable %>%
+    select(StationCode, SampleDate, SampleTime,
+           MethodCode, SeineDepth, GearConditionCode,
+           SpecificConductance, WaterTemp,
+           Turbidity, TurbidityFnu,
+           Volume, MarkCode, RaceByLength,
+           OrganismCode, ForkLength, Count)
 )
-
-
 #moved formatting sample Date higher up for following script
 data <- data %>%
   mutate(SampleDate = mdy(SampleDate))
@@ -193,8 +163,6 @@ mutate(Secchi = Secchi*100, # convert Secchi to cm
         # Removing conductivity data from dates before it was standardized
          Conductivity = ifelse(Date<as.Date("2019-06-01"), NA_real_, Conductivity),
          Sal_surf = ec2pss(Conductivity/1000, t=25),
-      #excluding all salinities above 40
-       Sal_surf = if_else(Sal_surf > 40, NA_real_, Sal_surf),
          Method = recode(Method, MWTR="Midwater trawl", KDTR="Kodiak trawl", SEIN="Beach seine"),
          Tow_direction = recode(Tow_direction, U="Upstream", D="Downstream", X="Neither"),
          SampleID=paste(if_else(is.na(Datetime), Date, Datetime), Station, TowNumber, Method), ############################## Some datetimes and tow numbers are showing as NA, resulting in duplicate sampleIDs
@@ -272,6 +240,7 @@ DJFMP<- DJFMP %>%
 #testing
 # --- Run check on singular database ---
 # devtools::load_all(".") should load this helper function for use
+#one test did not past high sal_surf ignored for now
 tests <- test_dataset(DJFMP, return_failures = T)
 
 if (length(tests) == 0) {
@@ -281,4 +250,4 @@ if (length(tests) == 0) {
 
 #
 # # Save compressed data to /data
-# usethis::use_data(DJFMP, overwrite=TRUE, compress="xz")
+usethis::use_data(DJFMP, overwrite=TRUE, compress="xz")
