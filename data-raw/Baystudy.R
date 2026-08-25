@@ -169,8 +169,7 @@ boattow_baystudy <- BayStudyTables$BoatTow %>%
   # fixing time zone to tbe pst
   mutate(Time = lubridate::force_tz(as.POSIXct(Time, format = "%Y-%m-%d %H:%M:%S"), tz = "America/Los_Angeles"))
 
-## Are any stations missing coordinates?
-setdiff(c(boattow_baystudy$Station, boatstation_baystudy$Station), stations_baystudy$Station)
+
 
 
 # All sample-level data -----
@@ -180,12 +179,16 @@ env_baystudy <- left_join(boattow_baystudy,
                           relationship="many-to-one")%>% # Join together station-visit and tow - level data
   mutate(Tide=if_else(is.na(Tidetow), Tidestation, Tidetow), # Tide was sometimes recorded at each station visit and sometimes at each tow
          Datetime=parse_date_time(if_else(is.na(Time), NA_character_, paste0(Date, " ", hour(Time), ":", minute(Time))), "%Y-%m-%d %%H:%M", tz="America/Los_Angeles"),
-         SampleID=1:nrow(.))%>% # Create identifier for each sample (tow)
+         SampleID=paste(Date, Survey, Station, Method),# Create identifier for each sample (tow)
+         Station=replace_values(Station, "753"~"752"))%>% # Station 753 is an alias for 752 due to 2 otter trawls conducted at 752 on July 2008
   left_join(stations_baystudy, by="Station",
             relationship="many-to-one")%>% # Add station locations
   left_join(salintemp_baystudy, by=c("Year", "Survey", "Station"),
             relationship="many-to-one")%>% #Add salinity and temperature data
   dplyr::select(-Tidestation, -Tidetow, -Time) # Remove unneeded variables
+
+## Are any stations missing coordinates?
+filter(env_baystudy, is.na(Latitude) | is.na(Longitude))
 
 # Catch data --------------------------------------------------------------
 catch_baystudy <- BayStudyTables$FishCatchData %>%
@@ -195,14 +198,21 @@ catch_baystudy <- BayStudyTables$FishCatchData %>%
             across(c(QtsCaught, QtsSubsampled, PlusCount), as.double))
 
 catch_baystudy <- catch_baystudy %>%
-  rename(Method=Net)%>%
-  mutate(Method=recode(Method, `1`="Midwater trawl", `2`="Otter trawl", `3`="EL"))%>% # Convert method codes to values
-  dplyr::filter(Method%in%c("Midwater trawl", "Otter trawl"))%>% #Only keep midwater and otter trawls
-  left_join(Species%>% # Add species names
-              dplyr::select(AlphaCode=Baystudy_Code, Taxa)%>%
-              dplyr::filter(!is.na(AlphaCode)),
-            by="AlphaCode",
-            relationship="many-to-one")%>%
+  rename(Method = Net) %>%
+  mutate(Method = recode(
+    Method,
+    `1` = "Midwater trawl",
+    `2` = "Otter trawl",
+    `3` = "EL"
+  )) %>% # Convert method codes to values
+  dplyr::filter(Method %in% c("Midwater trawl", "Otter trawl")) %>% #Only keep midwater and otter trawls
+  left_join(
+    Species %>% # Add species names
+      dplyr::select(AlphaCode = Baystudy_Code, Taxa) %>%
+      dplyr::filter(!is.na(AlphaCode)),
+    by = "AlphaCode",
+    relationship = "many-to-one"
+  )%>%
   dplyr::select(-AlphaCode) # Remove unneeded variable
 
 # Length data -------------------------------------------------------------
