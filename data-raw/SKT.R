@@ -1,6 +1,6 @@
 
 ###################################################################
-##  code to prepare `SKT` dataset as prepared by Sam Bashevkin   ##
+##               code to prepare `SKT` dataset                   ##
 ###################################################################
 
 require(wql)
@@ -56,29 +56,20 @@ SKT_Data <- bridgeAccess(db_path,
 
 # Station locations -------------------------------------------------------
 # read table with station latitude and longitude (one row per station)
-SKT_Data$StationsSKT <- SKT_Data$StationsSKT%>%
-  select(Station,LatDeg,LatMin,LatSec,LongDec,LongMin,LongSec)
-{
-  SKT_Data$StationsSKT$Station<-as.character(SKT_Data$StationsSKT$Station)
-  SKT_Data$StationsSKT$LatMin<-as.numeric(SKT_Data$StationsSKT$LatMin)
-  SKT_Data$StationsSKT<-SKT_Data$StationsSKT%>%
-    mutate(Latitude=SKT_Data$StationsSKT$LatDeg+SKT_Data$StationsSKT$LatMin/60+SKT_Data$StationsSKT$LatSec/3600,
-           Longitude=(SKT_Data$StationsSKT$LongDec+SKT_Data$StationsSKT$LongMin/60+SKT_Data$StationsSKT$LongSec/3600)*-1)%>%
-    drop_na()
-}
+StationsSKT <- SKT_Data$StationsSKT%>%
+  select(Station,LatDeg,LatMin,LatSec,LongDec,LongMin,LongSec)%>%
+  mutate(Latitude=LatDeg+LatMin/60+LatSec/3600,
+         Longitude=(LongDec+LongMin/60+LongSec/3600)*-1)%>%
+  select(Station, Latitude, Longitude)%>%
+  drop_na()
+
 # Sample-level data -------------------------------------------------------
 # read sample data (one row per tow)
-SKT_Data$Sample <- SKT_Data$tblSample%>%
-  select(SampleRowID,SampleDate,Station,SampleTimeStart,SurveyNumber,
-         WaterTemperature,TideCode,DepthBottom,Secchi,ConductivityTop,
-         TowDirectionCode,MeterStart,MeterEnd,
-         NTU, FNU)
-{
-  SKT_Data$Sample$Station<-as.character(SKT_Data$Sample$Station)
-  SKT_Data$Sample<-SKT_Data$Sample%>%
-    rename(Station = Station, Depth = DepthBottom, Temp_surf = WaterTemperature,
-           Survey = SurveyNumber, Date=SampleDate, Time=SampleTimeStart,
-           TurbidityNTU = NTU, TurbidityFNU = FNU)%>%
+SampleSKT <- SKT_Data$tblSample%>%
+  select(SampleRowID, Date = SampleDate, Station, Time = SampleTimeStart, Survey = SurveyNumber,
+         Temp_surf = WaterTemperature, TideCode, Depth = DepthBottom, Secchi, ConductivityTop,
+         TowDirectionCode, MeterStart, MeterEnd,
+         TurbidityNTU = NTU, TurbidityFNU = FNU)%>%
     mutate(Date = parse_date_time(Date, "%Y-%m-%d", tz="America/Los_Angeles"),
            Time = force_tz(as.POSIXct(Time, format = "%m/%d/%Y %H:%M", tz="UTC"), tz = "America/Los_Angeles"),
            # Create a new field which is a Date-Time composite.
@@ -100,53 +91,56 @@ SKT_Data$Sample <- SKT_Data$tblSample%>%
     # Remove unneeded variables
     select(-Meter_total, -TideCode, -TowDirectionCode, -MeterStart, -MeterEnd, -Time) %>%
     # Add station coordinates
-    left_join(SKT_Data$StationsSKT, by = "Station")
-}
+    left_join(StationsSKT, by = "Station", relationship="many-to-one")
+
 # Catch data --------------------------------------------------------------
 # Read Catch data (one row per species per tow)
 # Fields: CatchRowID	SampleRowID	OrganismCode	Catch
-SKT_Data$Catch <- SKT_Data$tblCatch%>%select(CatchRowID,SampleRowID,OrganismCode,Catch)
-{
-  SKT_Data$Catch$OrganismCode<-as.character(SKT_Data$Catch$OrganismCode)
-      # Add species names
-  SKT_Data$Catch<-SKT_Data$Catch%>%left_join(Species %>%
-                select(SKT_Code, Taxa) %>%
-                dplyr::filter(!is.na(SKT_Code)),
-              by = c("OrganismCode"="SKT_Code"))
-}
+SKTCatch <- SKT_Data$tblCatch%>%
+  select(CatchRowID,SampleRowID,OrganismCode,Catch)%>%
+  mutate(OrganismCode=as.character(OrganismCode))%>%
+  # Add species names
+  left_join(Species %>%
+              select(SKT_Code, Taxa) %>%
+              dplyr::filter(!is.na(SKT_Code)),
+            by = c("OrganismCode"="SKT_Code"),
+            relationship = "many-to-one")
+
 # Length data -------------------------------------------------------------
 # Read Length data (one row per measured fish per tow)
 # Fields: CatchRowID, LengthRowID, ForkLength, ReleasedAlive (flag)
-SKT_Data$FishInfo <- SKT_Data$tblFishInfo #%>%select(CatchRowID,ForkLength,LengthRowID)
-{
-  SKT_Data$FishInfo<-SKT_Data$FishInfo%>%
+SKTFishInfo <- SKT_Data$tblFishInfo%>%
     mutate(LengthFrequency = 1) %>%
     # 0 fork length means not measured, so removing those from
     # length table so those fish can be redistributed among measured lengths
     dplyr::filter(ForkLength != 0)%>%
     group_by(CatchRowID, ForkLength)%>%
     summarise(LengthFrequency=sum(LengthFrequency), .groups="drop")
-}
 
-SKT_Data$CatchLength<-SKT_Data$Catch%>%
-  left_join(SKT_Data$FishInfo%>%
+
+SKTCatchLength<-SKTCatch%>%
+  left_join(SKTFishInfo%>%
               group_by(CatchRowID)%>%
               # Calculate total number of fish measured for each species in each sample
               mutate(TotalMeasured = sum(LengthFrequency))%>%
               ungroup(),
             # Add catch numbers and species names
-            by = "CatchRowID",multiple="all")%>%
+            by = "CatchRowID",
+            multiple="all",
+            relationship="one-to-many")%>%
   # Calculate adjusted count
   mutate(Count = ifelse(is.na(TotalMeasured), Catch, (LengthFrequency/TotalMeasured)*Catch))
 
 # Create final datasets ---------------------------------------------------
 
 # Start with sample to ensure samples without any catch (empty nets) are included
-SKT <- SKT_Data$Sample %>%
+SKT <- SampleSKT %>%
   # Join to catch/length data
-  left_join(SKT_Data$CatchLength%>%
+  left_join(SKTCatchLength%>%
               dplyr::filter(!(is.na(Count) & OrganismCode!=0)), # Remove any cases other than nocatch where Count is NA
-            by="SampleRowID",multiple="all") %>%
+            by="SampleRowID",
+            multiple="all",
+            relationship="one-to-many") %>%
   # Convert conductivity to salinity
   mutate(Sal_surf = ec2pss(ConductivityTop/1000, t=25),
          # add identifier for survey
@@ -161,20 +155,21 @@ SKT <- SKT_Data$Sample %>%
          # Remove life stage info from Taxa names
          Taxa = stringr::str_remove(Taxa, " \\((.*)")) %>%
   # Reorder variables for consistency
-  dplyr::transmute(Source, Station, Latitude, Longitude, Date, Datetime, Survey,
+  dplyr::select(Source, Station, Latitude, Longitude, Date, Datetime, Survey,
          Depth, SampleID, CatchRowID, Method, Tide, Sal_surf, Temp_surf,
          TurbidityNTU, TurbidityFNU, Secchi, Tow_volume, Tow_direction, Taxa,
-         Length = ForkLength, Count, Length_NA_flag)
+         Length = ForkLength, Count, Length_NA_flag, CatchRowID)
 
 
 # Just measured lengths
 
-SKT_measured_lengths<-SKT_Data$FishInfo %>%
+SKT_measured_lengths<-SKTFishInfo %>%
   # Join species names and sampleID
   left_join(SKT %>%
               select(CatchRowID, SampleID, Taxa) %>%
               distinct(),
-            by = "CatchRowID") %>%
+            by = "CatchRowID",
+            relationship="many-to-one") %>%
   # Reorder variables for consistency
   select(SampleID, Taxa, Length = ForkLength, Count = LengthFrequency)
 
@@ -182,6 +177,16 @@ SKT_measured_lengths<-SKT_Data$FishInfo %>%
 SKT<-SKT %>%
   select(-CatchRowID)%>%
   distinct()
+
+source(file.path("data-raw", "comparison.R"))
+compareSKT <- create_comparison_report(SKT, LTMRdata::SKT,
+                                        id_cols = c("SampleID", "Taxa", "Length", "Count"))
+
+compareSKTLengths <- create_comparison_report(SKT_measured_lengths, LTMRdata::SKT_measured_lengths,
+                                               id_cols = c("SampleID", "Taxa", "Length", "Count"))
+
+devtools::load_all()
+tests <- test_dataset(SKT, return_failures = T)
 
 # Save compressed data to /data
 usethis::use_data(SKT, SKT_measured_lengths, overwrite=TRUE, compress="xz")
