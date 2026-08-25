@@ -19,4 +19,9 @@ Useful links:
 \author{
 \strong{Maintainer}: Sam Bashevkin \email{sam.bashevkin@waterboards.ca.gov} (\href{https://orcid.org/0000-0001-7406-7089}{ORCID})
 
+Authors:
+\itemize{
+  \item Sam Bashevkin \email{sam.bashevkin@waterboards.ca.gov} (\href{https://orcid.org/0000-0001-7406-7089}{ORCID})
+}
+
 }

@@ -32,7 +32,6 @@ Suggests:
     tibble,
     spelling,
     deltafish (>= 1.0.0)
-RoxygenNote: 7.3.2
 Imports: 
     dplyr,
     tidyselect,
@@ -43,3 +42,4 @@ Imports:
 Language: en-US
 Remotes: 
     delta-stewardship-council/deltafish
+Config/roxygen2/version: 8.1.0

@@ -1,13 +1,13 @@
 ScientificName,Baystudy_Code,CommonName,USFWS_Code,SKT_Code,STN_Code,SMF_Code,FMWT_Code,TMM_Code,SLS_Code,Salvage_Code,Lifestage,Taxa
 Oncorhynchus tshawytscha,CHISAL,Chinook salmon,CHN,9,15,CS,9,15,15,1,NA,Oncorhynchus tshawytscha
 Oncorhynchus mykiss,RAITRO,Steelhead,RBT,32,55,RT,32,55,55,2,NA,Oncorhynchus mykiss
-Morone saxatilis,STRBA0,Striped Bass,NA,33,0,NA,33,NA,NA,3,Age 0,Morone saxatilis (Age 0)
-Morone saxatilis,STRBA1,Striped Bass,NA,34,16,NA,34,NA,NA,3,Age 1,Morone saxatilis (Age 1)
-Morone saxatilis,STRBA2,Striped Bass,NA,35,NA,NA,35,NA,NA,3,Age 2,Morone saxatilis (Age 2)
-Morone saxatilis,STRBA3,Striped Bass,NA,NA,NA,NA,109,NA,NA,3,Age 3+,Morone saxatilis (Age 3+)
+Morone saxatilis,STRBA0,Striped Bass,NA,33,0,NA,33,NA,NA,NA,Age 0,Morone saxatilis (Age 0)
+Morone saxatilis,STRBA1,Striped Bass,NA,34,16,NA,34,NA,NA,NA,Age 1,Morone saxatilis (Age 1)
+Morone saxatilis,STRBA2,Striped Bass,NA,35,NA,NA,35,NA,NA,NA,Age 2,Morone saxatilis (Age 2)
+Morone saxatilis,STRBA3,Striped Bass,NA,NA,NA,NA,109,NA,NA,NA,Age 3+,Morone saxatilis (Age 3+)
 Morone saxatilis,STRBAS,Striped Bass,STB,NA,NA,SB,NA,0,0,3,NA,Morone saxatilis
-Morone saxatilis,NA,Striped Bass,NA,NA,17,NA,NA,NA,NA,3,Age 1,Morone saxatilis (Age 1)
-Morone saxatilis,NA,Striped Bass,NA,NA,18,NA,NA,NA,NA,3,Age 2+,Morone saxatilis (Age 2+)
+Morone saxatilis,NA,Striped Bass,NA,NA,17,NA,NA,NA,NA,NA,Age 1,Morone saxatilis (Age 1)
+Morone saxatilis,NA,Striped Bass,NA,NA,18,NA,NA,NA,NA,NA,Age 2+,Morone saxatilis (Age 2+)
 Ameiurus catus,WHICAT,White Catfish,WHC,5,8,WCF,5,8,8,4,NA,Ameiurus catus
 Ameiurus nebulosus,BROBUL,Brown Bullhead,BRB,69,54,BB,69,54,54,5,NA,Ameiurus nebulosus
 Ictalurus punctatus,CHACAT,Channel Catfish,CHC,4,9,CCF,4,9,9,6,NA,Ictalurus punctatus
@@ -76,10 +76,10 @@ Misgurnus anguillicaudatus,,Pond Loach,,,,,,,,73,NA,Misgurnus anguillicaudatus
 Eriocheir sinensis,NA,Chinese Mitten Crab,CMC,NA,NA,ERIOCHR,NA,NA,NA,80,NA,Eriocheir sinensis
 Chinese Mitten Crab Temp,NA,NA,NA,NA,NA,NA,NA,NA,NA,81,NA,Chinese Mitten Crab Temp
 UnID,NA,UnID,UNID,88,NA,UNK,120,99,99,90,NA,UnID
-UnID,NA,UnID invertebrate,NA,NA,192,NA,NA,NA,NA,90,NA,UnID
-UnID,NA,UnID damaged,NA,NA,193,NA,NA,NA,NA,90,NA,UnID
-UnID,NA,Total Fish Count,NA,NA,NA,NA,NA,NA,NA,98,NA,UnID
-UnID,NA,Total Fish Estimate,NA,NA,NA,NA,NA,NA,NA,99,NA,UnID
+UnID,NA,UnID invertebrate,NA,NA,192,NA,NA,NA,NA,NA,NA,UnID
+UnID,NA,UnID damaged,NA,NA,193,NA,NA,NA,NA,NA,NA,UnID
+UnID,NA,Total Fish Count,NA,NA,NA,NA,NA,NA,NA,NA,NA,UnID
+UnID,NA,Total Fish Estimate,NA,NA,NA,NA,NA,NA,NA,NA,NA,UnID
 Mugil cephalus,STRMUL,Striped Mullet,SMU,112,142,SMUL,NA,102,102,117,NA,Mugil cephalus
 Syngnathus leptorhynchus,BAYPIP,Bay Pipefish,BPF,71,35,BYP,71,35,35,127,NA,Syngnathus leptorhynchus
 Paralichthys californicus,CALHAL,California Halibut,CAH,78,107,CHA,78,78,78,133,NA,Paralichthys californicus
@@ -107,14 +107,14 @@ Gobiidae,NA,Unidentified Goby,GBY,NA,11,GBU,119,11,11,200,NA,Gobiidae
 Atherinopsis californiensis,JACKSM,Jacksmelt,JSM,8,34,JSM,8,34,34,201,NA,Atherinopsis californiensis
 Lampetra hubbsi,KBRLAM,Kern Brook Lamprey,NA,NA,NA,KBLP,NA,NA,NA,202,NA,Lampetra hubbsi
 Cyprinidae,MINSPP,Unidentified Minnow,MIN,NA,24,MINU,88,24,24,203,NA,Cyprinidae
-Cyprinidae,NA,Unidentified Shiner,SHI,NA,NA,NA,NA,NA,NA,203,NA,Cyprinidae
+Cyprinidae,NA,Unidentified Shiner,SHI,NA,NA,NA,NA,NA,NA,NA,NA,Cyprinidae
 Percidae,NA,Unidentified Perch,PCH,NA,43,NA,NA,43,43,204,NA,Percidae
 Pleuronectidae,FLOSPP,Unidentifed Flounder (right-eye),RFF,NA,NA,RFLU,NA,3127,3127,205,NA,Pleuronectidae
 Notropis rubellus,RSYSHN,Rosyface Shiner,RFS,NA,NA,RFSNR,NA,NA,NA,206,NA,Notropis rubellus
 Scorpaenidae,NA,NA,NA,NA,NA,NA,NA,NA,NA,207,NA,Scorpaenidae
 Lampetra ayresii,RIVLAM,River Lamprey,RL,11,62,RLP,11,62,62,208,NA,Lampetra ayresii
 Osmeridae,NA,Unidentified Smelt,SMT,NA,1,NA,NA,1,1,211,NA,Osmeridae
-Osmeridae,NA,Unidentified Osmeridae,OSM,NA,NA,NA,NA,NA,NA,211,NA,Osmeridae
+Osmeridae,NA,Unidentified Osmeridae,OSM,NA,NA,NA,NA,NA,NA,NA,NA,Osmeridae
 Acipenser,NA,Unidentified Sturgeon,STU,NA,21,NA,NA,21,21,215,NA,Acipenser
 Centrarchidae,SUNSPP,Unidentified Sunfish,CSN,105,36,CENTRARCH,NA,36,36,216,NA,Centrarchidae
 Catostomidae,NA,Unidentified Sucker,SUC,NA,NA,NA,NA,NA,NA,217,NA,Catostomidae
