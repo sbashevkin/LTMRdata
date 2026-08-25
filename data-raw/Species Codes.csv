@@ -112,7 +112,7 @@ Percidae,NA,Unidentified Perch,PCH,NA,43,NA,NA,43,43,204,NA,Percidae
 Pleuronectidae,FLOSPP,Unidentifed Flounder (right-eye),RFF,NA,NA,RFLU,NA,3127,3127,205,NA,Pleuronectidae
 Notropis rubellus,RSYSHN,Rosyface Shiner,RFS,NA,NA,RFSNR,NA,NA,NA,206,NA,Notropis rubellus
 Scorpaenidae,NA,NA,NA,NA,NA,NA,NA,NA,NA,207,NA,Scorpaenidae
-Lampetra ayresii,RIVLAM,River Lamprey,RL,11,62,RLP,11,62,62,208,NA,Lampetra ayresii
+Lampetra ayresii,WESRLA,River Lamprey,RL,11,62,RLP,11,62,62,208,NA,Lampetra ayresii
 Osmeridae,NA,Unidentified Smelt,SMT,NA,1,NA,NA,1,1,211,NA,Osmeridae
 Osmeridae,NA,Unidentified Osmeridae,OSM,NA,NA,NA,NA,NA,NA,NA,NA,Osmeridae
 Acipenser,NA,Unidentified Sturgeon,STU,NA,21,NA,NA,21,21,215,NA,Acipenser
@@ -291,3 +291,4 @@ NA,NA,No Trawl,NA,NA,NA,NOTRAWL,NA,NA,NA,NA,NA,NA
 Macrobrachium,NA,Macrobrachium spp.,NA,NA,195,NA,NA,NA,NA,NA,NA,Macrobrachium
 Brachyura,NA,Crab UnID,NA,NA,196,NA,NA,NA,NA,NA,NA,Brachyura
 Sebastes dallii,NA,Calico Rockfish,CRF,NA,NA,NA,NA,NA,NA,NA,NA,Sebastes dallii
+Xystreurys liolepis,FANSOL,Fantail Sole,NA,NA,NA,NA,NA,NA,NA,NA,NA,Xystreurys liolepis
