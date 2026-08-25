@@ -32,7 +32,7 @@ session <- session("https://filelib.wildlife.ca.gov/Public/BayStudy/Access_Datab
 links <- html_elements(session, "a") %>%
   html_attr("href")
 dbLink <- links[which(grepl("\\.zip", links))]
-fileName <- regmatches(dbLink, regexpr("(BayStudy_).*", dbLink))
+fileName <- str_replace_all(regmatches(dbLink, regexpr("[^/]+$", dbLink)), pattern = fixed("%20"), replacement="_")
 
 download.file(paste0("https://filelib.wildlife.ca.gov", dbLink),
               file.path(tempdir(), fileName), mode = "wb", method = "libcurl")
@@ -50,7 +50,7 @@ db_path <- file.path(tempdir(), accessFile)
 
 keepTables <- c("TideCodes_LookUp","WaveCodes_LookUp","CloudCover_LookUp",
                 "SalinTemp","BoatStation","BoatTow",
-                "Fish Catch Data","Fish Length Data")
+                "FishCatchData","FishLengthData")
 
 BayStudyTables <- bridgeAccess(db_path,
                      tables = keepTables,
@@ -131,17 +131,15 @@ boatstation_baystudy <- BayStudyTables$BoatStation %>%
             Depth = as.double(Depth), Secchi = as.double(Secchi),
             SubstrateCode = as.character(SubstrateCode),
             across(c(Waves, CloudCover, Tide), as.integer),
-            StationComment = as.character(StationComment))
-
-boatstation_baystudy <- boatstation_baystudy %>%
+            StationComment = as.character(StationComment))%>%
   mutate(Date=parse_date_time(Date, "%Y-%m-%d", tz="America/Los_Angeles"))%>% # What about when you read this from a csv file?
-  left_join(tidecodes_baystudy, by="Tide")%>% # Convert tide codes to values
+  left_join(tidecodes_baystudy, by="Tide", relationship="many-to-one")%>% # Convert tide codes to values
   dplyr::select(-Tide, -SubstrateCode)%>%
   rename(Tidestation=Description)%>%
-  left_join(wavecodes_baystudy, by="Waves")%>% # Convert wave codes to values
+  left_join(wavecodes_baystudy, by="Waves", relationship="many-to-one")%>% # Convert wave codes to values
   dplyr::select(-Waves)%>%
   rename(Waves=Description)%>%
-  left_join(cloudcovercodes_baystudy, by="CloudCover")%>% # Convert cloud cover codes to values
+  left_join(cloudcovercodes_baystudy, by="CloudCover", relationship="many-to-one")%>% # Convert cloud cover codes to values
   dplyr::select(-CloudCover)%>%
   rename(CloudCover=Description)
 
@@ -155,12 +153,10 @@ boattow_baystudy <- BayStudyTables$BoatTow %>%
             across(c(Tide, Direction, CatchCode), as.integer),
             across(c(Duration, StartMeter, EndMeter, TotalMeter,
                      StartLong, EndLong, StartLat, EndLat, Distance), as.double),
-            TowComment = as.character(TowComment))
-
-boattow_baystudy <- boattow_baystudy %>%
+            TowComment = as.character(TowComment))%>%
   dplyr::select(-StartLong, -EndLong, -StartLat, -EndLat, -StartMeter, -EndMeter)%>% # Removing survey lats/longs and start/end meters for now
   mutate(Tow_direction=recode(Direction, `1`="With current", `2`="Against current", `3`="Slack or cross-current"))%>% # Convert tow direction codes to values
-  left_join(tidecodes_baystudy, by="Tide")%>% # Convert tide codes to values
+  left_join(tidecodes_baystudy, by="Tide", relationship="many-to-one")%>% # Convert tide codes to values
   dplyr::select(-Tide, -Direction)%>%
   rename(Method=Net, Tidetow=Description)%>%
   mutate(Method=recode(Method, `1`="Midwater trawl", `2`="Otter trawl", `3`="EL"))%>% # Convert method codes to values
@@ -173,20 +169,26 @@ boattow_baystudy <- boattow_baystudy %>%
   # fixing time zone to tbe pst
   mutate(Time = lubridate::force_tz(as.POSIXct(Time, format = "%Y-%m-%d %H:%M:%S"), tz = "America/Los_Angeles"))
 
+## Are any stations missing coordinates?
+setdiff(c(boattow_baystudy$Station, boatstation_baystudy$Station), stations_baystudy$Station)
+
+
 # All sample-level data -----
-env_baystudy <- left_join(boattow_baystudy, boatstation_baystudy, by=c("Year", "Survey", "Station"))%>% # Join together station-visit and tow - level data
+env_baystudy <- left_join(boattow_baystudy,
+                          boatstation_baystudy,
+                          by=c("Year", "Survey", "Station"),
+                          relationship="many-to-one")%>% # Join together station-visit and tow - level data
   mutate(Tide=if_else(is.na(Tidetow), Tidestation, Tidetow), # Tide was sometimes recorded at each station visit and sometimes at each tow
          Datetime=parse_date_time(if_else(is.na(Time), NA_character_, paste0(Date, " ", hour(Time), ":", minute(Time))), "%Y-%m-%d %%H:%M", tz="America/Los_Angeles"),
          SampleID=1:nrow(.))%>% # Create identifier for each sample (tow)
-  left_join(stations_baystudy, by="Station")%>% # Add station locations
-  left_join(salintemp_baystudy, by=c("Year", "Survey", "Station"))%>% #Add salinity and temperature data
+  left_join(stations_baystudy, by="Station",
+            relationship="many-to-one")%>% # Add station locations
+  left_join(salintemp_baystudy, by=c("Year", "Survey", "Station"),
+            relationship="many-to-one")%>% #Add salinity and temperature data
   dplyr::select(-Tidestation, -Tidetow, -Time) # Remove unneeded variables
 
-rm(tidecodes_baystudy, wavecodes_baystudy, cloudcovercodes_baystudy, boattow_baystudy, boatstation_baystudy, salintemp_baystudy, stations_baystudy) # Clean up
-
-
 # Catch data --------------------------------------------------------------
-catch_baystudy <- BayStudyTables$`Fish Catch Data` %>%
+catch_baystudy <- BayStudyTables$FishCatchData %>%
   transmute(Year = as.integer(Year), Survey = as.integer(Survey),
             Station = as.character(Station), Net = as.integer(Net),
             AlphaCode = as.character(AlphaCode), SizeGroup = as.integer(SizeGroup),
@@ -199,17 +201,16 @@ catch_baystudy <- catch_baystudy %>%
   left_join(Species%>% # Add species names
               dplyr::select(AlphaCode=Baystudy_Code, Taxa)%>%
               dplyr::filter(!is.na(AlphaCode)),
-            by="AlphaCode")%>%
+            by="AlphaCode",
+            relationship="many-to-one")%>%
   dplyr::select(-AlphaCode) # Remove unneeded variable
 
 # Length data -------------------------------------------------------------
-length_baystudy <- BayStudyTables$`Fish Length Data` %>%
+length_baystudy <- BayStudyTables$FishLengthData %>%
   transmute(Year = as.integer(Year), Survey = as.integer(Survey),
             Station = as.character(Station), Net = as.integer(Net),
             AlphaCode = as.character(AlphaCode), SizeGroup = as.integer(SizeGroup),
-            Length = as.double(Length), Frequency = as.double(Frequency))
-
-length_baystudy <- length_baystudy %>%
+            Length = as.double(Length), Frequency = as.double(Frequency))%>%
   rename(Method=Net)%>%
   mutate(Method=recode(Method, `1`="Midwater trawl", `2`="Otter trawl", `3`="EL"), # Convert method codes to values
          AlphaCode = toupper(AlphaCode))%>% # Make alphacodes consistent
@@ -217,27 +218,32 @@ length_baystudy <- length_baystudy %>%
   left_join(Species%>% # Add species names
               dplyr::select(AlphaCode=Baystudy_Code, Taxa)%>%
               dplyr::filter(!is.na(AlphaCode)),
-            by="AlphaCode")%>%
+            by="AlphaCode",
+            relationship="many-to-one")%>%
   dplyr::select(-AlphaCode) # Remove unneeded variable
 
 # Join length and catch data ----
 lengthcatch_baystudy<-catch_baystudy%>%
   full_join(length_baystudy%>% # This first join will just include total number measured
                group_by(Year, Survey, Station, Method, SizeGroup, Taxa)%>%
-               summarize(TotalMeasured=sum(Frequency))%>% # Calculate total number of each species of fish measured in each sample
-               ungroup(),
-             by=c("Year", "Survey", "Station", "Method", "SizeGroup", "Taxa"))%>%
+               summarize(TotalMeasured=sum(Frequency), .groups="drop"), # Calculate total number of each species of fish measured in each sample
+             by=c("Year", "Survey", "Station", "Method", "SizeGroup", "Taxa"),
+            relationship="one-to-one")%>%
   dplyr::filter(!is.na(TotalMeasured) & !is.na(PlusCount))%>% # Remove any rows corresponding to 0 fish measured and 0 fish counted
   mutate(TotalCatch=(TotalMeasured+PlusCount)*(QtsCaught/QtsSubsampled))%>% # Calculate total number of each species caught in each sample
   dplyr::select(-PlusCount, -QtsCaught, -QtsSubsampled)%>% # Remove unneeded variables
-  right_join(length_baystudy, by=c("Year", "Survey", "Station", "Method", "SizeGroup", "Taxa"),multiple="all")%>% # Now join all measurements
+  right_join(length_baystudy, by=c("Year", "Survey", "Station", "Method", "SizeGroup", "Taxa"),
+             multiple="all",
+             relationship="one-to-many")%>% # Now join all measurements
   mutate(Count = (Frequency/TotalMeasured)*TotalCatch)%>% # Calculate adjusted size frequency
   dplyr::select(-TotalMeasured, -TotalCatch, -Frequency) # Remove unneeded variables
 
 
 # Create final datasets ---------------------------------------------------
 Baystudy <- env_baystudy%>% # Start with sample-level data to retain samples with no catch (nets empty of fish)
-  left_join(lengthcatch_baystudy, by=c("Year", "Survey", "Station", "Method"),multiple="all")%>% # Add length and catch data
+  left_join(lengthcatch_baystudy, by=c("Year", "Survey", "Station", "Method"),
+            multiple="all",
+            relationship="one-to-many")%>% # Add length and catch data
   mutate(Sal_surf=ec2pss(ECSurf/1000, t=25), # Calculate salinity from conductivity
          Sal_avg=ec2pss(ECAvg/1000, t=25),
          Sal_bott=ec2pss(ECBott/1000, t=25),
@@ -264,12 +270,23 @@ Baystudy_measured_lengths<-length_baystudy%>%
   inner_join(Baystudy%>% # Inner join to remove invalid tows
               dplyr::select(SampleID, Year, Survey, Station, Method)%>% # Add SampleID and Method to length data
               distinct(),
-            by=c("Year", "Survey", "Station", "Method"))%>%
+            by=c("Year", "Survey", "Station", "Method"),
+            relationship="many-to-one")%>%
   mutate(Taxa=stringr::str_remove(Taxa, " \\((.*)"))%>% #Remove life stage from Taxa
   dplyr::select(SampleID, Taxa, Size_group=SizeGroup, Length, Count=Frequency)# Reorder variables for consistency
 
 Baystudy <- Baystudy%>%
   dplyr::select(-Year)# Remove unneeded variables
+
+source(file.path("data-raw", "comparison.R"))
+compareBaystudy <- create_comparison_report(Baystudy, LTMRdata::Baystudy,
+                                        id_cols = c("SampleID", "Taxa", "Length", "Count"))
+
+compareBaystudyLengths <- create_comparison_report(Baystudy_measured_lengths, LTMRdata::Baystudy_measured_lengths,
+                                               id_cols = c("SampleID", "Taxa", "Length", "Count"))
+
+devtools::load_all()
+tests <- test_dataset(Baystudy, return_failures = T)
 
 usethis::use_data(Baystudy, Baystudy_measured_lengths, overwrite = TRUE, compress="xz") # Save compressed data to /data folder
 
