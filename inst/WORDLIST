@@ -5,7 +5,6 @@ CMD
 CVP
 Codecov
 DJFMP
-DOI
 EDI
 EDSM
 Embiotoca
@@ -33,13 +32,14 @@ Suisun
 Townet
 UC
 csv
-datetime
 deltafish
 flowmeter
 goodei
 heterocercal
 jacksoni
 magister
+ncol
+nrow
 rda
 testthat
 tibble
