@@ -50,7 +50,7 @@
 #' US Fish and Wildlife Service Delta Juvenile Fish Monitoring Program data.
 #'
 #' @encoding UTF-8
-#' @format a tibble with 2,248,199 rows and 19 variables
+#' @format a tibble with `r nrow(DJFMP)` rows and `r ncol(DJFMP)`variables
 #' \describe{
 #'   \item{Source}{Name of source dataset.}
 #'   \item{Station}{Station where sample was collected.}
@@ -64,6 +64,7 @@
 #'   \item{Sal_surf}{Surface salinity.}
 #'   \item{Temp_surf}{Surface temperature in °C.}
 #'   \item{TurbidityNTU}{Turbidity (NTU).}
+#'   \item{TurbidityFNU}{Turbidity (FNU).}
 #'   \item{Secchi}{Secchi depth (cm).}
 #'   \item{Tow_volume}{Volume towed (\ifelse{html}{\out{m<sup>3</sup>}}{\eqn{m^{3}}}).}
 #'   \item{Tow_direction}{Tow direction relative to current.}
@@ -80,7 +81,7 @@
 #' US Fish and Wildlife Service Enhanced Delta Smelt Monitoring (EDSM) data.
 #'
 #' @encoding UTF-8
-#' @format a tibble with 190,055 rows and 20 number of variables
+#' @format a tibble with `r nrow(EDSM)` rows and `r ncol(EDSM)` number of variables
 #' \describe{
 #'   \item{Source}{Name of source dataset.}
 #'   \item{Station}{Station where sample was collected.}
@@ -95,6 +96,7 @@
 #'   \item{Sal_surf}{Surface salinity.}
 #'   \item{Temp_surf}{Surface temperature in °C.}
 #'   \item{TurbidityNTU}{Turbidity (NTU).}
+#'   \item{TurbidityFNU}{Turbidity (FNU).}
 #'   \item{Secchi}{Secchi depth (cm).}
 #'   \item{Tow_volume}{Volume towed (\ifelse{html}{\out{m<sup>3</sup>}}{\eqn{m^{3}}}).}
 #'   \item{Tow_direction}{Tow direction relative to current.}

@@ -6,7 +6,7 @@
 \alias{EDSM}
 \title{EDSM dataset}
 \format{
-a tibble with 190,055 rows and 20 number of variables
+a tibble with `r nrow(EDSM)` rows and `r ncol(EDSM)` number of variables
 \describe{
   \item{Source}{Name of source dataset.}
   \item{Station}{Station where sample was collected.}
@@ -21,6 +21,7 @@ a tibble with 190,055 rows and 20 number of variables
   \item{Sal_surf}{Surface salinity.}
   \item{Temp_surf}{Surface temperature in °C.}
   \item{TurbidityNTU}{Turbidity (NTU).}
+  \item{TurbidityFNU}{Turbidity (FNU).}
   \item{Secchi}{Secchi depth (cm).}
   \item{Tow_volume}{Volume towed (\ifelse{html}{\out{m<sup>3</sup>}}{\eqn{m^{3}}}).}
   \item{Tow_direction}{Tow direction relative to current.}
