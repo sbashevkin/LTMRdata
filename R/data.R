@@ -3,7 +3,7 @@
 #' California Department of Fish and Wildlife Bay Study data.
 #'
 #' @encoding UTF-8
-#' @format a tibble with 805,858 rows and 23 variables
+#' @format a tibble with 805,858 `r nrow(Baystudy)` and `r ncol(Baystudy)` variables
 #' \describe{
 #'   \item{Source}{Name of source dataset.}
 #'   \item{Station}{Station where sample was collected.}
@@ -35,7 +35,7 @@
 #' Baystudy measured lengths
 #'
 #' Only measured lengths from the Baystudy data
-#' @format a tibble with 802,128 rows and 5 variables
+#' @format a tibble with `r nrow(Baystudy_measured_lengths)` rows and `r ncol(Baystudy_measured_lengths)` variables
 #' \describe{
 #'   \item{SampleID}{Unique sample identifier.}
 #'   \item{Taxa}{Scientific name.}
@@ -50,7 +50,7 @@
 #' US Fish and Wildlife Service Delta Juvenile Fish Monitoring Program data.
 #'
 #' @encoding UTF-8
-#' @format a tibble with `r nrow(DJFMP)` rows and `r ncol(DJFMP)`variables
+#' @format a tibble with `r nrow(DJFMP)` rows and `r ncol(DJFMP)` variables
 #' \describe{
 #'   \item{Source}{Name of source dataset.}
 #'   \item{Station}{Station where sample was collected.}

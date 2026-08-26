@@ -6,7 +6,7 @@
 \alias{Baystudy}
 \title{Bay study dataset}
 \format{
-a tibble with 805,858 rows and 23 variables
+a tibble with 805,858 `r nrow(Baystudy)` and `r ncol(Baystudy)` variables
 \describe{
   \item{Source}{Name of source dataset.}
   \item{Station}{Station where sample was collected.}
