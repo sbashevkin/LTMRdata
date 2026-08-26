@@ -33,7 +33,7 @@ if(integrate){
   gc()
 }
 
-deltafish:::create_fish_db_f(data_dir=data_dir, cache_dir, edi_pid="edi.1075.2", update=T)
+deltafish:::create_fish_db_f(data_dir=data_dir, cache_dir, edi_pid="edi.1075.3", update=T)
 
 con <- deltafish:::open_database_f(cache_dir)
 

@@ -69,6 +69,9 @@ test_that("Combinations of Taxa, Count, and Length_NA_flag are as expected", {
   ## If Length_NA_flag is not missing, it should have one of the three values:
   sub_4 <- subset(data, !is.na(Length_NA_flag))
   expect_true(all(sub_4$Length_NA_flag %in% len_flag_values))
+
+  ## If a length is present, Taxa should not be NA
+  expect_equal(nrow(filter(data, !is.na(Length) & is.na(Taxa))), 0)
 })
 
 test_that("No zero counts exist in the dataset, except for instances of 'No fish caught'", {

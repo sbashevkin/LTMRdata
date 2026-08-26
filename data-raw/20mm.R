@@ -102,50 +102,49 @@ FishSample <- data$FishSample %>%
 FishLength <- data$FishLength %>%
   mutate(across(c(FishLengthID, FishSampleID), as.integer),
          Length = as.numeric(Length),
-         across(c(AdFinPresent, ReleasedAlive), as.logical),
-         across(c(FieldRace, FinalRace), as.character))
+         across(c(AdFinPresent, ReleasedAlive), as.logical))
 
 MeterCorrections_avg <- MeterCorrections %>%
-	dplyr::group_by(MeterSerial) %>%
-	dplyr::summarize(kFactor_avg=mean(kFactor), .groups="keep") %>%
-	dplyr::ungroup()
+  dplyr::group_by(MeterSerial) %>%
+  dplyr::summarize(kFactor_avg=mean(kFactor), .groups="keep") %>%
+  dplyr::ungroup()
 
 sample20mm <- Survey %>%
-	dplyr::inner_join(Station, by="SurveyID") %>%
-	dplyr::inner_join(Tow, by="StationID") %>%
-	dplyr::inner_join(Gear, by="TowID") %>%
-	dplyr::left_join(GearCodesLkp, by="GearCode") %>%
-	dplyr::left_join(TmmStations, by="Station") %>%
-	dplyr::mutate(StudyYear=lubridate::year(SampleDate)) %>%
-	dplyr::left_join(MeterCorrections, by=c("StudyYear","MeterSerial")) %>%
-	dplyr::left_join(MeterCorrections_avg, by="MeterSerial") %>%
-	dplyr::filter(GearCode == 2) %>%
-	dplyr::mutate(kFactor_final=ifelse(!is.na(kFactor), kFactor, kFactor_avg),
-								Tow_volume=1.51*kFactor_final*MeterCheck) %>%
-	dplyr::arrange(SampleDate, Survey, Station, TowNum) %>%
-	dplyr::mutate(Source="20mm",
-				 SampleID=paste(Source, 1:nrow(.)),
-				 Tow_direction=NA,
-				 ## Tide codes from 20mmDataFileFormat_New_102621.pdf on the CDFW ftp site:
-				 Tide=dplyr::recode(Tide, `1`="High Slack", `2`="Ebb", `3`="Low Slack", `4`="Flood"),
-				 TowTime=paste(hour(TowTime), minute(TowTime), second(TowTime), sep=":"),
-				 Datetime=paste(SampleDate, TowTime),
-				 Date=lubridate::parse_date_time(SampleDate, "%Y-%m-%d", tz="America/Los_Angeles"),
-				 Datetime=lubridate::parse_date_time(dplyr::if_else(is.na(TowTime), NA_character_, Datetime),
-																	"%Y-%m-%d %%H:%M:%S", tz="America/Los_Angeles"),
-				 Depth=BottomDepth*0.3048, # Convert depth to m from feet
-				 Cable_length=CableOut*0.3048, # Convert to m from feet
-				 Method="20mm net",
-				 Temp_surf=Temp,
-				 ## Convert conductivity to salinity; TopEC is in micro-S/cm; input should
-				 ##		be in milli-S/cm:
-				 Sal_surf=wql::ec2pss(TopEC/1000, t=25),
-				 Latitude=(LatD + LatM/60 + LatS/3600),
-				 Longitude= -(LonD + LonM/60 + LonS/3600)) %>%
-	dplyr::select(GearID, Source, Station, Latitude, Longitude, Date, Datetime, Survey,
-								TowNum, Depth, SampleID, Method, Tide, Sal_surf, Temp_surf,
-								Secchi, Tow_volume, Tow_direction, Cable_length,
-								Duration, FNU, NTU, Comments, Comments.x, Comments.y)
+  dplyr::inner_join(Station, by="SurveyID", relationship="one-to-many") %>%
+  dplyr::inner_join(Tow, by="StationID", relationship="one-to-many") %>%
+  dplyr::inner_join(Gear, by="TowID", relationship="one-to-many") %>%
+  dplyr::left_join(GearCodesLkp, by="GearCode", relationship="many-to-one") %>%
+  dplyr::left_join(TmmStations, by="Station", relationship="many-to-one") %>%
+  dplyr::mutate(StudyYear=lubridate::year(SampleDate)) %>%
+  dplyr::left_join(MeterCorrections, by=c("StudyYear","MeterSerial"), relationship="many-to-one") %>%
+  dplyr::left_join(MeterCorrections_avg, by="MeterSerial", relationship="many-to-one") %>%
+  dplyr::filter(GearCode == 2) %>%
+  dplyr::mutate(kFactor_final=ifelse(!is.na(kFactor), kFactor, kFactor_avg),
+                Tow_volume=1.51*kFactor_final*MeterCheck) %>%
+  dplyr::arrange(SampleDate, Survey, Station, TowNum) %>%
+  dplyr::mutate(Source="20mm",
+                SampleID=paste(Source, SampleDate, Station, TowNum),
+                Tow_direction=NA,
+                ## Tide codes from 20mmDataFileFormat_New_102621.pdf on the CDFW ftp site:
+                Tide=dplyr::recode(Tide, `1`="High Slack", `2`="Ebb", `3`="Low Slack", `4`="Flood"),
+                TowTime=if_else(is.na(TowTime), NA_character_, paste(hour(TowTime), minute(TowTime), second(TowTime), sep=":")),
+                Datetime=paste(SampleDate, TowTime),
+                Date=lubridate::parse_date_time(SampleDate, "%Y-%m-%d", tz="America/Los_Angeles"),
+                Datetime=lubridate::parse_date_time(dplyr::if_else(is.na(TowTime), NA_character_, Datetime),
+                                                    "%Y-%m-%d %%H:%M:%S", tz="America/Los_Angeles"),
+                Depth=BottomDepth*0.3048, # Convert depth to m from feet
+                Cable_length=CableOut*0.3048, # Convert to m from feet
+                Method="20mm net",
+                Temp_surf=Temp,
+                ## Convert conductivity to salinity; TopEC is in micro-S/cm; input should
+                ##		be in milli-S/cm:
+                Sal_surf=wql::ec2pss(TopEC/1000, t=25),
+                Latitude=(LatD + LatM/60 + LatS/3600),
+                Longitude= -(LonD + LonM/60 + LonS/3600)) %>%
+  dplyr::select(GearID, Source, Station, Latitude, Longitude, Date, Datetime, Survey,
+                TowNum, Depth, SampleID, Method, Tide, Sal_surf, Temp_surf,
+                Secchi, Tow_volume, Tow_direction, Cable_length,
+                Duration, FNU, NTU, Comments, Comments.x, Comments.y)
 
 
 ## Note:
@@ -154,34 +153,38 @@ sample20mm <- Survey %>%
 ## Based on lengths, probably a matter of being ID'd in the field vs. in the lab.
 
 fish20mm_totalCatch <- FishSample %>%
-	dplyr::select(GearID, FishSampleID, FishCode, Catch)
+  dplyr::group_by(GearID, FishCode)%>%
+  dplyr::summarize(Catch=sum(Catch), .groups="drop")
 
-fish20mm_individLength <- FishSample %>%
-	dplyr::inner_join(FishLength, by="FishSampleID") %>%
-	dplyr::select(GearID, FishSampleID, FishCode, Length, Catch)
+fish20mm_lengthFreq_measured <- FishSample %>%
+  dplyr::inner_join(FishLength, by="FishSampleID", relationship="one-to-many") %>%
+  dplyr::select(GearID, FishSampleID, FishCode, Length, Catch)%>%
+  dplyr::filter(!is.na(Length)) %>%
+  dplyr::group_by(GearID, FishCode, Length) %>%
+  dplyr::summarize(LengthFrequency=n(), .groups="keep") %>%
+  dplyr::ungroup()
 
-fish20mm_lengthFreq_measured <- fish20mm_individLength %>%
-	dplyr::filter(!is.na(Length)) %>%
-	dplyr::group_by(GearID, FishSampleID, FishCode, Length) %>%
-	dplyr::summarize(LengthFrequency=n(), .groups="keep") %>%
-	dplyr::ungroup()
+#Check if there are any new species added
+setdiff(fish20mm_totalCatch$FishCode, Species$TMM_Code)
 
 fish20mm_adjustedCount <- fish20mm_totalCatch %>%
   dplyr::left_join(fish20mm_lengthFreq_measured,
-									 by=c("GearID","FishSampleID","FishCode")) %>%
-  dplyr::group_by(GearID, FishSampleID, FishCode) %>%
+                   by=c("GearID","FishCode"),
+                   relationship="one-to-many") %>%
+  dplyr::group_by(GearID, FishCode) %>%
   dplyr::mutate(TotalMeasured=sum(LengthFrequency, na.rm=T)) %>%
   dplyr::ungroup() %>%
-	## Add total catch numbers:
-	## There are some cases where the number of fish measured is greater than the
-	## catch value in the FishSample table. In these cases, use the number measured.
-	dplyr::mutate(CatchNew=ifelse(TotalMeasured > Catch, TotalMeasured, Catch)) %>%
-	## Calculate length-frequency-adjusted counts:
+  ## Add total catch numbers:
+  ## There are some cases where the number of fish measured is greater than the
+  ## catch value in the FishSample table. In these cases, use the number measured.
+  dplyr::mutate(CatchNew=ifelse(TotalMeasured > Catch, TotalMeasured, Catch)) %>%
+  ## Calculate length-frequency-adjusted counts:
   dplyr::mutate(Count=(LengthFrequency/TotalMeasured)*CatchNew) %>%
   dplyr::left_join(Species %>% ## Add species names
-										dplyr::select(TMM_Code, Taxa) %>%
-										dplyr::filter(!is.na(TMM_Code)),
-									 by=c("FishCode"="TMM_Code"))
+                     dplyr::select(TMM_Code, Taxa) %>%
+                     dplyr::filter(!is.na(TMM_Code)),
+                   by=c("FishCode"="TMM_Code"),
+                   relationship = "many-to-one")
 
 ## Examine the cases where number measured > catch:
 count_mismatch <- subset(fish20mm_adjustedCount, CatchNew != Catch)
@@ -190,13 +193,14 @@ nrow(count_mismatch)
 
 ## Join sample and fish info:
 TMM <- sample20mm %>%
-	dplyr::left_join(fish20mm_adjustedCount %>%
-										dplyr::select(GearID, FishCode, Taxa, Length,
-																	LengthFrequency, Catch, CatchNew, Count),
-									 by="GearID") %>%
-	## Add reasoning for any NA lengths:
- dplyr::mutate(Length_NA_flag=if_else(is.na(Catch), "No fish caught", NA_character_),
-               Station=as.character(Station))
+  dplyr::left_join(fish20mm_adjustedCount %>%
+                     dplyr::select(GearID, FishCode, Taxa, Length,
+                                   LengthFrequency, Catch, CatchNew, Count),
+                   by="GearID",
+                   relationship="one-to-many") %>%
+  ## Add reasoning for any NA lengths:
+  dplyr::mutate(Length_NA_flag=if_else(is.na(Catch), "No fish caught", NA_character_),
+                Station=as.character(Station))
 
 ## There are some cases where:
 ##  -positive catch is indicated in FishSample, but there are no corresponding records
@@ -227,9 +231,9 @@ TMM<-TMM%>%
 
 ## Create final measured lengths data frame:
 TMM_measured_lengths <- TMM %>%
-	dplyr::select(SampleID, Taxa, Length, LengthFrequency) %>%
+  dplyr::select(SampleID, Taxa, Length, LengthFrequency) %>%
   dplyr::filter(!is.na(LengthFrequency))%>% # Remove fish that weren't measured
-	dplyr::rename(Count=LengthFrequency)
+  dplyr::rename(Count=LengthFrequency)
 
 ## Renaming the turbidity field to be added. Name convention based on discussion
 ## with Sam and Dave
@@ -237,11 +241,19 @@ TMM_measured_lengths <- TMM %>%
 TMM <- TMM %>%
   dplyr::rename(TurbidityNTU = NTU,
                 TurbidityFNU = FNU) %>%
-	dplyr::select(-GearID, -Duration, -Comments, -Comments.x,
-								-Comments.y, -FishCode, -Catch, -CatchNew,
-								-LengthFrequency, -TowNum)
+  dplyr::select(-GearID, -Duration, -Comments, -Comments.x,
+                -Comments.y, -FishCode, -Catch, -CatchNew,
+                -LengthFrequency, -TowNum)
+
+source(file.path("data-raw", "comparison.R"))
+compareTMM <- create_comparison_report(TMM, LTMRdata::TMM,
+                                       id_cols = c("SampleID", "Taxa", "Length", "Count"))
+
+compareTMMLengths <- create_comparison_report(TMM_measured_lengths, LTMRdata::TMM_measured_lengths,
+                                              id_cols = c("SampleID", "Taxa", "Length", "Count"))
+
+devtools::load_all()
+tests <- test_dataset(TMM, return_failures = T)
 
 ## Save compressed data to /data:
 usethis::use_data(TMM, TMM_measured_lengths, overwrite=TRUE, compress="xz")
-
-
