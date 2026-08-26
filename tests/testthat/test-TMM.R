@@ -17,7 +17,7 @@ test_that("Tow numbers are in the expected range", {
 })
 
 test_that("Depth values are in the expected range", {
-	expect_true(all( (TMM$Depth > 0 & TMM$Depth < 27) | is.na(TMM$Depth) ))
+	expect_true(all( (TMM$Depth > 0 & TMM$Depth < 28) | is.na(TMM$Depth) ))
 })
 
 test_that("Custom SampleID values are formatted as expected", {

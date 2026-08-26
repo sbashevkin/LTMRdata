@@ -118,14 +118,14 @@ Osmeridae,NA,Unidentified Osmeridae,OSM,NA,NA,NA,NA,NA,NA,NA,NA,Osmeridae
 Acipenser,NA,Unidentified Sturgeon,STU,NA,21,NA,NA,21,21,215,NA,Acipenser
 Centrarchidae,SUNSPP,Unidentified Sunfish,CSN,105,36,CENTRARCH,NA,36,36,216,NA,Centrarchidae
 Catostomidae,NA,Unidentified Sucker,SUC,NA,NA,NA,NA,NA,NA,217,NA,Catostomidae
-Hyperprosopon ellipticum,SILSUR,Silver Surfperch,SVR,NA,114,SVSP,110,NA,NA,218,NA,Hyperprosopon ellipticum
+Hyperprosopon ellipticum,SILSUR,Silver Surfperch,SVR,NA,114,SVSP,110,106,NA,218,NA,Hyperprosopon ellipticum
 NoCatch,NA,NA,NA,NA,NA,NA,NA,NA,NA,220,NA,NoCatch
 Hyperprosopon argenteum,WALSUR,Walleye Surfperch,WSP,43,NA,WESP,43,NA,NA,223,NA,Hyperprosopon argenteum
 Amphistichus koelzi,CALSUR,Calico Surfperch,CSP,45,133,CSP,45,NA,NA,224,NA,Amphistichus koelzi
 Mustelus henlei,BROSMO,Brown Smoothhound,BSM,59,106,BRSH,59,NA,NA,225,NA,Mustelus henlei
 Triakis semifasciata,LEOSHA,Leopard Shark,LPS,58,105,LSH,58,NA,NA,226,NA,Triakis semifasciata
 Clevelandia ios,ARRGOB,Arrow Goby,ARG,76,13,AGB,76,13,13,227,NA,Clevelandia ios
-Citharichthys sordidus,PACSAN,Pacific Sanddab,PS,17,103,PSD,17,NA,NA,228,NA,Citharichthys sordidus
+Citharichthys sordidus,PACSAN,Pacific Sanddab,PS,17,103,PSD,17,104,NA,228,NA,Citharichthys sordidus
 Myliobatis californica,BATRAY,Bat Ray,BRY,1,100,BRA,1,NA,NA,230,NA,Myliobatis californica
 Raja binoculata,BIGSKA,Big Skate,BSK,2,101,BSK,2,NA,NA,231,NA,Raja binoculata
 Peprilus simillimus,PACPOM,Pacific Pompano,PBU,15,102,BTRF,15,NA,NA,232,NA,Peprilus simillimus
@@ -211,7 +211,7 @@ Lampetra richardsoni,WESBLA,Western Brook Lamprey,PBL,NA,NA,WBLP,NA,NA,NA,NA,NA,
 Leuresthes tenuis,CALGRU,California Grunion,NA,NA,NA,NA,108,NA,NA,NA,NA,Leuresthes tenuis
 Liparis,SNASPP,Unidentified Snailfish,NA,NA,NA,NA,NA,NA,NA,NA,NA,Liparis
 Liparis fucensis,SLISNA,Slipskin Snailfish,NA,NA,NA,NA,NA,NA,NA,NA,NA,Liparis fucensis
-Liparis pulchellus,SHOSNA,Showy Snailfish,NA,NA,NA,NA,NA,NA,NA,NA,NA,Liparis pulchellus
+Liparis pulchellus,SHOSNA,Showy Snailfish,NA,NA,NA,NA,NA,105,NA,NA,NA,Liparis pulchellus
 Lucania goodei,BLUKIL,Bluefin Killifish,BFK,116,71,NA,NA,100,100,75,NA,Lucania goodei
 Lumpenus sagitta,SNAPRI,Snake Prickleback,NA,NA,NA,NA,NA,NA,NA,NA,NA,Lumpenus sagitta
 Stichaeidae,NA,Unidentified Prickleback,NA,NA,NA,NA,NA,2813,2813,NA,NA,Stichaeidae
@@ -248,7 +248,7 @@ Pleurobrachia bachei,NA,Sea Gooseberry,PBACHE,114,184,NA,107,NA,NA,NA,NA,Pleurob
 Pleuronectiformes,FLASPP,Unidentifed Flatfish (left or right-eye),FLF,84,121,PLEURONEC,84,84,84,NA,NA,Pleuronectiformes
 Pleuronichthys coenosus,COSOLE,C-O Sole,NA,NA,NA,NA,NA,NA,NA,NA,NA,Pleuronichthys coenosus
 Pleuronichthys decurrens,CURSOL,Curlfin Sole,NA,NA,NA,NA,NA,NA,NA,NA,NA,Pleuronichthys decurrens
-Pleuronichthys guttulatus,DIATUR,Diamond Turbot,DMT,82,108,DMT,82,NA,NA,NA,NA,Pleuronichthys guttulatus
+Pleuronichthys guttulatus,DIATUR,Diamond Turbot,DMT,82,108,DMT,82,86,NA,NA,NA,Pleuronichthys guttulatus
 Pleuronichthys verticalis,HORTUR,Hornyhead Turbot,NA,NA,NA,NA,NA,NA,NA,NA,NA,Pleuronichthys verticalis
 Polyorchis haplus,NA,Peniccilate Jellyfish other,PHAP,NA,NA,NA,NA,NA,NA,NA,NA,Polyorchis haplus
 Polyorchis penicillatus,NA,Red-Eye Jellyfish,PPENIC,NA,181,NA,105,NA,NA,NA,NA,Polyorchis penicillatus
