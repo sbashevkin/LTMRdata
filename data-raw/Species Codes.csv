@@ -125,7 +125,7 @@ Amphistichus koelzi,CALSUR,Calico Surfperch,CSP,45,133,CSP,45,NA,NA,224,NA,Amphi
 Mustelus henlei,BROSMO,Brown Smoothhound,BSM,59,106,BRSH,59,NA,NA,225,NA,Mustelus henlei
 Triakis semifasciata,LEOSHA,Leopard Shark,LPS,58,105,LSH,58,NA,NA,226,NA,Triakis semifasciata
 Clevelandia ios,ARRGOB,Arrow Goby,ARG,76,13,AGB,76,13,13,227,NA,Clevelandia ios
-Citharichthys sordidus,PACSAN,Pacific Sanddab,PS,17,103,PSD,17,104,NA,228,NA,Citharichthys sordidus
+Citharichthys sordidus,PACSAN,Pacific Sanddab,PS,17,103,PSD,17,104,104,228,NA,Citharichthys sordidus
 Myliobatis californica,BATRAY,Bat Ray,BRY,1,100,BRA,1,NA,NA,230,NA,Myliobatis californica
 Raja binoculata,BIGSKA,Big Skate,BSK,2,101,BSK,2,NA,NA,231,NA,Raja binoculata
 Peprilus simillimus,PACPOM,Pacific Pompano,PBU,15,102,BTRF,15,NA,NA,232,NA,Peprilus simillimus
@@ -260,7 +260,7 @@ Rhinobatos productus,SHOGUI,Shovelnose Guitarfish,NA,NA,NA,NA,NA,NA,NA,NA,NA,Rhi
 Rhithropanopeus harrisii,NA,Hariss Mud Crab,NA,NA,NA,HARISSMC,NA,NA,NA,NA,NA,Rhithropanopeus harrisii
 Sarda chiliensis,PACBON,Pacific Bonito,NA,NA,NA,NA,NA,NA,NA,NA,NA,Sarda chiliensis
 Scomber japonicus,PACCMA,Pacific Chub Mackeral,NA,NA,NA,NA,NA,NA,NA,NA,NA,Scomber japonicus
-Scorpaenichthys marmoratus,CABEZO,Cabezon,CBZ,NA,NA,NA,NA,NA,NA,NA,NA,Scorpaenichthys marmoratus
+Scorpaenichthys marmoratus,CABEZO,Cabezon,CBZ,NA,NA,NA,NA,NA,107,NA,NA,Scorpaenichthys marmoratus
 Scrippsia pacifica,NA,Giant Bell Jelly,SPACIF,107,186,NA,106,NA,NA,NA,NA,Scrippsia pacifica
 Sebastes,ROCSPP,Unidentified Rockfish,ROC,NA,NA,ROCK,NA,81,81,NA,NA,Sebastes
 Sebastes auriculatus,BROROC,Brown Rockfish,BRF,NA,185,NA,NA,96,96,NA,NA,Sebastes auriculatus
