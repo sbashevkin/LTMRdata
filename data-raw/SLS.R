@@ -11,11 +11,11 @@ Path<-file.path(tempdir(), "SLS.zip")
 Path_origin<-file.path(tempdir())
 #Downloading MWT_data.zip----
 download.file("https://filelib.wildlife.ca.gov/Public/Delta%20Smelt/SLS.zip", Path, mode="wb",method="libcurl")
-unzip(Path,files="SLS.mdb",exdir=Path_origin)
+unzip(Path,files="SLS.accdb",exdir=Path_origin)
 
 # MS access database set up----
 # File path to Access database (Salvage)
-db_path <- file.path(tempdir(),"SLS.mdb")
+db_path <- file.path(tempdir(),"SLS.accdb")
 
 source(file.path("data-raw", "bridgeAccess.R"))
 
@@ -72,53 +72,31 @@ SLSTables <- bridgeAccess(db_path,
 
 #MWT data setup ----
 
-SLSTables$Catch <- SLSTables$Catch %>%
-  transmute(Date = parse_date_time(Date, "%Y-%m-%d", tz="America/Los_Angeles"),
-            Station = as.character(Station),
-            across(c(Tow, FishCode, Catch, CatchID), as.integer))
-
-SLSTables$Lengths <- SLSTables$Lengths %>%
-  transmute(Date = parse_date_time(Date, "%Y-%m-%d", tz="America/Los_Angeles"),
-            Station = as.character(Station),
-            across(c(Tow, FishCode, Length, entryorder), as.integer))
-
-SLSTables$`Meter Corrections` <- SLSTables$`Meter Corrections` %>%
+SLSMeterCorrections <- SLSTables$`Meter Corrections` %>%
   transmute(StudyYear = as.double(StudyYear),
             MeterSerial = as.integer(MeterSerial),
             CalibrationDate = as.Date(CalibrationDate),
             kfactor = as.double(kfactor),
             Notes = as.character(Notes))
 
-SLSTables$`Tow Info` <- SLSTables$`Tow Info`%>%
-  transmute(Date = parse_date_time(Date, "%Y-%m-%d", tz="America/Los_Angeles"),
-            Station = as.character(Station),
-            Tow = as.integer(Tow),
-            Time = as.POSIXct(Time),
-            Tide = as.character(Tide),
-            BottomDepth = as.integer(BottomDepth),
-            CableOut = CableOut * 0.3048,
-            Duration = as.double(Duration),
-            across(c(NetMeterSerial, NetMeterStart, NetMeterEnd, NetMeterCheck),
-                   as.integer),
-            Notes_tow = as.character(Comments))
+# SLS used to have a 20 mm station table that has changed to be "SLS Stations"
+SLSStations <- SLSTables$`SLS Stations` %>%
+  transmute(Station = as.character(Station),
+            Latitude = (LatD + LatM/60 + LatS/3600),
+            Longitude = -(LonD + LonM/60 + LonS/3600))
 
-SLSTables$`Water Info` <- SLSTables$`Water Info`%>%
+#Check if any station locations are missing
+setdiff(SLSTables$`Water Info`$Station, SLSStations$Station)
+
+# Manipulating the data tables --------------------------------------------
+
+waterInfo <- SLSTables$`Water Info`%>%
   transmute(Survey = as.integer(Survey),
             Date = parse_date_time(Date, "%Y-%m-%d", tz="America/Los_Angeles"),
             Station = as.character(Station),
             TopTemp = as.double(TopTemp),
             across(c(TopEC, BottomEC, Secchi, NTU, FNU), as.integer),
-            Notes_env = as.character(Comments))
-
-# SLS used to have a 20 mm station table that has changed to be "SLS Stations"
-SLSTables$`SLS Stations` <- SLSTables$`SLS Stations` %>%
-  transmute(Station = as.character(Station),
-            Latitude = (LatD + LatM/60 + LatS/3600),
-            Longitude = -(LonD + LonM/60 + LonS/3600))
-
-# Manipulating the data tables --------------------------------------------
-
-waterInfo <- SLSTables$`Water Info` %>%
+            Notes_env = as.character(Comments)) %>%
   mutate(# Converting secchi from cm to m
     Secchi = Secchi/100,
     # Converting EC to salinity
@@ -130,7 +108,18 @@ waterInfo <- SLSTables$`Water Info` %>%
     # Changing Date to as.Date
     Date = parse_date_time(Date, "%Y-%m-%d", tz="America/Los_Angeles"))
 
-towInfo <- SLSTables$`Tow Info` %>%
+towInfo <- SLSTables$`Tow Info`%>%
+  transmute(Date = parse_date_time(Date, "%Y-%m-%d", tz="America/Los_Angeles"),
+            Station = as.character(Station),
+            Tow = as.integer(Tow),
+            Time = as.POSIXct(Time),
+            Tide = as.character(Tide),
+            BottomDepth = as.integer(BottomDepth),
+            CableOut = CableOut * 0.3048,
+            Duration = as.double(Duration),
+            across(c(NetMeterSerial, NetMeterStart, NetMeterEnd, NetMeterCheck),
+                   as.integer),
+            Notes_tow = as.character(Comments)) %>%
   # 1 parsing error because time was not recorded for that row
   # Now, joining to the Meter Corrections table to calculate tow volume later
   # This is based on the "WEB_Raw_Catch_Volum_Info" query in the SLS Access query database
@@ -140,11 +129,12 @@ towInfo <- SLSTables$`Tow Info` %>%
          # Changing Date from POSIXct format to simply Date for easy of use
          # Timezone data is still retained in the Datetime column
          Date = parse_date_time(Date, "%Y-%m-%d", tz="America/Los_Angeles")) %>%
-  left_join(SLSTables$`Meter Corrections` %>%
+  left_join(SLSMeterCorrections %>%
               # There are duplicated values here in this table; will simply distinct() them
               # Confirmed via email with Adam, ES of Native Fish unit as of 10-27-2021
               distinct(),
-            by = c("StudyYear", "NetMeterSerial" = "MeterSerial")) %>%
+            by = c("StudyYear", "NetMeterSerial" = "MeterSerial"),
+            relationship="many-to-one") %>%
   # Moving on to various required calculations
   mutate(Datetime = ymd_hms(if_else(is.na(Time), NA_character_, paste(Date, paste(hour(Time), minute(Time), second(Time), sep=":"))),
                             tz = "America/Los_Angeles"),
@@ -160,9 +150,15 @@ towInfo <- SLSTables$`Tow Info` %>%
          Tow_volume = NetMeterCheck * kfactor * 0.37)
 
 catch <- SLSTables$Catch %>%
+  transmute(Date = parse_date_time(Date, "%Y-%m-%d", tz="America/Los_Angeles"),
+            Station = as.character(Station),
+            across(c(Tow, FishCode, Catch, CatchID), as.integer)) %>%
   mutate(Date = parse_date_time(Date, "%Y-%m-%d", tz="America/Los_Angeles"))
 
 lengths <- SLSTables$Lengths %>%
+  transmute(Date = parse_date_time(Date, "%Y-%m-%d", tz="America/Los_Angeles"),
+            Station = as.character(Station),
+            across(c(Tow, FishCode, Length, entryorder), as.integer)) %>%
   mutate(Date = parse_date_time(Date, "%Y-%m-%d", tz="America/Los_Angeles")) %>%
   # Calculating total number of fish measured (across all lengths) and # of fish measured
   # per Date, Station, Tow, and FishCode
@@ -173,23 +169,33 @@ lengths <- SLSTables$Lengths %>%
   mutate(TotalLengthMeasured=sum(LengthFrequency)) %>%
   ungroup()
 
+#Check if there are any new species
+setdiff(catch$FishCode, Species$SLS_Code)
+
 # Now to combine the datasets together, following the relationship table in Access
 # The tables go waterInfo -> towInfo -> Catch -> lengths
 SLS <- waterInfo %>%
   full_join(towInfo,
-            by = c("Date", "Station")) %>%
+            by = c("Date", "Station"),
+            relationship="one-to-one") %>%
   full_join(catch,
-            by = c("Date", "Station", "Tow"),multiple="all") %>%
+            by = c("Date", "Station", "Tow"),
+            multiple="all",
+            relationship="one-to-many") %>%
   full_join(lengths,
-            by = c("Date", "Station", "Tow", "FishCode"),multiple="all") %>%
+            by = c("Date", "Station", "Tow", "FishCode"),
+            multiple="all",
+            relationship="one-to-many") %>%
   # Adding in taxa name based on Species Code.csv file
   left_join(Species %>%
               select(SLS_Code,
                      Taxa) %>%
               dplyr::filter(!is.na(SLS_Code)),
-            by = c("FishCode"="SLS_Code")) %>%
-  left_join(SLSTables$`SLS Stations`,
-            by="Station")%>%
+            by = c("FishCode"="SLS_Code"),
+            relationship="many-to-one") %>%
+  left_join(SLSStations,
+            by="Station",
+            relationship="many-to-one")%>%
   # Merging the two comment columns together; they both have data in them
   mutate(Notes_tow=paste(Notes_tow, Notes_env, sep = "; ")) %>%
   arrange(Date, Datetime, Survey, Station, Tow, Taxa, Length) %>%
@@ -221,5 +227,12 @@ SLS <- waterInfo %>%
 
 # Some differences in Notes_tow if you use bridgeAccess vs reading from the csv files; seems to be
 # a unicode issue with the apostrophe symbol. Comments read the same, i.e., disregard error for this difference.
+
+source(file.path("data-raw", "comparison.R"))
+compareSLS <- create_comparison_report(SLS, LTMRdata::SLS,
+                                       id_cols = c("SampleID", "Taxa", "Length", "Count"))
+
+devtools::load_all()
+tests <- test_dataset(SLS, return_failures = T)
 
 usethis::use_data(SLS, overwrite=TRUE, compress="xz")
