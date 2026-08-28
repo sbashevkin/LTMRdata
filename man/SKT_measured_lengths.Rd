@@ -6,7 +6,7 @@
 \alias{SKT_measured_lengths}
 \title{SKT measured lengths}
 \format{
-a tibble with 41,295 rows and 4 variables
+a tibble with `r prettyNum(nrow(SKT_measured_lengths), big.mark = ",")` rows and `r ncol(SKT_measured_lengths)` variables
 \describe{
   \item{SampleID}{Unique sample identifier.}
   \item{Taxa}{Scientific name.}

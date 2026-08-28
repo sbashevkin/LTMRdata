@@ -6,7 +6,7 @@
 \alias{DJFMP}
 \title{DJFMP dataset}
 \format{
-a tibble with `r nrow(DJFMP)` rows and `r ncol(DJFMP)` variables
+a tibble with `r prettyNum(nrow(DJFMP), big.mark = ",")` rows and `r ncol(DJFMP)` variables
 \describe{
   \item{Source}{Name of source dataset.}
   \item{Station}{Station where sample was collected.}

@@ -5,7 +5,7 @@
 \alias{FMWT_measured_lengths}
 \title{FMWT measured lengths}
 \format{
-a tibble with 233,902 rows and 4 variables
+a tibble with `r prettyNum(nrow(FMWT_measured_lengths), big.mark = ",")` rows and `r ncol(FMWT_measured_lengths)` variables
 \describe{
   \item{SampleID}{Unique sample identifier.}
   \item{Taxa}{Scientific name.}

@@ -3,7 +3,7 @@
 #' California Department of Fish and Wildlife Bay Study data.
 #'
 #' @encoding UTF-8
-#' @format a tibble with 805,858 `r nrow(Baystudy)` and `r ncol(Baystudy)` variables
+#' @format a tibble with 805,858 `r prettyNum(nrow(Baystudy), big.mark = ",")` and `r ncol(Baystudy)` variables
 #' \describe{
 #'   \item{Source}{Name of source dataset.}
 #'   \item{Station}{Station where sample was collected.}
@@ -35,7 +35,7 @@
 #' Baystudy measured lengths
 #'
 #' Only measured lengths from the Baystudy data
-#' @format a tibble with `r nrow(Baystudy_measured_lengths)` rows and `r ncol(Baystudy_measured_lengths)` variables
+#' @format a tibble with `r prettyNum(nrow(Baystudy_measured_lengths), big.mark = ",")` rows and `r ncol(Baystudy_measured_lengths)` variables
 #' \describe{
 #'   \item{SampleID}{Unique sample identifier.}
 #'   \item{Taxa}{Scientific name.}
@@ -50,7 +50,7 @@
 #' US Fish and Wildlife Service Delta Juvenile Fish Monitoring Program data.
 #'
 #' @encoding UTF-8
-#' @format a tibble with `r nrow(DJFMP)` rows and `r ncol(DJFMP)` variables
+#' @format a tibble with `r prettyNum(nrow(DJFMP), big.mark = ",")` rows and `r ncol(DJFMP)` variables
 #' \describe{
 #'   \item{Source}{Name of source dataset.}
 #'   \item{Station}{Station where sample was collected.}
@@ -81,7 +81,7 @@
 #' US Fish and Wildlife Service Enhanced Delta Smelt Monitoring (EDSM) data.
 #'
 #' @encoding UTF-8
-#' @format a tibble with `r nrow(EDSM)` rows and `r ncol(EDSM)` number of variables
+#' @format a tibble with `r prettyNum(nrow(EDSM), big.mark = ",")` rows and `r ncol(EDSM)` number of variables
 #' \describe{
 #'   \item{Source}{Name of source dataset.}
 #'   \item{Station}{Station where sample was collected.}
@@ -113,7 +113,7 @@
 #' California Department of Fish and Wildlife Fall Midwater Trawl data.
 #'
 #' @encoding UTF-8
-#' @format a tibble with 266,694 rows and 23 variables
+#' @format a tibble with `r prettyNum(nrow(FMWT), big.mark = ",")` rows and `r ncol(FMWT)` variables
 #' \describe{
 #'   \item{Source}{Name of source dataset.}
 #'   \item{Station}{Station where sample was collected.}
@@ -145,7 +145,7 @@
 #' FMWT measured lengths
 #'
 #' Only measured lengths from the FMWT data
-#' @format a tibble with 233,902 rows and 4 variables
+#' @format a tibble with `r prettyNum(nrow(FMWT_measured_lengths), big.mark = ",")` rows and `r ncol(FMWT_measured_lengths)` variables
 #' \describe{
 #'   \item{SampleID}{Unique sample identifier.}
 #'   \item{Taxa}{Scientific name.}
@@ -158,7 +158,7 @@
 #'
 #' Intercepts and slopes for equations to convert Standard Length to Fork Length (or Total Length if no fork). Equations derived from the CDFW length-weight study (2005) and Jereme Gaeta, unpublished.
 #'
-#' @format a tibble with 20 rows and 3 variables
+#' @format a tibble with `r nrow(Length_conversions)` rows and `r ncol(Length_conversions)` variables
 #' \describe{
 #'   \item{Species}{Scientific name.}
 #'   \item{Intercept}{Intercept in the equation FL = Intercept + Slope * SL.}
@@ -171,7 +171,7 @@
 #' California Department of Fish and Wildlife Spring Kodiac Trawl (SKT) data.
 #'
 #' @encoding UTF-8
-#' @format a tibble with 42,909 rows and 22 variables
+#' @format a tibble with `r prettyNum(nrow(SKT), big.mark = ",")` rows and `r ncol(SKT)` variables
 #' \describe{
 #'   \item{Source}{Name of source dataset.}
 #'   \item{Station}{Station where sample was collected.}
@@ -204,7 +204,7 @@
 #' Only measured lengths from the SKT data
 #'
 #' @encoding UTF-8
-#' @format a tibble with 41,295 rows and 4 variables
+#' @format a tibble with `r prettyNum(nrow(SKT_measured_lengths), big.mark = ",")` rows and `r ncol(SKT_measured_lengths)` variables
 #' \describe{
 #'   \item{SampleID}{Unique sample identifier.}
 #'   \item{Taxa}{Scientific name.}
@@ -218,7 +218,7 @@
 #' California Department of Fish and Wildlife Smelt Larva Survey data.
 #'
 #' @encoding UTF-8
-#' @format a tibble with 27,851 rows and 26 variables
+#' @format a tibble with `r prettyNum(nrow(SLS), big.mark = ",")` rows and `r ncol(SLS)` variables
 #' \describe{
 #'   \item{Source}{Name of source dataset.}
 #'   \item{Station}{Station where sample was collected.}
@@ -278,7 +278,7 @@
 #' California Department of Fish and Wildlife Summer Townet Survey (STN) data.
 #'
 #' @encoding UTF-8
-#' @format a tibble with 191,547 rows and 22 variables
+#' @format a tibble with `r prettyNum(nrow(STN), big.mark = ",")` rows and `r ncol(STN)` variables
 #' \describe{
 #'   \item{Source}{Name of source dataset.}
 #'   \item{Station}{Station where sample was collected.}
@@ -309,7 +309,7 @@
 #' STN measured lengths
 #'
 #' Only measured lengths from the STN data
-#' @format a tibble with 173,981 rows and 4 variables
+#' @format a tibble with `r prettyNum(nrow(STN_measured_lengths), big.mark = ",")` rows and `r ncol(STN_measured_lengths)` variables
 #' \describe{
 #'   \item{SampleID}{Unique sample identifier.}
 #'   \item{Taxa}{Scientific name.}
@@ -367,7 +367,7 @@
 #' California Department of Fish and Wildlife 20-mm Survey data.
 #'
 #' @encoding UTF-8
-#' @format a tibble with 355,228 rows and 23 variables
+#' @format a tibble with `r prettyNum(nrow(TMM), big.mark = ",")` rows and `r ncol(TMM)` variables
 #' \describe{
 #'   \item{Source}{Name of source dataset.}
 #'   \item{Station}{Station where sample was collected.}
@@ -399,7 +399,7 @@
 #' 20mm measured lengths
 #'
 #' Only measured lengths from the 20-mm Survey data
-#' @format a tibble with 351,699 rows and 4 variables
+#' @format a tibble with `r prettyNum(nrow(TMM_measured_lengths), big.mark = ",")` rows and `r ncol(TMM_measured_lengths)` variables
 #' \describe{
 #'   \item{SampleID}{Unique sample identifier.}
 #'   \item{Taxa}{Scientific name.}

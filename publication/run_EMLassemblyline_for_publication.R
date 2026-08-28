@@ -86,14 +86,14 @@ date_range<-read_csv(file.path(path_data, 'survey.csv'),
 # Once all your metadata templates are complete call this function to create
 # the EML.
 
-#ID<-"edi.1118.2" # Sandbox EDI
-ID<-'edi.1075.2' # Real EDI
+ID<-"edi.1118.3" # Sandbox EDI
+#ID<-'edi.1075.3' # Real EDI
 
 eml <- make_eml(
   path = path_templates,
   data.path = path_data,
   eml.path = path_eml,
-  dataset.title = 'Fish abundance in the San Francisco Estuary (1959-2024), an integration of 10 monitoring surveys.',
+  dataset.title = 'Fish abundance in the San Francisco Estuary (1959-2026), an integration of 10 monitoring surveys.',
   temporal.coverage = date_range,
   maintenance.description = 'ongoing',
   geographic.description = "Data were collected in the San Francisco Estuary, including San Francisco Bay, Suisun Bay and Marsh, and the Sacramento San Joaquin Delta.",
@@ -118,7 +118,16 @@ changelog<-list(list(changeScope="Metadata and data",
                      changeDate="2024-07-30",
                      comment="1) Updated all datasets to what was available as of at least July 19, 2024 except Suisun, which was updated earlier.
                               2) Added Turbidity in NTU or FNU.
-                              3) Added Salvage dataset")
+                              3) Added Salvage dataset"),
+                list(changeScope="Metadata and data",
+                     oldValue="See previous version (2)",
+                     changeDate="2026-08-28",
+                     comment="1) Updated all datasets to what was available as of at least August 24, 2026 except Suisun, which was updated earlier.
+                              2) Fixed issue resulting from duplication of code 116 for STN in the Species dataset.
+                                This caused any records for Black Perch (Embiotoca jacksoni) to be duplicated and
+                                assigned to Bluefin Killifish (Lucania goodei) and vice versa.
+                              3) Edited the SampleID column for FMWT, Bay Study, and 20mm  to be more informative (a combination of identifying columns instead of a simple row number that depends on the order of the data)
+                              4) Renamed Cancer magister to Metacarcinus magister")
                 )
 class(changelog)<-c("emld", "list")
 

@@ -12,9 +12,11 @@ Atherinopsis californiensis	scientific	Atherinopsis californiensis	World Registe
 Carassius auratus	scientific	Carassius auratus	World Register of Marine Species	154298
 Catostomus occidentalis	scientific	Catostomus occidentalis	ITIS	163908
 Centrarchidae	scientific	Centrarchidae	World Register of Marine Species	151288
+Citharichthys sordidus	scientific	Citharichthys sordidus	World Register of Marine Species	275694
 Citharichthys stigmaeus	scientific	Citharichthys stigmaeus	World Register of Marine Species	275696
 Clevelandia ios	scientific	Clevelandia ios	World Register of Marine Species	280215
 Clupea pallasii	scientific	Clupea pallasii	World Register of Marine Species	151159
+Clupeidae	scientific	Clupeidae	World Register of Marine Species	125464
 Cottidae	scientific	Cottidae	World Register of Marine Species	125589
 Cottus asper	scientific	Cottus asper	World Register of Marine Species	274368
 Cymatogaster aggregata	scientific	Cymatogaster aggregata	World Register of Marine Species	280461
@@ -27,6 +29,8 @@ Gasterosteus aculeatus	scientific	Gasterosteus aculeatus	World Register of Marin
 Genyonemus lineatus	scientific	Genyonemus lineatus	World Register of Marine Species	280830
 Gillichthys mirabilis	scientific	Gillichthys mirabilis	World Register of Marine Species	280851
 Gobiidae	scientific	Gobiidae	World Register of Marine Species	125537
+Hyperprosopon ellipticum	scientific	Hyperprosopon ellipticum	World Register of Marine Species	281099
+Hypomesus	scientific	Hypomesus	World Register of Marine Species	254339
 Hypomesus nipponensis	scientific	Hypomesus nipponensis	World Register of Marine Species	279421
 Hypomesus transpacificus	scientific	Hypomesus transpacificus	World Register of Marine Species	279423
 Hysterocarpus traskii	scientific	Hysterocarpus traskii	World Register of Marine Species	293619
@@ -40,6 +44,7 @@ Lepidogobius lepidus	scientific	Lepidogobius lepidus	World Register of Marine Sp
 Lepomis macrochirus	scientific	Lepomis macrochirus	ITIS	168141
 Lepomis microlophus	scientific	Lepomis microlophus	ITIS	168154
 Leptocottus armatus	scientific	Leptocottus armatus	World Register of Marine Species	254345
+Liparis pulchellus	scientific	Liparis pulchellus	World Register of Marine Species	274533
 Lucania goodei	scientific	Lucania goodei	ITIS	165680
 Lucania parva	scientific	Lucania parva	World Register of Marine Species	159310
 Menidia audens	scientific	Menidia audens	ITIS	165998
@@ -47,7 +52,7 @@ Micropterus dolomieu	scientific	Micropterus dolomieu	ITIS	550562
 Micropterus punctulatus	scientific	Micropterus punctulatus	ITIS	168161
 Micropterus salmoides	scientific	Micropterus salmoides	ITIS	168160
 Morone saxatilis	scientific	Morone saxatilis	World Register of Marine Species	151179
-Notemigonus crysoleucas	scientific	Notemigonus crysoleucas	ITIS	163368
+Notemigonus crysoleucas	scientific	Notemigonus crysoleucas	World Register of Marine Species	159989
 Oncorhynchus tshawytscha	scientific	Oncorhynchus tshawytscha	World Register of Marine Species	158075
 Orthodon microlepidotus	scientific	Orthodon microlepidotus	World Register of Marine Species	281934
 Osmeridae	scientific	Osmeridae	World Register of Marine Species	125513
@@ -59,6 +64,8 @@ Pholidae	scientific	Pholidae	World Register of Marine Species	125550
 Pholis ornata	scientific	Pholis ornata	World Register of Marine Species	273692
 Pimephales promelas	scientific	Pimephales promelas	ITIS	163517
 Platichthys stellatus	scientific	Platichthys stellatus	World Register of Marine Species	154781
+Pleuronectiformes	scientific	Pleuronectiformes	World Register of Marine Species	10331
+Pleuronichthys guttulatus	scientific	Pleuronichthys guttulatus	World Register of Marine Species	293680
 Pogonichthys macrolepidotus	scientific	Pogonichthys macrolepidotus	World Register of Marine Species	282310
 Pomoxis annularis	scientific	Pomoxis annularis	ITIS	168166
 Pomoxis nigromaculatus	scientific	Pomoxis nigromaculatus	ITIS	168167
@@ -75,7 +82,7 @@ Tridentiger	scientific	Tridentiger	World Register of Marine Species	271146
 Tridentiger barbatus	scientific	Tridentiger barbatus	World Register of Marine Species	283044
 Tridentiger bifasciatus	scientific	Tridentiger bifasciatus	World Register of Marine Species	283045
 Tridentiger trigonocephalus	scientific	Tridentiger trigonocephalus	World Register of Marine Species	283049
-UnID	scientific	UnID	NA	NA
+UnID	scientific	UnID	World Register of Marine Species	NA
 Acipenser medirostris	scientific	Acipenser medirostris	World Register of Marine Species	271695
 Allosmerus elongatus	scientific	Allosmerus elongatus	World Register of Marine Species	279564
 Alopias vulpinus	scientific	Alopias vulpinus	World Register of Marine Species	105836
@@ -93,7 +100,6 @@ Bathymasteridae	scientific	Bathymasteridae	World Register of Marine Species	1513
 Caulolatilus princeps	scientific	Caulolatilus princeps	World Register of Marine Species	276217
 Chilara taylori	scientific	Chilara taylori	World Register of Marine Species	280146
 Citharichthys	scientific	Citharichthys	World Register of Marine Species	158786
-Citharichthys sordidus	scientific	Citharichthys sordidus	World Register of Marine Species	275694
 Cololabis saira	scientific	Cololabis saira	World Register of Marine Species	280366
 Embiotoca jacksoni	scientific	Embiotoca jacksoni	World Register of Marine Species	240746
 Embiotoca lateralis	scientific	Embiotoca lateralis	World Register of Marine Species	240740
@@ -105,7 +111,6 @@ Hemilepidotus spinosus	scientific	Hemilepidotus spinosus	World Register of Marin
 Hexagrammos decagrammus	scientific	Hexagrammos decagrammus	World Register of Marine Species	240732
 Hyperprosopon anale	scientific	Hyperprosopon anale	World Register of Marine Species	281097
 Hyperprosopon argenteum	scientific	Hyperprosopon argenteum	World Register of Marine Species	281098
-Hyperprosopon ellipticum	scientific	Hyperprosopon ellipticum	World Register of Marine Species	281099
 Hypomesus pretiosus	scientific	Hypomesus pretiosus	World Register of Marine Species	279422
 Hypsoblennius jenkinsi	scientific	Hypsoblennius jenkinsi	World Register of Marine Species	276328
 Hypsurus caryi	scientific	Hypsurus caryi	World Register of Marine Species	240717
@@ -117,7 +122,6 @@ Lepomis gibbosus	scientific	Lepomis gibbosus	World Register of Marine Species	15
 Leuresthes tenuis	scientific	Leuresthes tenuis	World Register of Marine Species	281344
 Liparis	scientific	Liparis	World Register of Marine Species	126160
 Liparis fucensis	scientific	Liparis fucensis	World Register of Marine Species	274515
-Liparis pulchellus	scientific	Liparis pulchellus	World Register of Marine Species	274533
 Lumpenus sagitta	scientific	Lumpenus sagitta	World Register of Marine Species	254579
 Medialuna californiensis	scientific	Medialuna californiensis	World Register of Marine Species	281541
 Microgadus proximus	scientific	Microgadus proximus	World Register of Marine Species	275873
@@ -138,10 +142,8 @@ Phanerodon furcatus	scientific	Phanerodon furcatus	World Register of Marine Spec
 Pisces	scientific	Pisces	World Register of Marine Species	11676
 Platyrhinoidis triseriata	scientific	Platyrhinoidis triseriata	World Register of Marine Species	282280
 Pleuronectidae	scientific	Pleuronectidae	World Register of Marine Species	125579
-Pleuronectiformes	scientific	Pleuronectiformes	World Register of Marine Species	10331
 Pleuronichthys coenosus	scientific	Pleuronichthys coenosus	World Register of Marine Species	282290
 Pleuronichthys decurrens	scientific	Pleuronichthys decurrens	World Register of Marine Species	282292
-Pleuronichthys guttulatus	scientific	Pleuronichthys guttulatus	World Register of Marine Species	293680
 Pleuronichthys verticalis	scientific	Pleuronichthys verticalis	World Register of Marine Species	282295
 Raja binoculata	scientific	Raja binoculata	World Register of Marine Species	271572
 Rathbunella hypoplecta	scientific	Rathbunella hypoplecta	World Register of Marine Species	282556
@@ -167,6 +169,7 @@ Thaleichthys pacificus	scientific	Thaleichthys pacificus	World Register of Marin
 Torpedo californica	scientific	Torpedo californica	World Register of Marine Species	271680
 Trachurus symmetricus	scientific	Trachurus symmetricus	World Register of Marine Species	273305
 Triakis semifasciata	scientific	Triakis semifasciata	World Register of Marine Species	279060
+Xystreurys liolepis	scientific	Xystreurys liolepis	World Register of Marine Species	283199
 Ameiurus natalis	scientific	Ameiurus natalis	ITIS	164041
 Anguilliformes	scientific	Anguilliformes	World Register of Marine Species	10295
 Apodichthys flavidus	scientific	Apodichthys flavidus	World Register of Marine Species	279664
@@ -215,35 +218,39 @@ Rhinichthys osculus	scientific	Rhinichthys osculus	ITIS	163387
 Salmo trutta	scientific	Salmo trutta	World Register of Marine Species	127187
 Scrippsia pacifica	scientific	Scrippsia pacifica	World Register of Marine Species	291041
 Sebastes carnatus	scientific	Sebastes carnatus	World Register of Marine Species	274779
+Sebastes dallii	scientific	Sebastes dallii	World Register of Marine Species	274786
 Siphateles bicolor	scientific	Siphateles bicolor	ITIS	913989
 Upogebia	scientific	Upogebia	World Register of Marine Species	107079
 Cottus gulosus	scientific	Cottus gulosus	ITIS	167234
+Hypomesus transpacificus/nipponensis	scientific	Hypomesus transpacificus/nipponensis	World Register of Marine Species	NA
 Aequorea	scientific	Aequorea	World Register of Marine Species	116998
 Anarrhichthys ocellatus	scientific	Anarrhichthys ocellatus	World Register of Marine Species	279605
 Hippoglossus stenolepis	scientific	Hippoglossus stenolepis	World Register of Marine Species	274290
+Metacarcinus magister	scientific	Metacarcinus magister	World Register of Marine Species	440388
 Mustelus californicus	scientific	Mustelus californicus	World Register of Marine Species	271381
 Palaemon kadiakensis	scientific	Palaemon kadiakensis	ITIS	1192096
 Actinopteri	scientific	Actinopteri	World Register of Marine Species	843664
 Atherinopsidae	scientific	Atherinopsidae	World Register of Marine Species	266995
-Cancer magister	scientific	Cancer magister	World Register of Marine Species	452271
-Clupeidae	scientific	Clupeidae	World Register of Marine Species	125464
+Brachyura	scientific	Brachyura	World Register of Marine Species	106673
 Eucyclogobius newberryi	scientific	Eucyclogobius newberryi	World Register of Marine Species	280737
-Exopalaemon modestus	scientific	Exopalaemon modestus	World Register of Marine Species	587030
+Macrobrachium	scientific	Macrobrachium	World Register of Marine Species	156892
 Anguilla rostrata	scientific	Anguilla rostrata	World Register of Marine Species	158562
-Chinese Mitten Crab Temp	scientific	Chinese Mitten Crab Temp	NA	NA
+Chinese Mitten Crab Temp	scientific	Chinese Mitten Crab Temp	World Register of Marine Species	NA
 Esox lucius	scientific	Esox lucius	World Register of Marine Species	154210
 Ictalurus natalis	scientific	Ictalurus natalis	ITIS	164042
 Lampetra	scientific	Lampetra	World Register of Marine Species	101167
 Lampetra pacifica	scientific	Lampetra pacifica	ITIS	159712
 Menidia beryllina	scientific	Menidia beryllina	World Register of Marine Species	159227
+Misgurnus	scientific	Misgurnus	World Register of Marine Species	154344
+Misgurnus anguillicaudatus	scientific	Misgurnus anguillicaudatus	World Register of Marine Species	991279
+Misgurnus dabryanus	scientific	Misgurnus dabryanus	World Register of Marine Species	1534287
 Morone chrysops	scientific	Morone chrysops	ITIS	167682
 Oncorhynchus gorbuscha	scientific	Oncorhynchus gorbuscha	World Register of Marine Species	127182
-Paramisgurnus dabryanus	scientific	Paramisgurnus dabryanus	World Register of Marine Species	1020151
 Perca flavescens	scientific	Perca flavescens	World Register of Marine Species	275313
 Corbicula fluminea	scientific	Corbicula fluminea	ITIS	81387
 Crangon franciscorum	scientific	Crangon franciscorum	World Register of Marine Species	241261
 Macoma	scientific	Macoma	World Register of Marine Species	138531
-Myoidae	scientific	Myoidae	NA	NA
+Myoidae	scientific	Myoidae	World Register of Marine Species	NA
 Mysida	scientific	Mysida	World Register of Marine Species	149668
 Potamocorbula amurensis	scientific	Potamocorbula amurensis	World Register of Marine Species	397175
 Procambarus clarkii	scientific	Procambarus clarkii	World Register of Marine Species	465540

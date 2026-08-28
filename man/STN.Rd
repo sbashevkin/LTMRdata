@@ -6,7 +6,7 @@
 \alias{STN}
 \title{STN dataset}
 \format{
-a tibble with 191,547 rows and 22 variables
+a tibble with `r prettyNum(nrow(STN), big.mark = ",")` rows and `r ncol(STN)` variables
 \describe{
   \item{Source}{Name of source dataset.}
   \item{Station}{Station where sample was collected.}

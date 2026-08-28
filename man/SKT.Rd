@@ -6,7 +6,7 @@
 \alias{SKT}
 \title{SKT dataset}
 \format{
-a tibble with 42,909 rows and 22 variables
+a tibble with `r prettyNum(nrow(SKT), big.mark = ",")` rows and `r ncol(SKT)` variables
 \describe{
   \item{Source}{Name of source dataset.}
   \item{Station}{Station where sample was collected.}
