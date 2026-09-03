@@ -5,13 +5,13 @@
 \alias{TMM_measured_lengths}
 \title{20mm measured lengths}
 \format{
-a tibble with `r prettyNum(nrow(TMM_measured_lengths), big.mark = ",")` rows and `r ncol(TMM_measured_lengths)` variables
+a tibble with 386,777 rows and 4 variables
 \describe{
-  \item{SampleID}{Unique sample identifier.}
-  \item{Taxa}{Scientific name.}
-  \item{Length}{Fork length from tip of the snout to a point at the fork of the caudal fin (mm).}
-  \item{Count}{Number of fish measured to this length.}
-  }
+\item{SampleID}{Unique sample identifier.}
+\item{Taxa}{Scientific name.}
+\item{Length}{Fork length from tip of the snout to a point at the fork of the caudal fin (mm).}
+\item{Count}{Number of fish measured to this length.}
+}
 }
 \usage{
 TMM_measured_lengths

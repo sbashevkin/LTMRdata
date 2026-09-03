@@ -5,14 +5,14 @@
 \alias{Suisun_measured_lengths}
 \title{Suisun measured lengths}
 \format{
-a tibble with 173,209 rows and 5 variables
+a tibble with 180,716 rows and 5 variables
 \describe{
-  \item{SampleID}{Unique sample identifier.}
-  \item{Taxa}{Scientific name.}
-  \item{Dead}{Was fish dead?}
-  \item{Length}{Standard length for all species except sturgeon, which are fork length (mm).}
-  \item{Count}{Number of fish measured to this length.}
-  }
+\item{SampleID}{Unique sample identifier.}
+\item{Taxa}{Scientific name.}
+\item{Dead}{Was fish dead?}
+\item{Length}{Standard length for all species except sturgeon, which are fork length (mm).}
+\item{Count}{Number of fish measured to this length.}
+}
 }
 \usage{
 Suisun_measured_lengths

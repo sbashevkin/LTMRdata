@@ -6,31 +6,31 @@
 \alias{EDSM}
 \title{EDSM dataset}
 \format{
-a tibble with `r prettyNum(nrow(EDSM), big.mark = ",")` rows and `r ncol(EDSM)` number of variables
+a tibble with 294,773 rows and 23 number of variables
 \describe{
-  \item{Source}{Name of source dataset.}
-  \item{Station}{Station where sample was collected.}
-  \item{Latitude}{Average of start and end Latitude.}
-  \item{Longitude}{Average of start and end Longitude.}
-  \item{Date}{Date sample was collected.}
-  \item{Datetime}{Date and time sample was collected.}
-  \item{Depth}{Bottom depth (m). Start depth as noted in survey.}
-  \item{SampleID}{Unique sample identifier.}
-  \item{Method}{Sampling method (Otter Trawl or Midwater Trawl).}
-  \item{Tide}{Tidal stage.}
-  \item{Sal_surf}{Surface salinity.}
-  \item{Temp_surf}{Surface temperature in °C.}
-  \item{TurbidityNTU}{Turbidity (NTU).}
-  \item{TurbidityFNU}{Turbidity (FNU).}
-  \item{Secchi}{Secchi depth (cm).}
-  \item{Tow_volume}{Volume towed (\ifelse{html}{\out{m<sup>3</sup>}}{\eqn{m^{3}}}).}
-  \item{Tow_direction}{Tow direction relative to current.}
-  \item{Taxa}{Scientific name.}
-  \item{Length}{Fish fork length from point of mouth to fork of the caudal fin.}
-  \item{Count}{Estimated count for each sample, taxa, and length.}
-  \item{Length_NA_flag}{Why is the length NA?}
-  }
-  @details Stations change randomly due to random stratified sampling. More metadata and information on methods are available \href{https://portal.edirepository.org/nis/mapbrowse?scope=edi&identifier=415&revision=7}{here}.
+\item{Source}{Name of source dataset.}
+\item{Station}{Station where sample was collected.}
+\item{Latitude}{Average of start and end Latitude.}
+\item{Longitude}{Average of start and end Longitude.}
+\item{Date}{Date sample was collected.}
+\item{Datetime}{Date and time sample was collected.}
+\item{Depth}{Bottom depth (m). Start depth as noted in survey.}
+\item{SampleID}{Unique sample identifier.}
+\item{Method}{Sampling method (Otter Trawl or Midwater Trawl).}
+\item{Tide}{Tidal stage.}
+\item{Sal_surf}{Surface salinity.}
+\item{Temp_surf}{Surface temperature in °C.}
+\item{TurbidityNTU}{Turbidity (NTU).}
+\item{TurbidityFNU}{Turbidity (FNU).}
+\item{Secchi}{Secchi depth (cm).}
+\item{Tow_volume}{Volume towed (\ifelse{html}{\out{m<sup>3</sup>}}{\eqn{m^{3}}}).}
+\item{Tow_direction}{Tow direction relative to current.}
+\item{Taxa}{Scientific name.}
+\item{Length}{Fish fork length from point of mouth to fork of the caudal fin.}
+\item{Count}{Estimated count for each sample, taxa, and length.}
+\item{Length_NA_flag}{Why is the length NA?}
+}
+@details Stations change randomly due to random stratified sampling. More metadata and information on methods are available \href{https://portal.edirepository.org/nis/mapbrowse?scope=edi&identifier=415&revision=7}{here}.
 }
 \usage{
 EDSM

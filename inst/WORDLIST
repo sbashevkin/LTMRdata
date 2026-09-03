@@ -29,6 +29,7 @@ STN
 SWP
 Secchi
 Suisun
+TMM
 Townet
 UC
 csv
@@ -40,6 +41,7 @@ jacksoni
 magister
 ncol
 nrow
+prettyNum
 rda
 testthat
 tibble

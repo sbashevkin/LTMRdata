@@ -5,13 +5,13 @@
 \alias{FMWT_measured_lengths}
 \title{FMWT measured lengths}
 \format{
-a tibble with `r prettyNum(nrow(FMWT_measured_lengths), big.mark = ",")` rows and `r ncol(FMWT_measured_lengths)` variables
+a tibble with 240,495 rows and 4 variables
 \describe{
-  \item{SampleID}{Unique sample identifier.}
-  \item{Taxa}{Scientific name.}
-  \item{Length}{Sampling survey (loosely corresponds to month).}
-  \item{Count}{Number of fish measured to this length.}
-  }
+\item{SampleID}{Unique sample identifier.}
+\item{Taxa}{Scientific name.}
+\item{Length}{Sampling survey (loosely corresponds to month).}
+\item{Count}{Number of fish measured to this length.}
+}
 }
 \usage{
 FMWT_measured_lengths
