@@ -1,3 +1,5 @@
+# LTMRdata 2.2.0
+
 # LTMRdata development
 
 * Fixed issue resulting from duplication of code 116 for STN in the Species dataset. 
