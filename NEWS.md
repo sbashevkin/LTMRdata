@@ -1,7 +1,6 @@
 # LTMRdata 2.2.0
 
-# LTMRdata development
-
+* Updated all datasets to what was available as of at least August 24, 2026, except Suisun, which was updated with the 2025 database. 
 * Fixed issue resulting from duplication of code 116 for STN in the Species dataset. 
   This caused any records for Black Perch (*Embiotoca jacksoni*) to be duplicated and 
   assigned to Bluefin Killifish (*Lucania goodei*) and vice versa. 

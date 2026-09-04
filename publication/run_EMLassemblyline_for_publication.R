@@ -122,7 +122,7 @@ changelog<-list(list(changeScope="Metadata and data",
                 list(changeScope="Metadata and data",
                      oldValue="See previous version (2)",
                      changeDate="2026-08-28",
-                     comment="1) Updated all datasets to what was available as of at least August 24, 2026 except Suisun, which was updated with the 2025 database.
+                     comment="1) Updated all datasets to what was available as of at least August 24, 2026, except Suisun, which was updated with the 2025 database.
                               2) Fixed issue resulting from duplication of code 116 for STN in the Species dataset.
                                 This caused any records for Black Perch (Embiotoca jacksoni) to be duplicated and
                                 assigned to Bluefin Killifish (Lucania goodei) and vice versa.
