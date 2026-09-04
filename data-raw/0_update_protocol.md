@@ -209,7 +209,7 @@ a. `Build` tab in R Studio
  
 b. Click `Check`: takes quite a while
 
-    1.  This runs through various built-in tests. All tests must pass, with no errors, warnings, or notes
+   1.  This runs through various built-in tests. All tests must pass, with no errors, warnings, or notes
 
 ## 11. GitHub publication
 
