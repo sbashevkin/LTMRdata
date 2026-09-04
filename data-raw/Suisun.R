@@ -7,11 +7,9 @@ require(lubridate)
 require(LTMRdata)
 require(readxl)
 require(tidyr)
-library(archive)
 
 # Must still reach out to Teejay (taorear@ucdavis.edu) to get the Access db
-archive_extract(file.path("data-raw", "Suisun", "SuisunMarshFish2020_1_29_24.7z"), dir=tempdir())
-db_path <- file.path(tempdir(), "SuisunMarshFish2020_1_29_24.accdb")
+db_path <- file.path("data-raw", "Suisun", "SuisunMarshFish_2025.accdb")
 
 source(file.path("data-raw", "bridgeAccess.R"))
 
@@ -96,20 +94,24 @@ sample_suisun <- suisunMarshTables$Sample %>%
          Tide=TideCode, Method=MethodCode)%>%
   mutate(Method=recode(Method, MWTR="Midwater trawl", OTR="Otter trawl"))%>% # Convert method codes to values
   dplyr::filter(Method=="Otter trawl")%>% #Only including otter trawl data because midwater trawl only used rarely and not currently
-  #mutate(Date=parse_date_time(Date, "%m/%d/%Y %H:%M:%S", tz="America/Los_Angeles"),
-  mutate(Time=parse_date_time(Time, "%Y-%m-%d/ %H:%M:%S", tz="America/Los_Angeles"),
-         Datetime=lubridate::parse_date_time(if_else(is.na(Time), NA_character_, paste0(Date, " ", hour(Time), ":", minute(Time))), "%Y-%m-%d %H:%M", tz="America/Los_Angeles"))%>%
+  mutate(Time=parse_date_time(Time, c("%Y-%m-%d/ %H:%M:%S", "%Y-%m-%d"), tz="America/Los_Angeles"),
+         Datetime=lubridate::parse_date_time(if_else(is.na(Time) | hour(Time)==0, NA_character_, paste0(Date, " ", hour(Time), ":", minute(Time))), "%Y-%m-%d %H:%M", tz="America/Los_Angeles"))%>%
   dplyr::select(-Time)%>% # Remove unneeded variable
   mutate(Tide=recode(Tide, flood="Flood", ebb="Ebb", low="Low Slack", high="High Slack", outgoing="Ebb", incoming="Flood"), # Rename tide codes for consistency
          Source="Suisun",
          SampleID=ifelse(grepl("\\{|\\}", SampleRowID), paste(Source, SampleRowID),
                          paste0(Source, " {", SampleRowID, "}")))%>% # Create identifier for each sample
   left_join(stations_suisun, # Add station locations
-            by="Station")%>%
+            by="Station",
+            relationship="many-to-one")%>%
   left_join(depth_suisun, # Add bottom depths
-            by="SampleRowID")%>%
+            by="SampleRowID",
+            relationship="one-to-one")%>%
   left_join(effort_suisun, # Add sampling effort
-            by="SampleRowID")
+            by="SampleRowID",
+            relationship="one-to-one")
+
+setdiff(sample_suisun$Station, stations_suisun$Station)
 
 # Catch data --------------------------------------------------------------
 
@@ -120,14 +122,16 @@ catch_suisun <- suisunMarshTables$Catch %>%
             Count = as.double(Count),
             CatchComments = as.character(CatchComments)) %>%
   mutate(across(everything(), function(x) replace(x, x %in% c("NA", "n/p", ""), NA)),
-         Count=if_else(OrganismCode=="NOCATCH", 0, Count)) %>% #Make sure "no catch" actually has a count of 0
+         Count=if_else(OrganismCode%in%c("NOFISHCTCH", "NOCATCH"), 0, Count)) %>% #Make sure "no catch" actually has a count of 0
   right_join(sample_suisun, # Add sample-level data
-             by="SampleRowID")%>%
+             by="SampleRowID",
+             relationship="many-to-one")%>%
   dplyr::filter(Method=="Otter trawl" & OrganismCode!="NOTRAWL")%>% # Only include otter trawl and exclude samples with no trawl.
   left_join(Species%>% # Add species names
               dplyr::select(OrganismCode=SMF_Code, Taxa)%>%
               dplyr::filter(!is.na(OrganismCode)),
-            by="OrganismCode")%>%
+            by="OrganismCode",
+            relationship="many-to-one")%>%
   dplyr::select(-OrganismCode)%>% # Remove unneeded variable
   mutate(Count = if_else(SampleRowID=="{8327B645-BC36-4405-ADB3-C6561718A17B}" & StandardLength==87, Count+1, Count))%>% # Correcting for misstyped data point per email from Teejay that
   dplyr::filter(!(!QADone & Taxa=="Pogonichthys macrolepidotus" & StandardLength==8))%>% # all QADone==FALSE data from January 2007 are correct EXCEPT for that lone splittail measuring 8 mm (was actually 87 mm).
@@ -155,26 +159,29 @@ catch_suisun <- suisunMarshTables$Catch %>%
 #   write_csv("~/Suisun comments.csv")
 
 ## For future updates, create the csv files as follows
-#old<-read_excel(file.path("data-raw", "Suisun", "Suisun comments.xlsx"))%>%mutate(ID=paste(SampleID, Taxa, CatchComments))
-#new<-dplyr::filter(catch_suisun, StandardLength==0 & !is.na(CatchComments))%>%
-#mutate(SampleRowID=paste("{",SampleRowID,"}",sep=""),
-#      SampleID=paste("Suisun",SampleRowID,sep=" "),
-#      Min_length=ifelse(grepl(">",CatchComments),1,as.numeric(NA)),
-#      Length=ifelse(grepl("~",CatchComments)|grepl("about",CatchComments),1,as.numeric(NA)),
-#      Max_length=ifelse(grepl("<",CatchComments),1,as.numeric(NA)),
-#      Lifestage=ifelse(grepl("YOY",CatchComments),"YOY",
-#                       ifelse(grepl("larva",CatchComments),"Larval",
-#                              ifelse(grepl("uvenile",CatchComments),"Juvenile",
-#                                     ifelse(grepl("dult",CatchComments),"Adult",as.character(NA))))),
-#      Lifestage=ifelse(grepl("age 0",CatchComments),"Age-0",
-#                       ifelse(grepl("age 1",CatchComments),"Age-1",
-#                              ifelse(grepl("age 2",CatchComments),"Age-2+",Lifestage))),
-#      Ignore=ifelse(grepl("egg",CatchComments)|grepl("ovi",CatchComments)|grepl("OVI",CatchComments),1,as.numeric(NA)),
-#      ID=paste(SampleID, Taxa, CatchComments)
-#     )%>%
-#dplyr::filter(!ID%in%old$ID)%>%
-#dplyr::select(SampleRowID, Station, Date, Datetime, SampleID, TrawlComments, Taxa, Count, CatchComments,Min_length,Length,Max_length,Lifestage,Ignore)%>%
-# write_csv("~/Suisun comments.csv")
+# old<-read_excel(file.path("data-raw", "Suisun", "Suisun comments.xlsx"))%>%
+#   mutate(ID=paste(SampleID, Taxa, trimws(CatchComments)))
+# new<-dplyr::filter(catch_suisun, StandardLength==0 & !is.na(CatchComments))%>%
+#   mutate(SampleRowID=paste("{", SampleRowID,"}", sep=""),
+#          SampleID=paste("Suisun", SampleRowID, sep=" "),
+#          Min_length=ifelse(grepl(">", CatchComments), 1,as.numeric(NA)),
+#          Length=ifelse(grepl("~", CatchComments)|grepl("about",CatchComments),1,as.numeric(NA)),
+#          Max_length=ifelse(grepl("<", CatchComments),1,as.numeric(NA)),
+#          Lifestage=case_when(grepl("YOY", CatchComments) ~ "YOY",
+#                              grepl("young-of-year", CatchComments) ~ "YOY",
+#                              grepl("larva", CatchComments) ~ "Larval",
+#                              grepl("uvenile", CatchComments) ~ "Juvenile",
+#                              grepl("dult", CatchComments) ~ "Adult",
+#                              grepl("age 0", CatchComments) ~ "Age-0",
+#                              grepl("age 1", CatchComments) ~ "Age-1",
+#                              grepl("age 2", CatchComments) ~ "Age-2+",
+#                              .default=as.character(NA)),
+#          Ignore=ifelse(grepl("egg", CatchComments) | grepl("ovi", CatchComments) | grepl("OVI", CatchComments), 1, as.numeric(NA)),
+#          ID=paste(SampleID, Taxa, trimws(CatchComments))
+#   )%>%
+#   dplyr::filter(!ID%in%old$ID)%>%
+#   dplyr::select(SampleRowID, Station, Date, Datetime, SampleID, TrawlComments, Taxa, Count, CatchComments,Min_length,Length,Max_length,Lifestage,Ignore)%>%
+#   write_csv("~/Suisun comments.csv")
 
 
 
@@ -199,10 +206,12 @@ catch_comments_suisun <- read_excel(file.path("data-raw", "Suisun", "Suisun comm
   left_join(Species%>% # Add species names
               dplyr::select(OrganismCode=SMF_Code, Taxa)%>%
               dplyr::filter(!is.na(OrganismCode) & !is.na(Taxa)),
-            by="Taxa")%>%
+            by="Taxa",
+            relationship="many-to-one")%>%
   left_join(age_size_suisun%>%
               dplyr::filter(!is.na(Class)),
-            by=c("Lifestage"="Class", "Month", "OrganismCode"))%>%
+            by=c("Lifestage"="Class", "Month", "OrganismCode"),
+            relationship="many-to-one")%>%
   mutate(Min_length=if_else(is.na(Min_length), Min, Min_length),
          Max_length=if_else(is.na(Max_length), Max, Max_length))%>%
   dplyr::select(SampleID, Taxa, Count, CatchComments, Min_length, Length, Max_length, Lifestage, Notes)%>%
@@ -242,7 +251,8 @@ catch_comments_suisun2<-sizegroups_suisun%>% # Start with the parsed comments th
   left_join(catch_suisun%>% # Join to the catch data to add all sample-level data to these unmeasured length data
               dplyr::select(-StandardLength, -Count, -Dead, -CatchComments)%>%
               distinct(),
-            by=c("SampleID", "Taxa"))%>%
+            by=c("SampleID", "Taxa"),
+            relationship="many-to-one")%>%
   mutate(ID=paste(SampleID, Taxa))%>% # Create an ID for all species by sample combinations that ended up in this corrected portion of the dataset, to avoid data duplication later on.
   dplyr::select(-NA_length)
 
@@ -250,7 +260,8 @@ catch_suisun2<-catch_suisun%>%
   left_join(sizegroups_suisun%>% # Add size groups to measured fish
               dplyr::filter(RowNum==SizeGroup)%>% # There were a few cases where we had multiple size groups per taxa per sample, this ensures we're only them once
               dplyr::select(SampleID, Taxa, StandardLength, Count, SizeGroup),
-            by=c("SampleID", "Taxa", "StandardLength", "Count"))%>%
+            by=c("SampleID", "Taxa", "StandardLength", "Count"),
+            relationship="many-to-one")%>%
   mutate(SizeGroup=replace_na(SizeGroup, 1))%>% # Unless we've just defined a size group, give it the default value of 1
   mutate(ID=paste(SampleID, Taxa))%>% # Create an ID to correspond the one created above
   dplyr::filter(!(ID%in%unique(catch_comments_suisun2$ID) & StandardLength==0))%>% # Remove all rows from the catch data that correspond to rows in the corrected catch comments to prevent data duplication
@@ -266,7 +277,8 @@ Suisun1 <- catch_suisun2%>%
               dplyr::select(SampleID, Taxa, Count, SizeGroup)%>%
               group_by(SampleID, Taxa, SizeGroup)%>%
               summarise(TotalCatch=sum(Count, na.rm=T), .groups="drop"), # Calculate total catch
-            by=c("SampleID", "Taxa", "SizeGroup"))%>%
+            by=c("SampleID", "Taxa", "SizeGroup"),
+            relationship="many-to-one")%>%
   mutate(ID=paste(SampleID, Taxa, SizeGroup))
 
 Suisun <- Suisun1%>%
@@ -301,9 +313,32 @@ Suisun <- Suisun1%>%
 Suisun_measured_lengths <- catch_suisun2%>%
   dplyr::filter(StandardLength!=0)%>%
   mutate(Taxa=stringr::str_remove(Taxa, " \\((.*)"))%>% # Remove life stage from Taxa
-  dplyr::select(SampleID, Taxa, Dead, Length=StandardLength, Count)
+  dplyr::select(SampleID, Taxa, Dead, Length=StandardLength, Count)%>%
+  group_by(SampleID, Taxa, Dead, Length)%>%
+  summarise(Count=sum(Count), .groups="drop")
 
 # Differences in comments and presence of unicode errors between bridgeAccess and reading the csvs. TI can't spot the
 # specific differences. Deeming that they are equal.
+
+
+# Check for any possible duplications caused by the catch comments --------
+
+# Investigate each one and ensure if was duplicated in the source data (catch_suisun)
+# and is NOT caused by a change in the text of the CatchComments (Notes_catch) over time that is resulting in
+# it appearing twice with different versions of the CatchComments (Notes_catch) in "Suisun comments.xlsx"
+dups<-Suisun%>%
+  mutate(ID=paste(SampleID, Taxa, Length, Count))%>%
+  filter(ID%in%ID[which(duplicated(ID))])
+View(dups)
+
+source(file.path("data-raw", "comparison.R"))
+compareSuisun <- create_comparison_report(Suisun, LTMRdata::Suisun,
+                                       id_cols = c("SampleID", "Taxa", "Length", "Count", "Notes_catch"))
+
+compareSuisunMeasuredLengths <- create_comparison_report(Suisun_measured_lengths, LTMRdata::Suisun_measured_lengths,
+                                          id_cols = c("SampleID", "Taxa", "Dead", "Length", "Count"))
+
+devtools::load_all()
+tests <- test_dataset(Suisun, return_failures = T)
 
 usethis::use_data(Suisun, Suisun_measured_lengths, overwrite=TRUE, compress="xz")

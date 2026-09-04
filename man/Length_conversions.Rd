@@ -5,12 +5,12 @@
 \alias{Length_conversions}
 \title{Length conversions}
 \format{
-a tibble with `r nrow(Length_conversions)` rows and `r ncol(Length_conversions)` variables
+a tibble with 20 rows and 3 variables
 \describe{
-  \item{Species}{Scientific name.}
-  \item{Intercept}{Intercept in the equation FL = Intercept + Slope * SL.}
-  \item{Slope}{Slope in the equation FL = Intercept + Slope * SL.}
-  }
+\item{Species}{Scientific name.}
+\item{Intercept}{Intercept in the equation FL = Intercept + Slope * SL.}
+\item{Slope}{Slope in the equation FL = Intercept + Slope * SL.}
+}
 }
 \usage{
 Length_conversions

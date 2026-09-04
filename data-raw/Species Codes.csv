@@ -17,6 +17,7 @@ Pogonichthys macrolepidotus,SPLITT,Splittail,SPLT,29,28,ST,29,28,28,9,NA,Pogonic
 Ptychocheilus grandis,SACPIK,Sacramento Pikeminnow,SAPM,63,30,SPM,63,30,30,10,NA,Ptychocheilus grandis
 Gasterosteus aculeatus,THRSTI,Threespine Stickleback,TSS,38,20,STBK,38,20,20,11,NA,Gasterosteus aculeatus
 Mylopharodon conocephalus,HARDHE,Hardhead,HH,NA,29,HDHD,NA,29,29,12,NA,Mylopharodon conocephalus
+Mylopharodon conocephalus,NA,Hardhead,NA,NA,NA,HH,NA,NA,NA,NA,NA,Mylopharodon conocephalus
 Notemigonus crysoleucas,GOLSHI,Golden Shiner,GSN,65,25,GSH,65,25,25,13,NA,Notemigonus crysoleucas
 Cyprinus carpio,COMCAR,Common Carp,C,3,26,CP,3,26,26,14,NA,Cyprinus carpio
 Carassius auratus,GOLDFI,Goldfish,GF,64,27,GF,64,27,27,15,NA,Carassius auratus
@@ -97,7 +98,7 @@ Cymatogaster aggregata,SHIPER,Shiner Perch,SRF,21,47,SSP,21,47,47,168,NA,Cymatog
 Atherinops affinis,TOPSME,Topsmelt,TSM,39,33,TOP,39,33,33,176,NA,Atherinops affinis
 Genyonemus lineatus,WHICRO,White Croaker,WCK,41,51,WCK,41,51,51,181,NA,Genyonemus lineatus
 Micropterus,NA,Unidentified Bass,BAS,NA,NA,NA,NA,NA,NA,192,NA,Micropterus
-Cottidae,NA,Unidentified Sculpin,SCU,NA,63,NA,NA,63,63,193,NA,Cottidae
+Cottidae,NA,Unidentified Sculpin,SCU,NA,63,COTTIDAE,NA,63,63,193,NA,Cottidae
 Lepidogobius lepidus,BAYGOB,Bay Goby,BG,74,59,BGB,74,59,59,194,NA,Lepidogobius lepidus
 Amphistichus argenteus,BARSUR,Barred Surfperch,BSP,48,135,BSP,48,NA,NA,195,NA,Amphistichus argenteus
 Salmo trutta,BRNTRT,Brown Trout,BT,NA,NA,BRT,NA,NA,NA,196,NA,Salmo trutta
@@ -231,7 +232,7 @@ Oligocottus maculosus,TIDSCU,Tidepool Sculpin,TPS,NA,NA,NA,NA,NA,NA,NA,NA,Oligoc
 Oligocottus rimensis,SADSCU,Saddleback Sculpin,SBS,NA,NA,NA,NA,NA,NA,NA,NA,Oligocottus rimensis
 Ophichthus zophochir,YELSEE,Yellow Snake Eel,NA,NA,NA,NA,NA,NA,NA,NA,NA,Ophichthus zophochir
 Palaemon,NA,Palaemon Shrimp,Pspp,23,NA,NA,23,NA,NA,NA,NA,Palaemon
-Palaemon kadiakensis,NA,Mississippi Grass Shrimp,NA,115,NA,NA,117,NA,NA,NA,NA,Palaemon kadiakensis
+Palaemon kadiakensis,NA,Mississippi Grass Shrimp,NA,115,NA,MISSGRASS,117,NA,NA,NA,NA,Palaemon kadiakensis
 Palaemon modestus,NA,Siberian Prawn,EXP,103,156,EXOPAL,103,NA,NA,NA,NA,Palaemon modestus
 Pandalus danae,NA,Dock Shrimp,DSH,NA,NA,NA,NA,NA,NA,NA,NA,Pandalus danae
 Parophrys vetulus,ENGSOL,English Sole,ELS,83,120,ESL,83,83,83,NA,NA,Parophrys vetulus
@@ -287,8 +288,36 @@ Caulolatilus princeps,OCEWHI,Ocean Whitefish,NA,NA,NA,NA,NA,NA,NA,NA,NA,Caulolat
 Sebastes rastrelliger,GRAROC,Grass Rockfish,NA,NA,NA,NA,NA,NA,NA,NA,NA,Sebastes rastrelliger
 Hypomesus,NA,Hypomesus spp.,HYPOM,NA,NA,NA,NA,300,300,NA,NA,Hypomesus
 NA,NOCATC,No Catch,NOFISH,0,NA,NOCATCH,NA,NA,NA,NA,NA,NA
+NA,NA,No Catch,NA,NA,NA,NOFISHCTCH,NA,NA,NA,NA,NA,NA
 NA,NA,No Trawl,NA,NA,NA,NOTRAWL,NA,NA,NA,NA,NA,NA
 Macrobrachium,NA,Macrobrachium spp.,NA,NA,195,NA,NA,NA,NA,NA,NA,Macrobrachium
 Brachyura,NA,Crab UnID,NA,NA,196,NA,NA,NA,NA,NA,NA,Brachyura
 Sebastes dallii,NA,Calico Rockfish,CRF,NA,NA,NA,NA,NA,NA,NA,NA,Sebastes dallii
 Xystreurys liolepis,FANSOL,Fantail Sole,NA,NA,NA,NA,NA,NA,NA,NA,NA,Xystreurys liolepis
+Chlorophyta,NA,Filamentous green algae,NA,NA,NA,ALG,NA,NA,NA,NA,NA,Chlorophyta
+Anura,NA,Tadpole - unknown,NA,NA,NA,ANU,NA,NA,NA,NA,NA,Anura
+Azolla,NA,water fern,NA,NA,NA,AZ,NA,NA,NA,NA,NA,Azolla
+Lithobates catesbeiana,NA,Bullfrog,NA,NA,NA,BFG,NA,NA,NA,NA,NA,Lithobates catesbeiana
+Cabomba caroliniana,NA,Cabomba,NA,NA,NA,CACA,NA,NA,NA,NA,NA,Cabomba caroliniana
+Ceratophyllum demersum,NA,Coontail,NA,NA,NA,CEDE,NA,NA,NA,NA,NA,Ceratophyllum demersum
+Mollusca,NA,Clam shells,NA,NA,NA,CLAMSHELLS,NA,NA,NA,NA,NA,Mollusca
+Corophiidae,NA,Corophiid scuds,NA,NA,NA,COROPHIID,NA,NA,NA,NA,NA,Corophiidae
+Plantae,NA,Plant detritus,NA,NA,NA,DET,NA,NA,NA,NA,NA,Plantae
+Plantae,NA,Submersed aquatic plant,NA,NA,NA,SAVSPP,NA,NA,NA,NA,NA,Plantae
+Egeria dense,NA,Brazilian waterweed,NA,NA,NA,EGDE,NA,NA,NA,NA,NA,Egeria dense
+Pontederia crassipes,NA,Water hyacinth,NA,NA,NA,EICR,NA,NA,NA,NA,NA,Pontederia crassipes
+Elodea canadensis,NA,American waterweed,NA,NA,NA,ELCA,NA,NA,NA,NA,NA,Elodea canadensis
+Gammaridea,NA,Gammarid amphipods,NA,NA,NA,GAMMARIDA,NA,NA,NA,NA,NA,Gammaridea
+Gammaridea,NA,Gammarid amphipods,NA,NA,NA,GAMMAROID,NA,NA,NA,NA,NA,Gammaridea
+Insecta,NA,Aquatic insects,NA,NA,NA,INSECT,NA,NA,NA,NA,NA,Insecta
+Isopoda,NA,Isopod,NA,NA,NA,ISOPOD,NA,NA,NA,NA,NA,Isopoda
+Ludwigia peploides,NA,Water primrose,NA,NA,NA,LUPE,NA,NA,NA,NA,NA,Ludwigia peploides
+Mud,NA,Mud,NA,NA,NA,MUD,NA,NA,NA,NA,NA,Mud
+Myriophyllum aquaticum,NA,Parrotfeather,NA,NA,NA,MYAQ,NA,NA,NA,NA,NA,Myriophyllum aquaticum
+Myriophyllum spicatum,NA,Eurasian milfoil,NA,NA,NA,MYSP,NA,NA,NA,NA,NA,Myriophyllum spicatum
+Salicornia,NA,Pickleweed,NA,NA,NA,PICK,NA,NA,NA,NA,NA,Salicornia
+Potamogeton crispus,NA,Curlyleaf pondweed,NA,NA,NA,POCR,NA,NA,NA,NA,NA,Potamogeton crispus
+Pseudacris regilla,NA,Pacific treefrog,NA,NA,NA,PTF,NA,NA,NA,NA,NA,Pseudacris regilla
+Sesuvium portulacastrum,NA,Sea purslane,NA,NA,NA,SEPU,NA,NA,NA,NA,NA,Sesuvium portulacastrum
+Stuckenia,NA,Sago pondweed,NA,NA,NA,STSPP,NA,NA,NA,NA,NA,Stuckenia
+Magnoliophyta,NA,Waterlogged wood,NA,NA,NA,WD,NA,NA,NA,NA,NA,Magnoliophyta

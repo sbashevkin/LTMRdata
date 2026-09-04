@@ -6,32 +6,32 @@
 \alias{TMM}
 \title{20mm dataset}
 \format{
-a tibble with `r prettyNum(nrow(TMM), big.mark = ",")` rows and `r ncol(TMM)` variables
+a tibble with 390,248 rows and 23 variables
 \describe{
-  \item{Source}{Name of source dataset.}
-  \item{Station}{Station where sample was collected.}
-  \item{Latitude}{Latitude (decimal degrees).}
-  \item{Longitude}{Longitude (decimal degrees).}
-  \item{Date}{Date sample was collected.}
-  \item{Datetime}{Date and time sample was collected.}
-  \item{Survey}{Survey number, roughly corresponding to month.}
-  \item{Depth}{Bottom depth (m).}
-  \item{SampleID}{Unique sample identifier.}
-  \item{Method}{Sampling method (20mm Net).}
-  \item{Tide}{Tidal stage.}
-  \item{Sal_surf}{Surface salinity.}
-  \item{Temp_surf}{Surface temperature in °C.}
-  \item{TurbidityNTU}{Turbidity (NTU).}
-  \item{TurbidityFNU}{Turbidity (FNU).}
-  \item{Secchi}{Secchi depth (cm).}
-  \item{Tow_volume}{Volume towed (\ifelse{html}{\out{m<sup>3</sup>}}{\eqn{m^{3}}}).}
-  \item{Tow_direction}{Tow direction relative to current. Not recorded but field is included here for consistency.}
-  \item{Cable_length}{Length of cable released when net deployed (m).}
-  \item{Taxa}{Scientific name.}
-  \item{Length}{Fork length from tip of the snout to a point at the fork of the caudal fin (mm).}
-  \item{Count}{Estimated count for each sample, taxa, and length.}
-  \item{Length_NA_flag}{Why is the length NA?}
-  }
+\item{Source}{Name of source dataset.}
+\item{Station}{Station where sample was collected.}
+\item{Latitude}{Latitude (decimal degrees).}
+\item{Longitude}{Longitude (decimal degrees).}
+\item{Date}{Date sample was collected.}
+\item{Datetime}{Date and time sample was collected.}
+\item{Survey}{Survey number, roughly corresponding to month.}
+\item{Depth}{Bottom depth (m).}
+\item{SampleID}{Unique sample identifier.}
+\item{Method}{Sampling method (20mm Net).}
+\item{Tide}{Tidal stage.}
+\item{Sal_surf}{Surface salinity.}
+\item{Temp_surf}{Surface temperature in °C.}
+\item{TurbidityNTU}{Turbidity (NTU).}
+\item{TurbidityFNU}{Turbidity (FNU).}
+\item{Secchi}{Secchi depth (cm).}
+\item{Tow_volume}{Volume towed (\ifelse{html}{\out{m<sup>3</sup>}}{\eqn{m^{3}}}).}
+\item{Tow_direction}{Tow direction relative to current. Not recorded but field is included here for consistency.}
+\item{Cable_length}{Length of cable released when net deployed (m).}
+\item{Taxa}{Scientific name.}
+\item{Length}{Fork length from tip of the snout to a point at the fork of the caudal fin (mm).}
+\item{Count}{Estimated count for each sample, taxa, and length.}
+\item{Length_NA_flag}{Why is the length NA?}
+}
 }
 \usage{
 TMM

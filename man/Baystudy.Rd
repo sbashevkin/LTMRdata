@@ -6,33 +6,33 @@
 \alias{Baystudy}
 \title{Bay study dataset}
 \format{
-a tibble with 805,858 `r prettyNum(nrow(Baystudy), big.mark = ",")` and `r ncol(Baystudy)` variables
+a tibble with 868,814 and 23 variables
 \describe{
-  \item{Source}{Name of source dataset.}
-  \item{Station}{Station where sample was collected.}
-  \item{Latitude}{May not be accurate, see details.}
-  \item{Longitude}{May not be accurate, see details.}
-  \item{Date}{Date sample was collected.}
-  \item{Datetime}{Date and time sample was collected.}
-  \item{Survey}{Survey number, roughly corresponding to month.}
-  \item{Depth}{Bottom depth (m).}
-  \item{SampleID}{Unique sample identifier.}
-  \item{Method}{Sampling method (Otter Trawl or Midwater Trawl).}
-  \item{Tide}{Tidal stage.}
-  \item{Sal_surf}{Surface salinity.}
-  \item{Temp_surf}{Surface temperature in °C.}
-  \item{Secchi}{Secchi depth (cm).}
-  \item{Tow_duration}{Duration of tow (minutes).}
-  \item{Tow_area}{Area towed (\ifelse{html}{\out{m<sup>2</sup>}}{\eqn{m^{2}}}).}
-  \item{Tow_volume}{Volume towed (\ifelse{html}{\out{m<sup>3</sup>}}{\eqn{m^{3}}}).}
-  \item{Tow_direction}{Tow direction relative to current.}
-  \item{Taxa}{Scientific name.}
-  \item{Length}{Fork length, total length if there's no fork or heterocercal tail (sturgeon, shark). Bat Ray wing widths starting around 1989-1992 to present. (mm).}
-  \item{Count}{Estimated count for each sample, taxa, and length.}
-  \item{Length_NA_flag}{Why is the length NA?}
-  \item{Notes_tow}{Notes or comments on the trawl.}
-  }
-  @details Some station locations have moved over time due to shoals filling in, trees, etc.
+\item{Source}{Name of source dataset.}
+\item{Station}{Station where sample was collected.}
+\item{Latitude}{May not be accurate, see details.}
+\item{Longitude}{May not be accurate, see details.}
+\item{Date}{Date sample was collected.}
+\item{Datetime}{Date and time sample was collected.}
+\item{Survey}{Survey number, roughly corresponding to month.}
+\item{Depth}{Bottom depth (m).}
+\item{SampleID}{Unique sample identifier.}
+\item{Method}{Sampling method (Otter Trawl or Midwater Trawl).}
+\item{Tide}{Tidal stage.}
+\item{Sal_surf}{Surface salinity.}
+\item{Temp_surf}{Surface temperature in °C.}
+\item{Secchi}{Secchi depth (cm).}
+\item{Tow_duration}{Duration of tow (minutes).}
+\item{Tow_area}{Area towed (\ifelse{html}{\out{m<sup>2</sup>}}{\eqn{m^{2}}}).}
+\item{Tow_volume}{Volume towed (\ifelse{html}{\out{m<sup>3</sup>}}{\eqn{m^{3}}}).}
+\item{Tow_direction}{Tow direction relative to current.}
+\item{Taxa}{Scientific name.}
+\item{Length}{Fork length, total length if there's no fork or heterocercal tail (sturgeon, shark). Bat Ray wing widths starting around 1989-1992 to present. (mm).}
+\item{Count}{Estimated count for each sample, taxa, and length.}
+\item{Length_NA_flag}{Why is the length NA?}
+\item{Notes_tow}{Notes or comments on the trawl.}
+}
+@details Some station locations have moved over time due to shoals filling in, trees, etc.
 }
 \usage{
 Baystudy

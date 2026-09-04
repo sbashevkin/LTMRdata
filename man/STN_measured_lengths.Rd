@@ -5,13 +5,13 @@
 \alias{STN_measured_lengths}
 \title{STN measured lengths}
 \format{
-a tibble with `r prettyNum(nrow(STN_measured_lengths), big.mark = ",")` rows and `r ncol(STN_measured_lengths)` variables
+a tibble with 179,641 rows and 4 variables
 \describe{
-  \item{SampleID}{Unique sample identifier.}
-  \item{Taxa}{Scientific name.}
-  \item{Length}{Fork length from the most anterior part of the fish to the median caudal fin rays (mm).}
-  \item{Count}{Number of fish measured to this length.}
-  }
+\item{SampleID}{Unique sample identifier.}
+\item{Taxa}{Scientific name.}
+\item{Length}{Fork length from the most anterior part of the fish to the median caudal fin rays (mm).}
+\item{Count}{Number of fish measured to this length.}
+}
 }
 \usage{
 STN_measured_lengths
