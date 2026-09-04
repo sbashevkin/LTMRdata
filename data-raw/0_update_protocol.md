@@ -24,25 +24,25 @@ a.  In `data-raw` folder, named per survey
 
 b.  Applicable surveys are: (organization)
 
-    i.  20mm.R (CDFW)
+    i\.  20mm.R (CDFW)
         
-    ii.  Baystudy.R (CDFW)
+    ii\.  Baystudy.R (CDFW)
         
-    iii.  DJFMP.R (USFWS)
+    iii\.  DJFMP.R (USFWS)
         
-    iv.  EDSM.R (USFWS)
+    iv\.  EDSM.R (USFWS)
         
-    v.  FMWT.R (CDFW)
+    v\.  FMWT.R (CDFW)
         
-    vi.  Salvage.R (CDFW)
+    vi\.  Salvage.R (CDFW)
         
-    vii.  SKT.R (CDFW)
+    vii\.  SKT.R (CDFW)
         
-    viii.  STN.R (CDFW)
+    viii\.  STN.R (CDFW)
         
-    ix.  SLS.R (CDFW)
+    ix\.  SLS.R (CDFW)
         
-    x.  Suisun.R (UCDAVIS)
+    x\.  Suisun.R (UCDAVIS)
 
 ## 3.  Download the newest data
 
