@@ -229,6 +229,7 @@ Hippoglossus stenolepis	scientific	Hippoglossus stenolepis	World Register of Mar
 Metacarcinus magister	scientific	Metacarcinus magister	World Register of Marine Species	440388
 Mustelus californicus	scientific	Mustelus californicus	World Register of Marine Species	271381
 Palaemon kadiakensis	scientific	Palaemon kadiakensis	ITIS	1192096
+Cebidichthys violaceus	scientific	Cebidichthys violaceus	World Register of Marine Species	280053
 Actinopteri	scientific	Actinopteri	World Register of Marine Species	843664
 Atherinopsidae	scientific	Atherinopsidae	World Register of Marine Species	266995
 Brachyura	scientific	Brachyura	World Register of Marine Species	106673
@@ -248,10 +249,17 @@ Morone chrysops	scientific	Morone chrysops	ITIS	167682
 Oncorhynchus gorbuscha	scientific	Oncorhynchus gorbuscha	World Register of Marine Species	127182
 Perca flavescens	scientific	Perca flavescens	World Register of Marine Species	275313
 Corbicula fluminea	scientific	Corbicula fluminea	ITIS	81387
+Corophiidae	scientific	Corophiidae	World Register of Marine Species	101376
 Crangon franciscorum	scientific	Crangon franciscorum	World Register of Marine Species	241261
+Gammaridea	scientific	Gammaridea	World Register of Marine Species	1207
+Insecta	scientific	Insecta	World Register of Marine Species	1307
+Isopoda	scientific	Isopoda	World Register of Marine Species	1131
 Macoma	scientific	Macoma	World Register of Marine Species	138531
+Mud	scientific	Mud	World Register of Marine Species	NA
 Myoidae	scientific	Myoidae	World Register of Marine Species	NA
+Myriophyllum aquaticum	scientific	Myriophyllum aquaticum	ITIS	503904
 Mysida	scientific	Mysida	World Register of Marine Species	149668
+Plantae	scientific	Plantae	World Register of Marine Species	3
 Potamocorbula amurensis	scientific	Potamocorbula amurensis	World Register of Marine Species	397175
 Procambarus clarkii	scientific	Procambarus clarkii	World Register of Marine Species	465540
 Rhithropanopeus harrisii	scientific	Rhithropanopeus harrisii	World Register of Marine Species	107414

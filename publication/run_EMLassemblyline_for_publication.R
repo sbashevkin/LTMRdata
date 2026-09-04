@@ -122,11 +122,11 @@ changelog<-list(list(changeScope="Metadata and data",
                 list(changeScope="Metadata and data",
                      oldValue="See previous version (2)",
                      changeDate="2026-08-28",
-                     comment="1) Updated all datasets to what was available as of at least August 24, 2026 except Suisun, which was updated earlier.
+                     comment="1) Updated all datasets to what was available as of at least August 24, 2026 except Suisun, which was updated with the 2025 database.
                               2) Fixed issue resulting from duplication of code 116 for STN in the Species dataset.
                                 This caused any records for Black Perch (Embiotoca jacksoni) to be duplicated and
                                 assigned to Bluefin Killifish (Lucania goodei) and vice versa.
-                              3) Edited the SampleID column for FMWT, Bay Study, and 20mm  to be more informative (a combination of identifying columns instead of a simple row number that depends on the order of the data)
+                              3) Edited the SampleID column for FMWT, Bay Study, and 20mm to be more informative (a combination of identifying columns instead of a simple row number that depends on the order of the data)
                               4) Renamed Cancer magister to Metacarcinus magister")
                 )
 class(changelog)<-c("emld", "list")
