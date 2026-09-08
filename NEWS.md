@@ -1,3 +1,7 @@
+# LTMRdata 2.2.1
+
+* Updated Suisun Marsh data as of the database version from Sep 8, 2026. 
+
 # LTMRdata 2.2.0
 
 * Updated all datasets to what was available as of at least August 24, 2026, except Suisun, which was updated with the 2025 database. 
