@@ -9,7 +9,7 @@ require(readxl)
 require(tidyr)
 
 # Must still reach out to Teejay (taorear@ucdavis.edu) to get the Access db
-db_path <- file.path("data-raw", "Suisun", "SuisunMarshFish_2025.accdb")
+db_path <- file.path("data-raw", "Suisun", "SuisunMarshFish_09082026.accdb")
 
 source(file.path("data-raw", "bridgeAccess.R"))
 
@@ -111,7 +111,8 @@ sample_suisun <- suisunMarshTables$Sample %>%
             by="SampleRowID",
             relationship="one-to-one")
 
-setdiff(sample_suisun$Station, stations_suisun$Station)
+# which stations are in sample_suisun but not the station lookup table
+setdiff(sample_suisun$Station, suisunMarshTables$StationsLookUp$StationCode)
 
 # Catch data --------------------------------------------------------------
 
@@ -135,6 +136,9 @@ catch_suisun <- suisunMarshTables$Catch %>%
   dplyr::select(-OrganismCode)%>% # Remove unneeded variable
   mutate(Count = if_else(SampleRowID=="{8327B645-BC36-4405-ADB3-C6561718A17B}" & StandardLength==87, Count+1, Count))%>% # Correcting for misstyped data point per email from Teejay that
   dplyr::filter(!(!QADone & Taxa=="Pogonichthys macrolepidotus" & StandardLength==8))%>% # all QADone==FALSE data from January 2007 are correct EXCEPT for that lone splittail measuring 8 mm (was actually 87 mm).
+  dplyr::filter(!(SampleRowID=="7A4D29B0-FDDB-42FA-87AF-1E090C87BA6A" & Taxa=="Rhithropanopeus harrisii" & CatchComments=="Only caught one HARRISMC, this one is not a catch") &
+                  !(SampleRowID=="2EEC81E3-D5AE-40E1-B205-707C05C0417A" & Taxa=="Gammaridea" & CatchComments=="Not in count - DB won't delete") &
+                  !(SampleRowID=="E9C1D433-16E8-47A1-ABAF-07A1C5A8B24B" & Taxa=="Hysterocarpus traskii" & CatchComments=="Accidentally added extra row-- zero intentional"))%>%
   mutate(StandardLength=if_else(is.na(Taxa), NA_real_, StandardLength))%>% #COnverting lengths to NA for samples in which no fish were caught (i.e. Taxa is NA).
   mutate(CatchComments=if_else(SampleID=="Suisun {490F4873-8947-4352-81C9-3AA475D5FEEE}" & Taxa=="Gobiidae" & StandardLength==0, "larval", CatchComments)) # Removing weird symbol in this comment that messes up code
 
