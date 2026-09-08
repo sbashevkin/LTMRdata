@@ -102,11 +102,13 @@ eml <- make_eml(
   data.table.name = c('Sample-level table', 'Fish-level data', 'Length conversion equations'),
   data.table.description = c('Sample-level environmental and effort data. Can be joined to the fish table with the SampleID column.', 'Fish-level length and abundance data. Can be joined to the survey table with the SampleID column.', 'Length conversion equations for 20 fishes, of the form fork or total length = intercept + slope * standard length.'),
   data.table.quote.character = c('"', '"', '"'),
+  data.table.url = c("https://drop.edirepository.org/download/33b457cf-c55c-4b42-8432-9deaa0bbb245", "https://drop.edirepository.org/download/80fdc5c7-54ac-486f-b10a-e162b8838108", "https://drop.edirepository.org/download/b8db1a7c-aee2-4963-8271-80794d0ef897"),
   other.entity = 'fishsurvey_compressed.rda',
   other.entity.name = 'Compressed fish and survey data.',
   other.entity.description = 'The fish and survey tables compressed into an rda file (compressed file format for the R programming language).
                                These data are exactly identical to their csv analogs. They are provided to reduce download time for R-users.
                                This file can be read into R using the "load" function.',
+  other.entity.url = "https://drop.edirepository.org/download/6bcb77a8-9bc3-48de-95f6-3d37d2e64c7e",
   user.id = 'sbashevkin',
   user.domain = 'EDI',
   package.id = ID,
