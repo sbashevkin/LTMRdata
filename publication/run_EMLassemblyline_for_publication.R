@@ -123,7 +123,7 @@ changelog<-list(list(changeScope="Metadata and data",
                               3) Added Salvage dataset"),
                 list(changeScope="Metadata and data",
                      oldValue="See previous version (2)",
-                     changeDate="2026-08-28",
+                     changeDate="2026-09-09",
                      comment="1) Updated all datasets to what was available as of at least August 24, 2026.
                               2) Fixed issue resulting from duplication of code 116 for STN in the Species dataset.
                                 This caused any records for Black Perch (Embiotoca jacksoni) to be duplicated and
