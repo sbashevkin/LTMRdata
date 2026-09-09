@@ -1,0 +1,35 @@
+cff-version: 1.2.0
+title: "LTMRdata: An R package to integrate data from 10 fish surveys in the San Francisco Estuary. v2.2.1"
+version: 2.2.1
+license: "GPL-3.0"
+type: software
+abstract: "The following changes were made since version 2.1.0:
+1) Updated all datasets to what was available as of at least August 24, 2026.
+2) Fixed issue resulting from duplication of code 116 for STN in the Species dataset. This caused any records for Black Perch (Embiotoca jacksoni) to be duplicated and assigned to Bluefin Killifish (Lucania goodei) and vice versa.
+3) Edited FMWT, Bay Study, and 20mm SampleID column to be more informative (a combination of identifying columns instead of a simple row number that depends on the order of the data)
+4) Renamed 'Cancer magister' to 'Metacarcinus magister'"
+message: "If you use this software, please cite it as below."
+authors:
+  - given-names: Samuel M
+    family-names: Bashevkin
+    affiliation: California State Water Resources Control Board
+    orcid: "https://orcid.org/0000-0001-7406-7089"
+  - given-names: Trinh X
+    family-names: Nguyen
+    affiliation: California Department of Fish and Wildlife and Interagency Ecological Program
+    orcid: "https://orcid.org/0000-0001-9523-1466"
+  - given-names: Claudia
+    family-names: Macfarlane
+    affiliation: United States Fish and Wildlife Service
+    orcid: "https://orcid.org/0009-0009-5022-3775"
+  - given-names: Enoch J
+    family-names: Tham
+    affiliation: California Department of Fish and Wildlife Water Branch
+  - given-names: Lara
+    family-names: Mitchell
+    affiliation: United States Fish and Wildlife Service
+    orcid: "https://orcid.org/0000-0002-8439-8508"
+  - given-names: Shruti
+    family-names: Khanna
+    affiliation: California Department of Fish and Wildlife and Interagency Ecological Program
+    orcid: "https://orcid.org/0000-0003-1724-248X"

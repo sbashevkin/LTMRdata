@@ -102,13 +102,13 @@ eml <- make_eml(
   data.table.name = c('Sample-level table', 'Fish-level data', 'Length conversion equations'),
   data.table.description = c('Sample-level environmental and effort data. Can be joined to the fish table with the SampleID column.', 'Fish-level length and abundance data. Can be joined to the survey table with the SampleID column.', 'Length conversion equations for 20 fishes, of the form fork or total length = intercept + slope * standard length.'),
   data.table.quote.character = c('"', '"', '"'),
-  data.table.url = c("https://drop.edirepository.org/download/33b457cf-c55c-4b42-8432-9deaa0bbb245", "https://drop.edirepository.org/download/80fdc5c7-54ac-486f-b10a-e162b8838108", "https://drop.edirepository.org/download/b8db1a7c-aee2-4963-8271-80794d0ef897"),
+  data.table.url = c("https://drop.edirepository.org/download/5277f085-1027-4bdc-a75c-f983cdffe43c", "https://drop.edirepository.org/download/bbede335-409f-45f4-931d-99b74cf0410a", "https://drop.edirepository.org/download/8c45dc9b-ff33-4d1b-b05b-a94c5f88f3c7"),
   other.entity = 'fishsurvey_compressed.rda',
   other.entity.name = 'Compressed fish and survey data.',
   other.entity.description = 'The fish and survey tables compressed into an rda file (compressed file format for the R programming language).
                                These data are exactly identical to their csv analogs. They are provided to reduce download time for R-users.
                                This file can be read into R using the "load" function.',
-  other.entity.url = "https://drop.edirepository.org/download/6bcb77a8-9bc3-48de-95f6-3d37d2e64c7e",
+  other.entity.url = "https://drop.edirepository.org/download/da80b647-0e6d-4c34-a504-d78a0640f87b",
   user.id = 'sbashevkin',
   user.domain = 'EDI',
   package.id = ID,
@@ -124,7 +124,7 @@ changelog<-list(list(changeScope="Metadata and data",
                 list(changeScope="Metadata and data",
                      oldValue="See previous version (2)",
                      changeDate="2026-08-28",
-                     comment="1) Updated all datasets to what was available as of at least August 24, 2026, except Suisun, which was updated with the 2025 database.
+                     comment="1) Updated all datasets to what was available as of at least August 24, 2026.
                               2) Fixed issue resulting from duplication of code 116 for STN in the Species dataset.
                                 This caused any records for Black Perch (Embiotoca jacksoni) to be duplicated and
                                 assigned to Bluefin Killifish (Lucania goodei) and vice versa.

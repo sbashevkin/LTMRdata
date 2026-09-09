@@ -116,6 +116,10 @@ setdiff(sample_suisun$Station, suisunMarshTables$StationsLookUp$StationCode)
 
 # Catch data --------------------------------------------------------------
 
+
+# Check for species missing from the Species table
+setdiff(suisunMarshTables$Catch$OrganismCode, Species$SMF_Code)
+
 catch_suisun <- suisunMarshTables$Catch %>%
   transmute(across(c(SampleRowID, OrganismCode), as.character),
             StandardLength = as.double(StandardLength),
