@@ -86,8 +86,8 @@ date_range<-read_csv(file.path(path_data, 'survey.csv'),
 # Once all your metadata templates are complete call this function to create
 # the EML.
 
-ID<-"edi.1118.3" # Sandbox EDI
-#ID<-'edi.1075.3' # Real EDI
+#ID<-"edi.1118.3" # Sandbox EDI
+ID<-'edi.1075.3' # Real EDI
 
 eml <- make_eml(
   path = path_templates,
@@ -123,7 +123,7 @@ changelog<-list(list(changeScope="Metadata and data",
                               3) Added Salvage dataset"),
                 list(changeScope="Metadata and data",
                      oldValue="See previous version (2)",
-                     changeDate="2026-09-09",
+                     changeDate="2026-09-11",
                      comment="1) Updated all datasets to what was available as of at least August 24, 2026.
                               2) Fixed issue resulting from duplication of code 116 for STN in the Species dataset.
                                 This caused any records for Black Perch (Embiotoca jacksoni) to be duplicated and
