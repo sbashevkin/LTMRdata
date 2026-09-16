@@ -1,4 +1,4 @@
-dataPackageID	systemID	url	onlineDescription	title	givenName	middleInitial	surName	role	organizationName	email
+dataPackageID	systemID	title	givenName	middleInitial	surName	role	organizationName	email	onlineDescription	url
 edi.244.14	EDI									
 edi.415.13	EDI									
 edi.535.6	EDI									
